@@ -7,22 +7,16 @@ import org.bukkit.Bukkit;
 
 import com.antarescraft.kloudy.hologuiapi.util.ConfigManager;
 
+/**
+ * Singleton class that handles logic surrounding hooking into 3rd party plugins
+ */
 public class HoloGUIPluginManager
-{
-	private static HoloGUIPluginManager instance;
-	
+{	
 	private HashMap<String, HoloGUIPlugin> plugins;
 	
-	private HoloGUIPluginManager()
+	public HoloGUIPluginManager()
 	{
 		plugins = new HashMap<String, HoloGUIPlugin>();
-	}
-	
-	public static HoloGUIPluginManager getInstance()
-	{
-		if(instance == null) instance = new HoloGUIPluginManager();
-		
-		return instance;
 	}
 	
 	/**

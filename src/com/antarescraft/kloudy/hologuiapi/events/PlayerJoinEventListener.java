@@ -25,7 +25,7 @@ public class PlayerJoinEventListener implements Listener
 		Player player = event.getPlayer();
 		if(player.hasPermission("hg.see"))
 		{
-			for(HoloGUIPlugin holoGUIPlugin : holoGUI.getHoloGUIPluginManager().getHookedHoloGUIPlugins())
+			for(HoloGUIPlugin holoGUIPlugin : holoGUI.getHookedHoloGUIPlugins())
 			{
 				for(GUIPage guiContainer : holoGUIPlugin.getGUIPages().values())
 				{

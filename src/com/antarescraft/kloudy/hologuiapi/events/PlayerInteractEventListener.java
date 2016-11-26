@@ -146,7 +146,7 @@ public class PlayerInteractEventListener implements Listener
 			{
 				ItemStack item = event.getItem();
 				
-				for(HoloGUIPlugin holoGUIPlugin : holoGUI.getHoloGUIPluginManager().getHookedHoloGUIPlugins())
+				for(HoloGUIPlugin holoGUIPlugin : holoGUI.getHookedHoloGUIPlugins())
 				{
 					for(GUIPage guiContainer : holoGUIPlugin.getGUIPages().values())
 					{

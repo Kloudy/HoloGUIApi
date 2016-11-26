@@ -1,18 +1,14 @@
 package com.antarescraft.kloudy.hologuiapi;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
-import com.antarescraft.kloudy.hologuiapi.events.CommandEvent;
-import com.antarescraft.kloudy.hologuiapi.events.GUIPagesLoadedEventListener;
 import com.antarescraft.kloudy.hologuiapi.events.HoloGUITextBoxUpdateEvent;
 import com.antarescraft.kloudy.hologuiapi.events.PlayerChangedWorldEventListener;
 import com.antarescraft.kloudy.hologuiapi.events.PlayerDeathEventListener;
@@ -26,8 +22,6 @@ import com.antarescraft.kloudy.hologuiapi.events.PlayerTeleportEventListener;
 import com.antarescraft.kloudy.hologuiapi.events.PlayerToggleSneakEventListener;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIPage;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.TextBoxComponent;
-import com.antarescraft.kloudy.hologuiapi.imageprocessing.GifProcessor;
-import com.antarescraft.kloudy.hologuiapi.imageprocessing.PngJpgProcessor;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPage;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPageModel;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextBoxComponent;
@@ -42,23 +36,30 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 
-import net.md_5.bungee.api.ChatColor;
-
-public class HoloGUIApi extends HoloGUIPlugin
+/**
+ * Contains all of the api methods used by 3rd party plugins to interact with HoloGUI
+ */
+public class HoloGUIApi extends JavaPlugin
 {	
 	private HashMap<String, StationaryGUIDisplayContainer> stationaryGUIDisplayContainers;
+	
+	private HoloGUIPluginManager pluginManager;
 	
 	public static boolean hasPlaceholderAPI = false;
 	public static double stationaryDisplayRenderDistance;
 	public static boolean b = false;
 	public static String fileHash;
 	public static boolean debugMode;
+	public static String PATH_TO_IMAGES = "resources/images";
+	public static String PATH_TO_YAMLS = "resources/yamls";
 	
 	public static PacketManager packetManager;
 	
 	@Override
 	public void onEnable()
-	{				
+	{			
+		pluginManager = new HoloGUIPluginManager();
+		
 		debugMode = this.getConfig().getRoot().getBoolean("debug-mode", false);
 		
 		stationaryGUIDisplayContainers = new HashMap<String, StationaryGUIDisplayContainer>();
@@ -113,7 +114,6 @@ public class HoloGUIApi extends HoloGUIPlugin
 		
 		ConfigManager.getInstance().loadConfigValues(Bukkit.getConsoleSender(), this);
 		
-		getCommand("hg").setExecutor(new CommandEvent(this));
 		getServer().getPluginManager().registerEvents(new PlayerInteractEventListener(this), this);
 		getServer().getPluginManager().registerEvents(new PlayerQuitEventListener(this), this);
 		getServer().getPluginManager().registerEvents(new PlayerJoinEventListener(this), this);
@@ -124,7 +124,6 @@ public class HoloGUIApi extends HoloGUIPlugin
 		getServer().getPluginManager().registerEvents(new PlayerRespawnEventListener(this), this);
 		getServer().getPluginManager().registerEvents(new PlayerItemHeldEventListener(), this);
 		getServer().getPluginManager().registerEvents(new PlayerToggleSneakEventListener(), this);
-		getServer().getPluginManager().registerEvents(new GUIPagesLoadedEventListener(this), this);
 		
 		int tickrate = getConfig().getRoot().getInt("gui-update-tickrate");
 		PlayerGUIUpdateTask playerGUIUpdateTask = PlayerGUIUpdateTask.getInstance(this);
@@ -134,16 +133,41 @@ public class HoloGUIApi extends HoloGUIPlugin
 		{
 	        Metrics metrics = new Metrics(this);
 	        metrics.start();
-	    } catch (IOException e) {}
-		
-		getHoloGUIPluginManager().hookHoloGUIPlugin(this);
+	    } catch (IOException e) {}		
 	}
 
 	@Override
 	public void onDisable()
 	{
-		destroyAllGUIContainers();
+		destroyAllGUIPages();
 		PlayerGUIUpdateTask.getInstance(this).cancel();
+	}
+	
+	/**
+	 * Hook your plugin into HoloGUI
+	 * @param holoGUIPlugin your HoloGUIPlugin class
+	 */
+	public void hookHoloGUIPlugin(HoloGUIPlugin holoGUIPlugin)
+	{
+		pluginManager.hookHoloGUIPlugin(holoGUIPlugin);
+	}
+	
+	/**
+	 * Unhooks your plugin from HoloGUI
+	 * @param holoGUIPlugin
+	 */
+	public void unhookHoloGUIPlugin(HoloGUIPlugin holoGUIPlugin)
+	{
+		pluginManager.unhookHoloGUIPlugin(holoGUIPlugin);
+	}
+	
+	/**
+	 * 
+	 * @return a Collection<HoloGUIPlugin> of all hooked HoloGUI plugins
+	 */
+	public Collection<HoloGUIPlugin> getHookedHoloGUIPlugins()
+	{
+		return pluginManager.getHookedHoloGUIPlugins();
 	}
 
 	public StationaryGUIDisplayContainer getStationaryGUIDisplay(String stationaryGUIDisplayId)
@@ -187,7 +211,7 @@ public class HoloGUIApi extends HoloGUIPlugin
 	 * @param holoGUIPlugin
 	 * @param player
 	 * @param guiPageId
-	 * @param model
+	 * @param model PlayerGUIPageModel object bound to the GUIPage
 	 */
 	public void openGUIPage(HoloGUIPlugin holoGUIPlugin, Player player, String guiPageId, PlayerGUIPageModel model)
 	{
@@ -209,7 +233,7 @@ public class HoloGUIApi extends HoloGUIPlugin
 	 * 
 	 * @param holoGUIPlugin
 	 * @param player
-	 * @param model
+	 * @param model PlayerGUIPageModel object bound to the GUIPage
 	 */
 	public void openGUIPage(HoloGUIPlugin holoGUIPlugin, Player player, PlayerGUIPageModel model)
 	{
@@ -290,6 +314,11 @@ public class HoloGUIApi extends HoloGUIPlugin
 		}
 	}
 	
+	/**
+	 * Displays the previous GUI page to the player if it exists 
+	 * 
+	 * @param player
+	 */
 	public void displayPreviousGUIPage(Player player)
 	{
 		displayPreviousGUIPage(player, null);
@@ -299,6 +328,7 @@ public class HoloGUIApi extends HoloGUIPlugin
 	 * Displays the previous GUI page to the player if it exists
 	 * 
 	 * @param player
+	 * @param stationaryDisplayId id of the stationary display to display the previous page on
 	 */
 	public void displayPreviousGUIPage(Player player, String stationaryDisplayId)
 	{
@@ -338,59 +368,10 @@ public class HoloGUIApi extends HoloGUIPlugin
 		}
 	}
 	
-	@Override
-	public HashMap<String, YamlConfiguration> loadYamlConfigurations()
-	{
-		HashMap<String, YamlConfiguration> guiConfigs = new HashMap<String, YamlConfiguration>();
-		
-		File folder = new File(IOManager.PATH_TO_GUI_CONFIGURATION_FILES);
-		for(File file : folder.listFiles())
-		{
-			if(file.isFile() && file.getName().endsWith(".yml"))
-			{
-				YamlConfiguration guiConfig = new YamlConfiguration();
-				try
-				{
-					guiConfig.load(file);
-					guiConfigs.put(file.getName(), guiConfig);
-				} 
-				catch(Exception e)
-				{
-					Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "[HoloGUI] There was a problem while trying to load " + file.getName() + ": ");
-					Bukkit.getConsoleSender().sendMessage(e.getMessage());
-				}
-			}
-		}
-		
-		return guiConfigs;
-	}
-	
-	@Override
-	public String[][] loadImage(String imageName, int width, int height, boolean symmetrical)
-	{
-		String[][] iconLines = null;
-
-		try
-		{
-			FileInputStream inputStream = new FileInputStream(IOManager.PATH_TO_IMAGES + "/" + imageName);
-			
-			if(imageName.contains(".gif"))
-			{
-				iconLines = GifProcessor.processGif(imageName, inputStream, width, height, symmetrical);
-			}
-			else if(imageName.contains(".jpg") || imageName.contains(".png"))
-			{
-				iconLines = PngJpgProcessor.processImage(imageName, inputStream, width, height, symmetrical);
-			}
-			
-			inputStream.close();
-		}
-		catch(Exception e){}
-	
-		return iconLines;
-	}
-	
-	public void destroyAllGUIContainers()
+	/**
+	 * Destroys all PlayerGUIPages. Be carefull when calling this plugin as it will remove all PlayerGUIPages for all hooked hologui plugins.
+	 */
+	public void destroyAllGUIPages()
 	{
 		for(PlayerData playerData : PlayerData.getAllPlayerData())
 		{

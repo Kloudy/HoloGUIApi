@@ -20,8 +20,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIComponent;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIPage;
-import com.antarescraft.kloudy.hologuiapi.imageprocessing.GifProcessor;
-import com.antarescraft.kloudy.hologuiapi.imageprocessing.PngJpgProcessor;
 import com.antarescraft.kloudy.hologuiapi.util.ConfigManager;
 
 /**
@@ -54,7 +52,7 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 				while((entry = zip.getNextEntry()) != null)
 				{
 				    String entryName = entry.getName();
-				    if( entryName.startsWith(pathToYamls()) &&  entryName.endsWith(".yml") )
+				    if( entryName.startsWith(HoloGUIApi.PATH_TO_YAMLS) &&  entryName.endsWith(".yml") )
 				    {
 				    	String[] pathTokens = entryName.split("/");
 				        yamlFiles.add(pathTokens[pathTokens.length-1]);
@@ -70,23 +68,29 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 		 }
 	}
 	
-	public HoloGUIPluginManager getHoloGUIPluginManager()
-	{
-		return HoloGUIPluginManager.getInstance();
-	}
-	
-	public HoloGUIApi getHoloGUI()
+	/**
+	 * @return an instance of the HoloGUIApi class.
+	 */
+	public HoloGUIApi getHoloAPI()
 	{
 		if(holoGUI == null) holoGUI = (HoloGUIApi) Bukkit.getServer().getPluginManager().getPlugin("HoloGUI");
 		
 		return holoGUI;
 	}
 	
+	/**
+	 * @return A HashMap<String, GUIPage>, where the key is the gui page id and the value is the GUIPage object
+	 */
 	public HashMap<String, GUIPage> getGUIPages()
 	{
 		return guiPages;
 	}
 	
+	/**
+	 * 
+	 * @param guiPageId
+	 * @return GUIPage object with the given guiPageId. returns null if no gui page exists with the given guiPageId
+	 */
 	public GUIPage getGUIPage(String guiPageId)
 	{
 		return guiPages.get(guiPageId);
@@ -105,16 +109,6 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 		if(guiPage == null) return null;
 		
 		return guiPage.getComponent(guiComponentId);
-	}
-	
-	private String pathToYamls()
-	{
-		return "resources/yamls";
-	}
-	
-	private String pathToImages()
-	{
-		return "resources/images";
 	}
 	
 	public boolean guiPagesLoaded()
@@ -172,12 +166,16 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 		return yamls;
 	}
 	
+	/**
+	 * * Copies the resource gui pages from the plugin jar to plugins/<holoGUI_plugin_name>/gui configuration files folder
+	 */
 	public void copyResourceConfigs()
 	{
 		copyResourceConfigs(false);
 	}
 	
 	/**
+	 * @param overwriteExistingYamls (true|false) if the plugin should override yaml files from plugin folder with the yamls from inside the jar
 	 * Copies the resource gui pages from the plugin jar to plugins/<holoGUI_plugin_name>/gui configuration files folder
 	 */
 	public void copyResourceConfigs(boolean overwriteExistingYamls)
@@ -225,31 +223,5 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 		catch(Exception e){}		
 	}
 	
-	/**
-	 * Resource images should be stored in 'resources/images' in the plugin jar
-	 * 
-	 * Loads and processes the specified imageName. Returns the image as a String[][]. Returns null if the file couldn't be found.
-	 */
-	public String[][] loadImage(String imageName, int width, int height, boolean symmetrical)
-	{
-		String[][] iconLines = null;
-		
-		try
-		{
-			InputStream inputStream = this.getResource(pathToImages() + "/" + imageName);
-
-			if(imageName.contains(".gif"))
-			{
-				iconLines = GifProcessor.processGif(imageName, inputStream, width, height, symmetrical);
-			}
-			else if(imageName.contains(".jpg") || imageName.contains(".png"))
-			{
-				iconLines = PngJpgProcessor.processImage(imageName, inputStream, width, height, symmetrical);
-			}
-			inputStream.close();
-		}
-		catch(Exception e){}
-		
-		return iconLines;
-	}
+	
 }

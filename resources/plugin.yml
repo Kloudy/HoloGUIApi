@@ -1,5 +1,5 @@
 name: HoloGUIApi
-main: com.antarescraft.kloudy.hologui.HoloGUI
+main: com.antarescraft.kloudy.hologuiapi.HoloGUIApi
 version: 1.0
 author: Kloudy
 website: www.antarescraft.com
