@@ -27,7 +27,6 @@ import com.antarescraft.kloudy.hologuiapi.util.ConfigManager;
  */
 public abstract class HoloGUIPlugin extends JavaPlugin
 {	
-	private HoloGUIApi holoGUI;
 	private HashMap<String, GUIPage> guiPages;
 	private ArrayList<String> yamlFiles;
 	private boolean guiPagesLoaded;
@@ -71,11 +70,9 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 	/**
 	 * @return an instance of the HoloGUIApi class.
 	 */
-	public HoloGUIApi getHoloAPI()
+	public HoloGUIApi getHoloGUIApi()
 	{
-		if(holoGUI == null) holoGUI = (HoloGUIApi) Bukkit.getServer().getPluginManager().getPlugin("HoloGUI");
-		
-		return holoGUI;
+		return (HoloGUIApi) Bukkit.getServer().getPluginManager().getPlugin("HoloGUIApi");
 	}
 	
 	/**

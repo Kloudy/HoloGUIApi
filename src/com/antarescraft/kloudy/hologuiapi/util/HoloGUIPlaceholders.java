@@ -134,7 +134,7 @@ public class HoloGUIPlaceholders
 			}
 		}
 		
-		for(StationaryGUIDisplayContainer stationaryDisplay : holoGUIPlugin.getHoloAPI().getStationaryDisplays())
+		for(StationaryGUIDisplayContainer stationaryDisplay : holoGUIPlugin.getHoloGUIApi().getStationaryDisplays())
 		{
 			if(stationaryDisplay.isDisplayingToPlayer(player))
 			{
