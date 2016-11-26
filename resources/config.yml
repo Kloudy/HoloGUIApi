@@ -1,0 +1,3 @@
+gui-update-tickrate: 2            #update player guis every two ticks
+render-distance: 25                  #render distance that the static displays display at
+debug-mode: false                   #view debug information in the console (Default: false)
