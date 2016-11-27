@@ -93,6 +93,25 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-javadoc-plugin</artifactId>
+    <version>2.10.2</version>
+    <executions>
+        <execution>
+            <id>attach-javadocs</id>
+            <goals>
+                <goal>jar</goal>
+            </goals>
+            <configuration>
+            	<links>
+		            <link>https://hub.spigotmc.org/javadocs/spigot/</link>
+	          	</links>
+                <additionalparam>-Xdoclint:none</additionalparam>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
     </plugins>
     <resources>
       <resource>
