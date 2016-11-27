@@ -20,4 +20,10 @@ public class ComponentPosition
 	{
 		return y;
 	}
+	
+	@Override
+	public ComponentPosition clone()
+	{
+		return new ComponentPosition(x, y);
+	}
 }

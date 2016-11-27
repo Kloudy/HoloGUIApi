@@ -13,6 +13,8 @@ import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
 import com.antarescraft.kloudy.hologuiapi.events.HoloGUIClickEvent;
 import com.antarescraft.kloudy.hologuiapi.handlers.ClickHandler;
+import com.antarescraft.kloudy.hologuiapi.handlers.HoverHandler;
+import com.antarescraft.kloudy.hologuiapi.handlers.HoverOutHandler;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.HoloGUIPlaceholders;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
@@ -22,6 +24,8 @@ import me.clip.placeholderapi.PlaceholderAPI;
 public abstract class ClickableGUIComponent extends GUIComponent
 {
 	private HashMap<UUID, ClickHandler> clickHandlers;
+	private HashMap<UUID, HoverHandler> hoverHandlers;
+	private HashMap<UUID, HoverOutHandler> hoverOutHandlers;
 	
 	protected String onclick;
 	protected boolean executeCommandAsConsole;
@@ -44,6 +48,8 @@ public abstract class ClickableGUIComponent extends GUIComponent
 		this.noPermissionMessage = clickableProperties.getNoPermissionMessage();
 		
 		clickHandlers = new HashMap<UUID, ClickHandler>();
+		hoverHandlers = new HashMap<UUID, HoverHandler>();
+		hoverOutHandlers = new HashMap<UUID, HoverOutHandler>();
 	}
 	
 	public ClickableGUIComponentProperties cloneClickableProperties()
@@ -147,6 +153,38 @@ public abstract class ClickableGUIComponent extends GUIComponent
 		if(clickHandler != null) clickHandler.onClick();
 	}
 	
+	public void registerHoverHandler(Player player, HoverHandler hoverHandler)
+	{
+		hoverHandlers.put(player.getUniqueId(), hoverHandler);
+	}
+	
+	public void removeHoverHandler(Player player)
+	{
+		hoverHandlers.remove(player.getUniqueId());
+	}
+	
+	public void triggerHoverHandler(Player player)
+	{
+		HoverHandler hoverHandler = hoverHandlers.get(player.getUniqueId());
+		if(hoverHandler != null) hoverHandler.onHover();
+	}
+	
+	public void registerHoverOutHandler(Player player, HoverOutHandler hoverOutHandler)
+	{
+		hoverOutHandlers.put(player.getUniqueId(), hoverOutHandler);
+	}
+	
+	public void removeHoverOutHandler(Player player)
+	{
+		hoverOutHandlers.remove(player.getUniqueId());
+	}
+	
+	public void triggerHoverOutHandler(Player player)
+	{
+		HoverOutHandler hoverOutHandler = hoverOutHandlers.get(player.getUniqueId());
+		if(hoverOutHandler != null) hoverOutHandler.onHoverOut();
+	}
+
 	public void executeOnclick(Player player, String stationaryDisplayId, String command, boolean executeCommandAsConsole)
 	{
 		HoloGUIClickEvent holoGUIClickEvent = new HoloGUIClickEvent(holoGUIPlugin, this, player);

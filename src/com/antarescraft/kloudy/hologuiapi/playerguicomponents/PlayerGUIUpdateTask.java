@@ -197,12 +197,18 @@ public class PlayerGUIUpdateTask extends BukkitRunnable
 							playerGUIComponent.focusComponent(stationary);
 							foundIntersection = true;
 							PlayerData.getPlayerData(player).setPlayerFocusedPage(playerGUIPage);
+							
+							//trigger hover handler for component if it exists
+							clickableGUIComponent.triggerHoverHandler(player);
 						}
 						else if(boundingBox.intersectsRay(ray, 0f, (float)HoloGUIApi.stationaryDisplayRenderDistance) == null && playerGUIComponent.isFocused())
 						{
 							playerGUIComponent.unfocusComponent(stationary);
 							playerGUIComponent.setIsFocused(false);
 							PlayerData.getPlayerData(player).setPlayerFocusedPage(null);
+							
+							//triger hover out handler for component if it exists
+							clickableGUIComponent.triggerHoverOutHandler(player);
 						}
 					}
 					
