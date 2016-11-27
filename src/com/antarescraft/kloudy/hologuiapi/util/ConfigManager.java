@@ -1,6 +1,7 @@
  package com.antarescraft.kloudy.hologuiapi.util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -155,6 +156,27 @@ public class ConfigManager
 		return instance;
 	}
 	
+	@SuppressWarnings("deprecation")
+	public HashMap<String, YamlConfiguration> loadYamlConfigurations(HoloGUIPlugin holoGUIPlugin)
+	{
+		HashMap<String, YamlConfiguration> yamls = new HashMap<String, YamlConfiguration>();
+		
+		for(String yamlFile : holoGUIPlugin.getYamlFilenames())
+		{
+			try
+			{
+				YamlConfiguration yaml = new YamlConfiguration();
+				yaml.load(new FileInputStream(String.format("plugins/%s/gui configuration files/%s",
+						holoGUIPlugin.getName(), yamlFile)));
+				
+				yamls.put(yamlFile, yaml);
+			}
+			catch(Exception e){e.printStackTrace();}
+		}
+		
+		return yamls;
+	}
+	
 	/**
 	 * Resource images should be stored in 'resources/images' in the plugin jar
 	 * 
@@ -227,7 +249,7 @@ public class ConfigManager
 			@Override
 			public void run()
 			{
-				HashMap<String, YamlConfiguration> yamlFiles = holoGUIPlugin.loadYamlConfigurations();
+				HashMap<String, YamlConfiguration> yamlFiles = loadYamlConfigurations(holoGUIPlugin);
 				
 				String[] yamls = new String[yamlFiles.size()];
 				yamlFiles.keySet().toArray(yamls);

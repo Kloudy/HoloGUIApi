@@ -1,7 +1,6 @@
 package com.antarescraft.kloudy.hologuiapi;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,8 +13,6 @@ import java.util.zip.ZipInputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIComponent;
@@ -65,6 +62,14 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 				e.printStackTrace();
 			}
 		 }
+	}
+	
+	/**
+	 * @return ArrayList<String> of all yaml files contained in /resources/yamls in the plugin jar
+	 */
+	public ArrayList<String> getYamlFilenames()
+	{
+		return yamlFiles;
 	}
 	
 	/**
@@ -129,40 +134,17 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 	}
 	
 	/**
-	 * Causes HoloGUI to load the gui containers async from yaml for this HoloGUIPlugin
+	 * Causes HoloGUI to load the gui containers async from yaml for this HoloGUIPlugin.
+	 * A HoloGUIPagesLoadedEvent is triggered after the config values are finished loading
 	 */
-	public void loadGUIContainersFromYaml(CommandSender sender)
+	public void loadGUIPages()
 	{
 		guiPagesLoaded = false;
 		guiPages.clear();
 		
-		ConfigManager.getInstance().loadGUIContainers(sender, this);
+		ConfigManager.getInstance().loadGUIContainers(Bukkit.getConsoleSender(), this);
 	}
 
-	/**
-	 * Loads yaml files from folder plugins/<holoGUI_plugin_name/gui configuration files
-	 */
-	@SuppressWarnings("deprecation")
-	public HashMap<String, YamlConfiguration> loadYamlConfigurations()
-	{
-		HashMap<String, YamlConfiguration> yamls = new HashMap<String, YamlConfiguration>();
-		
-		for(String yamlFile : yamlFiles)
-		{
-			try
-			{
-				YamlConfiguration yaml = new YamlConfiguration();
-				yaml.load(new FileInputStream(String.format("plugins/%s/gui configuration files/%s",
-						getName(), yamlFile)));
-				
-				yamls.put(yamlFile, yaml);
-			}
-			catch(Exception e){e.printStackTrace();}
-		}
-		
-		return yamls;
-	}
-	
 	/**
 	 * * Copies the resource gui pages from the plugin jar to plugins/<holoGUI_plugin_name>/gui configuration files folder
 	 */
@@ -219,6 +201,4 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 		}
 		catch(Exception e){}		
 	}
-	
-	
 }

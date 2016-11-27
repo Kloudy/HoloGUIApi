@@ -369,16 +369,32 @@ public class HoloGUIApi extends JavaPlugin
 	}
 	
 	/**
-	 * Destroys all PlayerGUIPages. Be carefull when calling this plugin as it will remove all PlayerGUIPages for all hooked hologui plugins.
+	 * Destroys all PlayerGUIPages associated with the given HoloGUIPlugin
+	 * @param holoGUIPlugin
+	 */
+	public void destroyGUIPages(HoloGUIPlugin holoGUIPlugin)
+	{
+		for(PlayerData playerData : PlayerData.getAllPlayerData())
+		{
+			PlayerGUIPage playerGUIPage = playerData.getPlayerGUIPage();
+			if(playerGUIPage != null && playerGUIPage.getGUIPage().getHoloGUIPlugin().equals(holoGUIPlugin))
+			{
+				playerGUIPage.destroy();
+			}
+		}
+	}
+	
+	/**
+	 * Destroys all PlayerGUIPages. Be careful when calling this plugin as it will remove all PlayerGUIPages for all hooked hologui plugins.
 	 */
 	public void destroyAllGUIPages()
 	{
 		for(PlayerData playerData : PlayerData.getAllPlayerData())
 		{
-			PlayerGUIPage playerGUIContainer = playerData.getPlayerGUIPage();
-			if(playerGUIContainer != null)
+			PlayerGUIPage playerGUIPage = playerData.getPlayerGUIPage();
+			if(playerGUIPage != null)
 			{
-				playerGUIContainer.destroy();
+				playerGUIPage.destroy();
 			}
 		}
 		
