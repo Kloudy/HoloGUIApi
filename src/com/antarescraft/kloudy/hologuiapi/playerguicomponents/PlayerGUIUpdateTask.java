@@ -152,8 +152,10 @@ public class PlayerGUIUpdateTask extends BukkitRunnable
 						}
 					}
 				}
-				
-				for(PlayerGUIComponent playerGUIComponent : playerGUIPage.getPlayerGUIComponents())
+
+				//iterating over a new array list because the hover handlers could cause the list to get updated.
+				//This avoid a ConcurrentModificationException on the collection
+				for(PlayerGUIComponent playerGUIComponent : new ArrayList<PlayerGUIComponent>(playerGUIPage.getPlayerGUIComponents()))
 				{
 					if(playerGUIComponent.isHidden())
 					{
