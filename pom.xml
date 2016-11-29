@@ -88,7 +88,6 @@
                 	<shadedPattern>com.antarescraft.kloudy.hologuiapi.plugincore.json</shadedPattern>
                 </relocation>
               </relocations>
-              <outputDirectory>D:\Tim\Spigot 1.11 Server\plugins</outputDirectory>
             </configuration>
           </execution>
         </executions>
