@@ -344,7 +344,7 @@ public class ConfigManager
 			boolean alwaysShowLabel = guiComponentSection.getBoolean(ALWAYS_SHOW_LABEL, false);
 			boolean hidden = guiComponentSection.getBoolean(HIDDEN, false);
 			
-			if(holoGUIPlugin.getName().equals("HoloGUI"))
+			if(holoGUIPlugin.getName().equals("HoloGUI"))//only impose component positioning in HoloGUI
 			{
 				if(x < -1) x = -1;
 				if(x > 1) x = 1;
@@ -366,8 +366,12 @@ public class ConfigManager
 			
 			double defaultLabelDistance = (defaultComponentTypeLabelDistance != null) ? defaultComponentTypeLabelDistance.getLabelDistance() : 15;
 			double labelDistance = guiComponentSection.getDouble(LABEL_DISTANCE, defaultLabelDistance);
-			if(labelDistance < 5) labelDistance = 5;
-			if(labelDistance > 20) labelDistance = 20;
+			
+			if(holoGUIPlugin.getName().equals("HoloGUI"))//only impose label distance rules in HoloGUI
+			{
+				if(labelDistance < 5) labelDistance = 5;
+				if(labelDistance > 20) labelDistance = 20;
+			}
 			
 			GUIComponentProperties properties = new GUIComponentProperties(holoGUIPlugin, componentId, parentId, position, componentLabel, labelDistance,
 					alwaysShowLabel, hidden);
