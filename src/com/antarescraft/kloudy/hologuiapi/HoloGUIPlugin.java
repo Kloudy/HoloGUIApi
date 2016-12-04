@@ -17,6 +17,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIComponent;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIPage;
+import com.antarescraft.kloudy.hologuiapi.imageprocessing.GifProcessor;
+import com.antarescraft.kloudy.hologuiapi.imageprocessing.PngJpgProcessor;
 import com.antarescraft.kloudy.hologuiapi.util.ConfigManager;
 
 /**
@@ -178,6 +180,34 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 			}
 			catch(Exception e){e.printStackTrace();}
 		}
+	}
+	
+	/**
+	 * Resource images should be stored in 'resources/images' in the plugin jar
+	 * 
+	 * Loads and processes the specified imageName. Returns the image as a String[][]. Returns null if the file couldn't be found.
+	 */
+	public String[][] loadImage(String imageName, int width, int height, boolean symmetrical)
+	{
+		String[][] iconLines = null;
+		
+		try
+		{
+			InputStream inputStream = getResource(HoloGUIApi.PATH_TO_IMAGES + "/" + imageName);
+
+			if(imageName.contains(".gif"))
+			{
+				iconLines = GifProcessor.processGif(imageName, inputStream, width, height, symmetrical);
+			}
+			else if(imageName.contains(".jpg") || imageName.contains(".png"))
+			{
+				iconLines = PngJpgProcessor.processImage(imageName, inputStream, width, height, symmetrical);
+			}
+			inputStream.close();
+		}
+		catch(Exception e){}
+		
+		return iconLines;
 	}
 	
 	/**

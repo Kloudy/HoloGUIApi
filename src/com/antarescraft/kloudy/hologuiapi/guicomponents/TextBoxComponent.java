@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
 import com.antarescraft.kloudy.hologuiapi.handlers.TextBoxUpdateHandler;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextBoxComponent;
@@ -97,7 +98,11 @@ public class TextBoxComponent extends ClickableGUIComponent
 		if(evaluatePlaceholders)
 		{
 			value = HoloGUIPlaceholders.setHoloGUIPlaceholders(holoGUIPlugin, value, player);
-			value = PlaceholderAPI.setPlaceholders(player, value);
+			
+			if(HoloGUIApi.hasPlaceholderAPI)
+			{
+				value = PlaceholderAPI.setPlaceholders(player, value);
+			}
 			
 			PlayerData playerData = PlayerData.getPlayerData(player);
 			if(playerData != null) value = HoloGUIPlaceholders.setModelPlaceholders(holoGUIPlugin, playerData.getPlayerGUIPageModel(), value);

@@ -47,7 +47,6 @@ public class ImageComponent extends GUIComponent
 	@Override
 	public PlayerGUITextComponent initPlayerGUIComponent(Player player) 
 	{
-		//ines = ResourceManager.getInstance().getImageLines(imageName + ":" + width + "," + height);
 		frames = lines.length;
 		return new PlayerGUITextComponent(player, this, updateComponentLines(player));
 	}

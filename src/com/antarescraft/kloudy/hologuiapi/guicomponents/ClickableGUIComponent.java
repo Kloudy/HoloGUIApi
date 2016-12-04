@@ -210,19 +210,29 @@ public abstract class ClickableGUIComponent extends GUIComponent
 
 			else if(command.matches("\\$model\\.\\w+\\(.*\\);"))//model function trigger
 			{
-				HoloGUIPlaceholders.setModelPlaceholders(holoGUIPlugin, PlayerData.getPlayerData(player).getPlayerGUIPageModel(), command);
+				String onclickSetPlaceholders = new String(command);
+				onclickSetPlaceholders = HoloGUIPlaceholders.setHoloGUIPlaceholders(holoGUIPlugin, onclickSetPlaceholders, player);
+
+				if(HoloGUIApi.hasPlaceholderAPI)
+				{
+					onclickSetPlaceholders = PlaceholderAPI.setPlaceholders(player, command);
+				}
+				
+				HoloGUIPlaceholders.setModelPlaceholders(holoGUIPlugin, PlayerData.getPlayerData(player).getPlayerGUIPageModel(), onclickSetPlaceholders);
 			}
 			else
 			{
 				String onclickSetPlaceholders = new String(command);
+				
+				onclickSetPlaceholders = HoloGUIPlaceholders.setHoloGUIPlaceholders(holoGUIPlugin, onclickSetPlaceholders, player);
+
 				if(HoloGUIApi.hasPlaceholderAPI)
 				{
-					onclickSetPlaceholders = HoloGUIPlaceholders.setHoloGUIPlaceholders(holoGUIPlugin, onclickSetPlaceholders, player);
 					onclickSetPlaceholders = PlaceholderAPI.setPlaceholders(player, command);
-					
-					PlayerData playerData = PlayerData.getPlayerData(player);
-					if(playerData != null) onclickSetPlaceholders = HoloGUIPlaceholders.setModelPlaceholders(holoGUIPlugin, playerData.getPlayerGUIPageModel(), onclickSetPlaceholders);
 				}
+				
+				PlayerData playerData = PlayerData.getPlayerData(player);
+				if(playerData != null) onclickSetPlaceholders = HoloGUIPlaceholders.setModelPlaceholders(holoGUIPlugin, playerData.getPlayerGUIPageModel(), onclickSetPlaceholders);
 				
 				if(stationaryDisplayId != null)
 				{

@@ -2,7 +2,6 @@
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -40,8 +39,6 @@ import com.antarescraft.kloudy.hologuiapi.guicomponents.LabelComponent;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.TextBoxComponent;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.ToggleSwitchComponent;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.ValueScrollerComponent;
-import com.antarescraft.kloudy.hologuiapi.imageprocessing.GifProcessor;
-import com.antarescraft.kloudy.hologuiapi.imageprocessing.PngJpgProcessor;
 import com.antarescraft.kloudy.hologuiapi.scrollvalues.AbstractScrollValue;
 import com.antarescraft.kloudy.hologuiapi.scrollvalues.DateScrollValue;
 import com.antarescraft.kloudy.hologuiapi.scrollvalues.DoubleScrollValue;
@@ -175,34 +172,6 @@ public class ConfigManager
 		}
 		
 		return yamls;
-	}
-	
-	/**
-	 * Resource images should be stored in 'resources/images' in the plugin jar
-	 * 
-	 * Loads and processes the specified imageName. Returns the image as a String[][]. Returns null if the file couldn't be found.
-	 */
-	private String[][] loadImage(HoloGUIPlugin holoGUIPlugin, String imageName, int width, int height, boolean symmetrical)
-	{
-		String[][] iconLines = null;
-		
-		try
-		{
-			InputStream inputStream = holoGUIPlugin.getResource(HoloGUIApi.PATH_TO_IMAGES + "/" + imageName);
-
-			if(imageName.contains(".gif"))
-			{
-				iconLines = GifProcessor.processGif(imageName, inputStream, width, height, symmetrical);
-			}
-			else if(imageName.contains(".jpg") || imageName.contains(".png"))
-			{
-				iconLines = PngJpgProcessor.processImage(imageName, inputStream, width, height, symmetrical);
-			}
-			inputStream.close();
-		}
-		catch(Exception e){}
-		
-		return iconLines;
 	}
 
 	/*
@@ -420,7 +389,7 @@ public class ConfigManager
 					int imgSize = 18;
 					if(mini) imgSize = 9;
 					
-					String[][] imagePixels = loadImage(holoGUIPlugin, icon, imgSize, imgSize, symmetrical);
+					String[][] imagePixels = holoGUIPlugin.loadImage(icon, imgSize, imgSize, symmetrical);
 					
 					if(imagePixels != null)
 					{
@@ -451,7 +420,7 @@ public class ConfigManager
 				
 				if(imageSrc != null)
 				{
-					String[][] imageLines = loadImage(holoGUIPlugin, imageSrc, width, height, symmetrical);
+					String[][] imageLines = holoGUIPlugin.loadImage(imageSrc, width, height, symmetrical);
 					
 					if(imageLines != null)
 					{
@@ -555,8 +524,8 @@ public class ConfigManager
 				String onValue = guiComponentSection.getString(ON_VALUE);
 				String offValue = guiComponentSection.getString(OFF_VALUE);
 
-				String[][] onLines = loadImage(holoGUIPlugin, iconOn, 13, 13, true);
-				String[][] offLines = loadImage(holoGUIPlugin, iconOff, 13, 13, true);
+				String[][] onLines = holoGUIPlugin.loadImage(iconOn, 13, 13, true);
+				String[][] offLines = holoGUIPlugin.loadImage(iconOff, 13, 13, true);
 				
 				if(onLines != null && offLines != null)
 				{
