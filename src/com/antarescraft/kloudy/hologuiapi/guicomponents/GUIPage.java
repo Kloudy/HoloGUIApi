@@ -79,6 +79,11 @@ public class GUIPage
 		}
 	}
 	
+	public void removePageLoadHandler(Player player)
+	{
+		pageLoadHandlers.remove(player.getUniqueId());
+	}
+	
 	public void registerPageCloseHandler(Player player, GUIPageCloseHandler pageCloseHandler)
 	{
 		pageCloseHandlers.put(player.getUniqueId(), pageCloseHandler);
@@ -91,6 +96,11 @@ public class GUIPage
 		{
 			pageCloseHandler.onPageClose();
 		}
+	}
+	
+	public void removePageCloseHandler(Player player)
+	{
+		pageCloseHandlers.remove(player.getUniqueId());
 	}
 	
 	/**
