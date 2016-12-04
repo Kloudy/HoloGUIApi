@@ -305,10 +305,11 @@ public class HoloGUIApi extends JavaPlugin
 	{
 		PlayerData playerData = PlayerData.getPlayerData(player);
 		playerData.setPlayerGUIPageModel(null);
-		PlayerGUIPage playerGUIContainer = playerData.getPlayerGUIPage();
-		if(playerGUIContainer != null)
+		PlayerGUIPage playerGUIPage = playerData.getPlayerGUIPage();
+		if(playerGUIPage != null)
 		{
-			playerGUIContainer.destroy();
+			playerGUIPage.getGUIPage().trigglerPageCloseHandler(player);
+			playerGUIPage.destroy();
 			playerData.setPlayerGUIPage(null);
 			playerData.setPlayerPreviousGUIContainer(null);
 		}

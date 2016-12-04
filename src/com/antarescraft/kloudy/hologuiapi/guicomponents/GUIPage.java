@@ -2,6 +2,7 @@ package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -9,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
+import com.antarescraft.kloudy.hologuiapi.handlers.GUIPageCloseHandler;
 import com.antarescraft.kloudy.hologuiapi.handlers.GUIPageLoadHandler;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPage;
@@ -16,7 +18,8 @@ import com.antarescraft.kloudy.hologuiapi.playerguicomponents.StationaryPlayerGU
 
 public class GUIPage
 {
-	private GUIPageLoadHandler pageLoadHandler;
+	private HashMap<UUID, GUIPageLoadHandler> pageLoadHandlers;
+	private HashMap<UUID, GUIPageCloseHandler> pageCloseHandlers;
 	
 	private HashMap<String, GUIComponent> guiComponents;
 		
@@ -45,7 +48,10 @@ public class GUIPage
 		this.showPermission = seePermission;
 		this.hidePermission = hidePermission;
 		this.closeOnPlayerMove = closeOnPlayerMove;
-		this.closeOnPlayerItemSwitch = closeOnPlayerItemSwitch;			
+		this.closeOnPlayerItemSwitch = closeOnPlayerItemSwitch;
+		
+		pageLoadHandlers = new HashMap<UUID, GUIPageLoadHandler>();
+		pageCloseHandlers = new HashMap<UUID, GUIPageCloseHandler>();
 	}
 	
 	public GUIPage(String id)
@@ -59,16 +65,31 @@ public class GUIPage
 		return holoGUIPlugin;
 	}
 	
-	public void registerPageLoadHandler(GUIPageLoadHandler pageLoadHandler)
+	public void registerPageLoadHandler(Player player, GUIPageLoadHandler pageLoadHandler)
 	{
-		this.pageLoadHandler = pageLoadHandler;
+		pageLoadHandlers.put(player.getUniqueId(), pageLoadHandler);
 	}
 	
-	private void triggerPageLoadHandler(PlayerGUIPage playerGUIPage)
+	public void triggerPageLoadHandler(PlayerGUIPage playerGUIPage)
 	{
+		GUIPageLoadHandler pageLoadHandler = pageLoadHandlers.get(playerGUIPage.getPlayer().getUniqueId());
 		if(pageLoadHandler != null)
 		{
 			pageLoadHandler.onPageLoad(playerGUIPage);
+		}
+	}
+	
+	public void registerPageCloseHandler(Player player, GUIPageCloseHandler pageCloseHandler)
+	{
+		pageCloseHandlers.put(player.getUniqueId(), pageCloseHandler);
+	}
+	
+	public void trigglerPageCloseHandler(Player player)
+	{
+		GUIPageCloseHandler pageCloseHandler = pageCloseHandlers.get(player.getUniqueId());
+		if(pageCloseHandler != null)
+		{
+			pageCloseHandler.onPageClose();
 		}
 	}
 	
