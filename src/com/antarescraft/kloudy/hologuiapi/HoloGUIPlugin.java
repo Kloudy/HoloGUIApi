@@ -21,6 +21,8 @@ import com.antarescraft.kloudy.hologuiapi.imageprocessing.GifProcessor;
 import com.antarescraft.kloudy.hologuiapi.imageprocessing.PngJpgProcessor;
 import com.antarescraft.kloudy.hologuiapi.util.ConfigManager;
 
+import net.md_5.bungee.api.ChatColor;
+
 /**
  * Represents an external plugin using the HoloGUIAPI to create GUI pages
  */
@@ -76,14 +78,24 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 	}
 	
 	/**
-	 * @return true or false if the the version of HoloGUIApi installed on the server
-	 * meets the minimum required api version specified by this plugin
+	 * Checks to see if the version of HoloGUIApi installed on the server is at least
+	 * the minSupportedApiVersion for this plugin.
+	 * 
+	 * If the HoloGUIApi version is too old this method will unload the plugin
+	 * and display an error message in the console alerting the server owner to 
+	 * update HoloGUIApi.
 	 */
-	public boolean hasMinApiVersion()
+	public void checkMinApiVersion()
 	{
 		if(minSupportedApiVersion == null) minSupportedApiVersion = "1.0";
 		
-		return (getHoloGUIApi().getDescription().getVersion().compareTo(minSupportedApiVersion) > 0);
+		if(getHoloGUIApi().getDescription().getVersion().compareTo(minSupportedApiVersion) < 0)
+		{
+			Bukkit.getConsoleSender().sendMessage(ChatColor.RED + String.format("[%s]: HoloGUI-v%s is required to run the plugin. Please update HoloGUIApi with the latest version from Spigot.",
+					getName(), minSupportedApiVersion));
+		}
+		
+		Bukkit.getPluginManager().disablePlugin(this);
 	}
 	
 	/**
