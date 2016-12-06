@@ -29,6 +29,7 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 	private HashMap<String, GUIPage> guiPages;
 	private ArrayList<String> yamlFiles;
 	private boolean guiPagesLoaded;
+	private String minSupportedApiVersion;
 	
 	public HoloGUIPlugin()
 	{
@@ -64,6 +65,23 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 				e.printStackTrace();
 			}
 		 }
+	}
+	
+	/**
+	 * Set the minimum version of HoloGUIApi that the plugin can run on
+	 */
+	public void setMinSupportedApiVersion(String version)
+	{
+		this.minSupportedApiVersion = version;
+	}
+	
+	/**
+	 * @return true or false if the the version of HoloGUIApi installed on the server
+	 * meets the minimum required api version specified by this plugin
+	 */
+	public boolean hasMinApiVersion()
+	{
+		return (getHoloGUIApi().getDescription().getVersion().compareTo(minSupportedApiVersion) > 0);
 	}
 	
 	/**
