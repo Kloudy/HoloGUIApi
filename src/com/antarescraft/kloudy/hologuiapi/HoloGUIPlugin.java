@@ -29,7 +29,7 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 	private HashMap<String, GUIPage> guiPages;
 	private ArrayList<String> yamlFiles;
 	private boolean guiPagesLoaded;
-	private String minSupportedApiVersion;
+	private String minSupportedApiVersion = "1.0";
 	
 	public HoloGUIPlugin()
 	{
@@ -81,6 +81,8 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 	 */
 	public boolean hasMinApiVersion()
 	{
+		if(minSupportedApiVersion == null) minSupportedApiVersion = "1.0";
+		
 		return (getHoloGUIApi().getDescription().getVersion().compareTo(minSupportedApiVersion) > 0);
 	}
 	
