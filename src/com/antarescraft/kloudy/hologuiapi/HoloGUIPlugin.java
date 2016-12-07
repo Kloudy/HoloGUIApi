@@ -89,13 +89,44 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 	{
 		if(minSupportedApiVersion == null) minSupportedApiVersion = "1.0";
 		
-		if(getHoloGUIApi().getDescription().getVersion().compareTo(minSupportedApiVersion) < 0)
+		if(versionCompare(getHoloGUIApi().getDescription().getVersion(), minSupportedApiVersion) < 0)
 		{
 			Bukkit.getConsoleSender().sendMessage(ChatColor.RED + String.format("[%s]: HoloGUI-v%s is required to run the plugin. Please update HoloGUIApi with the latest version from Spigot.",
 					getName(), minSupportedApiVersion));
 		}
+	}
+	
+	private int versionCompare(String v1, String v2) 
+	{
+		if(v1.equals(v2)) return 0;
 		
-		Bukkit.getPluginManager().disablePlugin(this);
+	    String[] v1Tokens = v1.split("\\.");
+	    String[] v2Tokens = v2.split("\\.");
+	    
+	    int length = v1Tokens.length;
+	    if(v2Tokens.length > v1Tokens.length) length = v2Tokens.length;
+	    
+	    for(int i = 0; i < length; i++)
+	    {
+	    	if(i  >= v1Tokens.length || i >= v2Tokens.length )//reached the end, return the longer version number
+	    	{
+	    		return (v1Tokens.length > v2Tokens.length) ? 1 : -1;
+	    	}
+	    	
+	    	int v1Value = Integer.parseInt(v1Tokens[i]);
+	    	int v2Value = Integer.parseInt(v2Tokens[i]);
+	    	
+	    	if(v1Value > v2Value)
+	    	{
+	    		return 1;
+	    	}
+	    	else if(v1Value < v2Value)
+	    	{
+	    		return -1;
+	    	}
+	    }
+	    
+	    return 0;
 	}
 	
 	/**
