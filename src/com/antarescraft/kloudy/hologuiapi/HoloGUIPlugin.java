@@ -91,7 +91,7 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 		
 		if(versionCompare(getHoloGUIApi().getDescription().getVersion(), minSupportedApiVersion) < 0)
 		{
-			Bukkit.getConsoleSender().sendMessage(ChatColor.RED + String.format("[%s]: HoloGUI-v%s is required to run the plugin. Please update HoloGUIApi with the latest version from Spigot.",
+			Bukkit.getConsoleSender().sendMessage(ChatColor.RED + String.format("[%s]: HoloGUIApi-v%s is required to run the plugin. Please update HoloGUIApi with the latest version from Spigot.",
 					getName(), minSupportedApiVersion));
 		}
 	}
