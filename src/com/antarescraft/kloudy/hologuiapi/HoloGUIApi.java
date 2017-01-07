@@ -75,7 +75,7 @@ public class HoloGUIApi extends JavaPlugin
 			hasPlaceholderAPI = true;
 		}
 		
-		packetManager = PacketManager.getInstance(-5000, -35000);
+		packetManager = PacketManager.getInstance(-25000, -35000);
 		packetManager.registerPacketListener(new PacketAdapter(this,
 				PacketType.Play.Client.CHAT){
 			
