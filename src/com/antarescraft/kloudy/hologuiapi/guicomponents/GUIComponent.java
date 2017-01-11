@@ -4,23 +4,47 @@ import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
+import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.ConfigElement;
+import com.antarescraft.kloudy.plugincore.config.ConfigElementKey;
+import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.DoubleConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
 
 public abstract class GUIComponent
 {
 	protected HoloGUIPlugin holoGUIPlugin;
+	
+	@ConfigElementKey
 	protected String id;
-	protected String pageId;
+	
+	@ConfigElement
+	@ConfigProperty(key = "position")
 	protected ComponentPosition position;
+	
+	@OptionalConfigProperty
+	@ConfigProperty(key = "label")
 	protected String label;
+	
+	//TODO: Figure out what to do with this as the default value is different based on type
+	@OptionalConfigProperty
+	@ConfigProperty(key = "label-distance")
 	protected double labelDistance;
+	
+	@OptionalConfigProperty
+	@BooleanConfigProperty(defaultValue = false)
+	@ConfigProperty(key = "always-show-label")
 	protected boolean alwaysShowLabel;
+	
+	@OptionalConfigProperty
+	@BooleanConfigProperty(defaultValue = false)
+	@ConfigProperty(key = "hidden")
 	protected boolean hidden;
 	
 	public GUIComponent(GUIComponentProperties properties)
 	{
 		this.holoGUIPlugin = properties.getHoloGUIPlugin();
 		this.id = properties.getId();
-		this.pageId = properties.pageId();
 		this.position = properties.getPosition();
 		this.label = properties.getLabel();
 		this.labelDistance = properties.getLabelDistance();
@@ -53,16 +77,6 @@ public abstract class GUIComponent
 	public void setId(String id)
 	{
 		this.id = id;
-	}
-	
-	public String getPageId()
-	{
-		return pageId;
-	}
-	
-	public void setPageId(String pageId)
-	{
-		this.pageId = pageId;
 	}
 	
 	public ComponentPosition getPosition()
