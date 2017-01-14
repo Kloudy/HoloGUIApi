@@ -41,6 +41,7 @@ public abstract class GUIComponent
 	public abstract String[] updateComponentLines(Player player);
 	public abstract double getDisplayDistance();
 	public abstract double getLineHeight();
+	public abstract GUIComponent clone();
 	
 	public String getId()
 	{

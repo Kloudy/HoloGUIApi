@@ -6,16 +6,17 @@ import org.bukkit.util.Vector;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
+import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
 
 public class ButtonComponent extends ClickableGUIComponent
 {
+	@ConfigProperty(key = "icon")
 	private String icon;
+	
 	private String[][] lines;
 	private int currentFrame;
 	private int frames;
 	private boolean mini;
-	private int width;
-	private int height;
 	
 	public ButtonComponent(GUIComponentProperties properties, ClickableGUIComponentProperties clickableProperties,
 			String[][] lines, String icon,  boolean mini, int width, int height)
@@ -25,9 +26,7 @@ public class ButtonComponent extends ClickableGUIComponent
 	
 	public ButtonComponent(GUIComponentProperties properties, ClickableGUIComponentProperties clickableProperties,
 			String[][] lines, String icon,  boolean mini, int width, int height, int currentFrame)
-	{
-		super(properties, clickableProperties);
-		
+	{		
 		this.lines = lines;
 		this.icon = icon;
 		this.mini = mini;

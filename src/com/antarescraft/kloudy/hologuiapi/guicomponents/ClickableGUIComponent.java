@@ -10,6 +10,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
+import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
 import com.antarescraft.kloudy.hologuiapi.events.HoloGUIClickEvent;
 import com.antarescraft.kloudy.hologuiapi.handlers.ClickHandler;
@@ -18,45 +19,45 @@ import com.antarescraft.kloudy.hologuiapi.handlers.HoverOutHandler;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.HoloGUIPlaceholders;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
+import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 
 public abstract class ClickableGUIComponent extends GUIComponent
 {
-	private HashMap<UUID, ClickHandler> clickHandlers;
-	private HashMap<UUID, HoverHandler> hoverHandlers;
-	private HashMap<UUID, HoverOutHandler> hoverOutHandlers;
+	private HashMap<UUID, ClickHandler> clickHandlers = new HashMap<UUID, ClickHandler>();
+	private HashMap<UUID, HoverHandler> hoverHandlers = new HashMap<UUID, HoverHandler>();
+	private HashMap<UUID, HoverOutHandler> hoverOutHandlers = new HashMap<UUID, HoverOutHandler>();
 	
+	@ConfigProperty(key = "onclick")
 	protected String onclick;
+	
+	@OptionalConfigProperty
+	@BooleanConfigProperty(defaultValue = false)
+	@ConfigProperty(key = "execute-command-as-console")
 	protected boolean executeCommandAsConsole;
+	
+	@OptionalConfigProperty
+	@ConfigProperty(key = "onclick-sound")
 	protected Sound onclickSound;
+	
+	@OptionalConfigProperty
+	@ConfigProperty(key = "onclick-sound-volume")
 	protected float onclickSoundVolume;
+	
+	@OptionalConfigProperty
+	@ConfigProperty(key = "label-zoom-distance")
 	protected double labelZoomDistance;
+	
+	@OptionalConfigProperty
+	@ConfigProperty(key = "click-permission")
 	protected String clickPermission;
+	
+	@OptionalConfigProperty
+	@ConfigProperty(key = "no-permission-message")
 	protected String noPermissionMessage;
-	
-	public ClickableGUIComponent(GUIComponentProperties properties, ClickableGUIComponentProperties clickableProperties)
-	{
-		super(properties);
-		
-		this.onclick = clickableProperties.getOnclickCommand();
-		this.executeCommandAsConsole = clickableProperties.executeCommandAsConsole();
-		this.onclickSound = clickableProperties.getOnclickSound();
-		this.onclickSoundVolume = clickableProperties.getOnclickSoundVolume();
-		this.labelZoomDistance = clickableProperties.getLabelZoomDistance();
-		this.clickPermission = clickableProperties.getClickPermission();
-		this.noPermissionMessage = clickableProperties.getNoPermissionMessage();
-		
-		clickHandlers = new HashMap<UUID, ClickHandler>();
-		hoverHandlers = new HashMap<UUID, HoverHandler>();
-		hoverOutHandlers = new HashMap<UUID, HoverOutHandler>();
-	}
-	
-	public ClickableGUIComponentProperties cloneClickableProperties()
-	{
-		return new ClickableGUIComponentProperties(onclick, executeCommandAsConsole, onclickSound, onclickSoundVolume,
-				labelZoomDistance, clickPermission, noPermissionMessage);
-	}
 	
 	public abstract double getZoomedInLineHeight();
 	public abstract double zoomDistance();
@@ -66,7 +67,7 @@ public abstract class ClickableGUIComponent extends GUIComponent
 	public abstract AABB.Vec3D getMaxBoundingRectPoint18(Point3D origin);
 	public abstract AABB.Vec3D getMinBoundingRectPoint19(Point3D origin);
 	public abstract AABB.Vec3D getMaxBoundingRectPoint19(Point3D origin);
-	
+		
 	public String getOnClick()
 	{
 		return onclick;
@@ -127,14 +128,14 @@ public abstract class ClickableGUIComponent extends GUIComponent
 		this.noPermissionMessage = noPermissionMessage;
 	}
 	
-	public void executeOnclick(Player player)
+	public void executeOnclick(Player player, HoloGUIPlugin holoGUIPlugin)
 	{
-		executeOnclick(player, null, onclick, executeCommandAsConsole);
+		executeOnclick(player, holoGUIPlugin, null, onclick, executeCommandAsConsole);
 	}
 	
-	public void executeOnclick(Player player, String stationaryDisplayId)
+	public void executeOnclick(Player player, HoloGUIPlugin holoGUIPlugin, String stationaryDisplayId)
 	{
-		executeOnclick(player, stationaryDisplayId, onclick, executeCommandAsConsole);
+		executeOnclick(player, holoGUIPlugin, stationaryDisplayId, onclick, executeCommandAsConsole);
 	}
 	
 	public void registerClickHandler(Player player, ClickHandler clickHandler)
@@ -185,7 +186,7 @@ public abstract class ClickableGUIComponent extends GUIComponent
 		if(hoverOutHandler != null) hoverOutHandler.onHoverOut();
 	}
 
-	public void executeOnclick(Player player, String stationaryDisplayId, String command, boolean executeCommandAsConsole)
+	public void executeOnclick(Player player, HoloGUIPlugin holoGUIPlugin, String stationaryDisplayId, String command, boolean executeCommandAsConsole)
 	{
 		HoloGUIClickEvent holoGUIClickEvent = new HoloGUIClickEvent(holoGUIPlugin, this, player);
 		Bukkit.getServer().getPluginManager().callEvent(holoGUIClickEvent);
