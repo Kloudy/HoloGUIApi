@@ -3,51 +3,52 @@ package com.antarescraft.kloudy.hologuiapi.guicomponents;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
+import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
+import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
 public class ButtonComponent extends ClickableGUIComponent
 {
 	@ConfigProperty(key = "icon")
 	private String icon;
 	
+	@OptionalConfigProperty
+	@BooleanConfigProperty(defaultValue = false)
+	@ConfigProperty(key = "mini")
+	private boolean mini;
+	
+	@OptionalConfigProperty
+	@BooleanConfigProperty(defaultValue = false)
+	@ConfigProperty(key = "symmetrical")
+	boolean symmetrical;
+	
 	private String[][] lines;
 	private int currentFrame;
 	private int frames;
-	private boolean mini;
 	
-	public ButtonComponent(GUIComponentProperties properties, ClickableGUIComponentProperties clickableProperties,
-			String[][] lines, String icon,  boolean mini, int width, int height)
-	{
-		this(properties, clickableProperties, lines, icon, mini, width, height, 0);
-	}
-	
-	public ButtonComponent(GUIComponentProperties properties, ClickableGUIComponentProperties clickableProperties,
-			String[][] lines, String icon,  boolean mini, int width, int height, int currentFrame)
+	public ButtonComponent(HoloGUIPlugin plugin, String icon, boolean mini, boolean symmetrical)
 	{		
-		this.lines = lines;
 		this.icon = icon;
 		this.mini = mini;
-		this.width = width;
-		this.height = height;
-		this.currentFrame = currentFrame;
+		
+		lines = plugin.loadImage(icon, getWidth(), getHeight(), symmetrical);
 	}
 	
 	@Override
 	public ButtonComponent clone()
 	{
-		String[][] linesCopy = new String[lines.length][lines[0].length];
-		for(int i = 0; i < lines.length; i++)
+		try
 		{
-			for(int j = 0; j < lines[i].length; j++)
-			{
-				linesCopy[i][j] = lines[i][j];
-			}
-		}
+			return ObjectMapper.mapObject(this, ButtonComponent.class);
+		} 
+		catch (Exception e){}
 		
-		return new ButtonComponent(cloneProperties(), cloneClickableProperties(), linesCopy, icon, mini, width, height);
+		return null;
 	}
 	
 	@Override
@@ -157,12 +158,12 @@ public class ButtonComponent extends ClickableGUIComponent
 	
 	public int getWidth()
 	{
-		return width;
+		return (mini) ? 9 : 18;
 	}
 	
 	public int getHeight()
 	{
-		return height;
+		return (mini) ? 9 : 18;
 	}
 	
 	public boolean isMini()
