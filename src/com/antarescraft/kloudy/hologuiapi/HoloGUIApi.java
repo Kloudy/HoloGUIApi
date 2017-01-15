@@ -47,7 +47,6 @@ public class HoloGUIApi extends JavaPlugin
 	
 	public static boolean hasPlaceholderAPI = false;
 	public static double stationaryDisplayRenderDistance;
-	public static boolean b = false;
 	public static String fileHash;
 	public static boolean debugMode;
 	public static String PATH_TO_IMAGES = "resources/images";

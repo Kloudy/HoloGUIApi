@@ -4,28 +4,36 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIItemComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
+import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
-public class ItemButtonComponent extends ClickableGUIComponent implements ItemTypeComponent
+/*
+ * Represents a clickable item on a GUI
+ */
+public class ItemButtonComponent extends ClickableGUIComponent implements ItemTypeComponent, ConfigObject
 {
 	private ItemStack item;
 	private Vector rotation;
 
-	public ItemButtonComponent(GUIComponentProperties properties, ClickableGUIComponentProperties clickableProperties,
-			ItemStack item, Vector rotation) 
+	private ItemButtonComponent(HoloGUIPlugin plugin)
 	{
-		super(properties, clickableProperties);
-		
-		this.item = item;
-		this.rotation =  rotation;
+		super(plugin);
 	}
 	
 	@Override
 	public ItemButtonComponent clone()
 	{
-		return new ItemButtonComponent(cloneProperties(), cloneClickableProperties(), item.clone(), rotation.clone());
+		try
+		{
+			return ObjectMapper.mapObject(this, ItemButtonComponent.class, plugin);
+		}
+		catch(Exception e){}
+		
+		return null;
 	}
 	
 	@Override
@@ -110,5 +118,11 @@ public class ItemButtonComponent extends ClickableGUIComponent implements ItemTy
 	public double getDisplayDistance()
 	{
 		return 6;
+	}
+
+	@Override
+	public void objectLoadComplete() 
+	{
+
 	}
 }

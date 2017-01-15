@@ -8,11 +8,15 @@ import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextCompo
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
 import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
-public class ButtonComponent extends ClickableGUIComponent
+/*
+ * Represents an image based button on a GUI
+ */
+public class ButtonComponent extends ClickableGUIComponent implements ConfigObject
 {
 	@ConfigProperty(key = "icon")
 	private String icon;
@@ -27,16 +31,13 @@ public class ButtonComponent extends ClickableGUIComponent
 	@ConfigProperty(key = "symmetrical")
 	boolean symmetrical;
 	
-	private String[][] lines;
-	private int currentFrame;
+	private String[][] lines = null;
+	private int currentFrame = 0;
 	private int frames;
 	
-	public ButtonComponent(HoloGUIPlugin plugin, String icon, boolean mini, boolean symmetrical)
-	{		
-		this.icon = icon;
-		this.mini = mini;
-		
-		lines = plugin.loadImage(icon, getWidth(), getHeight(), symmetrical);
+	private ButtonComponent(HoloGUIPlugin plugin)
+	{
+		super(plugin);
 	}
 	
 	@Override
@@ -54,7 +55,6 @@ public class ButtonComponent extends ClickableGUIComponent
 	@Override
 	public PlayerGUITextComponent initPlayerGUIComponent(Player player)
 	{
-		//lines = ResourceManager.getInstance().getImageLines(icon + ":" + width + "," + height);
 		frames = lines.length;
 		return new PlayerGUITextComponent(player, this, updateComponentLines(player));
 	}
@@ -174,5 +174,11 @@ public class ButtonComponent extends ClickableGUIComponent
 	public int getFrames()
 	{
 		return frames;
+	}
+
+	@Override
+	public void objectLoadComplete()
+	{
+		lines = plugin.loadImage(icon, getWidth(), getHeight(), symmetrical);
 	}
 }

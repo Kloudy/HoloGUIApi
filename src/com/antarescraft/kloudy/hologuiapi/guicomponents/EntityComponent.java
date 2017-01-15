@@ -3,50 +3,77 @@ package com.antarescraft.kloudy.hologuiapi.guicomponents;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
+import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIEntityComponent;
+import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.DoubleConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
+import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
 public class EntityComponent extends GUIComponent implements EntityTypeComponent
 {
-	private EntityType entityType;
-	private float yaw;
+	@ConfigProperty(key = "type")
+	private String entityTypeString;
 	
-	public EntityComponent(GUIComponentProperties properties, EntityType entityType, float yaw)
+	@OptionalConfigProperty
+	@DoubleConfigProperty(defaultValue = 0, maxValue = Double.MAX_VALUE, minValue = 0)
+	@ConfigProperty(key = "yaw")
+	private double yaw;
+	
+	public EntityComponent(HoloGUIPlugin plugin)
 	{
-		super(properties);
+		super(plugin);
+	}
+	
+	public EntityComponent(HoloGUIPlugin plugin, EntityType entityType, double yaw)
+	{
+		super(plugin);
 		
-		this.entityType = entityType;
+		entityTypeString = entityType.toString();
 		this.yaw = yaw;
 	}
 	
 	@Override
 	public EntityComponent clone()
 	{
-		return new EntityComponent(cloneProperties(), entityType, yaw);
+		try
+		{
+			return ObjectMapper.mapObject(this, EntityComponent.class);
+		}
+		catch(Exception e){}
+		
+		return null;
 	}
 
 	@Override
 	public EntityType getEntityType()
 	{
-		return entityType;
+		try
+		{
+			return EntityType.valueOf(entityTypeString);
+		}
+		catch(Exception e){}
+		
+		return null;
 	}
 	
 	@Override
 	public void setEntityType(EntityType entityType)
 	{
-		this.entityType = entityType;
+		entityTypeString = entityType.toString();
 	}
 	
 	@Override
 	public float getYaw()
 	{
-		return yaw;
+		return (float)yaw;
 	}
 	
 	@Override
 	public void setYaw(float yaw)
 	{
-		this.yaw = yaw;
+		this.yaw = (double)yaw;
 	}
 	
 	@Override

@@ -252,7 +252,7 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 	 */
 	public String[][] loadImage(String imageName, int width, int height, boolean symmetrical)
 	{
-		String[][] iconLines = null;
+		String[][] imageLines = null;
 		
 		try
 		{
@@ -260,17 +260,17 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 
 			if(imageName.contains(".gif"))
 			{
-				iconLines = GifProcessor.processGif(imageName, inputStream, width, height, symmetrical);
+				imageLines = GifProcessor.processGif(imageName, inputStream, width, height, symmetrical);
 			}
 			else if(imageName.contains(".jpg") || imageName.contains(".png"))
 			{
-				iconLines = PngJpgProcessor.processImage(imageName, inputStream, width, height, symmetrical);
+				imageLines = PngJpgProcessor.processImage(imageName, inputStream, width, height, symmetrical);
 			}
 			inputStream.close();
 		}
 		catch(Exception e){}
 		
-		return iconLines;
+		return imageLines;
 	}
 	
 	/**

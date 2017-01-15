@@ -2,26 +2,33 @@ package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
 import org.bukkit.entity.Player;
 
+import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextComponent;
+import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
 public class ImageComponent extends GUIComponent
 {
 	private int frames = 0;
 	private int currentFrame = 0;
 	private String[][] lines;
-	private String imageName;
+	private String imageFileName;
 	private int width;
 	private int height;
 	
 	private double displayDistance;
 	private double lineHeight;
 	
-	public ImageComponent(GUIComponentProperties properties, String[][] lines, String imageName, int width, int height)
+	public ImageComponent(HoloGUIPlugin plugin)
 	{
-		super(properties);
+		super(plugin);
+	}
+	
+	public ImageComponent(HoloGUIPlugin plugin, String[][] lines, String imageFileName, int width, int height)
+	{
+		super(plugin);
 		
 		this.lines = lines;
-		this.imageName = imageName;
+		this.imageFileName = imageFileName;
 		this.width = width;
 		this.height = height;
 		
@@ -32,16 +39,13 @@ public class ImageComponent extends GUIComponent
 	@Override
 	public ImageComponent clone()
 	{
-		String[][] linesCopy = new String[lines.length][lines[0].length];
-		for(int i = 0; i < lines.length; i++)
+		try
 		{
-			for(int j = 0; j < lines[i].length; j++)
-			{
-				linesCopy[i][j] = lines[i][j];
-			}
+			return ObjectMapper.mapObject(this, ImageComponent.class, plugin);
 		}
+		catch(Exception e){}
 		
-		return new ImageComponent(cloneProperties(), linesCopy, imageName, width, height);
+		return null;
 	}
 
 	@Override
@@ -105,12 +109,12 @@ public class ImageComponent extends GUIComponent
 	
 	public String getImageName()
 	{
-		return imageName;
+		return imageFileName;
 	}
 	
 	public void setImageName(String imageName)
 	{
-		this.imageName = imageName;
+		this.imageFileName = imageName;
 	}
 	
 	public void setLines(String[][] lines)

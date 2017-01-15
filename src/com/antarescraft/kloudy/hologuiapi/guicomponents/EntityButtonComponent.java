@@ -4,47 +4,77 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIEntityComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
+import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.DoubleConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
+import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
-public class EntityButtonComponent extends ClickableGUIComponent implements EntityTypeComponent
+/*
+ * Represents a clickable Entity on a GUI
+ */
+public class EntityButtonComponent extends ClickableGUIComponent implements EntityTypeComponent, ConfigObject
 {	
-	private EntityType entityType;
-	private float yaw;
+	@ConfigProperty(key = "type")
+	private String entityTypeString;
 	
-	public EntityButtonComponent(GUIComponentProperties properties, ClickableGUIComponentProperties clickableProperties,
-			EntityType entityType, float yaw)
-	{
-		super(properties, clickableProperties);
+	@OptionalConfigProperty
+	@DoubleConfigProperty(defaultValue = 0, maxValue = Double.MAX_VALUE, minValue = 0)
+	@ConfigProperty(key = "yaw")
+	private double yaw;
 		
-		this.entityType = entityType;
+	public EntityButtonComponent(HoloGUIPlugin plugin)
+	{
+		super(plugin);
+	}
+	
+	public EntityButtonComponent(HoloGUIPlugin plugin, EntityType entityType, double yaw)
+	{
+		super(plugin);
+		
+		entityTypeString = entityType.toString();
 		this.yaw = yaw;
 	}
 	
 	@Override
 	public EntityButtonComponent clone()
 	{
-		return new EntityButtonComponent(cloneProperties(), cloneClickableProperties(), entityType, yaw);
+		try
+		{
+			return ObjectMapper.mapObject(this, EntityButtonComponent.class);
+		}
+		catch(Exception e){}
+		
+		return null;
 	}
 	
 	@Override
 	public EntityType getEntityType()
 	{
-		return entityType;
+		try
+		{
+			return EntityType.valueOf(entityTypeString);
+		}
+		catch(Exception e){}
+		
+		return null;
 	}
 	
 	@Override
 	public void setEntityType(EntityType entityType)
 	{
-		this.entityType = entityType;
+		entityTypeString = entityType.toString();
 	}
 	
 	@Override
 	public float getYaw()
 	{
-		return yaw;
+		return (float)yaw;
 	}
 	
 	@Override
@@ -112,4 +142,7 @@ public class EntityButtonComponent extends ClickableGUIComponent implements Enti
 	{
 		return 8;
 	}
+
+	@Override
+	public void objectLoadComplete(){}
 }

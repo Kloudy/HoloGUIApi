@@ -59,6 +59,11 @@ public abstract class ClickableGUIComponent extends GUIComponent
 	@ConfigProperty(key = "no-permission-message")
 	protected String noPermissionMessage;
 	
+	protected ClickableGUIComponent(HoloGUIPlugin plugin)
+	{
+		super(plugin);
+	}
+	
 	public abstract double getZoomedInLineHeight();
 	public abstract double zoomDistance();
 	
@@ -130,12 +135,12 @@ public abstract class ClickableGUIComponent extends GUIComponent
 	
 	public void executeOnclick(Player player, HoloGUIPlugin holoGUIPlugin)
 	{
-		executeOnclick(player, holoGUIPlugin, null, onclick, executeCommandAsConsole);
+		executeOnclick(player, null, onclick, executeCommandAsConsole);
 	}
 	
 	public void executeOnclick(Player player, HoloGUIPlugin holoGUIPlugin, String stationaryDisplayId)
 	{
-		executeOnclick(player, holoGUIPlugin, stationaryDisplayId, onclick, executeCommandAsConsole);
+		executeOnclick(player, stationaryDisplayId, onclick, executeCommandAsConsole);
 	}
 	
 	public void registerClickHandler(Player player, ClickHandler clickHandler)
@@ -186,9 +191,9 @@ public abstract class ClickableGUIComponent extends GUIComponent
 		if(hoverOutHandler != null) hoverOutHandler.onHoverOut();
 	}
 
-	public void executeOnclick(Player player, HoloGUIPlugin holoGUIPlugin, String stationaryDisplayId, String command, boolean executeCommandAsConsole)
+	public void executeOnclick(Player player, String stationaryDisplayId, String command, boolean executeCommandAsConsole)
 	{
-		HoloGUIClickEvent holoGUIClickEvent = new HoloGUIClickEvent(holoGUIPlugin, this, player);
+		HoloGUIClickEvent holoGUIClickEvent = new HoloGUIClickEvent(plugin, this, player);
 		Bukkit.getServer().getPluginManager().callEvent(holoGUIClickEvent);
 		
 		if(command != null && !command.equals(""))
@@ -204,7 +209,7 @@ public abstract class ClickableGUIComponent extends GUIComponent
 					{
 					    out.writeUTF("Connect");
 					    out.writeUTF(command.split(" ")[1]); // Target Server
-					    player.sendPluginMessage(holoGUIPlugin, "BungeeCord", b.toByteArray());
+					    player.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
 					} catch (Exception e) {}
 				}
 			}
@@ -212,20 +217,20 @@ public abstract class ClickableGUIComponent extends GUIComponent
 			else if(command.matches("\\$model\\.\\w+\\(.*\\);"))//model function trigger
 			{
 				String onclickSetPlaceholders = new String(command);
-				onclickSetPlaceholders = HoloGUIPlaceholders.setHoloGUIPlaceholders(holoGUIPlugin, onclickSetPlaceholders, player);
+				onclickSetPlaceholders = HoloGUIPlaceholders.setHoloGUIPlaceholders(plugin, onclickSetPlaceholders, player);
 
 				if(HoloGUIApi.hasPlaceholderAPI)
 				{
 					onclickSetPlaceholders = PlaceholderAPI.setPlaceholders(player, command);
 				}
 				
-				HoloGUIPlaceholders.setModelPlaceholders(holoGUIPlugin, PlayerData.getPlayerData(player).getPlayerGUIPageModel(), onclickSetPlaceholders);
+				HoloGUIPlaceholders.setModelPlaceholders(plugin, PlayerData.getPlayerData(player).getPlayerGUIPageModel(), onclickSetPlaceholders);
 			}
 			else
 			{
 				String onclickSetPlaceholders = new String(command);
 				
-				onclickSetPlaceholders = HoloGUIPlaceholders.setHoloGUIPlaceholders(holoGUIPlugin, onclickSetPlaceholders, player);
+				onclickSetPlaceholders = HoloGUIPlaceholders.setHoloGUIPlaceholders(plugin, onclickSetPlaceholders, player);
 
 				if(HoloGUIApi.hasPlaceholderAPI)
 				{
@@ -233,7 +238,7 @@ public abstract class ClickableGUIComponent extends GUIComponent
 				}
 				
 				PlayerData playerData = PlayerData.getPlayerData(player);
-				if(playerData != null) onclickSetPlaceholders = HoloGUIPlaceholders.setModelPlaceholders(holoGUIPlugin, playerData.getPlayerGUIPageModel(), onclickSetPlaceholders);
+				if(playerData != null) onclickSetPlaceholders = HoloGUIPlaceholders.setModelPlaceholders(plugin, playerData.getPlayerGUIPageModel(), onclickSetPlaceholders);
 				
 				if(stationaryDisplayId != null)
 				{

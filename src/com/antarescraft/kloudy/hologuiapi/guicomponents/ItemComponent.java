@@ -4,25 +4,34 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIItemComponent;
+import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
-public class ItemComponent extends GUIComponent implements ItemTypeComponent
+/*
+ * Represents a non-clickable item in a GUI
+ */
+public class ItemComponent extends GUIComponent implements ItemTypeComponent, ConfigObject
 {
 	protected ItemStack item;
 	private Vector rotation;
 	
-	public ItemComponent(GUIComponentProperties properties, ItemStack item, Vector rotation)
+	private ItemComponent(HoloGUIPlugin plugin)
 	{
-		super(properties);
-		
-		this.item = item;
-		this.rotation = rotation;
+		super(plugin);
 	}
 	
 	@Override
 	public ItemComponent clone()
 	{
-		return new ItemComponent(cloneProperties(), item.clone(), rotation.clone());
+		try
+		{
+			return ObjectMapper.mapObject(this, ItemComponent.class, plugin);
+		}
+		catch(Exception e){}
+		
+		return null;
 	}
 
 	@Override
@@ -72,4 +81,7 @@ public class ItemComponent extends GUIComponent implements ItemTypeComponent
 
 	@Override
 	public String[] updateComponentLines(Player player) {return null;}
+
+	@Override
+	public void objectLoadComplete(){}
 }

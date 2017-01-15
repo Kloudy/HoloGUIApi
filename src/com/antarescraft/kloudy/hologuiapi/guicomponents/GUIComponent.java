@@ -2,6 +2,7 @@ package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
 import org.bukkit.entity.Player;
 
+import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.ConfigElement;
@@ -11,6 +12,8 @@ import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
 
 public abstract class GUIComponent
 {	
+	protected HoloGUIPlugin plugin;
+	
 	@ConfigElementKey
 	protected String id;
 	
@@ -36,12 +39,22 @@ public abstract class GUIComponent
 	@ConfigProperty(key = "hidden")
 	protected boolean hidden;
 	
+	public GUIComponent(HoloGUIPlugin plugin)
+	{
+		this.plugin = plugin;
+	}
+	
 	public abstract PlayerGUIComponent initPlayerGUIComponent(Player player);
 	public abstract void updateIncrement();//updates the guicomponent's next incremental state
 	public abstract String[] updateComponentLines(Player player);
 	public abstract double getDisplayDistance();
 	public abstract double getLineHeight();
 	public abstract GUIComponent clone();
+	
+	public HoloGUIPlugin getHoloGUIPlugin()
+	{
+		return plugin;
+	}
 	
 	public String getId()
 	{
