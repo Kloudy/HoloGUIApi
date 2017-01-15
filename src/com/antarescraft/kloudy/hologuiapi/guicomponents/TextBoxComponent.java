@@ -7,42 +7,53 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
+import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
 import com.antarescraft.kloudy.hologuiapi.handlers.TextBoxUpdateHandler;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextBoxComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.HoloGUIPlaceholders;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
+import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.StringConfigProperty;
+import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 
 
-public class TextBoxComponent extends ClickableGUIComponent
+public class TextBoxComponent extends ClickableGUIComponent implements ConfigObject
 {
-	private HashMap<UUID, TextBoxUpdateHandler> textboxUpdateHandlers;
-	
+	@OptionalConfigProperty
+	@StringConfigProperty(defaultValue = "")
+	@ConfigProperty(key = "default-text")
 	private String defaultLine;
+	
+	@OptionalConfigProperty
+	@BooleanConfigProperty(defaultValue = false)
+	@ConfigProperty(key = "evaluate-placeholders")
 	private boolean evaluatePlaceholders;
 	
-	private HashMap<UUID, String> playerTextBoxValues;
+	private HashMap<UUID, String> playerTextBoxValues = new HashMap<UUID, String>();
+	private HashMap<UUID, TextBoxUpdateHandler> textboxUpdateHandlers = new HashMap<UUID, TextBoxUpdateHandler>();
 	
-	public TextBoxComponent(GUIComponentProperties properties, ClickableGUIComponentProperties clickableProperties,
-			String defaultLine, boolean evaluatePlaceholders) 
+	private TextBoxComponent(HoloGUIPlugin plugin)
 	{
-		super(properties, clickableProperties);
-		
-		textboxUpdateHandlers = new HashMap<UUID, TextBoxUpdateHandler>();
-		
-		this.defaultLine = defaultLine;
-		this.evaluatePlaceholders = evaluatePlaceholders;
-		
-		playerTextBoxValues = new HashMap<UUID, String>();
+		super(plugin);
 	}
 	
 	@Override
 	public TextBoxComponent clone()
 	{
-		return new TextBoxComponent(cloneProperties(), cloneClickableProperties(), defaultLine, evaluatePlaceholders);
+		try
+		{
+			return ObjectMapper.mapObject(this, TextBoxComponent.class, plugin);
+		}
+		catch(Exception e){}
+		
+		return null;
 	}
 	
 	public void registerTextBoxUpdateHandler(Player player, TextBoxUpdateHandler textboxUpdateHandler)
@@ -97,7 +108,7 @@ public class TextBoxComponent extends ClickableGUIComponent
 		
 		if(evaluatePlaceholders)
 		{
-			value = HoloGUIPlaceholders.setHoloGUIPlaceholders(holoGUIPlugin, value, player);
+			value = HoloGUIPlaceholders.setHoloGUIPlaceholders(plugin, value, player);
 			
 			if(HoloGUIApi.hasPlaceholderAPI)
 			{
@@ -105,7 +116,7 @@ public class TextBoxComponent extends ClickableGUIComponent
 			}
 			
 			PlayerData playerData = PlayerData.getPlayerData(player);
-			if(playerData != null) value = HoloGUIPlaceholders.setModelPlaceholders(holoGUIPlugin, playerData.getPlayerGUIPageModel(), value);
+			if(playerData != null) value = HoloGUIPlaceholders.setModelPlaceholders(plugin, playerData.getPlayerGUIPageModel(), value);
 		}
 		
 		return value;
@@ -176,4 +187,7 @@ public class TextBoxComponent extends ClickableGUIComponent
 	{
 		return new String[]{playerTextBoxValues.get(player.getUniqueId())};
 	}
+
+	@Override
+	public void objectLoadComplete(){}
 }

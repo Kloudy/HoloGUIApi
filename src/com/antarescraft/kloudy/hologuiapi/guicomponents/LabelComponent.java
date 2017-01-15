@@ -1,52 +1,56 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
+import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextComponent;
 import com.antarescraft.kloudy.hologuiapi.util.HoloGUIPlaceholders;
+import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 
-public class LabelComponent extends GUIComponent
+/*
+ * Represents text on a GUI
+ */
+public class LabelComponent extends GUIComponent implements ConfigObject
 {	
-	private String[] lines;
-	private HashSet<Integer> scrollingLines;
-	private String formatCode;
+	@ConfigProperty(key = "text")
+	private ArrayList<String> lines;
 	
-	public LabelComponent(GUIComponentProperties properties, String[] lines)
+	private HashSet<Integer> scrollingLines = new HashSet<Integer>();
+	private String formatCode = "";
+	
+	private LabelComponent(HoloGUIPlugin plugin)
 	{
-		super(properties);
-		this.lines = lines;
-		
-		scrollingLines = new HashSet<Integer>();
-				
-		parseLineScroll();
-				
-		formatCode = "";
+		super(plugin);
 	}
 	
 	@Override
 	public LabelComponent clone()
 	{
-		String[] linesCopy = new String[lines.length];
-		for(int i = 0 ; i < lines.length; i++)
+		try
 		{
-			linesCopy[i] = lines[i];
+			return ObjectMapper.mapObject(this, LabelComponent.class, plugin);
 		}
-		return new LabelComponent(cloneProperties(), linesCopy);
+		catch(Exception e){}
+		
+		return null;
 	}
 	
 	private void parseLineScroll()
 	{
 		scrollingLines.clear();
 
-		for(int i = 0; i < lines.length; i++)
+		for(int i = 0; i < lines.size(); i++)
 		{
-			String str = this.lines[i];
+			String str = lines.get(i);
 			str = str.replaceAll("§", "&");
 			
 			if(str.startsWith("%scroll%"))
@@ -55,11 +59,11 @@ public class LabelComponent extends GUIComponent
 				scrollingLines.add(i);
 			}
 			
-			lines[i] = str;
+			lines.add(i, str);
 		}
 	}
 	
-	public void setLines(String[] lines)
+	public void setLines(ArrayList<String> lines)
 	{
 		this.lines = lines;
 		
@@ -76,9 +80,9 @@ public class LabelComponent extends GUIComponent
 	public void updateIncrement()
 	{
 		String currentFormatting = "";
-		for(int i = 0; i < lines.length; i++)
+		for(int i = 0; i < lines.size(); i++)
 		{
-			String str = lines[i];
+			String str = lines.get(i);
 			
 			if(scrollingLines.contains(i))
 			{
@@ -133,7 +137,7 @@ public class LabelComponent extends GUIComponent
 					str = shiftString(str);
 				}
 				
-				lines[i] = str;
+				lines.add(i, str);
 			}
 		}
 	}
@@ -141,19 +145,19 @@ public class LabelComponent extends GUIComponent
 	@Override
 	public String[] updateComponentLines(Player player)
 	{
-		String[] componentLines = new String[lines.length];
+		String[] componentLines = new String[lines.size()];
 		for(int i = 0; i < componentLines.length; i++)
 		{
-			String str = lines[i];
+			String str = lines.get(i);
 			
-			str = HoloGUIPlaceholders.setHoloGUIPlaceholders(holoGUIPlugin, str, player);
+			str = HoloGUIPlaceholders.setHoloGUIPlaceholders(plugin, str, player);
 			if(HoloGUIApi.hasPlaceholderAPI)
 			{	
 				str = PlaceholderAPI.setPlaceholders(player, formatCode + str);
 			}
 			
 			PlayerData playerData = PlayerData.getPlayerData(player);
-			if(playerData != null) str = HoloGUIPlaceholders.setModelPlaceholders(holoGUIPlugin, playerData.getPlayerGUIPageModel(), str);
+			if(playerData != null) str = HoloGUIPlaceholders.setModelPlaceholders(plugin, playerData.getPlayerGUIPageModel(), str);
 			
 			componentLines[i] = str;
 		}
@@ -184,5 +188,11 @@ public class LabelComponent extends GUIComponent
 	public double getLineHeight()
 	{
 		return 0.02;
+	}
+
+	@Override
+	public void objectLoadComplete()
+	{
+		parseLineScroll();
 	}
 }

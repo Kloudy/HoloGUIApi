@@ -27,10 +27,6 @@ import me.clip.placeholderapi.PlaceholderAPI;
 
 public abstract class ClickableGUIComponent extends GUIComponent
 {
-	private HashMap<UUID, ClickHandler> clickHandlers = new HashMap<UUID, ClickHandler>();
-	private HashMap<UUID, HoverHandler> hoverHandlers = new HashMap<UUID, HoverHandler>();
-	private HashMap<UUID, HoverOutHandler> hoverOutHandlers = new HashMap<UUID, HoverOutHandler>();
-	
 	@ConfigProperty(key = "onclick")
 	protected String onclick;
 	
@@ -41,7 +37,7 @@ public abstract class ClickableGUIComponent extends GUIComponent
 	
 	@OptionalConfigProperty
 	@ConfigProperty(key = "onclick-sound")
-	protected Sound onclickSound;
+	protected String onclickSoundString;
 	
 	@OptionalConfigProperty
 	@ConfigProperty(key = "onclick-sound-volume")
@@ -58,6 +54,10 @@ public abstract class ClickableGUIComponent extends GUIComponent
 	@OptionalConfigProperty
 	@ConfigProperty(key = "no-permission-message")
 	protected String noPermissionMessage;
+	
+	private HashMap<UUID, ClickHandler> clickHandlers = new HashMap<UUID, ClickHandler>();
+	private HashMap<UUID, HoverHandler> hoverHandlers = new HashMap<UUID, HoverHandler>();
+	private HashMap<UUID, HoverOutHandler> hoverOutHandlers = new HashMap<UUID, HoverOutHandler>();
 	
 	protected ClickableGUIComponent(HoloGUIPlugin plugin)
 	{
@@ -85,12 +85,18 @@ public abstract class ClickableGUIComponent extends GUIComponent
 	
 	public Sound getOnclickSound()
 	{
-		return onclickSound;
+		try
+		{
+			return Sound.valueOf(onclickSoundString);
+		}
+		catch(Exception e){}
+		
+		return null;
 	}
 	
 	public void setOnClickSound(Sound onclickSound)
 	{
-		this.onclickSound = onclickSound;
+		onclickSoundString = onclickSound.toString();
 	}
 	
 	public float getOnclickSoundVolume()

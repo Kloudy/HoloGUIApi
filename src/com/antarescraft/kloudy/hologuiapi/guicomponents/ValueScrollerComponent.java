@@ -7,40 +7,49 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.handlers.ScrollHandler;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIValueScrollerComponent;
 import com.antarescraft.kloudy.hologuiapi.scrollvalues.AbstractScrollValue;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
+import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.DoubleConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
+import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
-public class ValueScrollerComponent extends ClickableGUIComponent
+public class ValueScrollerComponent extends ClickableGUIComponent implements ConfigObject
 {
-	private HashMap<UUID, ScrollHandler> scrollHandlers;
-	
+	@OptionalConfigProperty
+	@ConfigProperty(key = "onscroll-sound")
 	private Sound onscrollSound;
+	
+	@OptionalConfigProperty
+	@DoubleConfigProperty(defaultValue = 0.5, maxValue = 0.0, minValue = 1.0)
+	@ConfigProperty(key = "onscroll-sound-volume")
 	private float onscrollSoundVolume;
+	
 	private AbstractScrollValue<?, ?> componentValue;
 	
-	private HashMap<UUID, AbstractScrollValue<?, ?>> playerScrollValues;
+	private HashMap<UUID, ScrollHandler> scrollHandlers = new HashMap<UUID, ScrollHandler>();
+	private HashMap<UUID, AbstractScrollValue<?, ?>> playerScrollValues = new HashMap<UUID, AbstractScrollValue<?, ?>>();
 	
-	public ValueScrollerComponent(GUIComponentProperties properties, ClickableGUIComponentProperties clickableProperties,
-			Sound onscrollSound, float onscrollSoundVolume, AbstractScrollValue<?, ?> componentValue) 
+	private ValueScrollerComponent(HoloGUIPlugin plugin)
 	{
-		super(properties, clickableProperties);
-		
-		scrollHandlers = new HashMap<UUID, ScrollHandler>();
-		
-		this.onscrollSound = onscrollSound;
-		this.onscrollSoundVolume = onscrollSoundVolume;
-		this.componentValue = componentValue;
-		
-		playerScrollValues = new HashMap<UUID, AbstractScrollValue<?, ?>>();
+		super(plugin);
 	}
 	
 	@Override
 	public ValueScrollerComponent clone()
 	{
-		return new ValueScrollerComponent(cloneProperties(), cloneClickableProperties(), onscrollSound, onscrollSoundVolume, componentValue.clone());
+		try
+		{
+			return ObjectMapper.mapObject(this, ValueScrollerComponent.class, plugin);
+		}
+		catch(Exception e){}
+		
+		return null;
 	}
 	
 	public Sound getOnscrollSound()
@@ -160,5 +169,11 @@ public class ValueScrollerComponent extends ClickableGUIComponent
 	public double getZoomedInLineHeight()
 	{
 		return 0.018;
+	}
+
+	@Override
+	public void objectLoadComplete()
+	{
+		
 	}
 }

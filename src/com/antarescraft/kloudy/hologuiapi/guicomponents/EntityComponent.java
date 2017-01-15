@@ -6,12 +6,13 @@ import org.bukkit.entity.Player;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIEntityComponent;
+import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.DoubleConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
-public class EntityComponent extends GUIComponent implements EntityTypeComponent
+public class EntityComponent extends GUIComponent implements EntityTypeComponent, ConfigObject
 {
 	@ConfigProperty(key = "type")
 	private String entityTypeString;
@@ -21,17 +22,9 @@ public class EntityComponent extends GUIComponent implements EntityTypeComponent
 	@ConfigProperty(key = "yaw")
 	private double yaw;
 	
-	public EntityComponent(HoloGUIPlugin plugin)
+	private EntityComponent(HoloGUIPlugin plugin)
 	{
 		super(plugin);
-	}
-	
-	public EntityComponent(HoloGUIPlugin plugin, EntityType entityType, double yaw)
-	{
-		super(plugin);
-		
-		entityTypeString = entityType.toString();
-		this.yaw = yaw;
 	}
 	
 	@Override
@@ -99,4 +92,7 @@ public class EntityComponent extends GUIComponent implements EntityTypeComponent
 	{
 		return 0.02;
 	}
+
+	@Override
+	public void objectLoadComplete(){}
 }
