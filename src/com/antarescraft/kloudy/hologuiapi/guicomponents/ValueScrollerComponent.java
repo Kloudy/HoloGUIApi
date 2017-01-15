@@ -30,6 +30,9 @@ public class ValueScrollerComponent extends ClickableGUIComponent implements Con
 	@ConfigProperty(key = "onscroll-sound-volume")
 	private float onscrollSoundVolume;
 	
+	@ConfigProperty(key = "value-type")
+	private String valueType;
+	
 	private AbstractScrollValue<?, ?> componentValue;
 	
 	private HashMap<UUID, ScrollHandler> scrollHandlers = new HashMap<UUID, ScrollHandler>();
