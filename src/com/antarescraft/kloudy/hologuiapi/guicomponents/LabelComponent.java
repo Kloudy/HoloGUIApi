@@ -191,7 +191,7 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 	}
 
 	@Override
-	public void objectLoadComplete()
+	public void configParseComplete()
 	{
 		parseLineScroll();
 	}

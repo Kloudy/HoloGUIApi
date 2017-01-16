@@ -144,5 +144,5 @@ public class EntityButtonComponent extends ClickableGUIComponent implements Enti
 	}
 
 	@Override
-	public void objectLoadComplete(){}
+	public void configParseComplete(){}
 }

@@ -163,7 +163,7 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 	
 	public int getHeight()
 	{
-		return (mini) ? 9 : 18;
+		return getWidth();
 	}
 	
 	public boolean isMini()
@@ -177,7 +177,7 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 	}
 
 	@Override
-	public void objectLoadComplete()
+	public void configParseComplete()
 	{
 		lines = plugin.loadImage(icon, getWidth(), getHeight(), symmetrical);
 	}

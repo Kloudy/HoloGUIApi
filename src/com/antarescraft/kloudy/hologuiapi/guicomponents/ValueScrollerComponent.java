@@ -17,6 +17,7 @@ import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.DoubleConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.StringConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
 public class ValueScrollerComponent extends ClickableGUIComponent implements ConfigObject
@@ -30,6 +31,7 @@ public class ValueScrollerComponent extends ClickableGUIComponent implements Con
 	@ConfigProperty(key = "onscroll-sound-volume")
 	private float onscrollSoundVolume;
 	
+	@StringConfigProperty(defaultValue = "", acceptedValues = { "decimal", "integer", "duration", "date", "list" })
 	@ConfigProperty(key = "value-type")
 	private String valueType;
 	
@@ -175,7 +177,7 @@ public class ValueScrollerComponent extends ClickableGUIComponent implements Con
 	}
 
 	@Override
-	public void objectLoadComplete()
+	public void configParseComplete()
 	{
 		
 	}

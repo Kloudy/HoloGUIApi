@@ -189,5 +189,5 @@ public class TextBoxComponent extends ClickableGUIComponent implements ConfigObj
 	}
 
 	@Override
-	public void objectLoadComplete(){}
+	public void configParseComplete(){}
 }

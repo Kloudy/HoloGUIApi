@@ -94,5 +94,5 @@ public class EntityComponent extends GUIComponent implements EntityTypeComponent
 	}
 
 	@Override
-	public void objectLoadComplete(){}
+	public void configParseComplete(){}
 }

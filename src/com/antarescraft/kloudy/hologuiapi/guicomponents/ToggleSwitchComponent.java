@@ -282,7 +282,7 @@ public class ToggleSwitchComponent extends ClickableGUIComponent implements Conf
 	}
 
 	@Override
-	public void objectLoadComplete()
+	public void configParseComplete()
 	{
 		onLines = plugin.loadImage(onIcon, 13, 13, true);
 		offLines = plugin.loadImage(offIcon, 13, 13, true);

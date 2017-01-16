@@ -83,5 +83,5 @@ public class ItemComponent extends GUIComponent implements ItemTypeComponent, Co
 	public String[] updateComponentLines(Player player) {return null;}
 
 	@Override
-	public void objectLoadComplete(){}
+	public void configParseComplete(){}
 }

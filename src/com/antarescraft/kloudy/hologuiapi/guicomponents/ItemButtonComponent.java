@@ -121,7 +121,7 @@ public class ItemButtonComponent extends ClickableGUIComponent implements ItemTy
 	}
 
 	@Override
-	public void objectLoadComplete() 
+	public void configParseComplete() 
 	{
 
 	}
