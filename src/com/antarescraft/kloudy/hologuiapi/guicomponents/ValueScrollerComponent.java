@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import org.bukkit.Sound;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -11,6 +12,8 @@ import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.handlers.ScrollHandler;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIValueScrollerComponent;
 import com.antarescraft.kloudy.hologuiapi.scrollvalues.AbstractScrollValue;
+import com.antarescraft.kloudy.hologuiapi.scrollvalues.DoubleScrollValue;
+import com.antarescraft.kloudy.hologuiapi.scrollvalues.IntegerScrollValue;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
@@ -23,17 +26,33 @@ import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 public class ValueScrollerComponent extends ClickableGUIComponent implements ConfigObject
 {
 	@OptionalConfigProperty
+	@StringConfigProperty(defaultValue = "BLOCK_LAVA_POP")
 	@ConfigProperty(key = "onscroll-sound")
-	private Sound onscrollSound;
+	private String onscrollSoundString;
 	
 	@OptionalConfigProperty
 	@DoubleConfigProperty(defaultValue = 0.5, maxValue = 0.0, minValue = 1.0)
 	@ConfigProperty(key = "onscroll-sound-volume")
-	private float onscrollSoundVolume;
+	private double onscrollSoundVolume;
 	
-	@StringConfigProperty(defaultValue = "", acceptedValues = { "decimal", "integer", "duration", "date", "list" })
+	@StringConfigProperty(defaultValue = "", acceptedValues = { "decimal", "integer", "duration", "date", "list" }, acceptedValuesIgnoreCase = true)
 	@ConfigProperty(key = "value-type")
 	private String valueType;
+	
+	@ConfigProperty(key = "default-value")
+	private String defaultValue;
+	
+	@OptionalConfigProperty
+	@ConfigProperty(key = "step")
+	private String step;
+	
+	@OptionalConfigProperty
+	@ConfigProperty(key = "min-value")
+	private String minValueString;
+	
+	@OptionalConfigProperty
+	@ConfigProperty(key = "max-value")
+	private String maxValueString;
 	
 	private AbstractScrollValue<?, ?> componentValue;
 	
@@ -177,8 +196,34 @@ public class ValueScrollerComponent extends ClickableGUIComponent implements Con
 	}
 
 	@Override
-	public void configParseComplete()
+	public void configParseComplete(ConfigurationSection section)
 	{
-		
+		if(valueType.equals("decimal"))
+		{
+			double defaultValue = section.getDouble("default-value", 0);
+			double step = section.getDouble("step", 1);
+			String decimalFormat = section.getString("decimal-format", "#.#");
+			
+			if(minValue != null) 
+			if(section.isSet(MAX_VALUE))maxValue = section.getDouble(MAX_VALUE, 0);
+			
+			componentValue = new DoubleScrollValue(defaultValue, step, minValue, maxValue, decimalFormat, wrap);
+		}
+		else if(valueType.equalsIgnoreCase("integer"))
+		{
+			
+		}
+		else if(valueType.equalsIgnoreCase("duration"))
+		{
+			
+		}
+		else if(valueType.equalsIgnoreCase("date"))
+		{
+			
+		}
+		else if(valueType.equalsIgnoreCase("list"))
+		{
+			
+		}
 	}
 }

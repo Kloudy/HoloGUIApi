@@ -1,5 +1,6 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -144,5 +145,5 @@ public class EntityButtonComponent extends ClickableGUIComponent implements Enti
 	}
 
 	@Override
-	public void configParseComplete(){}
+	public void configParseComplete(ConfigurationSection section){}
 }
