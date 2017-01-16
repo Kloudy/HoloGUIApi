@@ -44,7 +44,7 @@ public class ValueScrollerComponent extends ClickableGUIComponent implements Con
 	
 	@OptionalConfigProperty
 	@ConfigProperty(key = "step")
-	private String step;
+	private String stepString;
 	
 	@OptionalConfigProperty
 	@ConfigProperty(key = "min-value")
@@ -201,7 +201,7 @@ public class ValueScrollerComponent extends ClickableGUIComponent implements Con
 		if(valueType.equals("decimal"))
 		{
 			double defaultValue = section.getDouble("default-value", 0);
-			double step = section.getDouble("step", 1);
+			double step = Double.parseDouble(stepString);
 			String decimalFormat = section.getString("decimal-format", "#.#");
 			
 			if(minValue != null) 
