@@ -7,8 +7,11 @@ import org.bukkit.util.Vector;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIItemComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
+import com.antarescraft.kloudy.hologuiapi.util.ConfigVector;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
+import com.antarescraft.kloudy.plugincore.config.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
 /*
@@ -16,8 +19,17 @@ import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
  */
 public class ItemButtonComponent extends ClickableGUIComponent implements ItemTypeComponent, ConfigObject
 {
-	private ItemStack item;
-	private Vector rotation;
+	@ConfigProperty(key = "item-id")
+	private String materialString;
+	
+	@ConfigElement
+	@ConfigProperty(key = "rotation")
+	private ConfigVector rotation;
+	
+	private ItemStack item = null;
+	
+	private static final double DEFAULT_LABEL_DISTANCE = 6;
+	private static final double DEFAULT_LABEL_ZOOM_DISTANCE = 1.3;
 
 	private ItemButtonComponent(HoloGUIPlugin plugin)
 	{
@@ -57,13 +69,13 @@ public class ItemButtonComponent extends ClickableGUIComponent implements ItemTy
 	@Override
 	public Vector getRotation()
 	{
-		return rotation;
+		return rotation.toVector();
 	}
 	
 	@Override
 	public void setRotation(Vector rotation)
 	{
-		this.rotation = rotation;
+		this.rotation = new ConfigVector(rotation);
 	}
 	
 	@Override
@@ -123,6 +135,14 @@ public class ItemButtonComponent extends ClickableGUIComponent implements ItemTy
 	@Override
 	public void configParseComplete() 
 	{
-
+		if(labelDistance == null)
+		{
+			labelDistance = DEFAULT_LABEL_DISTANCE;
+		}
+		
+		if(labelZoomDistance == null)
+		{
+			labelZoomDistance = DEFAULT_LABEL_ZOOM_DISTANCE;
+		}
 	}
 }

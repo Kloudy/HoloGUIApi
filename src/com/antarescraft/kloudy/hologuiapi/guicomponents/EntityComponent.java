@@ -14,11 +14,13 @@ import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
 public class EntityComponent extends GUIComponent implements EntityTypeComponent, ConfigObject
 {
+	private static final double DEFAULT_LABEL_DISTANCE = 8;
+	
 	@ConfigProperty(key = "type")
 	private String entityTypeString;
 	
 	@OptionalConfigProperty
-	@DoubleConfigProperty(defaultValue = 0, maxValue = Double.MAX_VALUE, minValue = 0)
+	@DoubleConfigProperty(defaultValue = 0, maxValue = 360, minValue = 0)
 	@ConfigProperty(key = "yaw")
 	private double yaw;
 	
@@ -94,5 +96,11 @@ public class EntityComponent extends GUIComponent implements EntityTypeComponent
 	}
 
 	@Override
-	public void configParseComplete(){}
+	public void configParseComplete()
+	{
+		if(labelDistance == null)
+		{
+			labelDistance = DEFAULT_LABEL_DISTANCE;
+		}
+	}
 }

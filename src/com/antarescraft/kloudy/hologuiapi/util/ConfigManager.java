@@ -1,4 +1,4 @@
- package com.antarescraft.kloudy.hologuiapi.util;
+package com.antarescraft.kloudy.hologuiapi.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -174,9 +174,6 @@ public class ConfigManager
 		return yamls;
 	}
 
-	/*
-	 * Loads values in config.yml
-	 */
 	public void loadConfigValues(final CommandSender sender, final HoloGUIApi holoGUI)
 	{	
 		MessageManager.info(sender, "[HoloGUI] Loading config values...");
@@ -717,9 +714,6 @@ public class ConfigManager
 		return sound;
 	}
 	
-	/*
-	 * Enum of default label distances by component type
-	 */
 	private enum LabelDistances
 	{
 		BUTTON(15),
@@ -743,9 +737,6 @@ public class ConfigManager
 		}
 	}
 	
-	/*
-	 * Enum of default label zoom distances by component type
-	 */
 	private enum LabelZoomDistances
 	{
 		BUTTON(4),

@@ -21,6 +21,7 @@ import com.antarescraft.kloudy.hologuiapi.util.HoloGUIPlaceholders;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
 import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.DoubleConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
 
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -40,12 +41,13 @@ public abstract class ClickableGUIComponent extends GUIComponent
 	protected String onclickSoundString;
 	
 	@OptionalConfigProperty
+	@DoubleConfigProperty(defaultValue = 0.5, maxValue = 1.0, minValue = 0.0)
 	@ConfigProperty(key = "onclick-sound-volume")
-	protected float onclickSoundVolume;
+	protected double onclickSoundVolume;
 	
 	@OptionalConfigProperty
 	@ConfigProperty(key = "label-zoom-distance")
-	protected double labelZoomDistance;
+	protected Double labelZoomDistance;
 	
 	@OptionalConfigProperty
 	@ConfigProperty(key = "click-permission")
@@ -101,7 +103,7 @@ public abstract class ClickableGUIComponent extends GUIComponent
 	
 	public float getOnclickSoundVolume()
 	{
-		return onclickSoundVolume;
+		return (float)onclickSoundVolume;
 	}
 	
 	public void setOnclickSoundVolume(float onclickSoundVolume)
@@ -139,12 +141,12 @@ public abstract class ClickableGUIComponent extends GUIComponent
 		this.noPermissionMessage = noPermissionMessage;
 	}
 	
-	public void executeOnclick(Player player, HoloGUIPlugin holoGUIPlugin)
+	public void executeOnclick(Player player)
 	{
 		executeOnclick(player, null, onclick, executeCommandAsConsole);
 	}
 	
-	public void executeOnclick(Player player, HoloGUIPlugin holoGUIPlugin, String stationaryDisplayId)
+	public void executeOnclick(Player player, String stationaryDisplayId)
 	{
 		executeOnclick(player, stationaryDisplayId, onclick, executeCommandAsConsole);
 	}

@@ -1,6 +1,5 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -21,6 +20,9 @@ import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
  */
 public class EntityButtonComponent extends ClickableGUIComponent implements EntityTypeComponent, ConfigObject
 {	
+	private static final double DEFAULT_LABEL_DISTANCE = 8;
+	private static final double DEFAULT_LABEL_ZOOM_DISTANCE = 1.3;
+	
 	@ConfigProperty(key = "type")
 	private String entityTypeString;
 	
@@ -145,5 +147,16 @@ public class EntityButtonComponent extends ClickableGUIComponent implements Enti
 	}
 
 	@Override
-	public void configParseComplete(ConfigurationSection section){}
+	public void configParseComplete()
+	{
+		if(labelDistance == null)
+		{
+			labelDistance = DEFAULT_LABEL_DISTANCE;
+		}
+		
+		if(labelZoomDistance == null)
+		{
+			labelZoomDistance = DEFAULT_LABEL_ZOOM_DISTANCE;
+		}
+	}
 }

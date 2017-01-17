@@ -4,36 +4,35 @@ import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextComponent;
+import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
-public class ImageComponent extends GUIComponent
+public class ImageComponent extends GUIComponent implements ConfigObject
 {
-	private int frames = 0;
-	private int currentFrame = 0;
-	private String[][] lines;
+	@ConfigProperty(key = "image-src")
 	private String imageFileName;
+	
+	@ConfigProperty(key = "width")
 	private int width;
+	
+	@ConfigProperty(key = "height")
 	private int height;
 	
-	private double displayDistance;
-	private double lineHeight;
+	@OptionalConfigProperty
+	@BooleanConfigProperty(defaultValue = false)
+	@ConfigProperty(key = "symmetrical")
+	private boolean symmetrical;
+	
+	private int frames = 0;
+	private int currentFrame = 0;
+	private String[][] lines = null;
 	
 	public ImageComponent(HoloGUIPlugin plugin)
 	{
 		super(plugin);
-	}
-	
-	public ImageComponent(HoloGUIPlugin plugin, String[][] lines, String imageFileName, int width, int height)
-	{
-		super(plugin);
-		
-		this.lines = lines;
-		this.imageFileName = imageFileName;
-		this.width = width;
-		this.height = height;
-		
-		displayDistance = 15;
-		lineHeight = 0.014;
 	}
 	
 	@Override
@@ -51,7 +50,6 @@ public class ImageComponent extends GUIComponent
 	@Override
 	public PlayerGUITextComponent initPlayerGUIComponent(Player player) 
 	{
-		frames = lines.length;
 		return new PlayerGUITextComponent(player, this, updateComponentLines(player));
 	}
 
@@ -70,21 +68,11 @@ public class ImageComponent extends GUIComponent
 	{
 		return lines[currentFrame];
 	}
-	
-	public void setDisplayDistance(double displayDistance)
-	{
-		this.displayDistance = displayDistance;
-	}
 
 	@Override
 	public double getDisplayDistance()
 	{
-		return displayDistance;
-	}
-	
-	public void setLineHeight(double lineHeight)
-	{
-		this.lineHeight = lineHeight;
+		return 15;
 	}
 	
 	public int getWidth()
@@ -125,6 +113,14 @@ public class ImageComponent extends GUIComponent
 	@Override
 	public double getLineHeight()
 	{
-		return lineHeight;
+		return 0.014;
+	}
+
+	@Override
+	public void configParseComplete()
+	{
+		lines = plugin.loadImage(imageFileName, width, height, symmetrical);
+		
+		frames = lines.length;
 	}
 }

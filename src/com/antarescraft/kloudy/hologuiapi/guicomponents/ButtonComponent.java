@@ -18,6 +18,9 @@ import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
  */
 public class ButtonComponent extends ClickableGUIComponent implements ConfigObject
 {
+	private static final double DEFAULT_LABEL_DISTANCE = 15;
+	private static final double DEFAULT_LABEL_ZOOM_DISTANCE = 4;
+	
 	@ConfigProperty(key = "icon")
 	private String icon;
 	
@@ -45,7 +48,7 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 	{
 		try
 		{
-			return ObjectMapper.mapObject(this, ButtonComponent.class);
+			return ObjectMapper.mapObject(this, ButtonComponent.class, plugin);
 		} 
 		catch (Exception e){}
 		
@@ -55,7 +58,6 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 	@Override
 	public PlayerGUITextComponent initPlayerGUIComponent(Player player)
 	{
-		frames = lines.length;
 		return new PlayerGUITextComponent(player, this, updateComponentLines(player));
 	}
 	
@@ -180,5 +182,17 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 	public void configParseComplete()
 	{
 		lines = plugin.loadImage(icon, getWidth(), getHeight(), symmetrical);
+		
+		frames = lines.length;
+		
+		if(labelDistance == null)
+		{
+			labelDistance = DEFAULT_LABEL_DISTANCE;
+		}
+		
+		if(labelZoomDistance == null)
+		{
+			labelZoomDistance = DEFAULT_LABEL_ZOOM_DISTANCE;
+		}
 	}
 }

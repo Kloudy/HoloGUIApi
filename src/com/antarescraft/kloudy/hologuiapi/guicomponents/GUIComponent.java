@@ -27,7 +27,7 @@ public abstract class GUIComponent
 	
 	@OptionalConfigProperty
 	@ConfigProperty(key = "label-distance")
-	protected double labelDistance;
+	protected Double labelDistance;
 	
 	@OptionalConfigProperty
 	@BooleanConfigProperty(defaultValue = false)
