@@ -207,6 +207,11 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 		guiPagesLoaded = false;
 		guiPages.clear();
 		
+		for(String yamlFile : yamlFiles)
+		{
+			
+		}
+		
 		ConfigManager.getInstance().loadGUIContainers(Bukkit.getConsoleSender(), this);
 	}
 

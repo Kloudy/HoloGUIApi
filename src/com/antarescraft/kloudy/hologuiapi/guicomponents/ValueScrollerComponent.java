@@ -34,6 +34,9 @@ import com.antarescraft.kloudy.plugincore.time.TimeFormat;
 
 public class ValueScrollerComponent extends ClickableGUIComponent implements ConfigObject
 {
+	private static final double DEFAULT_LABEL_DISTANCE = 10;
+	private static final double DEFAULT_LABEL_ZOOM_DISTANCE = 2;
+	
 	@OptionalConfigProperty
 	@StringConfigProperty(defaultValue = "BLOCK_LAVA_POP")
 	@ConfigProperty(key = "onscroll-sound")
@@ -225,6 +228,16 @@ public class ValueScrollerComponent extends ClickableGUIComponent implements Con
 	@Override
 	public void configParseComplete()
 	{
+		if(labelDistance == null)
+		{
+			labelDistance = DEFAULT_LABEL_DISTANCE;
+		}
+		
+		if(labelZoomDistance == null)
+		{
+			labelZoomDistance = DEFAULT_LABEL_ZOOM_DISTANCE;
+		}
+		
 		if(valueType.equals("decimal"))
 		{
 			double defaultValue = 0;

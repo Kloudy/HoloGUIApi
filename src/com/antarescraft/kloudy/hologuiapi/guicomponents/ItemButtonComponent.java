@@ -7,13 +7,13 @@ import org.bukkit.util.Vector;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIItemComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
-import com.antarescraft.kloudy.hologuiapi.util.ConfigManager;
 import com.antarescraft.kloudy.hologuiapi.util.ConfigVector;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
 import com.antarescraft.kloudy.plugincore.config.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
+import com.antarescraft.kloudy.plugincore.utils.Utils;
 
 /*
  * Represents a clickable item on a GUI
@@ -146,6 +146,6 @@ public class ItemButtonComponent extends ClickableGUIComponent implements ItemTy
 			labelZoomDistance = DEFAULT_LABEL_ZOOM_DISTANCE;
 		}
 		
-		item = ConfigManager.parseItemString(itemString);
+		item = Utils.parseItemString(itemString);
 	}
 }

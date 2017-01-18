@@ -14,14 +14,18 @@ import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPageModel
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.StationaryPlayerGUIPage;
 import com.antarescraft.kloudy.hologuiapi.util.ConfigManager;
 import com.antarescraft.kloudy.hologuiapi.util.IOManager;
+import com.antarescraft.kloudy.plugincore.config.ConfigElementKey;
+import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 
-public class StationaryGUIDisplayContainer
+public class StationaryGUIDisplayContainer implements ConfigObject
 {	
+	@ConfigElementKey
 	private String id;
 	private HashMap<UUID, StationaryPlayerGUIPage> stationaryPlayerGUIPages;
 	private HashMap<UUID, StationaryPlayerGUIPage> previousStationaryPlayerGUIPages;
 	private HashMap<UUID, PlayerGUIPageModel> models;
 	private HashMap<UUID, PlayerGUIPageModel> prevModels;
+	
 	private GUIPage defaultGUIContainer;
 	private Location location;
 	
@@ -170,5 +174,12 @@ public class StationaryGUIDisplayContainer
 		
 		stationaryPlayerGUIPages.clear();
 		previousStationaryPlayerGUIPages.clear();
+	}
+
+	@Override
+	public void configParseComplete()
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }

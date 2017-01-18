@@ -21,6 +21,9 @@ import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
 public class ToggleSwitchComponent extends ClickableGUIComponent implements ConfigObject
 {
+	private static final double DEFAULT_LABEL_DISTANCE = 15;
+	private static final double DEFAULT_LABEL_ZOOM_DISTANCE = 4;
+	
 	@OptionalConfigProperty
 	@BooleanConfigProperty(defaultValue = false)
 	@ConfigProperty(key = "value")
@@ -284,6 +287,16 @@ public class ToggleSwitchComponent extends ClickableGUIComponent implements Conf
 	@Override
 	public void configParseComplete()
 	{
+		if(labelDistance == null)
+		{
+			labelDistance = DEFAULT_LABEL_DISTANCE;
+		}
+		
+		if(labelZoomDistance == null)
+		{
+			labelZoomDistance = DEFAULT_LABEL_ZOOM_DISTANCE;
+		}
+		
 		onLines = plugin.loadImage(onIcon, 13, 13, true);
 		offLines = plugin.loadImage(offIcon, 13, 13, true);
 	}

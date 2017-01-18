@@ -6,6 +6,9 @@ import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.DoubleConfigProperty;
 
+/**
+ * Represents a Vector that is parsable by the ConfigParser class
+ */
 public class ConfigVector implements ConfigObject
 {
 	@DoubleConfigProperty(defaultValue = 0, maxValue = Double.MAX_VALUE, minValue = Double.MIN_VALUE)

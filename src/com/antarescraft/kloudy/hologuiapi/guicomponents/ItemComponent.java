@@ -6,12 +6,12 @@ import org.bukkit.util.Vector;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIItemComponent;
-import com.antarescraft.kloudy.hologuiapi.util.ConfigManager;
 import com.antarescraft.kloudy.hologuiapi.util.ConfigVector;
 import com.antarescraft.kloudy.plugincore.config.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
+import com.antarescraft.kloudy.plugincore.utils.Utils;
 
 /*
  * Represents a non-clickable item in a GUI
@@ -102,6 +102,6 @@ public class ItemComponent extends GUIComponent implements ItemTypeComponent, Co
 			labelDistance = DEFAULT_LABEL_DISTANCE;
 		}
 		
-		item = ConfigManager.parseItemString(itemString);
+		item = Utils.parseItemString(itemString);
 	}
 }

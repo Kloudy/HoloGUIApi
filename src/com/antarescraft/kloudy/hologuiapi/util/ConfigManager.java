@@ -1,5 +1,20 @@
 package com.antarescraft.kloudy.hologuiapi.util;
 
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
+import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIPage;
+
+public class ConfigManager
+{
+	public static GUIPage loadGUIPage(HoloGUIPlugin plugin, YamlConfiguration yaml)
+	{
+		// TODO
+		return null;
+	}
+}
+
+/*
 import java.io.File;
 import java.io.FileInputStream;
 import java.time.Duration;
@@ -200,11 +215,6 @@ public class ConfigManager
 		}catch(Exception e){MessageManager.error(Bukkit.getConsoleSender(), "[HoloGUI] Error saving values to " + fileName + ". Does the file still exist?");}
 	}
 	
-	/**
-	 * Aysnc method that loads the gui containers from config for the given HoloGUIPlugin
-	 * @param sender
-	 * @param holoGUIPlugin
-	 */
 	public void loadGUIContainers(final CommandSender sender, final HoloGUIPlugin holoGUIPlugin)
 	{
 		holoGUIPlugin.setGUIPagesLoaded(false);
@@ -793,4 +803,4 @@ public class ConfigManager
 		
 		return new ItemStack(itemMaterial, 1, itemData);
 	}
-}
+}*/

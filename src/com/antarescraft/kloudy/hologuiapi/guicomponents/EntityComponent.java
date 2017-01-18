@@ -6,12 +6,12 @@ import org.bukkit.entity.Player;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIEntityComponent;
-import com.antarescraft.kloudy.hologuiapi.util.ConfigManager;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.DoubleConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
+import com.antarescraft.kloudy.plugincore.utils.Utils;
 
 public class EntityComponent extends GUIComponent implements EntityTypeComponent, ConfigObject
 {
@@ -100,6 +100,6 @@ public class EntityComponent extends GUIComponent implements EntityTypeComponent
 			labelDistance = DEFAULT_LABEL_DISTANCE;
 		}
 		
-		entityType = ConfigManager.parseEntityType(entityTypeString);
+		entityType = Utils.parseEntityType(entityTypeString);
 	}
 }

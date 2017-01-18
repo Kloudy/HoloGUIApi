@@ -15,12 +15,12 @@ import com.antarescraft.kloudy.hologuiapi.handlers.GUIPageLoadHandler;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPage;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.StationaryPlayerGUIPage;
-import com.antarescraft.kloudy.hologuiapi.util.ConfigManager;
 import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.ConfigElementKey;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
+import com.antarescraft.kloudy.plugincore.utils.Utils;
 
 /**
  * Represents a GUI Page containing many different GUI Components
@@ -284,6 +284,6 @@ public class GUIPage implements ConfigObject
 	@Override
 	public void configParseComplete()
 	{
-		openItem = ConfigManager.parseItemString(openItemString);
+		openItem = Utils.parseItemString(openItemString);
 	}
 }

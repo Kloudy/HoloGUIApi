@@ -26,6 +26,9 @@ import me.clip.placeholderapi.PlaceholderAPI;
 
 public class TextBoxComponent extends ClickableGUIComponent implements ConfigObject
 {
+	private static final double DEFAULT_LABEL_DISTANCE = 10;
+	private static final double DEFAULT_LABEL_ZOOM_DISTANCE = 2;
+	
 	@OptionalConfigProperty
 	@StringConfigProperty(defaultValue = "")
 	@ConfigProperty(key = "default-text")
@@ -189,5 +192,16 @@ public class TextBoxComponent extends ClickableGUIComponent implements ConfigObj
 	}
 
 	@Override
-	public void configParseComplete(){}
+	public void configParseComplete()
+	{
+		if(labelDistance == null)
+		{
+			labelDistance = DEFAULT_LABEL_DISTANCE;
+		}
+		
+		if(labelZoomDistance == null)
+		{
+			labelZoomDistance = DEFAULT_LABEL_ZOOM_DISTANCE;
+		}
+	}
 }

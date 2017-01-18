@@ -8,13 +8,13 @@ import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIEntityComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
-import com.antarescraft.kloudy.hologuiapi.util.ConfigManager;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.DoubleConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
+import com.antarescraft.kloudy.plugincore.utils.Utils;
 
 /*
  * Represents a clickable Entity on a GUI
@@ -156,6 +156,6 @@ public class EntityButtonComponent extends ClickableGUIComponent implements Enti
 			labelZoomDistance = DEFAULT_LABEL_ZOOM_DISTANCE;
 		}
 		
-		entityType = ConfigManager.parseEntityType(entityTypeString);
+		entityType = Utils.parseEntityType(entityTypeString);
 	}
 }

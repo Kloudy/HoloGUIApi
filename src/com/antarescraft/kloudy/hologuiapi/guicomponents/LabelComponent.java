@@ -21,10 +21,13 @@ import me.clip.placeholderapi.PlaceholderAPI;
  */
 public class LabelComponent extends GUIComponent implements ConfigObject
 {	
+	private static final double DEFAULT_LABEL_DISTANCE = 10;
+	
 	@ConfigProperty(key = "text")
 	private ArrayList<String> lines;
 	
 	private HashSet<Integer> scrollingLines = new HashSet<Integer>();
+	
 	private String formatCode = "";
 	
 	private LabelComponent(HoloGUIPlugin plugin)
@@ -193,6 +196,11 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 	@Override
 	public void configParseComplete()
 	{
+		if(labelDistance == null)
+		{
+			labelDistance = DEFAULT_LABEL_DISTANCE;
+		}
+		
 		parseLineScroll();
 	}
 }
