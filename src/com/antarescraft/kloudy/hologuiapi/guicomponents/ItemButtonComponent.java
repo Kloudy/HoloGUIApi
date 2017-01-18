@@ -7,6 +7,7 @@ import org.bukkit.util.Vector;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIItemComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
+import com.antarescraft.kloudy.hologuiapi.util.ConfigManager;
 import com.antarescraft.kloudy.hologuiapi.util.ConfigVector;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
 import com.antarescraft.kloudy.plugincore.config.ConfigElement;
@@ -19,17 +20,17 @@ import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
  */
 public class ItemButtonComponent extends ClickableGUIComponent implements ItemTypeComponent, ConfigObject
 {
+	private static final double DEFAULT_LABEL_DISTANCE = 6;
+	private static final double DEFAULT_LABEL_ZOOM_DISTANCE = 1.3;
+	
 	@ConfigProperty(key = "item-id")
-	private String materialString;
+	private String itemString;
 	
 	@ConfigElement
 	@ConfigProperty(key = "rotation")
 	private ConfigVector rotation;
 	
 	private ItemStack item = null;
-	
-	private static final double DEFAULT_LABEL_DISTANCE = 6;
-	private static final double DEFAULT_LABEL_ZOOM_DISTANCE = 1.3;
 
 	private ItemButtonComponent(HoloGUIPlugin plugin)
 	{
@@ -144,5 +145,7 @@ public class ItemButtonComponent extends ClickableGUIComponent implements ItemTy
 		{
 			labelZoomDistance = DEFAULT_LABEL_ZOOM_DISTANCE;
 		}
+		
+		item = ConfigManager.parseItemString(itemString);
 	}
 }

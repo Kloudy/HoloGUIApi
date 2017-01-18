@@ -702,16 +702,28 @@ public class ConfigManager
 		return guiComponents;
 	}
 	
-	public static Sound parseSound(String soundStr)
+	public static Sound parseSound(String soundString)
 	{
 		Sound sound = null;
 		try
 		{
-			sound = Sound.valueOf(soundStr);
+			sound = Sound.valueOf(soundString.toUpperCase());
 		}
 		catch(Exception e){}
 		
 		return sound;
+	}
+	
+	public static EntityType parseEntityType(String entityTypeString)
+	{
+		EntityType entityType = null;
+		try
+		{
+			entityType = EntityType.valueOf(entityTypeString.toUpperCase());
+		}
+		catch(Exception e){}
+		
+		return entityType;
 	}
 	
 	private enum LabelDistances
@@ -758,5 +770,27 @@ public class ConfigManager
 		{
 			return zoomDistance;
 		}
+	}
+	
+	public static ItemStack parseItemString(String itemString)
+	{
+		String[] tokens = itemString.split(":");
+		
+		String itemId = tokens[0];
+		
+		Material itemMaterial = null;
+		short itemData = 0;
+		try
+		{
+			itemMaterial = Material.valueOf(itemId);
+			
+			if(tokens.length == 2)
+			{
+				itemData = Short.parseShort(tokens[1]);
+			}
+		}
+		catch(Exception e){}
+		
+		return new ItemStack(itemMaterial, 1, itemData);
 	}
 }

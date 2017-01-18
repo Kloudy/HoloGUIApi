@@ -8,6 +8,7 @@ import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIEntityComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
+import com.antarescraft.kloudy.hologuiapi.util.ConfigManager;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
@@ -30,6 +31,8 @@ public class EntityButtonComponent extends ClickableGUIComponent implements Enti
 	@DoubleConfigProperty(defaultValue = 0, maxValue = Double.MAX_VALUE, minValue = 0)
 	@ConfigProperty(key = "yaw")
 	private double yaw;
+	
+	private EntityType entityType = null;
 		
 	public EntityButtonComponent(HoloGUIPlugin plugin)
 	{
@@ -59,19 +62,13 @@ public class EntityButtonComponent extends ClickableGUIComponent implements Enti
 	@Override
 	public EntityType getEntityType()
 	{
-		try
-		{
-			return EntityType.valueOf(entityTypeString);
-		}
-		catch(Exception e){}
-		
-		return null;
+		return entityType;
 	}
 	
 	@Override
 	public void setEntityType(EntityType entityType)
 	{
-		entityTypeString = entityType.toString();
+		this.entityType = entityType;
 	}
 	
 	@Override
@@ -158,5 +155,7 @@ public class EntityButtonComponent extends ClickableGUIComponent implements Enti
 		{
 			labelZoomDistance = DEFAULT_LABEL_ZOOM_DISTANCE;
 		}
+		
+		entityType = ConfigManager.parseEntityType(entityTypeString);
 	}
 }

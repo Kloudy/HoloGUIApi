@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIEntityComponent;
+import com.antarescraft.kloudy.hologuiapi.util.ConfigManager;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.DoubleConfigProperty;
@@ -24,6 +25,8 @@ public class EntityComponent extends GUIComponent implements EntityTypeComponent
 	@ConfigProperty(key = "yaw")
 	private double yaw;
 	
+	private EntityType entityType = null;
+	
 	private EntityComponent(HoloGUIPlugin plugin)
 	{
 		super(plugin);
@@ -34,7 +37,7 @@ public class EntityComponent extends GUIComponent implements EntityTypeComponent
 	{
 		try
 		{
-			return ObjectMapper.mapObject(this, EntityComponent.class);
+			return ObjectMapper.mapObject(this, EntityComponent.class, plugin);
 		}
 		catch(Exception e){}
 		
@@ -44,19 +47,13 @@ public class EntityComponent extends GUIComponent implements EntityTypeComponent
 	@Override
 	public EntityType getEntityType()
 	{
-		try
-		{
-			return EntityType.valueOf(entityTypeString);
-		}
-		catch(Exception e){}
-		
-		return null;
+		return entityType;
 	}
 	
 	@Override
 	public void setEntityType(EntityType entityType)
 	{
-		entityTypeString = entityType.toString();
+		this.entityType = entityType;
 	}
 	
 	@Override
@@ -102,5 +99,7 @@ public class EntityComponent extends GUIComponent implements EntityTypeComponent
 		{
 			labelDistance = DEFAULT_LABEL_DISTANCE;
 		}
+		
+		entityType = ConfigManager.parseEntityType(entityTypeString);
 	}
 }
