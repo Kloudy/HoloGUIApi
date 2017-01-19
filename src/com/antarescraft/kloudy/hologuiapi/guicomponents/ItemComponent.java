@@ -6,10 +6,10 @@ import org.bukkit.util.Vector;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIItemComponent;
-import com.antarescraft.kloudy.hologuiapi.util.ConfigVector;
 import com.antarescraft.kloudy.plugincore.config.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.configobjects.ConfigVector;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 import com.antarescraft.kloudy.plugincore.utils.Utils;
 
