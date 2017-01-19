@@ -1,13 +1,10 @@
 package com.antarescraft.kloudy.hologuiapi.util;
-
-import org.bukkit.configuration.file.YamlConfiguration;
-
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIPage;
 
 public class ConfigManager
 {
-	public static GUIPage loadGUIPage(HoloGUIPlugin plugin, YamlConfiguration yaml)
+	public static GUIPage loadGUIPage(HoloGUIPlugin plugin, String guiPageId)
 	{
 		// TODO
 		return null;

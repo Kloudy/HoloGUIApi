@@ -1,5 +1,7 @@
 package com.antarescraft.kloudy.hologuiapi;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -13,34 +15,35 @@ import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPage;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPageModel;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.StationaryPlayerGUIPage;
 import com.antarescraft.kloudy.hologuiapi.util.ConfigManager;
-import com.antarescraft.kloudy.hologuiapi.util.IOManager;
 import com.antarescraft.kloudy.plugincore.config.ConfigElementKey;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.ConfigParser;
+import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.configobjects.ConfigLocation;
 
 public class StationaryGUIDisplayContainer implements ConfigObject
 {	
 	@ConfigElementKey
 	private String id;
-	private HashMap<UUID, StationaryPlayerGUIPage> stationaryPlayerGUIPages;
-	private HashMap<UUID, StationaryPlayerGUIPage> previousStationaryPlayerGUIPages;
-	private HashMap<UUID, PlayerGUIPageModel> models;
-	private HashMap<UUID, PlayerGUIPageModel> prevModels;
 	
-	private GUIPage defaultGUIContainer;
-	private Location location;
+	@ConfigProperty(key = "location")
+	private ConfigLocation configLocation;
 	
-	public StationaryGUIDisplayContainer(String id, GUIPage guiContainer, Location location)
+	@ConfigProperty(key = "default-gui-container-id")
+	private String defaultGUIPageId;
+	
+	private HashMap<UUID, StationaryPlayerGUIPage> stationaryPlayerGUIPages = new HashMap<UUID, StationaryPlayerGUIPage>();
+	private HashMap<UUID, StationaryPlayerGUIPage> previousStationaryPlayerGUIPages = new HashMap<UUID, StationaryPlayerGUIPage>();
+	private HashMap<UUID, PlayerGUIPageModel> models = new HashMap<UUID, PlayerGUIPageModel>();
+	private HashMap<UUID, PlayerGUIPageModel> prevModels = new HashMap<UUID, PlayerGUIPageModel>();
+	
+	private HoloGUIPlugin plugin;
+	private GUIPage defaultGUIContainer = null;
+	private Location location = null;
+	
+	public StationaryGUIDisplayContainer(HoloGUIPlugin plugin)
 	{
-		this.id = id;
-		this.defaultGUIContainer = guiContainer;
-		this.location = location;
-		
-		stationaryPlayerGUIPages = new HashMap<UUID, StationaryPlayerGUIPage>();
-		previousStationaryPlayerGUIPages = new HashMap<UUID, StationaryPlayerGUIPage>();
-		models = new HashMap<UUID, PlayerGUIPageModel>();
-		prevModels = new HashMap<UUID, PlayerGUIPageModel>();
-		
-		writeToConfig();
+		this.plugin = plugin;
 	}
 	
 	public String getId()
@@ -72,7 +75,25 @@ public class StationaryGUIDisplayContainer implements ConfigObject
 		return stationaryPlayerGUIPages;
 	}
 	
-	private void writeToConfig()
+	public void save()
+	{
+		try
+		{
+			ConfigParser.saveObject(plugin.getName(), new File(String.format("plugins/%s/config.yml", plugin.getName())), "stationary-gui-displays." + id, this);
+		} 
+		catch (IOException e) {}
+	}
+	
+	public void delete()
+	{
+		try
+		{
+			ConfigParser.saveObject(plugin.getName(), new File(String.format("plugins/%s/config.yml", plugin.getName())), "stationary-gui-displays." + id, null);
+		} 
+		catch (IOException e) {}
+	}
+	
+	/*private void writeToConfig()
 	{
 		ConfigManager configManager = ConfigManager.getInstance();
 		configManager.writePropertyToConfigFile(IOManager.PATH_TO_ROOT + "/config.yml", "stationary-gui-displays." + id + ".default-gui-container-id", defaultGUIContainer.getId());
@@ -80,13 +101,13 @@ public class StationaryGUIDisplayContainer implements ConfigObject
 		configManager.writePropertyToConfigFile(IOManager.PATH_TO_ROOT + "/config.yml", "stationary-gui-displays." + id + ".location.x", location.getX());
 		configManager.writePropertyToConfigFile(IOManager.PATH_TO_ROOT + "/config.yml", "stationary-gui-displays." + id + ".location.y", location.getY());
 		configManager.writePropertyToConfigFile(IOManager.PATH_TO_ROOT + "/config.yml", "stationary-gui-displays." + id + ".location.z", location.getZ());
-	}
+	}*/
 	
-	public void deleteConfigProperties()
+	/*public void delete()
 	{
 		ConfigManager configManager = ConfigManager.getInstance();
 		configManager.writePropertyToConfigFile(IOManager.PATH_TO_ROOT + "/config.yml", "stationary-gui-displays." + id, null);
-	}
+	}*/
 	
 	public void display(Player player)
 	{
@@ -179,7 +200,6 @@ public class StationaryGUIDisplayContainer implements ConfigObject
 	@Override
 	public void configParseComplete()
 	{
-		// TODO Auto-generated method stub
-		
+		defaultGUIContainer = ConfigManager.loadGUIPage(plugin, defaultGUIPageId);
 	}
 }

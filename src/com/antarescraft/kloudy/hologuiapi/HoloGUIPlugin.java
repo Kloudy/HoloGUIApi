@@ -209,7 +209,7 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 		
 		for(String yamlFile : yamlFiles)
 		{
-			
+			guiPages.put(key, value);
 		}
 		
 		ConfigManager.getInstance().loadGUIContainers(Bukkit.getConsoleSender(), this);
