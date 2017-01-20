@@ -155,6 +155,11 @@ public class GUIPage implements ConfigObject
 		guiComponents.remove(componentId);
 	}
 	
+	public void addComponent(GUIComponent component)
+	{
+		guiComponents.put(component.getId(), component);
+	}
+	
 	public void updateIncrement()
 	{
 		for(GUIComponent guiComponent : guiComponents.values())

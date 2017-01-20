@@ -14,6 +14,7 @@ import java.util.zip.ZipInputStream;
 import org.apache.commons.io.IOUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIComponent;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIPage;
@@ -204,15 +205,39 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 	 */
 	public void loadGUIPages()
 	{
+		loadGUIPages(null);
+	}
+	
+	/**
+	 * Causes HoloGUI to load the gui containers async from yaml for this HoloGUIPlugin.
+	 * A HoloGUIPagesLoadedEvent is triggered after the config values are finished loading
+	 * 
+	 * @param callback callback function that executes when the guipages have finished loading
+	 */
+	public void loadGUIPages(final GUIPageLoadComplete callback)
+	{
 		guiPagesLoaded = false;
 		guiPages.clear();
 		
-		for(String yamlFile : yamlFiles)
+		final HoloGUIPlugin self = this;
+		new BukkitRunnable()
 		{
-			guiPages.put(key, value);
-		}
-		
-		ConfigManager.getInstance().loadGUIContainers(Bukkit.getConsoleSender(), this);
+			@Override
+			public void run()
+			{
+				for(String yamlFile : yamlFiles)
+				{
+					GUIPage guiPage = ConfigManager.loadGUIPage(self, new File(String.format("plugins/%s/gui configuration files/%s", getName(), yamlFile)));
+					
+					guiPages.put(guiPage.getId(), guiPage);
+				}
+				
+				if(callback != null)
+				{
+					callback.onGUIPageLoadComplete();
+				}
+			}
+		}.runTaskAsynchronously(this);
 	}
 
 	/**

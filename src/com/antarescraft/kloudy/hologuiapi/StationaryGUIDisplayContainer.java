@@ -14,7 +14,6 @@ import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIPage;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPage;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPageModel;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.StationaryPlayerGUIPage;
-import com.antarescraft.kloudy.hologuiapi.util.ConfigManager;
 import com.antarescraft.kloudy.plugincore.config.ConfigElementKey;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigParser;
@@ -27,7 +26,7 @@ public class StationaryGUIDisplayContainer implements ConfigObject
 	private String id;
 	
 	@ConfigProperty(key = "location")
-	private ConfigLocation configLocation;
+	private ConfigLocation location;
 	
 	@ConfigProperty(key = "default-gui-container-id")
 	private String defaultGUIPageId;
@@ -39,7 +38,6 @@ public class StationaryGUIDisplayContainer implements ConfigObject
 	
 	private HoloGUIPlugin plugin;
 	private GUIPage defaultGUIContainer = null;
-	private Location location = null;
 	
 	public StationaryGUIDisplayContainer(HoloGUIPlugin plugin)
 	{
@@ -58,7 +56,7 @@ public class StationaryGUIDisplayContainer implements ConfigObject
 	
 	public Location getLocation()
 	{
-		return location;
+		return location.toLocation();
 	}
 	
 	public ArrayList<PlayerGUIPage> getPlayerGUIContainers()
@@ -137,7 +135,7 @@ public class StationaryGUIDisplayContainer implements ConfigObject
 			}
 			
 			Location playerLoc = player.getLocation();
-			Location locationCopy = location.clone();
+			Location locationCopy = location.toLocation();
 
 			double xi = locationCopy.getX() - playerLoc.getX();
 			double yi = locationCopy.getY() - playerLoc.getY();
@@ -166,7 +164,7 @@ public class StationaryGUIDisplayContainer implements ConfigObject
 	{
 		Location playerLocation = player.getLocation();
 
-		return (playerLocation.getWorld().getUID().equals(location.getWorld().getUID()) && playerLocation.distance(location) <= HoloGUIApi.stationaryDisplayRenderDistance);
+		return (playerLocation.getWorld().getUID().equals(location.toLocation().getWorld().getUID()) && playerLocation.distance(location.toLocation()) <= HoloGUIApi.stationaryDisplayRenderDistance);
 	}
 	
 	public boolean isDisplayingToPlayer(Player player)
@@ -200,6 +198,6 @@ public class StationaryGUIDisplayContainer implements ConfigObject
 	@Override
 	public void configParseComplete()
 	{
-		defaultGUIContainer = ConfigManager.loadGUIPage(plugin, defaultGUIPageId);
+		defaultGUIContainer = plugin.getGUIPage(defaultGUIPageId);
 	}
 }

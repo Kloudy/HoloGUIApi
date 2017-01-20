@@ -1,13 +1,31 @@
 package com.antarescraft.kloudy.hologuiapi.util;
+import java.io.File;
+
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
+
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIPage;
+import com.antarescraft.kloudy.plugincore.config.ConfigParser;
 
 public class ConfigManager
 {
-	public static GUIPage loadGUIPage(HoloGUIPlugin plugin, String guiPageId)
+	public static GUIPage loadGUIPage(HoloGUIPlugin plugin, File yamlFile)
 	{
-		// TODO
-		return null;
+		YamlConfiguration yaml = YamlConfiguration.loadConfiguration(yamlFile);
+		
+		GUIPage guiPage = ConfigParser.parse(plugin.getName(), yaml, GUIPage.class);
+		
+		ConfigurationSection componentsSection = yaml.getConfigurationSection("components");
+		for(String key : componentsSection.getKeys(false))
+		{
+			ConfigurationSection componentSection = componentsSection.getConfigurationSection(key);
+			
+			String type = componentsSection.getString("type");
+		}
+		
+		
+		return guiPage;
 	}
 }
 
