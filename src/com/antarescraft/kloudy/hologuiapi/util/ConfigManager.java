@@ -1,12 +1,14 @@
 package com.antarescraft.kloudy.hologuiapi.util;
 import java.io.File;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
-import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIPage;
+import com.antarescraft.kloudy.hologuiapi.guicomponents.*;
 import com.antarescraft.kloudy.plugincore.config.ConfigParser;
+import com.antarescraft.kloudy.plugincore.messaging.MessageManager;
 
 public class ConfigManager
 {
@@ -19,11 +21,62 @@ public class ConfigManager
 		ConfigurationSection componentsSection = yaml.getConfigurationSection("components");
 		for(String key : componentsSection.getKeys(false))
 		{
-			ConfigurationSection componentSection = componentsSection.getConfigurationSection(key);
+			ConfigurationSection section = componentsSection.getConfigurationSection(key);
 			
-			String type = componentsSection.getString("type");
+			String type = section.getString("type");
+			if(type == null)
+			{
+				MessageManager.error(Bukkit.getConsoleSender(), 
+						String.format("Component '%s' in GUI Page '%s' does not contain a 'type'. Config parsing skipped for this component.", key, guiPage.getId()));
+				
+				continue;
+			}
+			
+			GUIComponent component = null;
+			
+			if(type.equalsIgnoreCase("label"))
+			{
+				component = (LabelComponent)ConfigParser.parse(plugin.getName(), section, LabelComponent.class, plugin);
+			}
+			else if(type.equalsIgnoreCase("button"))
+			{
+				component = (ButtonComponent)ConfigParser.parse(plugin.getName(), section, ButtonComponent.class, plugin);
+			}
+			else if(type.equalsIgnoreCase("image"))
+			{
+				component = (ImageComponent)ConfigParser.parse(plugin.getName(), section, ImageComponent.class, plugin);
+			}
+			else if(type.equalsIgnoreCase("entity"))
+			{
+				component = (EntityComponent)ConfigParser.parse(plugin.getName(), section, EntityComponent.class, plugin);
+			}
+			else if(type.equalsIgnoreCase("item"))
+			{
+				component = (ItemComponent)ConfigParser.parse(plugin.getName(), section, ItemComponent.class, plugin);
+			}
+			else if(type.equalsIgnoreCase("toggle-switch"))
+			{
+				component = (ToggleSwitchComponent)ConfigParser.parse(plugin.getName(), section, ToggleSwitchComponent.class, plugin);
+			}
+			else if(type.equalsIgnoreCase("text-box"))
+			{
+				component = (TextBoxComponent)ConfigParser.parse(plugin.getName(), section, TextBoxComponent.class, plugin);
+			}
+			else if(type.equalsIgnoreCase("value-scroller"))
+			{
+				component = (ValueScrollerComponent)ConfigParser.parse(plugin.getName(), section, ValueScrollerComponent.class, plugin);
+			}
+			
+			if(component != null)
+			{
+				guiPage.addComponent(component);
+			}
+			else
+			{
+				MessageManager.error(Bukkit.getConsoleSender(), 
+						String.format("Component '%s' in GUI Page '%s' does not have a valid 'type' value. Config parsing skipped for this component.", key, guiPage.getId()));
+			}
 		}
-		
 		
 		return guiPage;
 	}
