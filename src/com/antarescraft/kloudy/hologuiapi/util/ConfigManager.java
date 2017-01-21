@@ -16,7 +16,7 @@ public class ConfigManager
 	{
 		YamlConfiguration yaml = YamlConfiguration.loadConfiguration(yamlFile);
 		
-		GUIPage guiPage = ConfigParser.parse(plugin.getName(), yaml, GUIPage.class);
+		GUIPage guiPage = ConfigParser.parse(plugin.getName(), yaml, GUIPage.class, plugin);
 		
 		ConfigurationSection componentsSection = yaml.getConfigurationSection("components");
 		for(String key : componentsSection.getKeys(false))
@@ -67,7 +67,7 @@ public class ConfigManager
 				component = (ValueScrollerComponent)ConfigParser.parse(plugin.getName(), section, ValueScrollerComponent.class, plugin);
 			}
 			
-			if(component != null)
+			if(guiPage != null && component != null)
 			{
 				guiPage.addComponent(component);
 			}
