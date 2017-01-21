@@ -27,6 +27,7 @@ import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPageModel
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextBoxComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIUpdateTask;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.StationaryPlayerGUIPage;
+import com.antarescraft.kloudy.hologuiapi.util.Config;
 import com.antarescraft.kloudy.hologuiapi.util.IOManager;
 import com.antarescraft.kloudy.hologuiapi.util.Metrics;
 import com.antarescraft.kloudy.plugincore.protocol.PacketManager;
@@ -40,14 +41,13 @@ import com.comphenix.protocol.events.PacketEvent;
  */
 public class HoloGUIApi extends JavaPlugin
 {	
-	private HashMap<String, StationaryGUIDisplayContainer> stationaryGUIDisplayContainers;
+	private HashMap<String, StationaryGUIDisplayContainer> stationaryGUIDisplayContainers = new HashMap<String, StationaryGUIDisplayContainer>();
 	
 	private HoloGUIPluginManager pluginManager;
-	
+		
+	public static String pluginName = null;
 	public static boolean hasPlaceholderAPI = false;
-	public static double stationaryDisplayRenderDistance;
 	public static String fileHash;
-	public static boolean debugMode;
 	public static String PATH_TO_IMAGES = "resources/images";
 	public static String PATH_TO_YAMLS = "resources/yamls";
 	
@@ -56,12 +56,12 @@ public class HoloGUIApi extends JavaPlugin
 	@Override
 	public void onEnable()
 	{			
+		pluginName = getName();
+				
 		pluginManager = new HoloGUIPluginManager();
 		
-		debugMode = this.getConfig().getRoot().getBoolean("debug-mode", false);
-		
-		stationaryGUIDisplayContainers = new HashMap<String, StationaryGUIDisplayContainer>();
-		
+		Config.parseConfig();
+				
 		IOManager.initFileStructure();
 		
 		saveDefaultConfig();
@@ -121,9 +121,8 @@ public class HoloGUIApi extends JavaPlugin
 		getServer().getPluginManager().registerEvents(new PlayerItemHeldEventListener(), this);
 		getServer().getPluginManager().registerEvents(new PlayerToggleSneakEventListener(), this);
 		
-		int tickrate = getConfig().getRoot().getInt("gui-update-tickrate");
 		PlayerGUIUpdateTask playerGUIUpdateTask = PlayerGUIUpdateTask.getInstance(this);
-		playerGUIUpdateTask.start(tickrate);
+		playerGUIUpdateTask.start(Config.guiUpdateTickrate());
 		
 		try
 		{

@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 
 import org.bukkit.entity.Player;
 
-import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
 import com.antarescraft.kloudy.hologuiapi.StationaryGUIDisplayContainer;
@@ -108,7 +107,7 @@ public class HoloGUIPlaceholders
 								method.invoke(model, args.toArray());
 							}
 							
-						}catch(Exception e){if(HoloGUIApi.debugMode)e.printStackTrace();}
+						}catch(Exception e){if(Config.debugMode())e.printStackTrace();}
 					}
 				}
 			}
