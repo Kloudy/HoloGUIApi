@@ -12,6 +12,7 @@ import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
 import com.antarescraft.kloudy.hologuiapi.events.HoloGUIClickEvent;
+import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ClickableGUIComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.handlers.ClickHandler;
 import com.antarescraft.kloudy.hologuiapi.handlers.HoverHandler;
 import com.antarescraft.kloudy.hologuiapi.handlers.HoverOutHandler;
@@ -61,6 +62,7 @@ public abstract class ClickableGUIComponent extends GUIComponent
 		super(plugin);
 	}
 	
+	public abstract ClickableGUIComponentProperties getProperties();
 	public abstract double getZoomedInLineHeight();
 	public abstract double zoomDistance();
 	

@@ -3,14 +3,16 @@ package com.antarescraft.kloudy.hologuiapi.guicomponentproperties;
 import org.bukkit.Sound;
 
 import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.DoubleConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
+import com.antarescraft.kloudy.plugincore.utils.Utils;
 
 /**
  * Collection all of the properties that all clickable gui components share
  */
-public abstract class ClickableGUIComponentProperties extends GUIComponentProperties
+public abstract class ClickableGUIComponentProperties extends GUIComponentProperties implements ConfigObject
 {
 	@OptionalConfigProperty
 	@ConfigProperty(key = "onclick")
@@ -23,7 +25,7 @@ public abstract class ClickableGUIComponentProperties extends GUIComponentProper
 	
 	@OptionalConfigProperty
 	@ConfigProperty(key = "onclick-sound")
-	public Sound onclickSound;
+	public String onclickSoundString;
 	
 	@OptionalConfigProperty
 	@DoubleConfigProperty(defaultValue = 0.5, maxValue = 1, minValue = 0)
@@ -41,6 +43,14 @@ public abstract class ClickableGUIComponentProperties extends GUIComponentProper
 	@OptionalConfigProperty
 	@ConfigProperty(key = "no-permission-message")
 	public String noPermissionMessage;
+	
+	public Sound onclickSound = null;
+	
+	@Override
+	public void configParseComplete()
+	{
+		onclickSound = Utils.parseSound(onclickSoundString);
+	}
 	
 	/*public ClickableGUIComponentProperties(String onclick, boolean executeCommandAsConsole, Sound onclickSound, 
 			float onclickSoundVolume, double labelZoomDistance, String clickPermission, String noPermissionMessage)

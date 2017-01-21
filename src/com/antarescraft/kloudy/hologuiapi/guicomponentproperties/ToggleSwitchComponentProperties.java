@@ -56,6 +56,8 @@ public class ToggleSwitchComponentProperties extends ClickableGUIComponentProper
 	@Override
 	public void configParseComplete() 
 	{
+		super.configParseComplete();
+		
 		if(labelDistance == null)
 		{
 			labelDistance = DEFAULT_LABEL_DISTANCE;

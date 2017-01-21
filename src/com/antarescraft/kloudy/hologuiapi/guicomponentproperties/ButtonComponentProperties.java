@@ -26,6 +26,8 @@ public class ButtonComponentProperties extends ClickableGUIComponentProperties i
 	@Override
 	public void configParseComplete()
 	{
+		super.configParseComplete();
+		
 		if(labelDistance == null)
 		{
 			labelDistance = DEFAULT_LABEL_DISTANCE;

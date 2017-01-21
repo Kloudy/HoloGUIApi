@@ -60,6 +60,8 @@ public class ValueScrollerComponentProperties extends ClickableGUIComponentPrope
 	@Override
 	public void configParseComplete()
 	{
+		super.configParseComplete();
+		
 		if(labelDistance == null)
 		{
 			labelDistance = DEFAULT_LABEL_DISTANCE;

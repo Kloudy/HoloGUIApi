@@ -23,6 +23,8 @@ public class TextBoxComponentProperties extends ClickableGUIComponentProperties
 	@Override
 	public void configParseComplete()
 	{
+		super.configParseComplete();
+		
 		if(labelDistance == null)
 		{
 			labelDistance = DEFAULT_LABEL_DISTANCE;
