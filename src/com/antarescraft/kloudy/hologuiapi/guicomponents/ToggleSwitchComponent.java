@@ -7,21 +7,19 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
+import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ToggleSwitchComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.handlers.ToggleHandler;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIToggleSwitchComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
-import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.StringConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
 public class ToggleSwitchComponent extends ClickableGUIComponent implements ConfigObject
 {
-	private static final double DEFAULT_LABEL_DISTANCE = 15;
+	/*private static final double DEFAULT_LABEL_DISTANCE = 15;
 	private static final double DEFAULT_LABEL_ZOOM_DISTANCE = 4;
 	
 	@OptionalConfigProperty
@@ -65,7 +63,10 @@ public class ToggleSwitchComponent extends ClickableGUIComponent implements Conf
 	@OptionalConfigProperty
 	@StringConfigProperty(defaultValue = "")
 	@ConfigProperty(key = "off-value")
-	private String offValue;
+	private String offValue;*/
+	
+	@ConfigProperty(key = "<root>")
+	ToggleSwitchComponentProperties properties;
 	
 	private String[][] onLines = null;
 	private String[][] offLines = null;
@@ -137,7 +138,7 @@ public class ToggleSwitchComponent extends ClickableGUIComponent implements Conf
 	
 	public boolean getPlayerToggleSwitchState(Player player)
 	{
-		boolean state = defaultState;
+		boolean state = properties.defaultState;
 		if(playerToggleSwitchStates.containsKey(player.getUniqueId()))
 		{
 			state = playerToggleSwitchStates.get(player.getUniqueId());
@@ -148,92 +149,92 @@ public class ToggleSwitchComponent extends ClickableGUIComponent implements Conf
 	
 	public boolean getDefaultState()
 	{
-		return defaultState;
+		return properties.defaultState;
 	}
 	
 	public void setDefaultState(boolean defaultState)
 	{
-		this.defaultState = defaultState;
+		properties.defaultState = defaultState;
 	}
 	
 	public String getOnclickOn()
 	{
-		return onclickOn;
+		return properties.onclickOn;
 	}
 	
 	public void setOnClickOn(String onclickOn)
 	{
-		this.onclickOn = onclickOn;
+		properties.onclickOn = onclickOn;
 	}
 	
 	public String getOnclickOff()
 	{
-		return onclickOff;
+		return properties.onclickOff;
 	}
 	
 	public void setOnclickOff(String onclickOff)
 	{
-		this.onclickOff = onclickOff;
+		properties.onclickOff = onclickOff;
 	}
 	
 	public String getOnIcon()
 	{
-		return onIcon;
+		return properties.onIcon;
 	}
 	
 	public void setOnIcon(String onIcon)
 	{
-		this.onIcon = onIcon;
+		properties.onIcon = onIcon;
 	}
 	
 	public String getOffIcon()
 	{
-		return offIcon;
+		return properties.offIcon;
 	}
 	
 	public void setOffIcon(String offIcon)
 	{
-		this.offIcon = offIcon;
+		properties.offIcon = offIcon;
 	}
 	
 	public boolean getExecuteOnClickOnAsConsole()
 	{
-		return executeOnClickOnAsConsole;
+		return properties.executeOnClickOnAsConsole;
 	}
 	
 	public void setExecuteOnClickOnAsConsole(boolean executeOnClickOnAsConsole)
 	{
-		this.executeOnClickOnAsConsole = executeOnClickOnAsConsole;
+		properties.executeOnClickOnAsConsole = executeOnClickOnAsConsole;
 	}
 	
 	public boolean getExecuteOnClickOffAsConsole()
 	{
-		return executeOnClickOffAsConsole;
+		return properties.executeOnClickOffAsConsole;
 	}
 	
 	public void setExecuteOnClickOffAsConsole(boolean executeOnClickOffAsConsole)
 	{
-		this.executeOnClickOffAsConsole = executeOnClickOffAsConsole;
+		properties.executeOnClickOffAsConsole = executeOnClickOffAsConsole;
 	}
 	
 	public String getOnValue()
 	{
-		return onValue;
+		return properties.onValue;
 	}
 	
 	public void setOnValue(String onValue)
 	{
-		this.onValue = onValue;
+		properties.onValue = onValue;
 	}
 	
 	public String getOffValue()
 	{
-		return offValue;
+		return properties.offValue;
 	}
 	
 	public void setOffValue(String offValue)
 	{
-		this.offValue = offValue;
+		properties.offValue = offValue;
 	}
 
 	@Override
@@ -287,17 +288,13 @@ public class ToggleSwitchComponent extends ClickableGUIComponent implements Conf
 	@Override
 	public void configParseComplete()
 	{
-		if(labelDistance == null)
-		{
-			labelDistance = DEFAULT_LABEL_DISTANCE;
-		}
-		
-		if(labelZoomDistance == null)
-		{
-			labelZoomDistance = DEFAULT_LABEL_ZOOM_DISTANCE;
-		}
-		
-		onLines = plugin.loadImage(onIcon, 13, 13, true);
-		offLines = plugin.loadImage(offIcon, 13, 13, true);
+		onLines = plugin.loadImage(properties.onIcon, 13, 13, true);
+		offLines = plugin.loadImage(properties.offIcon, 13, 13, true);
+	}
+	
+	@Override
+	public ToggleSwitchComponentProperties getProperties()
+	{
+		return properties;
 	}
 }
