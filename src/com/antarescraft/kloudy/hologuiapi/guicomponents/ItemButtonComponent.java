@@ -5,10 +5,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
+import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ItemButtonComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIItemComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
-import com.antarescraft.kloudy.plugincore.config.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.configobjects.ConfigVector;
@@ -20,7 +20,7 @@ import com.antarescraft.kloudy.plugincore.utils.Utils;
  */
 public class ItemButtonComponent extends ClickableGUIComponent implements ItemTypeComponent, ConfigObject
 {
-	private static final double DEFAULT_LABEL_DISTANCE = 6;
+	/*private static final double DEFAULT_LABEL_DISTANCE = 6;
 	private static final double DEFAULT_LABEL_ZOOM_DISTANCE = 1.3;
 	
 	@ConfigProperty(key = "item-id")
@@ -28,7 +28,10 @@ public class ItemButtonComponent extends ClickableGUIComponent implements ItemTy
 	
 	@ConfigElement
 	@ConfigProperty(key = "rotation")
-	private ConfigVector rotation;
+	private ConfigVector rotation;*/
+	
+	@ConfigProperty(key = "<root>")
+	ItemButtonComponentProperties properties;
 	
 	private ItemStack item = null;
 
@@ -70,13 +73,13 @@ public class ItemButtonComponent extends ClickableGUIComponent implements ItemTy
 	@Override
 	public Vector getRotation()
 	{
-		return rotation.toVector();
+		return properties.rotation.toVector();
 	}
 	
 	@Override
 	public void setRotation(Vector rotation)
 	{
-		this.rotation = new ConfigVector(rotation);
+		properties.rotation = new ConfigVector(rotation);
 	}
 	
 	@Override
@@ -136,16 +139,12 @@ public class ItemButtonComponent extends ClickableGUIComponent implements ItemTy
 	@Override
 	public void configParseComplete() 
 	{
-		if(labelDistance == null)
-		{
-			labelDistance = DEFAULT_LABEL_DISTANCE;
-		}
-		
-		if(labelZoomDistance == null)
-		{
-			labelZoomDistance = DEFAULT_LABEL_ZOOM_DISTANCE;
-		}
-		
-		item = Utils.parseItemString(itemString);
+		item = Utils.parseItemString(properties.itemString);
+	}
+	
+	@Override
+	public ItemButtonComponentProperties getProperties()
+	{
+		return properties;
 	}
 }

@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
+import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.LabelComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextComponent;
 import com.antarescraft.kloudy.hologuiapi.util.HoloGUIPlaceholders;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
@@ -20,11 +21,12 @@ import me.clip.placeholderapi.PlaceholderAPI;
  * Represents text on a GUI
  */
 public class LabelComponent extends GUIComponent implements ConfigObject
-{	
-	private static final double DEFAULT_LABEL_DISTANCE = 10;
+{		
+	/*@ConfigProperty(key = "text")
+	private ArrayList<String> lines;*/
 	
-	@ConfigProperty(key = "text")
-	private ArrayList<String> lines;
+	@ConfigProperty(key = "<root>")
+	LabelComponentProperties properties;//TODO: should I make properties for a label? Opens lines up for modification outside the object.
 	
 	private HashSet<Integer> scrollingLines = new HashSet<Integer>();
 	
@@ -51,9 +53,9 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 	{
 		scrollingLines.clear();
 
-		for(int i = 0; i < lines.size(); i++)
+		for(int i = 0; i < properties.lines.size(); i++)
 		{
-			String str = lines.get(i);
+			String str = properties.lines.get(i);
 			str = str.replaceAll("§", "&");
 			
 			if(str.startsWith("%scroll%"))
@@ -62,13 +64,13 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 				scrollingLines.add(i);
 			}
 			
-			lines.add(i, str);
+			properties.lines.add(i, str);
 		}
 	}
 	
 	public void setLines(ArrayList<String> lines)
 	{
-		this.lines = lines;
+		properties.lines = lines;
 		
 		parseLineScroll();
 	}
@@ -83,9 +85,9 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 	public void updateIncrement()
 	{
 		String currentFormatting = "";
-		for(int i = 0; i < lines.size(); i++)
+		for(int i = 0; i < properties.lines.size(); i++)
 		{
-			String str = lines.get(i);
+			String str = properties.lines.get(i);
 			
 			if(scrollingLines.contains(i))
 			{
@@ -140,7 +142,7 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 					str = shiftString(str);
 				}
 				
-				lines.add(i, str);
+				properties.lines.add(i, str);
 			}
 		}
 	}
@@ -148,10 +150,10 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 	@Override
 	public String[] updateComponentLines(Player player)
 	{
-		String[] componentLines = new String[lines.size()];
+		String[] componentLines = new String[properties.lines.size()];
 		for(int i = 0; i < componentLines.length; i++)
 		{
-			String str = lines.get(i);
+			String str = properties.lines.get(i);
 			
 			str = HoloGUIPlaceholders.setHoloGUIPlaceholders(plugin, str, player);
 			if(HoloGUIApi.hasPlaceholderAPI)
@@ -184,7 +186,7 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 	@Override
 	public double getDisplayDistance()
 	{
-		return labelDistance;
+		return properties.labelDistance;
 	}
 	
 	@Override
@@ -196,11 +198,12 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 	@Override
 	public void configParseComplete()
 	{
-		if(labelDistance == null)
-		{
-			labelDistance = DEFAULT_LABEL_DISTANCE;
-		}
-		
 		parseLineScroll();
+	}
+	
+	@Override
+	public LabelComponentProperties getProperties()
+	{
+		return properties;
 	}
 }

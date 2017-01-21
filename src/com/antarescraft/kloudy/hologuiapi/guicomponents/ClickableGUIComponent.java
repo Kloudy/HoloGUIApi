@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
@@ -19,16 +18,12 @@ import com.antarescraft.kloudy.hologuiapi.handlers.HoverOutHandler;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.HoloGUIPlaceholders;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
-import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.DoubleConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 
 public abstract class ClickableGUIComponent extends GUIComponent
 {
-	@ConfigProperty(key = "onclick")
+	/*@ConfigProperty(key = "onclick")
 	protected String onclick;
 	
 	@OptionalConfigProperty
@@ -55,7 +50,7 @@ public abstract class ClickableGUIComponent extends GUIComponent
 	
 	@OptionalConfigProperty
 	@ConfigProperty(key = "no-permission-message")
-	protected String noPermissionMessage;
+	protected String noPermissionMessage;*/
 	
 	private HashMap<UUID, ClickHandler> clickHandlers = new HashMap<UUID, ClickHandler>();
 	private HashMap<UUID, HoverHandler> hoverHandlers = new HashMap<UUID, HoverHandler>();
@@ -75,7 +70,7 @@ public abstract class ClickableGUIComponent extends GUIComponent
 	public abstract AABB.Vec3D getMinBoundingRectPoint19(Point3D origin);
 	public abstract AABB.Vec3D getMaxBoundingRectPoint19(Point3D origin);
 		
-	public String getOnClick()
+	/*public String getOnClick()
 	{
 		return onclick;
 	}
@@ -149,7 +144,7 @@ public abstract class ClickableGUIComponent extends GUIComponent
 	public void executeOnclick(Player player, String stationaryDisplayId)
 	{
 		executeOnclick(player, stationaryDisplayId, onclick, executeCommandAsConsole);
-	}
+	}*/
 	
 	public void registerClickHandler(Player player, ClickHandler clickHandler)
 	{

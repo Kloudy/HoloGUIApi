@@ -5,14 +5,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
+import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.EntityButtonComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIEntityComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.DoubleConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 import com.antarescraft.kloudy.plugincore.utils.Utils;
 
@@ -21,7 +20,7 @@ import com.antarescraft.kloudy.plugincore.utils.Utils;
  */
 public class EntityButtonComponent extends ClickableGUIComponent implements EntityTypeComponent, ConfigObject
 {	
-	private static final double DEFAULT_LABEL_DISTANCE = 8;
+	/*private static final double DEFAULT_LABEL_DISTANCE = 8;
 	private static final double DEFAULT_LABEL_ZOOM_DISTANCE = 1.3;
 	
 	@ConfigProperty(key = "type")
@@ -30,21 +29,16 @@ public class EntityButtonComponent extends ClickableGUIComponent implements Enti
 	@OptionalConfigProperty
 	@DoubleConfigProperty(defaultValue = 0, maxValue = Double.MAX_VALUE, minValue = 0)
 	@ConfigProperty(key = "yaw")
-	private double yaw;
+	private double yaw;*/
+	
+	@ConfigProperty(key = "<root>")
+	EntityButtonComponentProperties properties;
 	
 	private EntityType entityType = null;
 		
-	public EntityButtonComponent(HoloGUIPlugin plugin)
+	private EntityButtonComponent(HoloGUIPlugin plugin)
 	{
 		super(plugin);
-	}
-	
-	public EntityButtonComponent(HoloGUIPlugin plugin, EntityType entityType, double yaw)
-	{
-		super(plugin);
-		
-		entityTypeString = entityType.toString();
-		this.yaw = yaw;
 	}
 	
 	@Override
@@ -72,15 +66,21 @@ public class EntityButtonComponent extends ClickableGUIComponent implements Enti
 	}
 	
 	@Override
+	public EntityButtonComponentProperties getProperties()
+	{
+		return properties;
+	}
+	
+	@Override
 	public float getYaw()
 	{
-		return (float)yaw;
+		return (float)properties.yaw;
 	}
 	
 	@Override
 	public void setYaw(float yaw)
 	{
-		this.yaw = yaw;
+		properties.yaw = yaw;
 	}
 	
 	@Override
@@ -146,16 +146,6 @@ public class EntityButtonComponent extends ClickableGUIComponent implements Enti
 	@Override
 	public void configParseComplete()
 	{
-		if(labelDistance == null)
-		{
-			labelDistance = DEFAULT_LABEL_DISTANCE;
-		}
-		
-		if(labelZoomDistance == null)
-		{
-			labelZoomDistance = DEFAULT_LABEL_ZOOM_DISTANCE;
-		}
-		
-		entityType = Utils.parseEntityType(entityTypeString);
+		entityType = Utils.parseEntityType(properties.entityTypeString);
 	}
 }

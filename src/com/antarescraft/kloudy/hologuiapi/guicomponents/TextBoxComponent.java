@@ -9,16 +9,14 @@ import org.bukkit.util.Vector;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
+import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.TextBoxComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.handlers.TextBoxUpdateHandler;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextBoxComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.HoloGUIPlaceholders;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
-import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.StringConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -26,7 +24,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 
 public class TextBoxComponent extends ClickableGUIComponent implements ConfigObject
 {
-	private static final double DEFAULT_LABEL_DISTANCE = 10;
+	/*private static final double DEFAULT_LABEL_DISTANCE = 10;
 	private static final double DEFAULT_LABEL_ZOOM_DISTANCE = 2;
 	
 	@OptionalConfigProperty
@@ -37,7 +35,10 @@ public class TextBoxComponent extends ClickableGUIComponent implements ConfigObj
 	@OptionalConfigProperty
 	@BooleanConfigProperty(defaultValue = false)
 	@ConfigProperty(key = "evaluate-placeholders")
-	private boolean evaluatePlaceholders;
+	private boolean evaluatePlaceholders;*/
+	
+	@ConfigProperty(key = "<root>")
+	private TextBoxComponentProperties properties;
 	
 	private HashMap<UUID, String> playerTextBoxValues = new HashMap<UUID, String>();
 	private HashMap<UUID, TextBoxUpdateHandler> textboxUpdateHandlers = new HashMap<UUID, TextBoxUpdateHandler>();
@@ -77,22 +78,22 @@ public class TextBoxComponent extends ClickableGUIComponent implements ConfigObj
 	
 	public String getDefaultValue()
 	{
-		return defaultLine;
+		return properties.defaultLine;
 	}
 	
 	public void setDefaultLine(String defaultLine)
 	{
-		this.defaultLine = defaultLine;
+		properties.defaultLine = defaultLine;
 	}
 	
 	public boolean evaluatePlaceholders()
 	{
-		return evaluatePlaceholders;
+		return properties.evaluatePlaceholders;
 	}
 	
 	public void setEvaluatePlaceholders(boolean evaluatePlaceholders)
 	{
-		this.evaluatePlaceholders = evaluatePlaceholders;
+		properties.evaluatePlaceholders = evaluatePlaceholders;
 	}
 	
 	public void setPlayerTextBoxValue(Player player, String value)
@@ -102,14 +103,14 @@ public class TextBoxComponent extends ClickableGUIComponent implements ConfigObj
 	
 	public String getPlayerTextBoxValue(Player player)
 	{
-		String value = defaultLine;
+		String value = properties.defaultLine;
 		String v = playerTextBoxValues.get(player.getUniqueId());
 		if(v != null)
 		{
 			value = v;
 		}
 		
-		if(evaluatePlaceholders)
+		if(properties.evaluatePlaceholders)
 		{
 			value = HoloGUIPlaceholders.setHoloGUIPlaceholders(plugin, value, player);
 			
@@ -192,16 +193,11 @@ public class TextBoxComponent extends ClickableGUIComponent implements ConfigObj
 	}
 
 	@Override
-	public void configParseComplete()
+	public void configParseComplete(){}
+	
+	@Override
+	public TextBoxComponentProperties getProperties()
 	{
-		if(labelDistance == null)
-		{
-			labelDistance = DEFAULT_LABEL_DISTANCE;
-		}
-		
-		if(labelZoomDistance == null)
-		{
-			labelZoomDistance = DEFAULT_LABEL_ZOOM_DISTANCE;
-		}
+		return properties;
 	}
 }

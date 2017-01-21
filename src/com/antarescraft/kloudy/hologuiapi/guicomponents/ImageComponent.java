@@ -3,16 +3,15 @@ package com.antarescraft.kloudy.hologuiapi.guicomponents;
 import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
+import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ImageComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextComponent;
-import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
 public class ImageComponent extends GUIComponent implements ConfigObject
 {
-	@ConfigProperty(key = "image-src")
+	/*@ConfigProperty(key = "image-src")
 	private String imageFileName;
 	
 	@ConfigProperty(key = "width")
@@ -24,13 +23,16 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 	@OptionalConfigProperty
 	@BooleanConfigProperty(defaultValue = false)
 	@ConfigProperty(key = "symmetrical")
-	private boolean symmetrical;
+	private boolean symmetrical;*/
+	
+	@ConfigProperty(key = "<root>")
+	private ImageComponentProperties properties;
 	
 	private int frames = 0;
 	private int currentFrame = 0;
 	private String[][] lines = null;
 	
-	public ImageComponent(HoloGUIPlugin plugin)
+	private ImageComponent(HoloGUIPlugin plugin)
 	{
 		super(plugin);
 	}
@@ -77,32 +79,32 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 	
 	public int getWidth()
 	{
-		return width;
+		return properties.width;
 	}
 	
 	public void setWidth(int width)
 	{
-		this.width = width;
+		properties.width = width;
 	}
 	
 	public int getHeight()
 	{
-		return height;
+		return properties.height;
 	}
 	
 	public void setHeight(int height)
 	{
-		this.height = height;
+		properties.height = height;
 	}
 	
 	public String getImageName()
 	{
-		return imageFileName;
+		return properties.imageFileName;
 	}
 	
-	public void setImageName(String imageName)
+	public void setImageName(String imageFileName)
 	{
-		this.imageFileName = imageName;
+		properties.imageFileName = imageFileName;
 	}
 	
 	public void setLines(String[][] lines)
@@ -119,8 +121,14 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 	@Override
 	public void configParseComplete()
 	{
-		lines = plugin.loadImage(imageFileName, width, height, symmetrical);
+		lines = plugin.loadImage(properties.imageFileName, properties.width, properties.height, properties.symmetrical);
 		
 		frames = lines.length;
+	}
+	
+	@Override
+	public ImageComponentProperties getProperties()
+	{
+		return properties;
 	}
 }

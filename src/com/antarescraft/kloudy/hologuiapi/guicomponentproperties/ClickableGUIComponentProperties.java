@@ -1,18 +1,48 @@
-package com.antarescraft.kloudy.hologuiapi.guicomponents;
+package com.antarescraft.kloudy.hologuiapi.guicomponentproperties;
 
 import org.bukkit.Sound;
 
-public class ClickableGUIComponentProperties 
+import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.DoubleConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
+
+/**
+ * Collection all of the properties that all clickable gui components share
+ */
+public abstract class ClickableGUIComponentProperties extends GUIComponentProperties
 {
-	private String onclick;
-	private boolean executeCommandAsConsole;
-	private Sound onclickSound;
-	private float onclickSoundVolume;
-	private double labelZoomDistance;
-	private String clickPermission;
-	private String noPermissionMessage;
+	@OptionalConfigProperty
+	@ConfigProperty(key = "onclick")
+	public String onclick;
 	
-	public ClickableGUIComponentProperties(String onclick, boolean executeCommandAsConsole, Sound onclickSound, 
+	@OptionalConfigProperty
+	@BooleanConfigProperty(defaultValue = false)
+	@ConfigProperty(key = "execute-command-as-console")
+	public boolean executeCommandAsConsole;
+	
+	@OptionalConfigProperty
+	@ConfigProperty(key = "onclick-sound")
+	public Sound onclickSound;
+	
+	@OptionalConfigProperty
+	@DoubleConfigProperty(defaultValue = 0.5, maxValue = 1, minValue = 0)
+	@ConfigProperty(key = "onclick-sound-volume")
+	public double onclickSoundVolume;
+	
+	@OptionalConfigProperty
+	@ConfigProperty(key = "label-zoom-distance")
+	public Double labelZoomDistance;
+	
+	@OptionalConfigProperty
+	@ConfigProperty(key = "click-permission")
+	public String clickPermission;
+	
+	@OptionalConfigProperty
+	@ConfigProperty(key = "no-permission-message")
+	public String noPermissionMessage;
+	
+	/*public ClickableGUIComponentProperties(String onclick, boolean executeCommandAsConsole, Sound onclickSound, 
 			float onclickSoundVolume, double labelZoomDistance, String clickPermission, String noPermissionMessage)
 	{
 		this.onclick = onclick;
@@ -22,13 +52,6 @@ public class ClickableGUIComponentProperties
 		this.labelZoomDistance = labelZoomDistance;
 		this.clickPermission = clickPermission;
 		this.noPermissionMessage = noPermissionMessage;
-	}
-	
-	@Override
-	protected ClickableGUIComponentProperties clone()
-	{
-		return new ClickableGUIComponentProperties(onclick, executeCommandAsConsole, onclickSound, onclickSoundVolume,
-				labelZoomDistance, clickPermission, noPermissionMessage);
 	}
 	
 	public String getOnclickCommand()
@@ -63,7 +86,7 @@ public class ClickableGUIComponentProperties
 	
 	public float getOnclickSoundVolume()
 	{
-		return onclickSoundVolume;
+		return (float)onclickSoundVolume;
 	}
 	
 	public void setOnclickSoundVolume(float onclickSoundVolume)
@@ -99,5 +122,5 @@ public class ClickableGUIComponentProperties
 	public void setNoPermissionMessage(String noPermissionMessage)
 	{
 		this.noPermissionMessage = noPermissionMessage;
-	}
+	}*/
 }

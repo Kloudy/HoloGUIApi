@@ -3,18 +3,14 @@ package com.antarescraft.kloudy.hologuiapi.guicomponents;
 import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
+import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.GUIComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
-import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.ConfigElement;
-import com.antarescraft.kloudy.plugincore.config.ConfigElementKey;
-import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
 
 public abstract class GUIComponent
 {	
 	protected HoloGUIPlugin plugin;
 	
-	@ConfigElementKey
+	/*@ConfigElementKey
 	protected String id;
 	
 	@ConfigElement
@@ -37,14 +33,15 @@ public abstract class GUIComponent
 	@OptionalConfigProperty
 	@BooleanConfigProperty(defaultValue = false)
 	@ConfigProperty(key = "hidden")
-	protected boolean hidden;
+	protected boolean hidden;*/
 	
-	public GUIComponent(HoloGUIPlugin plugin)
+	protected GUIComponent(HoloGUIPlugin plugin)
 	{
 		this.plugin = plugin;
 	}
 	
 	public abstract PlayerGUIComponent initPlayerGUIComponent(Player player);
+	public abstract GUIComponentProperties getProperties();
 	public abstract void updateIncrement();//updates the guicomponent's next incremental state
 	public abstract String[] updateComponentLines(Player player);
 	public abstract double getDisplayDistance();
@@ -56,7 +53,7 @@ public abstract class GUIComponent
 		return plugin;
 	}
 	
-	public String getId()
+	/*public String getId()
 	{
 		return id;
 	}
@@ -114,5 +111,5 @@ public abstract class GUIComponent
 	public void setIsHidden(boolean hidden)
 	{
 		this.hidden = hidden;
-	}
+	}*/
 }

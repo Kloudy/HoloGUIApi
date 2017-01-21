@@ -4,18 +4,17 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
+import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.EntityComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIEntityComponent;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.DoubleConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 import com.antarescraft.kloudy.plugincore.utils.Utils;
 
 public class EntityComponent extends GUIComponent implements EntityTypeComponent, ConfigObject
 {
-	private static final double DEFAULT_LABEL_DISTANCE = 8;
+	/*private static final double DEFAULT_LABEL_DISTANCE = 8;
 	
 	@ConfigProperty(key = "type")
 	private String entityTypeString;
@@ -23,7 +22,10 @@ public class EntityComponent extends GUIComponent implements EntityTypeComponent
 	@OptionalConfigProperty
 	@DoubleConfigProperty(defaultValue = 0, maxValue = 360, minValue = 0)
 	@ConfigProperty(key = "yaw")
-	private double yaw;
+	private double yaw;*/
+	
+	@ConfigProperty(key = "<root>")
+	private EntityComponentProperties properties;
 	
 	private EntityType entityType = null;
 	
@@ -59,13 +61,13 @@ public class EntityComponent extends GUIComponent implements EntityTypeComponent
 	@Override
 	public float getYaw()
 	{
-		return (float)yaw;
+		return (float)properties.yaw;
 	}
 	
 	@Override
 	public void setYaw(float yaw)
 	{
-		this.yaw = (double)yaw;
+		properties.yaw = (double)yaw;
 	}
 	
 	@Override
@@ -94,12 +96,13 @@ public class EntityComponent extends GUIComponent implements EntityTypeComponent
 
 	@Override
 	public void configParseComplete()
+	{	
+		entityType = Utils.parseEntityType(properties.entityTypeString);
+	}
+
+	@Override
+	public EntityComponentProperties getProperties()
 	{
-		if(labelDistance == null)
-		{
-			labelDistance = DEFAULT_LABEL_DISTANCE;
-		}
-		
-		entityType = Utils.parseEntityType(entityTypeString);
+		return properties;
 	}
 }

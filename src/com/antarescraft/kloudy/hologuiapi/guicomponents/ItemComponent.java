@@ -5,8 +5,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
+import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ItemComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIItemComponent;
-import com.antarescraft.kloudy.plugincore.config.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.configobjects.ConfigVector;
@@ -18,14 +18,17 @@ import com.antarescraft.kloudy.plugincore.utils.Utils;
  */
 public class ItemComponent extends GUIComponent implements ItemTypeComponent, ConfigObject
 {
-	private static final double DEFAULT_LABEL_DISTANCE = 6;
+	/*private static final double DEFAULT_LABEL_DISTANCE = 6;
 	
 	@ConfigProperty(key = "item-id")
 	protected String itemString;
 	
 	@ConfigElement
 	@ConfigProperty(key = "rotation")
-	private ConfigVector rotation;
+	private ConfigVector rotation;*/
+	
+	@ConfigProperty(key = "<root>")
+	ItemComponentProperties properties;
 	
 	private ItemStack item = null;
 	
@@ -82,13 +85,13 @@ public class ItemComponent extends GUIComponent implements ItemTypeComponent, Co
 	@Override
 	public Vector getRotation()
 	{
-		return rotation.toVector();
+		return properties.rotation.toVector();
 	}
 	
 	@Override
 	public void setRotation(Vector rotation)
 	{
-		this.rotation = new ConfigVector(rotation);
+		properties.rotation = new ConfigVector(rotation);
 	}
 
 	@Override
@@ -97,11 +100,12 @@ public class ItemComponent extends GUIComponent implements ItemTypeComponent, Co
 	@Override
 	public void configParseComplete()
 	{
-		if(labelDistance == null)
-		{
-			labelDistance = DEFAULT_LABEL_DISTANCE;
-		}
-		
-		item = Utils.parseItemString(itemString);
+		item = Utils.parseItemString(properties.itemString);
+	}
+	
+	@Override
+	public ItemComponentProperties getProperties()
+	{
+		return properties;
 	}
 }
