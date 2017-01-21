@@ -157,7 +157,7 @@ public class GUIPage implements ConfigObject
 	
 	public void addComponent(GUIComponent component)
 	{
-		guiComponents.put(component.getId(), component);
+		guiComponents.put(component.getProperties().id, component);
 	}
 	
 	public void updateIncrement()
@@ -175,7 +175,7 @@ public class GUIPage implements ConfigObject
 		for(GUIComponent component : guiComponents.values())
 		{
 			PlayerGUIComponent playerGUIComponent = component.initPlayerGUIComponent(player);
-			components.put(component.getId(), playerGUIComponent);
+			components.put(component.getProperties().id, playerGUIComponent);
 		}
 		
 		StationaryPlayerGUIPage stationaryPlayerGUIPage = new StationaryPlayerGUIPage(player, components, origin, this, stationaryGUIDisplayPageId);
@@ -192,7 +192,7 @@ public class GUIPage implements ConfigObject
 		for(GUIComponent component : guiComponents.values())
 		{
 			PlayerGUIComponent playerGUIComponent = component.initPlayerGUIComponent(player);
-			components.put(component.id, playerGUIComponent);
+			components.put(component.getProperties().id, playerGUIComponent);
 		}
 		
 		PlayerGUIPage playerGUIPage = new PlayerGUIPage(player, components, lookLocation, this);

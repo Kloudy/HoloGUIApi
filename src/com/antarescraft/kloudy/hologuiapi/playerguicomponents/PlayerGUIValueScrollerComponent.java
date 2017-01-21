@@ -146,7 +146,7 @@ public class PlayerGUIValueScrollerComponent extends PlayerGUIValueBoxComponent 
 		}
 		
 		armorstandLocations[0] = calculateArmorStandLocation(2, lookOrigin, vect, distance, guiComponent.getLineHeight(), 
-				guiComponent.getPosition().getY(), guiComponent.getPosition().getX());
+				guiComponent.getProperties().position.getY(), guiComponent.getProperties().position.getX());
 		
 		if(stationary)
 		{
@@ -167,7 +167,7 @@ public class PlayerGUIValueScrollerComponent extends PlayerGUIValueBoxComponent 
 		for(int i = 1; i < lines.length; i++)
 		{
 			armorstandLocations[i] = calculateArmorStandLocation(i, lookOrigin, vect, distance, guiComponent.getLineHeight(), 
-					guiComponent.getPosition().getY(), guiComponent.getPosition().getX());
+					guiComponent.getProperties().position.getY(), guiComponent.getProperties().position.getX());
 			
 			if(stationary)
 			{
@@ -185,7 +185,7 @@ public class PlayerGUIValueScrollerComponent extends PlayerGUIValueBoxComponent 
 		if(object instanceof PlayerGUIValueScrollerComponent)
 		{
 			PlayerGUIValueScrollerComponent valueScroller = (PlayerGUIValueScrollerComponent)object;
-			return valueScroller.getGUIComponent().getId().equals(this.getGUIComponent().getId());
+			return valueScroller.getGUIComponent().getProperties().id.equals(this.getGUIComponent().getProperties().id);
 		}
 		
 		return false;
