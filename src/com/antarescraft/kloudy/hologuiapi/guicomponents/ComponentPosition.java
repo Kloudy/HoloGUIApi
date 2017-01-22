@@ -1,9 +1,23 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
-public class ComponentPosition
+import java.util.HashMap;
+
+import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.DoubleConfigProperty;
+
+public class ComponentPosition implements ConfigObject
 {
+	@DoubleConfigProperty(defaultValue = 0, maxValue = Double.MAX_VALUE, minValue = Double.MIN_VALUE)
+	@ConfigProperty(key = "x")
 	private double x;
+	
+	@DoubleConfigProperty(defaultValue = 0, maxValue = Double.MAX_VALUE, minValue = Double.MIN_VALUE)
+	@ConfigProperty(key = "y")
 	private double y;
+	
+	@SuppressWarnings("unused")
+	private ComponentPosition(){}
 	
 	public ComponentPosition(double x, double y)
 	{
@@ -26,4 +40,7 @@ public class ComponentPosition
 	{
 		return new ComponentPosition(x, y);
 	}
+
+	@Override
+	public void configParseComplete(HashMap<String, Object> passthroughParams){}
 }

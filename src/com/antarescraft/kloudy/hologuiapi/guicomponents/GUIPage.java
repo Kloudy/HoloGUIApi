@@ -71,10 +71,7 @@ public class GUIPage implements ConfigObject
 	private HashMap<UUID, GUIPageLoadHandler> pageLoadHandlers = new HashMap<UUID, GUIPageLoadHandler>();
 	private HashMap<UUID, GUIPageCloseHandler> pageCloseHandlers = new HashMap<UUID, GUIPageCloseHandler>();
 	
-	private GUIPage(HoloGUIPlugin plugin)
-	{
-		this.plugin = plugin;
-	}
+	private GUIPage(){}
 	
 	public HoloGUIPlugin getHoloGUIPlugin()
 	{
