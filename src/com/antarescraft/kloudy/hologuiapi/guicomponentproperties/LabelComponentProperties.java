@@ -16,7 +16,7 @@ public class LabelComponentProperties extends GUIComponentProperties implements 
 	@Override
 	public void configParseComplete(HashMap<String, Object> passthroughParams)
 	{
-		if(labelDistance == null)
+		if(labelDistance == -1)
 		{
 			labelDistance = DEFAULT_LABEL_DISTANCE;
 		}

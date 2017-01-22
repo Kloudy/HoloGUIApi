@@ -24,12 +24,12 @@ public class EntityButtonComponentProperties extends ClickableGUIComponentProper
 	{
 		super.configParseComplete(passthroughParams);
 		
-		if(labelDistance == null)
+		if(labelDistance == -1)
 		{
 			labelDistance = DEFAULT_LABEL_DISTANCE;
 		}
 		
-		if(labelZoomDistance == null)
+		if(labelZoomDistance == -1)
 		{
 			labelZoomDistance = DEFAULT_LABEL_ZOOM_DISTANCE;
 		}

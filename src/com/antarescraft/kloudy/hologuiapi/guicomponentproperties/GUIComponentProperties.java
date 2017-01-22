@@ -27,7 +27,7 @@ public abstract class GUIComponentProperties implements ConfigObject
 	
 	@OptionalConfigProperty
 	@ConfigProperty(key = "label-distance")
-	public Double labelDistance = null;
+	public double labelDistance = -1;
 	
 	@OptionalConfigProperty
 	@BooleanConfigProperty(defaultValue = false)

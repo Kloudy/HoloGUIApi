@@ -36,7 +36,7 @@ public abstract class ClickableGUIComponentProperties extends GUIComponentProper
 	
 	@OptionalConfigProperty
 	@ConfigProperty(key = "label-zoom-distance")
-	public Double labelZoomDistance;
+	public double labelZoomDistance = -1;
 	
 	@OptionalConfigProperty
 	@ConfigProperty(key = "click-permission")
