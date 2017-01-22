@@ -1,10 +1,11 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
+import java.util.HashMap;
+
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.EntityButtonComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIEntityComponent;
@@ -36,10 +37,7 @@ public class EntityButtonComponent extends ClickableGUIComponent implements Enti
 	
 	private EntityType entityType = null;
 		
-	private EntityButtonComponent(HoloGUIPlugin plugin)
-	{
-		super(plugin);
-	}
+	private EntityButtonComponent(){}
 	
 	@Override
 	public EntityButtonComponent clone()
@@ -144,8 +142,10 @@ public class EntityButtonComponent extends ClickableGUIComponent implements Enti
 	}
 
 	@Override
-	public void configParseComplete()
+	public void configParseComplete(HashMap<String, Object> passthroughParams)
 	{
+		super.configParseComplete(passthroughParams);
+		
 		entityType = Utils.parseEntityType(properties.entityTypeString);
 	}
 }

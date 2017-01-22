@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
-import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
 import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.TextBoxComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.handlers.TextBoxUpdateHandler;
@@ -43,10 +42,7 @@ public class TextBoxComponent extends ClickableGUIComponent implements ConfigObj
 	private HashMap<UUID, String> playerTextBoxValues = new HashMap<UUID, String>();
 	private HashMap<UUID, TextBoxUpdateHandler> textboxUpdateHandlers = new HashMap<UUID, TextBoxUpdateHandler>();
 	
-	private TextBoxComponent(HoloGUIPlugin plugin)
-	{
-		super(plugin);
-	}
+	private TextBoxComponent(){}
 	
 	@Override
 	public TextBoxComponent clone()
@@ -193,7 +189,10 @@ public class TextBoxComponent extends ClickableGUIComponent implements ConfigObj
 	}
 
 	@Override
-	public void configParseComplete(){}
+	public void configParseComplete(HashMap<String, Object> passthroughParams)
+	{
+		super.configParseComplete(passthroughParams);
+	}
 	
 	@Override
 	public TextBoxComponentProperties getProperties()

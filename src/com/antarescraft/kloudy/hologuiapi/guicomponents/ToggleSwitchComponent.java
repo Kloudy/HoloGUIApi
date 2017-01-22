@@ -6,7 +6,6 @@ import java.util.UUID;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ToggleSwitchComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.handlers.ToggleHandler;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
@@ -74,10 +73,7 @@ public class ToggleSwitchComponent extends ClickableGUIComponent implements Conf
 	private HashMap<UUID, ToggleHandler> toggleHandlers = new HashMap<UUID, ToggleHandler>();
 	private HashMap<UUID, Boolean> playerToggleSwitchStates = new HashMap<UUID, Boolean>();
 	
-	private ToggleSwitchComponent(HoloGUIPlugin plugin)
-	{
-		super(plugin);
-	}
+	private ToggleSwitchComponent(){}
 	
 	@Override
 	public ToggleSwitchComponent clone()
@@ -286,8 +282,10 @@ public class ToggleSwitchComponent extends ClickableGUIComponent implements Conf
 	}
 
 	@Override
-	public void configParseComplete()
+	public void configParseComplete(HashMap<String, Object> passthroughParams)
 	{
+		super.configParseComplete(passthroughParams);
+		
 		onLines = plugin.loadImage(properties.onIcon, 13, 13, true);
 		offLines = plugin.loadImage(properties.offIcon, 13, 13, true);
 	}

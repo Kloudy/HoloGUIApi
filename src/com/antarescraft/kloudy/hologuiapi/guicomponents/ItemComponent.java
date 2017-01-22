@@ -1,10 +1,11 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
+import java.util.HashMap;
+
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ItemComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIItemComponent;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
@@ -32,10 +33,7 @@ public class ItemComponent extends GUIComponent implements ItemTypeComponent, Co
 	
 	private ItemStack item = null;
 	
-	private ItemComponent(HoloGUIPlugin plugin)
-	{
-		super(plugin);
-	}
+	private ItemComponent(){}
 	
 	@Override
 	public ItemComponent clone()
@@ -98,8 +96,10 @@ public class ItemComponent extends GUIComponent implements ItemTypeComponent, Co
 	public String[] updateComponentLines(Player player) {return null;}
 
 	@Override
-	public void configParseComplete()
+	public void configParseComplete(HashMap<String, Object> passthroughParams)
 	{
+		super.configParseComplete(passthroughParams);
+		
 		item = Utils.parseItemString(properties.itemString);
 	}
 	

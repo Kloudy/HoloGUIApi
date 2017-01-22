@@ -72,7 +72,7 @@ public class Config implements ConfigObject
 	}
 	
 	@Override
-	public void configParseComplete()
+	public void configParseComplete(HashMap<String, Object> passthroughParams)
 	{
 		if(stationaryGUIDisplayContainers == null)
 		{

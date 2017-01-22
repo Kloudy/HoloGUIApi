@@ -1,6 +1,7 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponentproperties;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
@@ -58,9 +59,9 @@ public class ValueScrollerComponentProperties extends ClickableGUIComponentPrope
 	public ArrayList<String> listItems;
 
 	@Override
-	public void configParseComplete()
+	public void configParseComplete(HashMap<String, Object> passthroughParams)
 	{
-		super.configParseComplete();
+		super.configParseComplete(passthroughParams);
 		
 		if(labelDistance == null)
 		{

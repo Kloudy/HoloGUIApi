@@ -1,12 +1,12 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
-import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
 import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.LabelComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextComponent;
@@ -32,10 +32,7 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 	
 	private String formatCode = "";
 	
-	private LabelComponent(HoloGUIPlugin plugin)
-	{
-		super(plugin);
-	}
+	private LabelComponent(){}
 	
 	@Override
 	public LabelComponent clone()
@@ -52,7 +49,7 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 	private void parseLineScroll()
 	{
 		scrollingLines.clear();
-
+		
 		for(int i = 0; i < properties.lines.size(); i++)
 		{
 			String str = properties.lines.get(i);
@@ -196,8 +193,10 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 	}
 
 	@Override
-	public void configParseComplete()
+	public void configParseComplete(HashMap<String, Object> passthroughParams)
 	{
+		super.configParseComplete(passthroughParams);
+		
 		parseLineScroll();
 	}
 	

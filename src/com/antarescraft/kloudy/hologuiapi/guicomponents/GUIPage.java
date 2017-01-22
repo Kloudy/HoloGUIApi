@@ -287,7 +287,7 @@ public class GUIPage implements ConfigObject
 	}
 
 	@Override
-	public void configParseComplete()
+	public void configParseComplete(HashMap<String, Object> passthroughParams)
 	{
 		openItem = Utils.parseItemString(openItemString);
 	}

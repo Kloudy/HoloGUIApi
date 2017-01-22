@@ -1,5 +1,6 @@
 package com.antarescraft.kloudy.hologuiapi.util;
 import java.io.File;
+import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -16,9 +17,23 @@ public class ConfigManager
 	{
 		YamlConfiguration yaml = YamlConfiguration.loadConfiguration(yamlFile);
 		
-		GUIPage guiPage = ConfigParser.parse(plugin.getName(), yaml, GUIPage.class, plugin);
+		String[] keys = new String[1];
+		yaml.getKeys(false).toArray(keys);
 		
-		ConfigurationSection componentsSection = yaml.getConfigurationSection("components");
+		String guiPageId = keys[0];
+		if(guiPageId == null)
+		{
+			MessageManager.error(Bukkit.getConsoleSender(), "No GUI Page Id has been defined");
+			return null;
+		}
+		
+		HashMap<String, Object> passthroughParams = new HashMap<String, Object>();
+		passthroughParams.put("plugin", plugin);
+		
+		GUIPage guiPage = ConfigParser.parse(plugin.getName(), yaml.getConfigurationSection(guiPageId), GUIPage.class, passthroughParams);
+		
+		ConfigurationSection guiPageSection = yaml.getConfigurationSection(guiPage.getId());
+		ConfigurationSection componentsSection = guiPageSection.getConfigurationSection("components");
 		for(String key : componentsSection.getKeys(false))
 		{
 			ConfigurationSection section = componentsSection.getConfigurationSection(key);
@@ -36,35 +51,35 @@ public class ConfigManager
 			
 			if(type.equalsIgnoreCase("label"))
 			{
-				component = (LabelComponent)ConfigParser.parse(plugin.getName(), section, LabelComponent.class, plugin);
+				component = (LabelComponent)ConfigParser.parse(plugin.getName(), section, LabelComponent.class, passthroughParams);
 			}
 			else if(type.equalsIgnoreCase("button"))
 			{
-				component = (ButtonComponent)ConfigParser.parse(plugin.getName(), section, ButtonComponent.class, plugin);
+				component = (ButtonComponent)ConfigParser.parse(plugin.getName(), section, ButtonComponent.class, passthroughParams);
 			}
 			else if(type.equalsIgnoreCase("image"))
 			{
-				component = (ImageComponent)ConfigParser.parse(plugin.getName(), section, ImageComponent.class, plugin);
+				component = (ImageComponent)ConfigParser.parse(plugin.getName(), section, ImageComponent.class, passthroughParams);
 			}
 			else if(type.equalsIgnoreCase("entity"))
 			{
-				component = (EntityComponent)ConfigParser.parse(plugin.getName(), section, EntityComponent.class, plugin);
+				component = (EntityComponent)ConfigParser.parse(plugin.getName(), section, EntityComponent.class, passthroughParams);
 			}
 			else if(type.equalsIgnoreCase("item"))
 			{
-				component = (ItemComponent)ConfigParser.parse(plugin.getName(), section, ItemComponent.class, plugin);
+				component = (ItemComponent)ConfigParser.parse(plugin.getName(), section, ItemComponent.class, passthroughParams);
 			}
 			else if(type.equalsIgnoreCase("toggle-switch"))
 			{
-				component = (ToggleSwitchComponent)ConfigParser.parse(plugin.getName(), section, ToggleSwitchComponent.class, plugin);
+				component = (ToggleSwitchComponent)ConfigParser.parse(plugin.getName(), section, ToggleSwitchComponent.class, passthroughParams);
 			}
 			else if(type.equalsIgnoreCase("text-box"))
 			{
-				component = (TextBoxComponent)ConfigParser.parse(plugin.getName(), section, TextBoxComponent.class, plugin);
+				component = (TextBoxComponent)ConfigParser.parse(plugin.getName(), section, TextBoxComponent.class, passthroughParams);
 			}
 			else if(type.equalsIgnoreCase("value-scroller"))
 			{
-				component = (ValueScrollerComponent)ConfigParser.parse(plugin.getName(), section, ValueScrollerComponent.class, plugin);
+				component = (ValueScrollerComponent)ConfigParser.parse(plugin.getName(), section, ValueScrollerComponent.class, passthroughParams);
 			}
 			
 			if(guiPage != null && component != null)

@@ -9,7 +9,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
-import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
 import com.antarescraft.kloudy.hologuiapi.events.HoloGUIClickEvent;
 import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ClickableGUIComponentProperties;
@@ -56,11 +55,6 @@ public abstract class ClickableGUIComponent extends GUIComponent
 	private HashMap<UUID, ClickHandler> clickHandlers = new HashMap<UUID, ClickHandler>();
 	private HashMap<UUID, HoverHandler> hoverHandlers = new HashMap<UUID, HoverHandler>();
 	private HashMap<UUID, HoverOutHandler> hoverOutHandlers = new HashMap<UUID, HoverOutHandler>();
-	
-	protected ClickableGUIComponent(HoloGUIPlugin plugin)
-	{
-		super(plugin);
-	}
 	
 	public abstract ClickableGUIComponentProperties getProperties();
 	public abstract double getZoomedInLineHeight();

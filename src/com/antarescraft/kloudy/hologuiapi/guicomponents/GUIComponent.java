@@ -1,12 +1,15 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
+import java.util.HashMap;
+
 import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.GUIComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
+import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 
-public abstract class GUIComponent
+public abstract class GUIComponent implements ConfigObject
 {	
 	protected HoloGUIPlugin plugin;
 	
@@ -35,11 +38,6 @@ public abstract class GUIComponent
 	@ConfigProperty(key = "hidden")
 	protected boolean hidden;*/
 	
-	protected GUIComponent(HoloGUIPlugin plugin)
-	{
-		this.plugin = plugin;
-	}
-	
 	public abstract PlayerGUIComponent initPlayerGUIComponent(Player player);
 	public abstract GUIComponentProperties getProperties();
 	public abstract void updateIncrement();//updates the guicomponent's next incremental state
@@ -51,6 +49,12 @@ public abstract class GUIComponent
 	public HoloGUIPlugin getHoloGUIPlugin()
 	{
 		return plugin;
+	}
+	
+	@Override
+	public void configParseComplete(HashMap<String, Object> passthroughParams)
+	{
+		plugin = (HoloGUIPlugin)passthroughParams.get("plugin");
 	}
 	
 	/*public String getId()

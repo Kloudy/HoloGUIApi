@@ -1,6 +1,7 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
 import java.io.StringReader;
+import java.util.HashMap;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -16,19 +17,31 @@ import com.antarescraft.kloudy.plugincore.config.ConfigParser;
  */
 public class GUIComponentFactory
 {
+	private static HashMap<String, Object> passthroughParams = new HashMap<String, Object>();
+	
 	private static YamlConfiguration toYaml(String propertyString)
 	{
 		return YamlConfiguration.loadConfiguration(new StringReader(propertyString));
+	}
+	
+	private static HashMap<String, Object> getPassthroughParams(HoloGUIPlugin plugin)
+	{
+		if(!passthroughParams.containsKey("plugin"))
+		{
+			passthroughParams.put("plugin", plugin);
+		}
+		
+		return passthroughParams;
 	}
 	
 	public static LabelComponent createLabelComponent(HoloGUIPlugin plugin, LabelComponentProperties properties)
 	{
 		String propertyString = ConfigParser.generateConfigString(plugin.getName(), properties);
 		System.out.println("label: " + propertyString);
-		
+				
 		if(propertyString != null)
 		{
-			return ConfigParser.parse(plugin.getName(), toYaml(propertyString), LabelComponent.class, plugin);
+			return ConfigParser.parse(plugin.getName(), toYaml(propertyString), LabelComponent.class, getPassthroughParams(plugin));
 		}
 		
 		return null;
@@ -39,9 +52,12 @@ public class GUIComponentFactory
 		String propertyString = ConfigParser.generateConfigString(plugin.getName(), properties);
 		System.out.println("button: " + propertyString);
 		
+		HashMap<String, Object> passthroughParams = new HashMap<String, Object>();
+		passthroughParams.put("plugin", plugin);
+		
 		if(propertyString != null)
 		{
-			return ConfigParser.parse(plugin.getName(), toYaml(propertyString), ButtonComponent.class, plugin);
+			return ConfigParser.parse(plugin.getName(), toYaml(propertyString), ButtonComponent.class, getPassthroughParams(plugin));
 		}
 		
 		return null;
@@ -52,9 +68,12 @@ public class GUIComponentFactory
 		String propertyString = ConfigParser.generateConfigString(plugin.getName(), properties);
 		System.out.println("EntityButtonComponent: " + propertyString);
 		
+		HashMap<String, Object> passthroughParams = new HashMap<String, Object>();
+		passthroughParams.put("plugin", plugin);
+		
 		if(propertyString != null)
 		{
-			return ConfigParser.parse(plugin.getName(), toYaml(propertyString), EntityButtonComponent.class, plugin);
+			return ConfigParser.parse(plugin.getName(), toYaml(propertyString), EntityButtonComponent.class, getPassthroughParams(plugin));
 		}
 		
 		return null;
@@ -65,9 +84,12 @@ public class GUIComponentFactory
 		String propertyString = ConfigParser.generateConfigString(plugin.getName(), properties);
 		System.out.println("EntityComponent: " + propertyString);
 		
+		HashMap<String, Object> passthroughParams = new HashMap<String, Object>();
+		passthroughParams.put("plugin", plugin);
+		
 		if(propertyString != null)
 		{
-			return ConfigParser.parse(plugin.getName(), toYaml(propertyString), EntityComponent.class, plugin);
+			return ConfigParser.parse(plugin.getName(), toYaml(propertyString), EntityComponent.class, getPassthroughParams(plugin));
 		}
 		
 		return null;
@@ -80,7 +102,7 @@ public class GUIComponentFactory
 		
 		if(propertyString != null)
 		{
-			return ConfigParser.parse(plugin.getName(), toYaml(propertyString), ImageComponent.class, plugin);
+			return ConfigParser.parse(plugin.getName(), toYaml(propertyString), ImageComponent.class, getPassthroughParams(plugin));
 		}
 		
 		return null;
@@ -93,7 +115,7 @@ public class GUIComponentFactory
 		
 		if(propertyString != null)
 		{
-			return ConfigParser.parse(plugin.getName(), toYaml(propertyString), ItemButtonComponent.class, plugin);
+			return ConfigParser.parse(plugin.getName(), toYaml(propertyString), ItemButtonComponent.class, getPassthroughParams(plugin));
 		}
 		
 		return null;
@@ -106,7 +128,7 @@ public class GUIComponentFactory
 		
 		if(propertyString != null)
 		{
-			return ConfigParser.parse(plugin.getName(), toYaml(propertyString), ItemComponent.class, plugin);
+			return ConfigParser.parse(plugin.getName(), toYaml(propertyString), ItemComponent.class, getPassthroughParams(plugin));
 		}
 		
 		return null;
@@ -119,7 +141,7 @@ public class GUIComponentFactory
 		
 		if(propertyString != null)
 		{
-			return ConfigParser.parse(plugin.getName(), toYaml(propertyString), TextBoxComponent.class, plugin);
+			return ConfigParser.parse(plugin.getName(), toYaml(propertyString), TextBoxComponent.class, getPassthroughParams(plugin));
 		}
 		
 		return null;
@@ -132,7 +154,7 @@ public class GUIComponentFactory
 		
 		if(propertyString != null)
 		{
-			return ConfigParser.parse(plugin.getName(), toYaml(propertyString), ToggleSwitchComponent.class, plugin);
+			return ConfigParser.parse(plugin.getName(), toYaml(propertyString), ToggleSwitchComponent.class, getPassthroughParams(plugin));
 		}
 		
 		return null;
@@ -145,7 +167,7 @@ public class GUIComponentFactory
 		
 		if(propertyString != null)
 		{
-			return ConfigParser.parse(plugin.getName(), toYaml(propertyString), ValueScrollerComponent.class, plugin);
+			return ConfigParser.parse(plugin.getName(), toYaml(propertyString), ValueScrollerComponent.class, getPassthroughParams(plugin));
 		}
 		
 		return null;

@@ -1,8 +1,9 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
+import java.util.HashMap;
+
 import org.bukkit.entity.Player;
 
-import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ImageComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextComponent;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
@@ -32,10 +33,7 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 	private int currentFrame = 0;
 	private String[][] lines = null;
 	
-	private ImageComponent(HoloGUIPlugin plugin)
-	{
-		super(plugin);
-	}
+	private ImageComponent(){}
 	
 	@Override
 	public ImageComponent clone()
@@ -119,8 +117,10 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 	}
 
 	@Override
-	public void configParseComplete()
+	public void configParseComplete(HashMap<String, Object> passthroughParams)
 	{
+		super.configParseComplete(passthroughParams);
+		
 		lines = plugin.loadImage(properties.imageFileName, properties.width, properties.height, properties.symmetrical);
 		
 		frames = lines.length;

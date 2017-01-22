@@ -1,5 +1,7 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponentproperties;
 
+import java.util.HashMap;
+
 import com.antarescraft.kloudy.plugincore.config.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.configobjects.ConfigVector;
@@ -17,9 +19,9 @@ public class ItemButtonComponentProperties extends ClickableGUIComponentProperti
 	public ConfigVector rotation;
 
 	@Override
-	public void configParseComplete() 
+	public void configParseComplete(HashMap<String, Object> passthroughParams) 
 	{
-		super.configParseComplete();
+		super.configParseComplete(passthroughParams);
 		
 		if(labelDistance == null)
 		{

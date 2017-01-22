@@ -10,7 +10,6 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ValueScrollerComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.handlers.ScrollHandler;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIValueScrollerComponent;
@@ -86,10 +85,7 @@ public class ValueScrollerComponent extends ClickableGUIComponent implements Con
 	private HashMap<UUID, ScrollHandler> scrollHandlers = new HashMap<UUID, ScrollHandler>();
 	private HashMap<UUID, AbstractScrollValue<?, ?>> playerScrollValues = new HashMap<UUID, AbstractScrollValue<?, ?>>();
 	
-	private ValueScrollerComponent(HoloGUIPlugin plugin)
-	{
-		super(plugin);
-	}
+	private ValueScrollerComponent(){}
 	
 	@Override
 	public ValueScrollerComponent clone()
@@ -226,8 +222,10 @@ public class ValueScrollerComponent extends ClickableGUIComponent implements Con
 	}
 
 	@Override
-	public void configParseComplete()
+	public void configParseComplete(HashMap<String, Object> passthroughParams)
 	{
+		super.configParseComplete(passthroughParams);
+		
 		if(properties.valueType.equals("decimal"))
 		{
 			double defaultValue = 0;

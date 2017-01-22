@@ -1,5 +1,7 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponentproperties;
 
+import java.util.HashMap;
+
 import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
@@ -21,5 +23,5 @@ public class ImageComponentProperties extends GUIComponentProperties
 	public boolean symmetrical;
 	
 	@Override
-	public void configParseComplete(){}
+	public void configParseComplete(HashMap<String, Object> passthroughParams){}
 }

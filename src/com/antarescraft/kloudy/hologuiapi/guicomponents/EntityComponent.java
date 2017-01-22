@@ -1,9 +1,10 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
+import java.util.HashMap;
+
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
-import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.EntityComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIEntityComponent;
@@ -29,10 +30,7 @@ public class EntityComponent extends GUIComponent implements EntityTypeComponent
 	
 	private EntityType entityType = null;
 	
-	private EntityComponent(HoloGUIPlugin plugin)
-	{
-		super(plugin);
-	}
+	private EntityComponent(){}
 	
 	@Override
 	public EntityComponent clone()
@@ -95,8 +93,10 @@ public class EntityComponent extends GUIComponent implements EntityTypeComponent
 	}
 
 	@Override
-	public void configParseComplete()
+	public void configParseComplete(HashMap<String, Object> passthroughParams)
 	{	
+		super.configParseComplete(passthroughParams);
+		
 		entityType = Utils.parseEntityType(properties.entityTypeString);
 	}
 

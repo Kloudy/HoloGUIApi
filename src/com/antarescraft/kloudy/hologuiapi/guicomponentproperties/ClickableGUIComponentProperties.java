@@ -1,5 +1,7 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponentproperties;
 
+import java.util.HashMap;
+
 import org.bukkit.Sound;
 
 import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
@@ -47,7 +49,7 @@ public abstract class ClickableGUIComponentProperties extends GUIComponentProper
 	public Sound onclickSound = null;
 	
 	@Override
-	public void configParseComplete()
+	public void configParseComplete(HashMap<String, Object> passthroughParams)
 	{
 		onclickSound = Utils.parseSound(onclickSoundString);
 	}

@@ -39,13 +39,7 @@ public class StationaryGUIDisplayContainer implements ConfigObject
 	private HashMap<UUID, PlayerGUIPageModel> models = new HashMap<UUID, PlayerGUIPageModel>();
 	private HashMap<UUID, PlayerGUIPageModel> prevModels = new HashMap<UUID, PlayerGUIPageModel>();
 	
-	private HoloGUIPlugin plugin;
 	private GUIPage defaultGUIContainer = null;
-	
-	public StationaryGUIDisplayContainer(HoloGUIPlugin plugin)
-	{
-		this.plugin = plugin;
-	}
 	
 	public String getId()
 	{
@@ -76,20 +70,20 @@ public class StationaryGUIDisplayContainer implements ConfigObject
 		return stationaryPlayerGUIPages;
 	}
 	
-	public void save()
+	public void save(String pluginName)
 	{
 		try
 		{
-			ConfigParser.saveObject(plugin.getName(), new File(String.format("plugins/%s/config.yml", plugin.getName())), "stationary-gui-displays." + id, this);
+			ConfigParser.saveObject(pluginName, new File(String.format("plugins/%s/config.yml", pluginName)), "stationary-gui-displays." + id, this);
 		} 
 		catch (IOException e) {}
 	}
 	
-	public void delete()
+	public void delete(String pluginName)
 	{
 		try
 		{
-			ConfigParser.saveObject(plugin.getName(), new File(String.format("plugins/%s/config.yml", plugin.getName())), "stationary-gui-displays." + id, null);
+			ConfigParser.saveObject(pluginName, new File(String.format("plugins/%s/config.yml", pluginName)), "stationary-gui-displays." + id, null);
 		} 
 		catch (IOException e) {}
 	}
@@ -199,8 +193,8 @@ public class StationaryGUIDisplayContainer implements ConfigObject
 	}
 
 	@Override
-	public void configParseComplete()
+	public void configParseComplete(HashMap<String, Object> passthroughParams)
 	{
-		defaultGUIContainer = plugin.getGUIPage(defaultGUIPageId);
+		defaultGUIContainer = ((HoloGUIPlugin)passthroughParams.get("plugin")).getGUIPage(defaultGUIPageId);
 	}
 }

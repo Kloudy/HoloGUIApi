@@ -1,5 +1,7 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponentproperties;
 
+import java.util.HashMap;
+
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.DoubleConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
@@ -18,9 +20,9 @@ public class EntityButtonComponentProperties extends ClickableGUIComponentProper
 	public double yaw;
 
 	@Override
-	public void configParseComplete()
+	public void configParseComplete(HashMap<String, Object> passthroughParams)
 	{
-		super.configParseComplete();
+		super.configParseComplete(passthroughParams);
 		
 		if(labelDistance == null)
 		{
