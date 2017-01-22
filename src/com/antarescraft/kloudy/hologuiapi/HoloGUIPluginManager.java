@@ -47,4 +47,9 @@ public class HoloGUIPluginManager
 	{
 		return plugins.values();
 	}
+	
+	public HoloGUIPlugin getHookedHoloGUIPlugin(String pluginName)
+	{
+		return plugins.get(pluginName);
+	}
 }

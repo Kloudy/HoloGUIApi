@@ -34,21 +34,35 @@ public class StationaryGUIDisplayContainer implements ConfigObject
 	@ConfigProperty(key = "default-gui-container-id")
 	private String defaultGUIPageId;
 	
+	@ConfigProperty(key = "plugin-name")
+	private String pluginName;
+	
 	private HashMap<UUID, StationaryPlayerGUIPage> stationaryPlayerGUIPages = new HashMap<UUID, StationaryPlayerGUIPage>();
 	private HashMap<UUID, StationaryPlayerGUIPage> previousStationaryPlayerGUIPages = new HashMap<UUID, StationaryPlayerGUIPage>();
 	private HashMap<UUID, PlayerGUIPageModel> models = new HashMap<UUID, PlayerGUIPageModel>();
 	private HashMap<UUID, PlayerGUIPageModel> prevModels = new HashMap<UUID, PlayerGUIPageModel>();
 	
-	private GUIPage defaultGUIContainer = null;
+	private GUIPage defaultGUIPage = null;
+	
+	@SuppressWarnings("unused")
+	private StationaryGUIDisplayContainer(){}
+	
+	public StationaryGUIDisplayContainer(String id, String pluginName, String defaultGUIPageId, Location location)
+	{
+		this.id = id;
+		this.pluginName = pluginName;
+		this.defaultGUIPageId = defaultGUIPageId;
+		this.location = new ConfigLocation(location);
+	}
 	
 	public String getId()
 	{
 		return id;
 	}
 	
-	public GUIPage getGUIDefaultContainer()
+	public GUIPage getGUIDefaultPage()
 	{
-		return defaultGUIContainer;
+		return defaultGUIPage;
 	}
 	
 	public Location getLocation()
@@ -106,7 +120,7 @@ public class StationaryGUIDisplayContainer implements ConfigObject
 	
 	public void display(Player player)
 	{
-		display(player, defaultGUIContainer);
+		display(player, defaultGUIPage);
 	}
 	
 	public void display(Player player, GUIPage guiPage)
@@ -195,6 +209,10 @@ public class StationaryGUIDisplayContainer implements ConfigObject
 	@Override
 	public void configParseComplete(HashMap<String, Object> passthroughParams)
 	{
-		defaultGUIContainer = ((HoloGUIPlugin)passthroughParams.get("plugin")).getGUIPage(defaultGUIPageId);
+		HoloGUIPlugin plugin = ((HoloGUIApi)passthroughParams.get("plugin")).getHookedHoloGUIPlugin(pluginName);
+		if(plugin != null)
+		{
+			defaultGUIPage = plugin.getGUIPage(defaultGUIPageId);
+		}
 	}
 }

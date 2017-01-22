@@ -40,10 +40,13 @@ public class Config implements ConfigObject
 	@ConfigProperty(key = "debug-mode")
 	private boolean debugMode;
 	
-	public static void parseConfig()
-	{
+	public static void parseConfig(HoloGUIApi plugin)
+	{	
+		HashMap<String, Object> passthroughParams = new HashMap<String, Object>();
+		passthroughParams.put("plugin", plugin);
+		
 		File yamlFile = new File(IOManager.PATH_TO_ROOT + "/config.yml");
-		instance = ConfigParser.parse(HoloGUIApi.pluginName, YamlConfiguration.loadConfiguration(yamlFile), Config.class);
+		instance = ConfigParser.parse(HoloGUIApi.pluginName, YamlConfiguration.loadConfiguration(yamlFile), Config.class, passthroughParams);
 	}
 	
 	public static Collection<StationaryGUIDisplayContainer> getStationaryDisplays()

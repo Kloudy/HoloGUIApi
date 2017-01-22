@@ -43,7 +43,7 @@ public class HoloGUIApi extends JavaPlugin
 {	
 	private HashMap<String, StationaryGUIDisplayContainer> stationaryGUIDisplayContainers = new HashMap<String, StationaryGUIDisplayContainer>();
 	
-	private HoloGUIPluginManager pluginManager;
+	private static HoloGUIPluginManager pluginManager = new HoloGUIPluginManager();;
 		
 	public static String pluginName = null;
 	public static boolean hasPlaceholderAPI = false;
@@ -57,10 +57,8 @@ public class HoloGUIApi extends JavaPlugin
 	public void onEnable()
 	{			
 		pluginName = getName();
-				
-		pluginManager = new HoloGUIPluginManager();
 		
-		Config.parseConfig();
+		Config.parseConfig(this);
 				
 		IOManager.initFileStructure();
 		
@@ -154,6 +152,15 @@ public class HoloGUIApi extends JavaPlugin
 	public void unhookHoloGUIPlugin(HoloGUIPlugin holoGUIPlugin)
 	{
 		pluginManager.unhookHoloGUIPlugin(holoGUIPlugin);
+	}
+	
+	/**
+	 * @param pluginName
+	 * @return instance of hooked HoloGUIPlugin with the specified name
+	 */
+	public HoloGUIPlugin getHookedHoloGUIPlugin(String pluginName)
+	{
+		return pluginManager.getHookedHoloGUIPlugin(pluginName);
 	}
 	
 	/**
