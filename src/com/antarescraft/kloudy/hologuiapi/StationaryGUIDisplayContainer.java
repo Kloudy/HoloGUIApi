@@ -45,7 +45,7 @@ public class StationaryGUIDisplayContainer implements ConfigObject
 	private GUIPage defaultGUIPage = null;
 	
 	@SuppressWarnings("unused")
-	private StationaryGUIDisplayContainer(){}
+	private StationaryGUIDisplayContainer(){System.out.println("why am i being initialize?");}
 	
 	public StationaryGUIDisplayContainer(String id, String pluginName, String defaultGUIPageId, Location location)
 	{
