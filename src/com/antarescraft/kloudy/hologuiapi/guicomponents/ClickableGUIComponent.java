@@ -66,6 +66,12 @@ public abstract class ClickableGUIComponent extends GUIComponent
 	public abstract AABB.Vec3D getMinBoundingRectPoint19(Point3D origin);
 	public abstract AABB.Vec3D getMaxBoundingRectPoint19(Point3D origin);
 		
+	@Override
+	public void configParseComplete(HashMap<String, Object> passthroughParams)
+	{
+		super.configParseComplete(passthroughParams);
+	}
+	
 	/*public String getOnClick()
 	{
 		return onclick;
