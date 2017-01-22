@@ -27,7 +27,7 @@ import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPageModel
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextBoxComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIUpdateTask;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.StationaryPlayerGUIPage;
-import com.antarescraft.kloudy.hologuiapi.util.Config;
+import com.antarescraft.kloudy.hologuiapi.util.HoloGUIApiConfig;
 import com.antarescraft.kloudy.hologuiapi.util.IOManager;
 import com.antarescraft.kloudy.hologuiapi.util.Metrics;
 import com.antarescraft.kloudy.plugincore.protocol.PacketManager;
@@ -58,7 +58,7 @@ public class HoloGUIApi extends JavaPlugin
 	{			
 		pluginName = getName();
 		
-		Config.parseConfig(this);
+		HoloGUIApiConfig.parseConfig(this);
 				
 		IOManager.initFileStructure();
 		
@@ -120,7 +120,7 @@ public class HoloGUIApi extends JavaPlugin
 		getServer().getPluginManager().registerEvents(new PlayerToggleSneakEventListener(), this);
 		
 		PlayerGUIUpdateTask playerGUIUpdateTask = PlayerGUIUpdateTask.getInstance(this);
-		playerGUIUpdateTask.start(Config.guiUpdateTickrate());
+		playerGUIUpdateTask.start(HoloGUIApiConfig.guiUpdateTickrate());
 		
 		try
 		{

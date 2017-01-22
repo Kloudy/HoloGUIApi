@@ -107,7 +107,7 @@ public class HoloGUIPlaceholders
 								method.invoke(model, args.toArray());
 							}
 							
-						}catch(Exception e){if(Config.debugMode())e.printStackTrace();}
+						}catch(Exception e){if(HoloGUIApiConfig.debugMode())e.printStackTrace();}
 					}
 				}
 			}

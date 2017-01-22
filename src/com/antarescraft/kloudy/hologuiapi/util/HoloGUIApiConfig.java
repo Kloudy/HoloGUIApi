@@ -17,9 +17,9 @@ import com.antarescraft.kloudy.plugincore.config.DoubleConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.IntConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
 
-public class Config implements ConfigObject
+public class HoloGUIApiConfig implements ConfigObject
 {
-	private static Config instance;
+	private static HoloGUIApiConfig instance;
 	
 	@ConfigElementMap
 	@ConfigProperty(key = "stationary-gui-displays")
@@ -46,7 +46,7 @@ public class Config implements ConfigObject
 		passthroughParams.put("plugin", plugin);
 		
 		File yamlFile = new File(IOManager.PATH_TO_ROOT + "/config.yml");
-		instance = ConfigParser.parse(HoloGUIApi.pluginName, YamlConfiguration.loadConfiguration(yamlFile), Config.class, passthroughParams);
+		instance = ConfigParser.parse(HoloGUIApi.pluginName, YamlConfiguration.loadConfiguration(yamlFile), HoloGUIApiConfig.class, passthroughParams);
 	}
 	
 	public static Collection<StationaryGUIDisplayContainer> getStationaryDisplays()

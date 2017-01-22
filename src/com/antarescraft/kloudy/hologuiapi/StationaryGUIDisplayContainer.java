@@ -14,7 +14,7 @@ import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIPage;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPage;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPageModel;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.StationaryPlayerGUIPage;
-import com.antarescraft.kloudy.hologuiapi.util.Config;
+import com.antarescraft.kloudy.hologuiapi.util.HoloGUIApiConfig;
 import com.antarescraft.kloudy.plugincore.config.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.ConfigElementKey;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
@@ -175,7 +175,7 @@ public class StationaryGUIDisplayContainer implements ConfigObject
 	{
 		Location playerLocation = player.getLocation();
 
-		return (playerLocation.getWorld().getUID().equals(location.toLocation().getWorld().getUID()) && playerLocation.distance(location.toLocation()) <= Config.stationaryDisplayRenderDistance());
+		return (playerLocation.getWorld().getUID().equals(location.toLocation().getWorld().getUID()) && playerLocation.distance(location.toLocation()) <= HoloGUIApiConfig.stationaryDisplayRenderDistance());
 	}
 	
 	public boolean isDisplayingToPlayer(Player player)
