@@ -1,10 +1,7 @@
 package com.antarescraft.kloudy.hologuiapi.util;
 
-import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
-
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.StationaryGUIDisplayContainer;
@@ -42,11 +39,12 @@ public class HoloGUIApiConfig implements ConfigObject
 	
 	public static void parseConfig(HoloGUIApi plugin)
 	{	
+		plugin.reloadConfig();
+		
 		HashMap<String, Object> passthroughParams = new HashMap<String, Object>();
 		passthroughParams.put("plugin", plugin);
 		
-		File yamlFile = new File(IOManager.PATH_TO_ROOT + "/config.yml");
-		instance = ConfigParser.parse(HoloGUIApi.pluginName, YamlConfiguration.loadConfiguration(yamlFile), HoloGUIApiConfig.class, passthroughParams);
+		instance = ConfigParser.parse(HoloGUIApi.pluginName, plugin.getConfig().getRoot(), HoloGUIApiConfig.class, passthroughParams);
 	}
 	
 	public static Collection<StationaryGUIDisplayContainer> getStationaryDisplays()
