@@ -31,6 +31,29 @@ public class GUIPage implements ConfigObject
 {
 	private HoloGUIPlugin plugin;
 	
+	public String toString()
+	{
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append(String.format("{ \nid: %s,\n", id))
+		.append(String.format("openItemString: %s,\n", openItemString))
+		.append(String.format("itemName: %s,\n", itemName))
+		.append(String.format("openOnLogin: %b,\n", openOnLogin))
+		.append(String.format("showPermission: %s,\n", showPermission))
+		.append(String.format("hidePermission: %s,\n", hidePermission))
+		.append(String.format("closeOnPlayerMove: %b,\n", closeOnPlayerMove))
+		.append(String.format("closeOnPlayerItemSwitch: %b,\n", closeOnPlayerItemSwitch))
+		.append("components: \n");
+		
+		for(GUIComponent component : guiComponents.values())
+		{
+			strBuilder.append(component.toString() + ",\n");
+		}
+		
+		strBuilder.append("}");
+		
+		return strBuilder.toString();
+	}
+	
 	@ConfigElementKey
 	private String id;
 	

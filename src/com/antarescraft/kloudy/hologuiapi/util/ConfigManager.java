@@ -32,6 +32,8 @@ public class ConfigManager
 		
 		GUIPage guiPage = ConfigParser.parse(plugin.getName(), yaml.getConfigurationSection(guiPageId), GUIPage.class, passthroughParams);
 		
+		System.out.println(guiPage);
+		
 		ConfigurationSection guiPageSection = yaml.getConfigurationSection(guiPage.getId());
 		ConfigurationSection componentsSection = guiPageSection.getConfigurationSection("components");
 		

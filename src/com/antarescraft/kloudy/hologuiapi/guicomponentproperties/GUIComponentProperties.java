@@ -41,17 +41,6 @@ public abstract class GUIComponentProperties implements ConfigObject
 	
 	public GUIComponentProperties(){}
 	
-	public GUIComponentProperties(String id, ComponentPosition position, String label, 
-			double labelDistance, boolean alwaysShowLabel, boolean hidden)
-	{
-		this.id = id;
-		this.position = position;
-		this.label = label;
-		this.labelDistance = labelDistance;
-		this.alwaysShowLabel = alwaysShowLabel;
-		this.hidden = hidden;
-	}
-	
 	@Override
 	protected GUIComponentProperties clone()
 	{
