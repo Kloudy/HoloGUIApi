@@ -32,7 +32,7 @@ public class ConfigManager
 		
 		GUIPage guiPage = ConfigParser.parse(plugin.getName(), yaml.getConfigurationSection(guiPageId), GUIPage.class, passthroughParams);
 		
-		System.out.println(guiPage);
+		System.out.println("GUI Page: " + guiPage);
 		
 		ConfigurationSection guiPageSection = yaml.getConfigurationSection(guiPage.getId());
 		ConfigurationSection componentsSection = guiPageSection.getConfigurationSection("components");
