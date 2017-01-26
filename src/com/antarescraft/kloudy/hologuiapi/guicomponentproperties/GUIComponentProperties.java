@@ -52,4 +52,17 @@ public abstract class GUIComponentProperties implements ConfigObject
 		
 		return null;
 	}
+	
+	@Override
+	public String toString()
+	{
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append(String.format("{ position: { x: %d, y: %d }, \n", position.getX(), position.getY()))
+		.append(String.format("label: %s,\n", label))
+		.append(String.format("label-distance: %d,\n", labelDistance))
+		.append(String.format("always-show-label: %b,\n", alwaysShowLabel))
+		.append(String.format("hidden: %b,\n", hidden));
+		
+		return strBuilder.toString();
+	}
 }

@@ -26,4 +26,15 @@ public class EntityComponentProperties extends GUIComponentProperties
 			labelDistance = DEFAULT_LABEL_DISTANCE;
 		}
 	}
+	
+	@Override
+	public String toString()
+	{
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append(super.toString())
+		.append(String.format("type: %s,\n", entityTypeString))
+		.append(String.format("yaw: %s }", yaw));
+		
+		return strBuilder.toString();
+	}
 }

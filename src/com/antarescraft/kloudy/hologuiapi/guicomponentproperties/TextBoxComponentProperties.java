@@ -37,4 +37,15 @@ public class TextBoxComponentProperties extends ClickableGUIComponentProperties
 			labelZoomDistance = DEFAULT_LABEL_ZOOM_DISTANCE;
 		}
 	}
+	
+	@Override
+	public String toString()
+	{
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append(super.toString())
+		.append(String.format("default-text: %s,\n", defaultLine))
+		.append(String.format("evaluate-placeholders: %b }", evaluatePlaceholders));
+		
+		return strBuilder.toString();
+	}
 }

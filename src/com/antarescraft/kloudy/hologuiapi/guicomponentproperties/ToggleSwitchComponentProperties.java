@@ -70,4 +70,22 @@ public class ToggleSwitchComponentProperties extends ClickableGUIComponentProper
 			labelZoomDistance = DEFAULT_LABEL_ZOOM_DISTANCE;
 		}
 	}
+	
+	@Override
+	public String toString()
+	{
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append(super.toString())
+		.append(String.format("value: %b,\n", defaultState))
+		.append(String.format("onclick-on: %s,\n", onclickOn))
+		.append(String.format("onclick-off: %s,\n", onclickOff))
+		.append(String.format("icon-on: %s,\n", onIcon))
+		.append(String.format("icon-off: %s,\n", onIcon))
+		.append(String.format("execute-onclick-on-as-console: %b,\n", executeOnClickOnAsConsole))
+		.append(String.format("execute-onclick-off-as-console: %b,\n", executeOnClickOffAsConsole))
+		.append(String.format("on-value: %s,\n", onValue))
+		.append(String.format("off-value: %s }", offValue));
+		
+		return strBuilder.toString();
+	}
 }

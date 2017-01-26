@@ -40,4 +40,16 @@ public class ButtonComponentProperties extends ClickableGUIComponentProperties i
 			labelZoomDistance = DEFAULT_LABEL_ZOOM_DISTANCE;
 		}
 	}
+	
+	@Override
+	public String toString()
+	{
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append(super.toString())
+		.append(String.format("icon: %s,\n", icon))
+		.append(String.format("mini: %s,\n", mini))
+		.append(String.format("symmetrical: %b }", symmetrical));
+		
+		return strBuilder.toString();
+	}
 }

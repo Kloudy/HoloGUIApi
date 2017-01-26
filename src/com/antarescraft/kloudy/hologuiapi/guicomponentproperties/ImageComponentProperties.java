@@ -24,4 +24,17 @@ public class ImageComponentProperties extends GUIComponentProperties
 	
 	@Override
 	public void configParseComplete(HashMap<String, Object> passthroughParams){}
+
+	@Override
+	public String toString()
+	{
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append(super.toString())
+		.append(String.format("image-src: %s,\n", imageFileName))
+		.append(String.format("width: %d,\n", width))
+		.append(String.format("height: %d,\n", height))
+		.append(String.format("symmetrical: %b }", symmetrical));
+		
+		return strBuilder.toString();
+	}
 }

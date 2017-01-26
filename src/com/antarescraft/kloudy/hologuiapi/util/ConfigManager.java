@@ -41,6 +41,7 @@ public class ConfigManager
 		
 		for(String key : componentsSection.getKeys(false))
 		{
+			System.out.println("ConfigManager key: " + key);
 			ConfigurationSection section = componentsSection.getConfigurationSection(key);
 			
 			String type = section.getString("type");
@@ -127,6 +128,8 @@ public class ConfigManager
 						String.format("An error occurred while attempting to parse a GUI Page"));
 			}
 		}
+		
+		System.out.println("Config Manager: Finished parsing yamls");
 		
 		return guiPage;
 	}

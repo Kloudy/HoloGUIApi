@@ -21,4 +21,21 @@ public class LabelComponentProperties extends GUIComponentProperties implements 
 			labelDistance = DEFAULT_LABEL_DISTANCE;
 		}
 	}
+	
+	@Override
+	public String toString()
+	{
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append(super.toString())
+		.append("text: [");
+		
+		for(String s : lines)
+		{
+			strBuilder.append(s + ", ");
+		}
+		
+		strBuilder.append("] }");
+		
+		return strBuilder.toString();
+	}
 }

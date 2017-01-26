@@ -25,4 +25,15 @@ private static final double DEFAULT_LABEL_DISTANCE = 6;
 			labelDistance = DEFAULT_LABEL_DISTANCE;
 		}
 	}
+	
+	@Override
+	public String toString()
+	{
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append(super.toString())
+		.append(String.format("item-id: %s,\n", itemString))
+		.append(String.format("rotation: { x: %d, y: %d, z: %d } }", rotation.toVector().getX(), rotation.toVector().getY(), rotation.toVector().getZ()));
+		
+		return strBuilder.toString();
+	}
 }

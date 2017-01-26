@@ -34,4 +34,15 @@ public class EntityButtonComponentProperties extends ClickableGUIComponentProper
 			labelZoomDistance = DEFAULT_LABEL_ZOOM_DISTANCE;
 		}
 	}
+	
+	@Override
+	public String toString()
+	{
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append(super.toString())
+		.append(String.format("type: %s,\n", entityTypeString))
+		.append(String.format("yaw: %d }", yaw));
+		
+		return strBuilder.toString();
+	}
 }
