@@ -41,7 +41,6 @@ public class ConfigManager
 		
 		for(String key : componentsSection.getKeys(false))
 		{
-			System.out.println("ConfigManager key: " + key);
 			ConfigurationSection section = componentsSection.getConfigurationSection(key);
 			
 			String type = section.getString("type");
@@ -59,55 +58,37 @@ public class ConfigManager
 			
 			if(type.equalsIgnoreCase("label"))
 			{
-				System.out.println("starting parsing label");
 				component = (LabelComponent)ConfigParser.parse(plugin.getName(), section, LabelComponent.class, passthroughParams);
-				System.out.println("Parsed label: " + component.getProperties().id);
 			}
 			else if(type.equalsIgnoreCase("button"))
 			{
-				System.out.println("starting parsing button");
 				component = (ButtonComponent)ConfigParser.parse(plugin.getName(), section, ButtonComponent.class, passthroughParams);
-				System.out.println("Parsed button: " + component.getProperties().id);
 			}
 			else if(type.equalsIgnoreCase("image"))
 			{
-				System.out.println("starting parsing image");
 				component = (ImageComponent)ConfigParser.parse(plugin.getName(), section, ImageComponent.class, passthroughParams);
-				System.out.println("Parsed image: " + component.getProperties().id);
 			}
 			else if(type.equalsIgnoreCase("entity"))
 			{
-				System.out.println("starting parsing entity");
 				if(clickable)component = (EntityButtonComponent)ConfigParser.parse(plugin.getName(), section, EntityButtonComponent.class, passthroughParams);
 				else component = (EntityComponent)ConfigParser.parse(plugin.getName(), section, EntityComponent.class, passthroughParams);
-			
-				System.out.println("Parsed entity: " + component.getProperties().id);
 			}
 			else if(type.equalsIgnoreCase("item"))
 			{
-				System.out.println("starting parsing item");
 				if(clickable) component = (ItemButtonComponent)ConfigParser.parse(plugin.getName(), section, ItemButtonComponent.class, passthroughParams);
 				else component = (ItemComponent)ConfigParser.parse(plugin.getName(), section, ItemComponent.class, passthroughParams);
-			
-				System.out.println("Parsed item: " + component.getProperties().id);
 			}
 			else if(type.equalsIgnoreCase("toggle-switch"))
 			{
-				System.out.println("starting parsing toggle-switch");
 				component = (ToggleSwitchComponent)ConfigParser.parse(plugin.getName(), section, ToggleSwitchComponent.class, passthroughParams);
-				System.out.println("Parsed toggle-switch: " + component.getProperties().id);
 			}
 			else if(type.equalsIgnoreCase("text-box"))
 			{
-				System.out.println("starting parsing text-box");
 				component = (TextBoxComponent)ConfigParser.parse(plugin.getName(), section, TextBoxComponent.class, passthroughParams);
-				System.out.println("Parsed text-box: " + component.getProperties().id);
 			}
 			else if(type.equalsIgnoreCase("value-scroller"))
 			{
-				System.out.println("starting parsing value-scroller");
 				component = (ValueScrollerComponent)ConfigParser.parse(plugin.getName(), section, ValueScrollerComponent.class, passthroughParams);
-				System.out.println("Parsed value-scroller: " + component.getProperties().id);
 			}
 			
 			if(guiPage != null)
@@ -127,6 +108,8 @@ public class ConfigManager
 				MessageManager.error(Bukkit.getConsoleSender(), 
 						String.format("An error occurred while attempting to parse a GUI Page"));
 			}
+			
+			System.out.println("Component properties: " + component.getProperties().toString());
 		}
 		
 		System.out.println("Config Manager: Finished parsing yamls");
