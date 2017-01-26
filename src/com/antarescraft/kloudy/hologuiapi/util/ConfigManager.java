@@ -34,9 +34,7 @@ public class ConfigManager
 				
 		ConfigurationSection guiPageSection = yaml.getConfigurationSection(guiPage.getId());
 		ConfigurationSection componentsSection = guiPageSection.getConfigurationSection("components");
-		
-		System.out.println(componentsSection.getKeys(false).toString());
-		
+				
 		for(String key : componentsSection.getKeys(false))
 		{
 			ConfigurationSection section = componentsSection.getConfigurationSection(key);
