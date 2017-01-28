@@ -21,6 +21,8 @@ public class EntityComponentProperties extends GUIComponentProperties
 	@Override
 	public void configParseComplete(HashMap<String, Object> passthroughParams)
 	{
+		super.configParseComplete(passthroughParams);
+		
 		if(labelDistance == -1)
 		{
 			labelDistance = DEFAULT_LABEL_DISTANCE;

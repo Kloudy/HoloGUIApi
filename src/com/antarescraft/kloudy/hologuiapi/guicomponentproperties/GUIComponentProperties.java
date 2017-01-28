@@ -1,5 +1,8 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponentproperties;
 
+import java.util.HashMap;
+
+import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.ComponentPosition;
 import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.ConfigElement;
@@ -39,7 +42,7 @@ public abstract class GUIComponentProperties implements ConfigObject
 	@ConfigProperty(key = "hidden")
 	public boolean hidden = false;
 	
-	public GUIComponentProperties(){}
+	public GUIComponentProperties(){HoloGUIApi.debugMessage("init gui component properties");}
 	
 	@Override
 	protected GUIComponentProperties clone()
@@ -64,5 +67,11 @@ public abstract class GUIComponentProperties implements ConfigObject
 		.append(String.format("hidden: %b,\n", hidden));
 		
 		return strBuilder.toString();
+	}
+	
+	@Override
+	public void configParseComplete(HashMap<String, Object> passthroughParams)
+	{
+		HoloGUIApi.debugMessage(String.format("GuiProperties config parse for component: %s complete", id));
 	}
 }

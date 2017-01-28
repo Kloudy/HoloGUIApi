@@ -51,6 +51,8 @@ public abstract class ClickableGUIComponentProperties extends GUIComponentProper
 	@Override
 	public void configParseComplete(HashMap<String, Object> passthroughParams)
 	{
+		super.configParseComplete(passthroughParams);
+		
 		onclickSound = Utils.parseSound(onclickSoundString);
 	}
 	

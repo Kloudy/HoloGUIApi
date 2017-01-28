@@ -20,6 +20,8 @@ private static final double DEFAULT_LABEL_DISTANCE = 6;
 	@Override
 	public void configParseComplete(HashMap<String, Object> passthroughParams)
 	{
+		super.configParseComplete(passthroughParams);
+		
 		if(labelDistance == -1)
 		{
 			labelDistance = DEFAULT_LABEL_DISTANCE;

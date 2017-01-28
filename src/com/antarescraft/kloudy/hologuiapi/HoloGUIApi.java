@@ -30,6 +30,7 @@ import com.antarescraft.kloudy.hologuiapi.playerguicomponents.StationaryPlayerGU
 import com.antarescraft.kloudy.hologuiapi.util.HoloGUIApiConfig;
 import com.antarescraft.kloudy.hologuiapi.util.IOManager;
 import com.antarescraft.kloudy.hologuiapi.util.Metrics;
+import com.antarescraft.kloudy.plugincore.messaging.MessageManager;
 import com.antarescraft.kloudy.plugincore.protocol.PacketManager;
 import com.antarescraft.kloudy.plugincore.protocol.WrapperPlayClientChat;
 import com.comphenix.protocol.PacketType;
@@ -51,7 +52,7 @@ public class HoloGUIApi extends JavaPlugin
 	public static String PATH_TO_IMAGES = "resources/images";
 	public static String PATH_TO_YAMLS = "resources/yamls";
 	
-	public static PacketManager packetManager;
+	public static PacketManager packetManager; //TODO: Don't make this static. Pass it into functions that need it
 	
 	@Override
 	public void onEnable()
@@ -410,5 +411,23 @@ public class HoloGUIApi extends JavaPlugin
 		stationaryGUIDisplayContainers.clear();
 		
 		PlayerData.removeAllPlayerData();
+	}
+	
+	/**
+	 * Prints a debug message to console if debug mode is enabled in config
+	 * @param message Message to be printed to console
+	 */
+	public static void debugMessage(String message)
+	{
+		if(HoloGUIApiConfig.debugMode()) MessageManager.info(Bukkit.getConsoleSender(), "[HoloGUIApi]: " + message);
+	}
+	
+	/**
+	 * Prints the input object's toString() function to console if debug mode is enabled in config
+	 * @param object The object whose toString function will be called
+	 */
+	public static void debugMessage(Object object)
+	{
+		debugMessage(object.toString());
 	}
 }

@@ -23,7 +23,10 @@ public class ImageComponentProperties extends GUIComponentProperties
 	public boolean symmetrical;
 	
 	@Override
-	public void configParseComplete(HashMap<String, Object> passthroughParams){}
+	public void configParseComplete(HashMap<String, Object> passthroughParams)
+	{
+		super.configParseComplete(passthroughParams);
+	}
 
 	@Override
 	public String toString()

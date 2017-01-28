@@ -26,7 +26,7 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 	private ArrayList<String> lines;*/
 	
 	@ConfigProperty(key = "<root>")
-	LabelComponentProperties properties;//TODO: should I make properties for a label? Opens lines up for modification outside the object.
+	private LabelComponentProperties properties;//TODO: should I make properties for a label? Opens lines up for modification outside the object.
 	
 	private HashSet<Integer> scrollingLines = new HashSet<Integer>();
 	
@@ -49,18 +49,19 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 	private void parseLineScroll()
 	{
 		scrollingLines.clear();
-		
+				
 		for(int i = 0; i < properties.lines.size(); i++)
 		{
 			String str = properties.lines.get(i);
 			str = str.replaceAll("§", "&");
-			
+						
 			if(str.startsWith("%scroll%"))
 			{
 				str = str.replace("%scroll%", "");
 				scrollingLines.add(i);
 			}
 			
+			properties.lines.remove(i);
 			properties.lines.add(i, str);
 		}
 	}

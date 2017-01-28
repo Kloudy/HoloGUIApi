@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.bukkit.entity.Player;
 
+import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.GUIComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
@@ -55,6 +56,8 @@ public abstract class GUIComponent implements ConfigObject
 	public void configParseComplete(HashMap<String, Object> passthroughParams)
 	{
 		plugin = (HoloGUIPlugin)passthroughParams.get("plugin");
+		
+		HoloGUIApi.debugMessage(String.format("GUI Component: %s parsing complete.", getProperties().id));
 	}
 	
 	/*public String getId()
