@@ -3,9 +3,7 @@ package com.antarescraft.kloudy.hologuiapi.guicomponentproperties;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.ConfigParser;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.DoubleConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
@@ -74,23 +72,5 @@ public class ValueScrollerComponentProperties extends ClickableGUIComponentPrope
 		{
 			labelZoomDistance = DEFAULT_LABEL_ZOOM_DISTANCE;
 		}
-	}
-	
-	@Override
-	public String toString()
-	{
-		return ConfigParser.generateConfigString(HoloGUIApi.pluginName, this);
-		
-		/*StringBuilder strBuilder = new StringBuilder();
-		strBuilder.append(super.toString())
-		.append(String.format("onscroll-sound: %s,\n", onscrollSoundString))
-		.append(String.format("onscroll-sound-volume: %f,\n", onscrollSoundVolume))
-		.append(String.format("value-type: %s,\n", valueType))
-		.append(String.format("min-value: %s,\n", minValueString))
-		.append(String.format("max-value: %s,\n", maxValueString))
-		.append(String.format("decimal-format: %s,\n", decimalFormat))
-		.append(String.format("wrap: %b,\n}", wrap));
-		
-		return strBuilder.toString();*/
 	}
 }

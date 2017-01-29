@@ -24,7 +24,7 @@ public class HoloGUIApiConfig implements ConfigObject
 	
 	@OptionalConfigProperty
 	@DoubleConfigProperty(defaultValue = 25, maxValue = 50, minValue = 5)
-	@ConfigProperty(key = "stationary-display-render-distance")
+	@ConfigProperty(key = "render-distance")
 	private double stationaryDisplayRenderDistance;
 	
 	@OptionalConfigProperty

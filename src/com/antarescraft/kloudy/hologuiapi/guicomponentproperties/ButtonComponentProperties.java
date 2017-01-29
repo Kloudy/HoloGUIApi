@@ -2,10 +2,8 @@ package com.antarescraft.kloudy.hologuiapi.guicomponentproperties;
 
 import java.util.HashMap;
 
-import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
-import com.antarescraft.kloudy.plugincore.config.ConfigParser;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
 
@@ -41,19 +39,5 @@ public class ButtonComponentProperties extends ClickableGUIComponentProperties i
 		{
 			labelZoomDistance = DEFAULT_LABEL_ZOOM_DISTANCE;
 		}
-	}
-	
-	@Override
-	public String toString()
-	{
-		return ConfigParser.generateConfigString(HoloGUIApi.pluginName, this);
-		
-		/*StringBuilder strBuilder = new StringBuilder();
-		strBuilder.append(super.toString())
-		.append(String.format("icon: %s,\n", icon))
-		.append(String.format("mini: %s,\n", mini))
-		.append(String.format("symmetrical: %b \n}", symmetrical));
-		
-		return strBuilder.toString();*/
 	}
 }

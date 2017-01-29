@@ -56,7 +56,7 @@ public abstract class ClickableGUIComponentProperties extends GUIComponentProper
 		onclickSound = Utils.parseSound(onclickSoundString);
 	}
 	
-	@Override
+	/*@Override
 	public String toString()
 	{
 		StringBuilder strBuilder = new StringBuilder();
@@ -70,7 +70,7 @@ public abstract class ClickableGUIComponentProperties extends GUIComponentProper
 		.append(String.format("no-permission-message: %s,\n", noPermissionMessage));
 		
 		return strBuilder.toString();
-	}
+	}*/
 	
 	/*public ClickableGUIComponentProperties(String onclick, boolean executeCommandAsConsole, Sound onclickSound, 
 			float onclickSoundVolume, double labelZoomDistance, String clickPermission, String noPermissionMessage)

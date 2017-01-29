@@ -58,25 +58,14 @@ public abstract class GUIComponentProperties implements ConfigObject
 	}
 	
 	@Override
-	public String toString()
-	{
-		return ConfigParser.generateConfigString(HoloGUIApi.pluginName, this);
-		
-		/*StringBuilder strBuilder = new StringBuilder();
-				
-		strBuilder.append(String.format("\n{\nid: %s\n", id))
-		.append(String.format("position: { x: %f, y: %f }, \n", position.getX(), position.getY()))
-		.append(String.format("label: %s,\n", label))
-		.append(String.format("label-distance: %f,\n", labelDistance))
-		.append(String.format("always-show-label: %b,\n", alwaysShowLabel))
-		.append(String.format("hidden: %b,\n", hidden));
-		
-		return strBuilder.toString();*/
-	}
-	
-	@Override
 	public void configParseComplete(HashMap<String, Object> passthroughParams)
 	{
 		HoloGUIApi.debugMessage(String.format("GuiProperties config parse for component: %s complete", id));
+	}
+	
+	@Override
+	public String toString()
+	{
+		return "\n" + ConfigParser.generateConfigString(HoloGUIApi.pluginName, this);
 	}
 }

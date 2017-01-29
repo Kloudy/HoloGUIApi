@@ -193,6 +193,7 @@ public class PlayerGUIUpdateTask extends BukkitRunnable
 						AABB.Ray3D ray = new AABB.Ray3D(origin, direction);
 						
 						AABB boundingBox = new AABB(min, max);
+												
 						if(boundingBox.intersectsRay(ray, 0f, (float)HoloGUIApiConfig.stationaryDisplayRenderDistance()) != null && !playerGUIComponent.isFocused() && playerGUIPage.getFocusedComponent() == null)//check to see if player is looking at the component
 						{
 							playerGUIComponent.setIsFocused(true);
