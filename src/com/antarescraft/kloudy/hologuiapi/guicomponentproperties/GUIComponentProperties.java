@@ -42,7 +42,7 @@ public abstract class GUIComponentProperties implements ConfigObject
 	@ConfigProperty(key = "hidden")
 	public boolean hidden = false;
 	
-	public GUIComponentProperties(){HoloGUIApi.debugMessage("init gui component properties");}
+	public GUIComponentProperties(){}
 	
 	@Override
 	protected GUIComponentProperties clone()

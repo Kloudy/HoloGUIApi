@@ -3,6 +3,7 @@ package com.antarescraft.kloudy.hologuiapi.guicomponentproperties;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
 
@@ -17,6 +18,14 @@ public class LabelComponentProperties extends GUIComponentProperties implements 
 	public void configParseComplete(HashMap<String, Object> passthroughParams)
 	{
 		super.configParseComplete(passthroughParams);
+		
+		if(lines == null) lines = new ArrayList<String>();
+		
+		HoloGUIApi.debugMessage(id + " (label) num lines: " + lines.size());
+		if(lines.size() > 0)
+		{
+			HoloGUIApi.debugMessage(id + " (label): " + lines.get(0));
+		}
 				
 		if(labelDistance == -1)
 		{

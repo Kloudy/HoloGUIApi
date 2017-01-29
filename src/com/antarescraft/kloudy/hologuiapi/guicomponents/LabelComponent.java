@@ -1,6 +1,7 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -22,11 +23,8 @@ import me.clip.placeholderapi.PlaceholderAPI;
  */
 public class LabelComponent extends GUIComponent implements ConfigObject
 {		
-	/*@ConfigProperty(key = "text")
-	private ArrayList<String> lines;*/
-	
 	@ConfigProperty(key = "<root>")
-	private LabelComponentProperties properties;//TODO: should I make properties for a label? Opens lines up for modification outside the object.
+	private LabelComponentProperties properties;
 	
 	private HashSet<Integer> scrollingLines = new HashSet<Integer>();
 	
@@ -50,6 +48,7 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 	{
 		scrollingLines.clear();
 				
+		String[] linesArray = new String[properties.lines.size()];
 		for(int i = 0; i < properties.lines.size(); i++)
 		{
 			String str = properties.lines.get(i);
@@ -61,8 +60,15 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 				scrollingLines.add(i);
 			}
 			
-			properties.lines.remove(i);
-			properties.lines.add(i, str);
+			linesArray[i] = str;
+		}
+		
+		properties.lines = new ArrayList<String>(Arrays.asList(linesArray));
+		
+		HoloGUIApi.debugMessage("done with parseLineScroll for " + properties.id);
+		for(String s : properties.lines)
+		{
+			HoloGUIApi.debugMessage(s);
 		}
 	}
 	
@@ -82,6 +88,7 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 	@Override
 	public void updateIncrement()
 	{
+		String[] linesArray = new String[properties.lines.size()];
 		String currentFormatting = "";
 		for(int i = 0; i < properties.lines.size(); i++)
 		{
@@ -140,8 +147,16 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 					str = shiftString(str);
 				}
 				
-				properties.lines.add(i, str);
-			}
+				linesArray[i] = str;
+			}	
+		}
+		
+		properties.lines = new ArrayList<String>(Arrays.asList(linesArray));
+		
+		HoloGUIApi.debugMessage("finished with update increment for " + properties.id);
+		for(String s : properties.lines)
+		{
+			HoloGUIApi.debugMessage(s);
 		}
 	}
 	
@@ -149,9 +164,11 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 	public String[] updateComponentLines(Player player)
 	{
 		String[] componentLines = new String[properties.lines.size()];
-		for(int i = 0; i < componentLines.length; i++)
+		for(int i = 0; i < properties.lines.size(); i++)
 		{
 			String str = properties.lines.get(i);
+			
+			HoloGUIApi.debugMessage(properties.id + ": " + properties.lines.get(i));
 			
 			str = HoloGUIPlaceholders.setHoloGUIPlaceholders(plugin, str, player);
 			if(HoloGUIApi.hasPlaceholderAPI)
