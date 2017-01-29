@@ -36,7 +36,7 @@ public class ImageComponentProperties extends GUIComponentProperties
 		.append(String.format("image-src: %s,\n", imageFileName))
 		.append(String.format("width: %d,\n", width))
 		.append(String.format("height: %d,\n", height))
-		.append(String.format("symmetrical: %b }", symmetrical));
+		.append(String.format("symmetrical: %b \n}", symmetrical));
 		
 		return strBuilder.toString();
 	}

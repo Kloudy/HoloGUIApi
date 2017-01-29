@@ -54,68 +54,54 @@ public class ConfigManager
 			GUIComponent component = null;
 			
 			if(type.equalsIgnoreCase("label"))
-			{
-				HoloGUIApi.debugMessage("started parsing label: " + key);
-				
+			{				
 				component = (LabelComponent)ConfigParser.parse(plugin.getName(), section, LabelComponent.class, passthroughParams);
 				
-				HoloGUIApi.debugMessage(component);
+				HoloGUIApi.debugMessage(component.getProperties());
 			}
 			else if(type.equalsIgnoreCase("button"))
 			{
-				HoloGUIApi.debugMessage("started button button: " + key);
-				
 				component = (ButtonComponent)ConfigParser.parse(plugin.getName(), section, ButtonComponent.class, passthroughParams);
 				
 				HoloGUIApi.debugMessage(component);
 			}
 			else if(type.equalsIgnoreCase("image"))
 			{
-				HoloGUIApi.debugMessage("started parsing image: " + key);
-				
 				component = (ImageComponent)ConfigParser.parse(plugin.getName(), section, ImageComponent.class, passthroughParams);
 				
-				HoloGUIApi.debugMessage(component);
+				HoloGUIApi.debugMessage(component.getProperties());
 			}
 			else if(type.equalsIgnoreCase("entity"))
 			{
-				HoloGUIApi.debugMessage("started parsing entity: " + key);
-				
 				if(clickable)component = (EntityButtonComponent)ConfigParser.parse(plugin.getName(), section, EntityButtonComponent.class, passthroughParams);
 				else component = (EntityComponent)ConfigParser.parse(plugin.getName(), section, EntityComponent.class, passthroughParams);
 			
-				HoloGUIApi.debugMessage(component);
+				HoloGUIApi.debugMessage(component.getProperties());
 			}
 			else if(type.equalsIgnoreCase("item"))
 			{
-				HoloGUIApi.debugMessage("started parsing item: " + key);
-				
 				if(clickable) component = (ItemButtonComponent)ConfigParser.parse(plugin.getName(), section, ItemButtonComponent.class, passthroughParams);
 				else component = (ItemComponent)ConfigParser.parse(plugin.getName(), section, ItemComponent.class, passthroughParams);
+			
+				HoloGUIApi.debugMessage(component.getProperties());
 			}
 			else if(type.equalsIgnoreCase("toggle-switch"))
 			{
-				HoloGUIApi.debugMessage("started parsing toggle-switch: " + key);
-				
 				component = (ToggleSwitchComponent)ConfigParser.parse(plugin.getName(), section, ToggleSwitchComponent.class, passthroughParams);
 			
-				HoloGUIApi.debugMessage(component);
+				HoloGUIApi.debugMessage(component.getProperties());
 			}
 			else if(type.equalsIgnoreCase("text-box"))
 			{
-				HoloGUIApi.debugMessage("started parsing text-box: " + key);
-				
 				component = (TextBoxComponent)ConfigParser.parse(plugin.getName(), section, TextBoxComponent.class, passthroughParams);
 			
-				HoloGUIApi.debugMessage(component);
+				HoloGUIApi.debugMessage(component.getProperties());
 			}
 			else if(type.equalsIgnoreCase("value-scroller"))
 			{
-				HoloGUIApi.debugMessage("started parsing value-scroller: " + key);
-				
 				component = (ValueScrollerComponent)ConfigParser.parse(plugin.getName(), section, ValueScrollerComponent.class, passthroughParams);
 			
-				HoloGUIApi.debugMessage(component);
+				HoloGUIApi.debugMessage(component.getProperties());
 			}
 			
 			if(guiPage != null)
@@ -136,8 +122,6 @@ public class ConfigManager
 						String.format("An error occurred while attempting to parse a GUI Page"));
 			}			
 		}
-		
-		System.out.println("Config Manager: Finished parsing yamls");
 		
 		return guiPage;
 	}

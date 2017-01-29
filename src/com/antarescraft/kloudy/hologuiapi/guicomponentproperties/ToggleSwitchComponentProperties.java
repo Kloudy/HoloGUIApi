@@ -84,7 +84,7 @@ public class ToggleSwitchComponentProperties extends ClickableGUIComponentProper
 		.append(String.format("execute-onclick-on-as-console: %b,\n", executeOnClickOnAsConsole))
 		.append(String.format("execute-onclick-off-as-console: %b,\n", executeOnClickOffAsConsole))
 		.append(String.format("on-value: %s,\n", onValue))
-		.append(String.format("off-value: %s }", offValue));
+		.append(String.format("off-value: %s \n}", offValue));
 		
 		return strBuilder.toString();
 	}

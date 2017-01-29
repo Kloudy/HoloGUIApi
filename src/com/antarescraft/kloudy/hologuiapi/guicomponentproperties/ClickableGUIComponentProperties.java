@@ -64,8 +64,8 @@ public abstract class ClickableGUIComponentProperties extends GUIComponentProper
 		.append(String.format("onclick: %s,\n", onclick))
 		.append(String.format("execute-command-as-console: %b,\n", executeCommandAsConsole))
 		.append(String.format("onclick-sound: %s,\n", onclickSoundString))
-		.append(String.format("onclick-sound-volume: %d,\n", onclickSoundVolume))
-		.append(String.format("label-zoom-distance: %d,\n", labelZoomDistance))
+		.append(String.format("onclick-sound-volume: %f,\n", onclickSoundVolume))
+		.append(String.format("label-zoom-distance: %f,\n", labelZoomDistance))
 		.append(String.format("click-permission: %s,\n", clickPermission))
 		.append(String.format("no-permission-message: %s,\n", noPermissionMessage));
 		

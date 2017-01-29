@@ -41,7 +41,7 @@ public class EntityButtonComponentProperties extends ClickableGUIComponentProper
 		StringBuilder strBuilder = new StringBuilder();
 		strBuilder.append(super.toString())
 		.append(String.format("type: %s,\n", entityTypeString))
-		.append(String.format("yaw: %d }", yaw));
+		.append(String.format("yaw: %f \n}", yaw));
 		
 		return strBuilder.toString();
 	}

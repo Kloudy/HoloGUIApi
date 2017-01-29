@@ -80,12 +80,12 @@ public class ValueScrollerComponentProperties extends ClickableGUIComponentPrope
 		StringBuilder strBuilder = new StringBuilder();
 		strBuilder.append(super.toString())
 		.append(String.format("onscroll-sound: %s,\n", onscrollSoundString))
-		.append(String.format("onscroll-sound-volume: %d,\n", onscrollSoundVolume))
+		.append(String.format("onscroll-sound-volume: %f,\n", onscrollSoundVolume))
 		.append(String.format("value-type: %s,\n", valueType))
 		.append(String.format("min-value: %s,\n", minValueString))
 		.append(String.format("max-value: %s,\n", maxValueString))
 		.append(String.format("decimal-format: %s,\n", decimalFormat))
-		.append(String.format("wrap: %b,\n", wrap));
+		.append(String.format("wrap: %b,\n}", wrap));
 		
 		return strBuilder.toString();
 	}

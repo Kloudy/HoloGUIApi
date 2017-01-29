@@ -48,7 +48,7 @@ public class ButtonComponentProperties extends ClickableGUIComponentProperties i
 		strBuilder.append(super.toString())
 		.append(String.format("icon: %s,\n", icon))
 		.append(String.format("mini: %s,\n", mini))
-		.append(String.format("symmetrical: %b }", symmetrical));
+		.append(String.format("symmetrical: %b \n}", symmetrical));
 		
 		return strBuilder.toString();
 	}

@@ -18,19 +18,6 @@ import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
  */
 public class ButtonComponent extends ClickableGUIComponent implements ConfigObject
 {	
-	/*@ConfigProperty(key = "icon")
-	private String icon;
-	
-	@OptionalConfigProperty
-	@BooleanConfigProperty(defaultValue = false)
-	@ConfigProperty(key = "mini")
-	private boolean mini;
-	
-	@OptionalConfigProperty
-	@BooleanConfigProperty(defaultValue = false)
-	@ConfigProperty(key = "symmetrical")
-	boolean symmetrical;*/
-	
 	@ConfigProperty(key = "<root>")
 	private ButtonComponentProperties properties;
 	

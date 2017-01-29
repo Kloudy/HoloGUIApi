@@ -45,7 +45,7 @@ public class LabelComponentProperties extends GUIComponentProperties implements 
 			strBuilder.append(s + ", ");
 		}
 		
-		strBuilder.append("] }\n");
+		strBuilder.append("] \n}");
 		
 		return strBuilder.toString();
 	}

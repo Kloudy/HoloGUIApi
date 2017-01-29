@@ -35,7 +35,7 @@ public class EntityComponentProperties extends GUIComponentProperties
 		StringBuilder strBuilder = new StringBuilder();
 		strBuilder.append(super.toString())
 		.append(String.format("type: %s,\n", entityTypeString))
-		.append(String.format("yaw: %s }", yaw));
+		.append(String.format("yaw: %f \n}", yaw));
 		
 		return strBuilder.toString();
 	}

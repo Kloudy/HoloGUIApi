@@ -44,7 +44,7 @@ public class TextBoxComponentProperties extends ClickableGUIComponentProperties
 		StringBuilder strBuilder = new StringBuilder();
 		strBuilder.append(super.toString())
 		.append(String.format("default-text: %s,\n", defaultLine))
-		.append(String.format("evaluate-placeholders: %b }", evaluatePlaceholders));
+		.append(String.format("evaluate-placeholders: %b \n}", evaluatePlaceholders));
 		
 		return strBuilder.toString();
 	}

@@ -40,7 +40,7 @@ public class ItemButtonComponentProperties extends ClickableGUIComponentProperti
 		StringBuilder strBuilder = new StringBuilder();
 		strBuilder.append(super.toString())
 		.append(String.format("item-id: %s,\n", itemString))
-		.append(String.format("rotation: { x: %d, y: %d, z: %d } }", rotation.toVector().getX(), rotation.toVector().getY(), rotation.toVector().getZ()));
+		.append(String.format("rotation: { x: %f, y: %f, z: %f } \n}", rotation.toVector().getX(), rotation.toVector().getY(), rotation.toVector().getZ()));
 		
 		return strBuilder.toString();
 	}
