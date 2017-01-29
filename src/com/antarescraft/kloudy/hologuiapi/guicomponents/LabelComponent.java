@@ -64,12 +64,6 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 		}
 		
 		properties.lines = new ArrayList<String>(Arrays.asList(linesArray));
-		
-		HoloGUIApi.debugMessage("done with parseLineScroll for " + properties.id);
-		for(String s : properties.lines)
-		{
-			HoloGUIApi.debugMessage(s);
-		}
 	}
 	
 	public void setLines(ArrayList<String> lines)
@@ -146,18 +140,12 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 				{
 					str = shiftString(str);
 				}
-				
-				linesArray[i] = str;
 			}	
+			
+			linesArray[i] = str;
 		}
 		
 		properties.lines = new ArrayList<String>(Arrays.asList(linesArray));
-		
-		HoloGUIApi.debugMessage("finished with update increment for " + properties.id);
-		for(String s : properties.lines)
-		{
-			HoloGUIApi.debugMessage(s);
-		}
 	}
 	
 	@Override
@@ -167,8 +155,6 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 		for(int i = 0; i < properties.lines.size(); i++)
 		{
 			String str = properties.lines.get(i);
-			
-			HoloGUIApi.debugMessage(properties.id + ": " + properties.lines.get(i));
 			
 			str = HoloGUIPlaceholders.setHoloGUIPlaceholders(plugin, str, player);
 			if(HoloGUIApi.hasPlaceholderAPI)
