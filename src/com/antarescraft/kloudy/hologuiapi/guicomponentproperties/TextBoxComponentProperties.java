@@ -2,7 +2,9 @@ package com.antarescraft.kloudy.hologuiapi.guicomponentproperties;
 
 import java.util.HashMap;
 
+import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.ConfigParser;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.StringConfigProperty;
@@ -41,11 +43,13 @@ public class TextBoxComponentProperties extends ClickableGUIComponentProperties
 	@Override
 	public String toString()
 	{
-		StringBuilder strBuilder = new StringBuilder();
+		return ConfigParser.generateConfigString(HoloGUIApi.pluginName, this);
+		
+		/*StringBuilder strBuilder = new StringBuilder();
 		strBuilder.append(super.toString())
 		.append(String.format("default-text: %s,\n", defaultLine))
 		.append(String.format("evaluate-placeholders: %b \n}", evaluatePlaceholders));
 		
-		return strBuilder.toString();
+		return strBuilder.toString();*/
 	}
 }

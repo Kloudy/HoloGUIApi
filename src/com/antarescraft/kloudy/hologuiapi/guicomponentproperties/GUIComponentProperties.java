@@ -8,6 +8,7 @@ import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.ConfigElementKey;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.ConfigParser;
 import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
@@ -59,15 +60,18 @@ public abstract class GUIComponentProperties implements ConfigObject
 	@Override
 	public String toString()
 	{
-		StringBuilder strBuilder = new StringBuilder();
+		return ConfigParser.generateConfigString(HoloGUIApi.pluginName, this);
+		
+		/*StringBuilder strBuilder = new StringBuilder();
 				
-		strBuilder.append(String.format("\n{\n position: { x: %f, y: %f }, \n", position.getX(), position.getY()))
+		strBuilder.append(String.format("\n{\nid: %s\n", id))
+		.append(String.format("position: { x: %f, y: %f }, \n", position.getX(), position.getY()))
 		.append(String.format("label: %s,\n", label))
 		.append(String.format("label-distance: %f,\n", labelDistance))
 		.append(String.format("always-show-label: %b,\n", alwaysShowLabel))
 		.append(String.format("hidden: %b,\n", hidden));
 		
-		return strBuilder.toString();
+		return strBuilder.toString();*/
 	}
 	
 	@Override
