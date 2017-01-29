@@ -1,4 +1,4 @@
-package com.antarescraft.kloudy.hologuiapi.playerguicomponents;
+package com.antarescraft.kloudy.hologuiapi;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -10,12 +10,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
-import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
-import com.antarescraft.kloudy.hologuiapi.PlayerData;
-import com.antarescraft.kloudy.hologuiapi.StationaryGUIDisplayContainer;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.ClickableGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIPage;
+import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
+import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPage;
+import com.antarescraft.kloudy.hologuiapi.playerguicomponents.StationaryPlayerGUIPage;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.HoloGUIApiConfig;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
@@ -210,7 +209,7 @@ public class PlayerGUIUpdateTask extends BukkitRunnable
 							playerGUIComponent.setIsFocused(false);
 							PlayerData.getPlayerData(player).setPlayerFocusedPage(null);
 							
-							//triger hover out handler for component if it exists
+							//trigger hover out handler for component if it exists
 							clickableGUIComponent.triggerHoverOutHandler(player);
 						}
 					}

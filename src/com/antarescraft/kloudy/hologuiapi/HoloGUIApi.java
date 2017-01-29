@@ -25,7 +25,6 @@ import com.antarescraft.kloudy.hologuiapi.guicomponents.TextBoxComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPage;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPageModel;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextBoxComponent;
-import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIUpdateTask;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.StationaryPlayerGUIPage;
 import com.antarescraft.kloudy.hologuiapi.util.HoloGUIApiConfig;
 import com.antarescraft.kloudy.hologuiapi.util.IOManager;
