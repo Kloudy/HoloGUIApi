@@ -239,7 +239,7 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 				
 				guiPagesLoaded = true;
 			}
-		}.runTask(this);
+		}.runTaskAsynchronously(this);
 	}
 
 	/**

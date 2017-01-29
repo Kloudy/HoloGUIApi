@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
 import com.antarescraft.kloudy.hologuiapi.handlers.GUIPageCloseHandler;
@@ -15,11 +16,12 @@ import com.antarescraft.kloudy.hologuiapi.handlers.GUIPageLoadHandler;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPage;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.StationaryPlayerGUIPage;
-import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.ConfigElementKey;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
-import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.ConfigParser;
+import com.antarescraft.kloudy.plugincore.config.annotations.BooleanConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElementKey;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.annotations.OptionalConfigProperty;
 import com.antarescraft.kloudy.plugincore.utils.Utils;
 
 /**
@@ -33,25 +35,7 @@ public class GUIPage implements ConfigObject
 	
 	public String toString()
 	{
-		StringBuilder strBuilder = new StringBuilder();
-		strBuilder.append(String.format("{ \nid: %s,\n", id))
-		.append(String.format("openItemString: %s,\n", openItemString))
-		.append(String.format("itemName: %s,\n", itemName))
-		.append(String.format("openOnLogin: %b,\n", openOnLogin))
-		.append(String.format("showPermission: %s,\n", showPermission))
-		.append(String.format("hidePermission: %s,\n", hidePermission))
-		.append(String.format("closeOnPlayerMove: %b,\n", closeOnPlayerMove))
-		.append(String.format("closeOnPlayerItemSwitch: %b,\n", closeOnPlayerItemSwitch))
-		.append("components: \n");
-		
-		for(GUIComponent component : guiComponents.values())
-		{
-			strBuilder.append(component.toString() + ",\n");
-		}
-		
-		strBuilder.append("}");
-		
-		return strBuilder.toString();
+		return ConfigParser.generateConfigString(HoloGUIApi.pluginName, this);
 	}
 	
 	@ConfigElementKey
@@ -309,6 +293,8 @@ public class GUIPage implements ConfigObject
 	@Override
 	public void configParseComplete(HashMap<String, Object> passthroughParams)
 	{
+		plugin = (HoloGUIPlugin)passthroughParams.get("plugin");
+		
 		openItem = Utils.parseItemString(openItemString);
 	}
 }

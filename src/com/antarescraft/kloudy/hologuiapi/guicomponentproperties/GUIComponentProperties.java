@@ -4,13 +4,13 @@ import java.util.HashMap;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.ComponentPosition;
-import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.ConfigElement;
-import com.antarescraft.kloudy.plugincore.config.ConfigElementKey;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigParser;
-import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.annotations.BooleanConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElementKey;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.annotations.OptionalConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
 /**
@@ -58,10 +58,7 @@ public abstract class GUIComponentProperties implements ConfigObject
 	}
 	
 	@Override
-	public void configParseComplete(HashMap<String, Object> passthroughParams)
-	{
-		HoloGUIApi.debugMessage(String.format("GuiProperties config parse for component: %s complete", id));
-	}
+	public void configParseComplete(HashMap<String, Object> passthroughParams){}
 	
 	@Override
 	public String toString()

@@ -2,9 +2,9 @@ package com.antarescraft.kloudy.hologuiapi.guicomponentproperties;
 
 import java.util.HashMap;
 
-import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.DoubleConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.annotations.DoubleConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.annotations.OptionalConfigProperty;
 
 public class EntityButtonComponentProperties extends ClickableGUIComponentProperties
 {

@@ -4,11 +4,11 @@ import java.util.HashMap;
 
 import org.bukkit.Sound;
 
-import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
-import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.DoubleConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.annotations.BooleanConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.annotations.DoubleConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.annotations.OptionalConfigProperty;
 import com.antarescraft.kloudy.plugincore.utils.Utils;
 
 /**
@@ -55,102 +55,4 @@ public abstract class ClickableGUIComponentProperties extends GUIComponentProper
 		
 		onclickSound = Utils.parseSound(onclickSoundString);
 	}
-	
-	/*@Override
-	public String toString()
-	{
-		StringBuilder strBuilder = new StringBuilder();
-		strBuilder.append(super.toString())
-		.append(String.format("onclick: %s,\n", onclick))
-		.append(String.format("execute-command-as-console: %b,\n", executeCommandAsConsole))
-		.append(String.format("onclick-sound: %s,\n", onclickSoundString))
-		.append(String.format("onclick-sound-volume: %f,\n", onclickSoundVolume))
-		.append(String.format("label-zoom-distance: %f,\n", labelZoomDistance))
-		.append(String.format("click-permission: %s,\n", clickPermission))
-		.append(String.format("no-permission-message: %s,\n", noPermissionMessage));
-		
-		return strBuilder.toString();
-	}*/
-	
-	/*public ClickableGUIComponentProperties(String onclick, boolean executeCommandAsConsole, Sound onclickSound, 
-			float onclickSoundVolume, double labelZoomDistance, String clickPermission, String noPermissionMessage)
-	{
-		this.onclick = onclick;
-		this.executeCommandAsConsole = executeCommandAsConsole;
-		this.onclickSound = onclickSound;
-		this.onclickSoundVolume = onclickSoundVolume;
-		this.labelZoomDistance = labelZoomDistance;
-		this.clickPermission = clickPermission;
-		this.noPermissionMessage = noPermissionMessage;
-	}
-	
-	public String getOnclickCommand()
-	{
-		return onclick;
-	}
-	
-	public void setOnClickCommand(String onclick)
-	{
-		this.onclick = onclick;
-	}
-	
-	public boolean executeCommandAsConsole()
-	{
-		return executeCommandAsConsole;
-	}
-	
-	public void setExecuteAsConsole(boolean executeAsConsole)
-	{
-		this.executeCommandAsConsole = executeAsConsole;
-	}
-	
-	public Sound getOnclickSound()
-	{
-		return onclickSound;
-	}
-	
-	public void setOnclickSound(Sound onclickSound)
-	{
-		this.onclickSound = onclickSound;
-	}
-	
-	public float getOnclickSoundVolume()
-	{
-		return (float)onclickSoundVolume;
-	}
-	
-	public void setOnclickSoundVolume(float onclickSoundVolume)
-	{
-		this.onclickSoundVolume = onclickSoundVolume;
-	}
-	
-	public double getLabelZoomDistance()
-	{
-		return labelZoomDistance;
-	}
-	
-	public void setLabelZoomDistance(double labelZoomDistance)
-	{
-		this.labelZoomDistance = labelZoomDistance;
-	}
-	
-	public String getClickPermission()
-	{
-		return clickPermission;
-	}
-	
-	public void setClickPermission(String clickPermission)
-	{
-		this.clickPermission = clickPermission;
-	}
-	
-	public String getNoPermissionMessage()
-	{
-		return noPermissionMessage;
-	}
-	
-	public void setNoPermissionMessage(String noPermissionMessage)
-	{
-		this.noPermissionMessage = noPermissionMessage;
-	}*/
 }

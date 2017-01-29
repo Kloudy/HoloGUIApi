@@ -2,10 +2,10 @@ package com.antarescraft.kloudy.hologuiapi.guicomponentproperties;
 
 import java.util.HashMap;
 
-import com.antarescraft.kloudy.plugincore.config.BooleanConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
-import com.antarescraft.kloudy.plugincore.config.ConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.OptionalConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.annotations.BooleanConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.annotations.OptionalConfigProperty;
 
 public class ButtonComponentProperties extends ClickableGUIComponentProperties implements ConfigObject
 {

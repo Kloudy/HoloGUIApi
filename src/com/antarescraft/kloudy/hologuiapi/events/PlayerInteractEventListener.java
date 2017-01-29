@@ -41,9 +41,9 @@ public class PlayerInteractEventListener implements Listener
 			PlayerData playerData = PlayerData.getPlayerData(player);
 			
 			final PlayerGUIPage focusedPage = playerData.getPlayerFocusedPage();
-			PlayerGUIPage playerGUIContainer = playerData.getPlayerGUIPage();
+			PlayerGUIPage playerGUIPage = playerData.getPlayerGUIPage();
 						
-			if((playerGUIContainer != null || focusedPage != null))//player is already viewing a GUI
+			if((playerGUIPage != null || focusedPage != null))//player is already viewing a GUI
 			{
 				if(focusedPage != null && focusedPage.getGUIPage().getHoloGUIPlugin().guiPagesLoaded())
 				{
@@ -54,7 +54,7 @@ public class PlayerInteractEventListener implements Listener
 						//component is button
 						if(playerGUIComponent.getGUIComponent() instanceof ClickableGUIComponent)
 						{
-							final boolean stationary = (playerGUIContainer instanceof StationaryPlayerGUIPage);
+							final boolean stationary = (playerGUIPage instanceof StationaryPlayerGUIPage);
 							
 							final ClickableGUIComponent clickableGUIComponent = (ClickableGUIComponent) playerGUIComponent.getGUIComponent();
 							clickableGUIComponent.triggerClickHandler(player);
