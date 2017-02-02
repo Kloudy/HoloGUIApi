@@ -19,6 +19,7 @@ public class HoloGUIApiConfig implements ConfigObject
 {
 	private static HoloGUIApiConfig instance;
 	
+	@OptionalConfigProperty
 	@ConfigElementMap
 	@ConfigProperty(key = "stationary-gui-displays")
 	private HashMap<String, StationaryGUIDisplayContainer> stationaryGUIDisplayContainers;
