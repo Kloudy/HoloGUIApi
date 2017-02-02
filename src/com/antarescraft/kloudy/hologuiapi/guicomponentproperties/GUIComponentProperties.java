@@ -1,11 +1,10 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponentproperties;
 
-import java.util.HashMap;
-
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.ComponentPosition;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigParser;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.BooleanConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElementKey;
@@ -58,7 +57,7 @@ public abstract class GUIComponentProperties implements ConfigObject
 	}
 	
 	@Override
-	public void configParseComplete(HashMap<String, Object> passthroughParams){}
+	public void configParseComplete(PassthroughParams params){}
 	
 	@Override
 	public String toString()

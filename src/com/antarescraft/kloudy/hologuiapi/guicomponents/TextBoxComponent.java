@@ -15,6 +15,7 @@ import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.HoloGUIPlaceholders;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
@@ -23,19 +24,6 @@ import me.clip.placeholderapi.PlaceholderAPI;
 
 public class TextBoxComponent extends ClickableGUIComponent implements ConfigObject
 {
-	/*private static final double DEFAULT_LABEL_DISTANCE = 10;
-	private static final double DEFAULT_LABEL_ZOOM_DISTANCE = 2;
-	
-	@OptionalConfigProperty
-	@StringConfigProperty(defaultValue = "")
-	@ConfigProperty(key = "default-text")
-	private String defaultLine;
-	
-	@OptionalConfigProperty
-	@BooleanConfigProperty(defaultValue = false)
-	@ConfigProperty(key = "evaluate-placeholders")
-	private boolean evaluatePlaceholders;*/
-	
 	@ConfigProperty(key = "<root>")
 	private TextBoxComponentProperties properties;
 	
@@ -189,9 +177,9 @@ public class TextBoxComponent extends ClickableGUIComponent implements ConfigObj
 	}
 
 	@Override
-	public void configParseComplete(HashMap<String, Object> passthroughParams)
+	public void configParseComplete(PassthroughParams params)
 	{
-		super.configParseComplete(passthroughParams);
+		super.configParseComplete(params);
 	}
 	
 	@Override

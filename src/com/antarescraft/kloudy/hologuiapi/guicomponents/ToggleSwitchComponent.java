@@ -13,57 +13,12 @@ import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIToggleSwi
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
 public class ToggleSwitchComponent extends ClickableGUIComponent implements ConfigObject
 {
-	/*private static final double DEFAULT_LABEL_DISTANCE = 15;
-	private static final double DEFAULT_LABEL_ZOOM_DISTANCE = 4;
-	
-	@OptionalConfigProperty
-	@BooleanConfigProperty(defaultValue = false)
-	@ConfigProperty(key = "value")
-	private boolean defaultState;
-	
-	@OptionalConfigProperty
-	@ConfigProperty(key = "onclick-on")
-	private String onclickOn;
-	
-	@OptionalConfigProperty
-	@ConfigProperty(key = "onclick-off")
-	private String onclickOff;
-	
-	@OptionalConfigProperty
-	@StringConfigProperty(defaultValue = "default-toggle-on.png")
-	@ConfigProperty(key = "icon-on")
-	private String onIcon;
-	
-	@OptionalConfigProperty
-	@StringConfigProperty(defaultValue = "default-toggle-off.png")
-	@ConfigProperty(key = "icon-off")
-	private String offIcon;
-	
-	@OptionalConfigProperty
-	@BooleanConfigProperty(defaultValue = false)
-	@ConfigProperty(key = "execute-onclick-as-console")
-	private boolean executeOnClickOnAsConsole;
-	
-	@OptionalConfigProperty
-	@BooleanConfigProperty(defaultValue = false)
-	@ConfigProperty(key = "execute-onclick-off-as-console")
-	private boolean executeOnClickOffAsConsole;
-	
-	@OptionalConfigProperty
-	@StringConfigProperty(defaultValue = "")
-	@ConfigProperty(key = "on-value")
-	private String onValue;
-	
-	@OptionalConfigProperty
-	@StringConfigProperty(defaultValue = "")
-	@ConfigProperty(key = "off-value")
-	private String offValue;*/
-	
 	@ConfigProperty(key = "<root>")
 	ToggleSwitchComponentProperties properties;
 	
@@ -282,9 +237,9 @@ public class ToggleSwitchComponent extends ClickableGUIComponent implements Conf
 	}
 
 	@Override
-	public void configParseComplete(HashMap<String, Object> passthroughParams)
+	public void configParseComplete(PassthroughParams params)
 	{
-		super.configParseComplete(passthroughParams);
+		super.configParseComplete(params);
 		
 		onLines = plugin.loadImage(properties.onIcon, 13, 13, true);
 		offLines = plugin.loadImage(properties.offIcon, 13, 13, true);

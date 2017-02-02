@@ -1,9 +1,9 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponentproperties;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 
 public class LabelComponentProperties extends GUIComponentProperties implements ConfigObject
@@ -14,9 +14,9 @@ public class LabelComponentProperties extends GUIComponentProperties implements 
 	public ArrayList<String> lines;
 	
 	@Override
-	public void configParseComplete(HashMap<String, Object> passthroughParams)
+	public void configParseComplete(PassthroughParams params)
 	{
-		super.configParseComplete(passthroughParams);
+		super.configParseComplete(params);
 		
 		if(lines == null) lines = new ArrayList<String>();
 						

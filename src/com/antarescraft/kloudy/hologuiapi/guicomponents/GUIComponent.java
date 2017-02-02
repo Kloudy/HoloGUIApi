@@ -1,13 +1,12 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
-import java.util.HashMap;
-
 import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.GUIComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 
 public abstract class GUIComponent implements ConfigObject
 {	
@@ -27,8 +26,8 @@ public abstract class GUIComponent implements ConfigObject
 	}
 	
 	@Override
-	public void configParseComplete(HashMap<String, Object> passthroughParams)
+	public void configParseComplete(PassthroughParams params)
 	{
-		plugin = (HoloGUIPlugin)passthroughParams.get("plugin");		
+		plugin = (HoloGUIPlugin)params.getParam("plugin");		
 	}
 }

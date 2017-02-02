@@ -18,40 +18,12 @@ import com.antarescraft.kloudy.hologuiapi.handlers.HoverOutHandler;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.HoloGUIPlaceholders;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 
 public abstract class ClickableGUIComponent extends GUIComponent
 {
-	/*@ConfigProperty(key = "onclick")
-	protected String onclick;
-	
-	@OptionalConfigProperty
-	@BooleanConfigProperty(defaultValue = false)
-	@ConfigProperty(key = "execute-command-as-console")
-	protected boolean executeCommandAsConsole;
-	
-	@OptionalConfigProperty
-	@ConfigProperty(key = "onclick-sound")
-	protected String onclickSoundString;
-	
-	@OptionalConfigProperty
-	@DoubleConfigProperty(defaultValue = 0.5, maxValue = 1.0, minValue = 0.0)
-	@ConfigProperty(key = "onclick-sound-volume")
-	protected double onclickSoundVolume;
-	
-	@OptionalConfigProperty
-	@ConfigProperty(key = "label-zoom-distance")
-	protected Double labelZoomDistance;
-	
-	@OptionalConfigProperty
-	@ConfigProperty(key = "click-permission")
-	protected String clickPermission;
-	
-	@OptionalConfigProperty
-	@ConfigProperty(key = "no-permission-message")
-	protected String noPermissionMessage;*/
-	
 	private HashMap<UUID, ClickHandler> clickHandlers = new HashMap<UUID, ClickHandler>();
 	private HashMap<UUID, HoverHandler> hoverHandlers = new HashMap<UUID, HoverHandler>();
 	private HashMap<UUID, HoverOutHandler> hoverOutHandlers = new HashMap<UUID, HoverOutHandler>();
@@ -67,86 +39,10 @@ public abstract class ClickableGUIComponent extends GUIComponent
 	public abstract AABB.Vec3D getMaxBoundingRectPoint19(Point3D origin);
 		
 	@Override
-	public void configParseComplete(HashMap<String, Object> passthroughParams)
+	public void configParseComplete(PassthroughParams params)
 	{
-		super.configParseComplete(passthroughParams);
+		super.configParseComplete(params);
 	}
-	
-	/*public String getOnClick()
-	{
-		return onclick;
-	}
-	
-	public void setOnClick(String onclick)
-	{
-		this.onclick = onclick;
-	}
-	
-	public Sound getOnclickSound()
-	{
-		try
-		{
-			return Sound.valueOf(onclickSoundString);
-		}
-		catch(Exception e){}
-		
-		return null;
-	}
-	
-	public void setOnClickSound(Sound onclickSound)
-	{
-		onclickSoundString = onclickSound.toString();
-	}
-	
-	public float getOnclickSoundVolume()
-	{
-		return (float)onclickSoundVolume;
-	}
-	
-	public void setOnclickSoundVolume(float onclickSoundVolume)
-	{
-		this.onclickSoundVolume = onclickSoundVolume;
-	}
-	
-	public double getLabelZoomDistance()
-	{
-		return labelZoomDistance;
-	}
-	
-	public void setLabelZoomDistance(double labelZoomDistance)
-	{
-		this.labelZoomDistance = labelZoomDistance;
-	}
-	
-	public String getClickPermission()
-	{
-		return clickPermission;
-	}
-	
-	public void setClickPermission(String clickPermission)
-	{
-		this.clickPermission = clickPermission;
-	}
-	
-	public String getNoPermissionMessage()
-	{
-		return noPermissionMessage;
-	}
-	
-	public void setNoPermissionMesssage(String noPermissionMessage)
-	{
-		this.noPermissionMessage = noPermissionMessage;
-	}
-	
-	public void executeOnclick(Player player)
-	{
-		executeOnclick(player, null, onclick, executeCommandAsConsole);
-	}
-	
-	public void executeOnclick(Player player, String stationaryDisplayId)
-	{
-		executeOnclick(player, stationaryDisplayId, onclick, executeCommandAsConsole);
-	}*/
 	
 	public void registerClickHandler(Player player, ClickHandler clickHandler)
 	{

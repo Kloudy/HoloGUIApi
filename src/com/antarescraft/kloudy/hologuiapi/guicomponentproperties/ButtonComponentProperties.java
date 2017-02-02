@@ -1,8 +1,7 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponentproperties;
 
-import java.util.HashMap;
-
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.BooleanConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.annotations.OptionalConfigProperty;
@@ -26,9 +25,9 @@ public class ButtonComponentProperties extends ClickableGUIComponentProperties i
 	public boolean symmetrical;
 
 	@Override
-	public void configParseComplete(HashMap<String, Object> passthroughParams)
+	public void configParseComplete(PassthroughParams params)
 	{
-		super.configParseComplete(passthroughParams);
+		super.configParseComplete(params);
 		
 		if(labelDistance == -1)
 		{

@@ -1,7 +1,5 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
-import java.util.HashMap;
-
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -12,6 +10,7 @@ import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIEntityCom
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 import com.antarescraft.kloudy.plugincore.utils.Utils;
@@ -21,17 +20,6 @@ import com.antarescraft.kloudy.plugincore.utils.Utils;
  */
 public class EntityButtonComponent extends ClickableGUIComponent implements EntityTypeComponent, ConfigObject
 {	
-	/*private static final double DEFAULT_LABEL_DISTANCE = 8;
-	private static final double DEFAULT_LABEL_ZOOM_DISTANCE = 1.3;
-	
-	@ConfigProperty(key = "type")
-	private String entityTypeString;
-	
-	@OptionalConfigProperty
-	@DoubleConfigProperty(defaultValue = 0, maxValue = Double.MAX_VALUE, minValue = 0)
-	@ConfigProperty(key = "yaw")
-	private double yaw;*/
-	
 	@ConfigProperty(key = "<root>")
 	EntityButtonComponentProperties properties;
 	
@@ -142,9 +130,9 @@ public class EntityButtonComponent extends ClickableGUIComponent implements Enti
 	}
 
 	@Override
-	public void configParseComplete(HashMap<String, Object> passthroughParams)
+	public void configParseComplete(PassthroughParams params)
 	{
-		super.configParseComplete(passthroughParams);
+		super.configParseComplete(params);
 		
 		entityType = Utils.parseEntityType(properties.entityTypeString);
 	}

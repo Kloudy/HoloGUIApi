@@ -1,7 +1,5 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
-import java.util.HashMap;
-
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
@@ -9,22 +7,13 @@ import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.EntityComponent
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIEntityComponent;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 import com.antarescraft.kloudy.plugincore.utils.Utils;
 
 public class EntityComponent extends GUIComponent implements EntityTypeComponent, ConfigObject
 {
-	/*private static final double DEFAULT_LABEL_DISTANCE = 8;
-	
-	@ConfigProperty(key = "type")
-	private String entityTypeString;
-	
-	@OptionalConfigProperty
-	@DoubleConfigProperty(defaultValue = 0, maxValue = 360, minValue = 0)
-	@ConfigProperty(key = "yaw")
-	private double yaw;*/
-	
 	@ConfigProperty(key = "<root>")
 	private EntityComponentProperties properties;
 	
@@ -93,9 +82,9 @@ public class EntityComponent extends GUIComponent implements EntityTypeComponent
 	}
 
 	@Override
-	public void configParseComplete(HashMap<String, Object> passthroughParams)
+	public void configParseComplete(PassthroughParams params)
 	{	
-		super.configParseComplete(passthroughParams);
+		super.configParseComplete(params);
 		
 		entityType = Utils.parseEntityType(properties.entityTypeString);
 	}

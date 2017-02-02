@@ -1,7 +1,5 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
-import java.util.HashMap;
-
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -9,6 +7,7 @@ import org.bukkit.util.Vector;
 import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ItemComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIItemComponent;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.configobjects.ConfigVector;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
@@ -19,15 +18,6 @@ import com.antarescraft.kloudy.plugincore.utils.Utils;
  */
 public class ItemComponent extends GUIComponent implements ItemTypeComponent, ConfigObject
 {
-	/*private static final double DEFAULT_LABEL_DISTANCE = 6;
-	
-	@ConfigProperty(key = "item-id")
-	protected String itemString;
-	
-	@ConfigElement
-	@ConfigProperty(key = "rotation")
-	private ConfigVector rotation;*/
-	
 	@ConfigProperty(key = "<root>")
 	ItemComponentProperties properties;
 	
@@ -96,9 +86,9 @@ public class ItemComponent extends GUIComponent implements ItemTypeComponent, Co
 	public String[] updateComponentLines(Player player) {return null;}
 
 	@Override
-	public void configParseComplete(HashMap<String, Object> passthroughParams)
+	public void configParseComplete(PassthroughParams params)
 	{
-		super.configParseComplete(passthroughParams);
+		super.configParseComplete(params);
 		
 		item = Utils.parseItemString(properties.itemString);
 	}

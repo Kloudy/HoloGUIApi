@@ -1,6 +1,5 @@
 package com.antarescraft.kloudy.hologuiapi.util;
 import java.io.File;
-import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -10,6 +9,7 @@ import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.*;
 import com.antarescraft.kloudy.plugincore.config.ConfigParser;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.messaging.MessageManager;
 
 public class ConfigManager
@@ -28,10 +28,10 @@ public class ConfigManager
 			return null;
 		}
 		
-		HashMap<String, Object> passthroughParams = new HashMap<String, Object>();
-		passthroughParams.put("plugin", plugin);
+		PassthroughParams params = new PassthroughParams();
+		params.addParam("plugin", plugin);
 		
-		GUIPage guiPage = ConfigParser.parse(plugin.getName(), yaml.getConfigurationSection(guiPageId), GUIPage.class, passthroughParams);
+		GUIPage guiPage = ConfigParser.parse(yaml.getConfigurationSection(guiPageId), GUIPage.class, plugin.getName(), params);
 				
 		ConfigurationSection guiPageSection = yaml.getConfigurationSection(guiPage.getId());
 		ConfigurationSection componentsSection = guiPageSection.getConfigurationSection("components");
@@ -55,37 +55,37 @@ public class ConfigManager
 			
 			if(type.equalsIgnoreCase("label"))
 			{				
-				component = (LabelComponent)ConfigParser.parse(plugin.getName(), section, LabelComponent.class, passthroughParams);
+				component = (LabelComponent)ConfigParser.parse(section, LabelComponent.class, plugin.getName(), params);
 			}
 			else if(type.equalsIgnoreCase("button"))
 			{
-				component = (ButtonComponent)ConfigParser.parse(plugin.getName(), section, ButtonComponent.class, passthroughParams);
+				component = (ButtonComponent)ConfigParser.parse(section, ButtonComponent.class, plugin.getName(), params);
 			}
 			else if(type.equalsIgnoreCase("image"))
 			{
-				component = (ImageComponent)ConfigParser.parse(plugin.getName(), section, ImageComponent.class, passthroughParams);
+				component = (ImageComponent)ConfigParser.parse(section, ImageComponent.class, plugin.getName(), params);
 			}
 			else if(type.equalsIgnoreCase("entity"))
 			{
-				if(clickable)component = (EntityButtonComponent)ConfigParser.parse(plugin.getName(), section, EntityButtonComponent.class, passthroughParams);
-				else component = (EntityComponent)ConfigParser.parse(plugin.getName(), section, EntityComponent.class, passthroughParams);
+				if(clickable)component = (EntityButtonComponent)ConfigParser.parse(section, EntityButtonComponent.class, plugin.getName(), params);
+				else component = (EntityComponent)ConfigParser.parse(section, EntityComponent.class, plugin.getName(), params);
 			}
 			else if(type.equalsIgnoreCase("item"))
 			{
-				if(clickable) component = (ItemButtonComponent)ConfigParser.parse(plugin.getName(), section, ItemButtonComponent.class, passthroughParams);
-				else component = (ItemComponent)ConfigParser.parse(plugin.getName(), section, ItemComponent.class, passthroughParams);
+				if(clickable) component = (ItemButtonComponent)ConfigParser.parse(section, ItemButtonComponent.class, plugin.getName(), params);
+				else component = (ItemComponent)ConfigParser.parse(section, ItemComponent.class, plugin.getName(), params);
 			}
 			else if(type.equalsIgnoreCase("toggle-switch"))
 			{
-				component = (ToggleSwitchComponent)ConfigParser.parse(plugin.getName(), section, ToggleSwitchComponent.class, passthroughParams);
+				component = (ToggleSwitchComponent)ConfigParser.parse(section, ToggleSwitchComponent.class, plugin.getName(), params);
 			}
 			else if(type.equalsIgnoreCase("text-box"))
 			{
-				component = (TextBoxComponent)ConfigParser.parse(plugin.getName(), section, TextBoxComponent.class, passthroughParams);
+				component = (TextBoxComponent)ConfigParser.parse(section, TextBoxComponent.class, plugin.getName(), params);
 			}
 			else if(type.equalsIgnoreCase("value-scroller"))
 			{
-				component = (ValueScrollerComponent)ConfigParser.parse(plugin.getName(), section, ValueScrollerComponent.class, passthroughParams);
+				component = (ValueScrollerComponent)ConfigParser.parse(section, ValueScrollerComponent.class, plugin.getName(), params);
 			}
 			
 			if(guiPage != null)

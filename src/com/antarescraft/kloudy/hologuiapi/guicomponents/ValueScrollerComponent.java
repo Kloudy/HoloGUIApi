@@ -22,6 +22,7 @@ import com.antarescraft.kloudy.hologuiapi.scrollvalues.ListScrollValue;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.exceptions.InvalidDateFormatException;
 import com.antarescraft.kloudy.plugincore.exceptions.InvalidDurationFormatException;
@@ -30,53 +31,6 @@ import com.antarescraft.kloudy.plugincore.time.TimeFormat;
 
 public class ValueScrollerComponent extends ClickableGUIComponent implements ConfigObject
 {
-	/*private static final double DEFAULT_LABEL_DISTANCE = 10;
-	private static final double DEFAULT_LABEL_ZOOM_DISTANCE = 2;
-	
-	@OptionalConfigProperty
-	@StringConfigProperty(defaultValue = "BLOCK_LAVA_POP")
-	@ConfigProperty(key = "onscroll-sound")
-	private String onscrollSoundString;
-	
-	@OptionalConfigProperty
-	@DoubleConfigProperty(defaultValue = 0.5, maxValue = 0.0, minValue = 1.0)
-	@ConfigProperty(key = "onscroll-sound-volume")
-	private double onscrollSoundVolume;
-	
-	@StringConfigProperty(defaultValue = "", acceptedValues = { "decimal", "integer", "duration", "date", "list" }, acceptedValuesIgnoreCase = true)
-	@ConfigProperty(key = "value-type")
-	private String valueType;
-	
-	@OptionalConfigProperty
-	@ConfigProperty(key = "default-value")
-	private String defaultValueString;
-	
-	@OptionalConfigProperty
-	@ConfigProperty(key = "step")
-	private String stepString;
-	
-	@OptionalConfigProperty
-	@ConfigProperty(key = "min-value")
-	private String minValueString;
-	
-	@OptionalConfigProperty
-	@ConfigProperty(key = "max-value")
-	private String maxValueString;
-	
-	@OptionalConfigProperty
-	@StringConfigProperty(defaultValue = "#.#")
-	@ConfigProperty(key = "decimal-format")
-	private String decimalFormat;
-	
-	@OptionalConfigProperty
-	@BooleanConfigProperty(defaultValue = false)
-	@ConfigProperty(key = "wrap")
-	private boolean wrap;
-	
-	@OptionalConfigProperty
-	@ConfigProperty(key = "list-items")
-	private ArrayList<String> listItems;*/
-	
 	@ConfigProperty(key = "<root>")
 	ValueScrollerComponentProperties properties;
 	
@@ -222,9 +176,9 @@ public class ValueScrollerComponent extends ClickableGUIComponent implements Con
 	}
 
 	@Override
-	public void configParseComplete(HashMap<String, Object> passthroughParams)
+	public void configParseComplete(PassthroughParams params)
 	{
-		super.configParseComplete(passthroughParams);
+		super.configParseComplete(params);
 		
 		if(properties.valueType.equals("decimal"))
 		{

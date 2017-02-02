@@ -1,31 +1,16 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
-import java.util.HashMap;
-
 import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ImageComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextComponent;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
 public class ImageComponent extends GUIComponent implements ConfigObject
 {
-	/*@ConfigProperty(key = "image-src")
-	private String imageFileName;
-	
-	@ConfigProperty(key = "width")
-	private int width;
-	
-	@ConfigProperty(key = "height")
-	private int height;
-	
-	@OptionalConfigProperty
-	@BooleanConfigProperty(defaultValue = false)
-	@ConfigProperty(key = "symmetrical")
-	private boolean symmetrical;*/
-	
 	@ConfigProperty(key = "<root>")
 	private ImageComponentProperties properties;
 	
@@ -117,9 +102,9 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 	}
 
 	@Override
-	public void configParseComplete(HashMap<String, Object> passthroughParams)
+	public void configParseComplete(PassthroughParams params)
 	{
-		super.configParseComplete(passthroughParams);
+		super.configParseComplete(params);
 		
 		lines = plugin.loadImage(properties.imageFileName, properties.width, properties.height, properties.symmetrical);
 		

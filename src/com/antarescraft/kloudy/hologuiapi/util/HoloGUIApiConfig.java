@@ -7,6 +7,7 @@ import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.StationaryGUIDisplayContainer;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigParser;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.BooleanConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElementMap;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
@@ -41,10 +42,10 @@ public class HoloGUIApiConfig implements ConfigObject
 	{	
 		plugin.reloadConfig();
 		
-		HashMap<String, Object> passthroughParams = new HashMap<String, Object>();
-		passthroughParams.put("plugin", plugin);
+		PassthroughParams params = new PassthroughParams();
+		params.addParam("plugin", plugin);
 		
-		instance = ConfigParser.parse(HoloGUIApi.pluginName, plugin.getConfig().getRoot(), HoloGUIApiConfig.class, passthroughParams);
+		instance = ConfigParser.parse(plugin.getConfig().getRoot(), HoloGUIApiConfig.class, HoloGUIApi.pluginName, params);
 	}
 	
 	public static Collection<StationaryGUIDisplayContainer> getStationaryDisplays()
@@ -73,7 +74,7 @@ public class HoloGUIApiConfig implements ConfigObject
 	}
 	
 	@Override
-	public void configParseComplete(HashMap<String, Object> passthroughParams)
+	public void configParseComplete(PassthroughParams params)
 	{
 		if(stationaryGUIDisplayContainers == null)
 		{

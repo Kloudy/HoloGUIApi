@@ -2,7 +2,6 @@ package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 
 import org.bukkit.entity.Player;
@@ -13,6 +12,7 @@ import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.LabelComponentP
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextComponent;
 import com.antarescraft.kloudy.hologuiapi.util.HoloGUIPlaceholders;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
@@ -197,9 +197,9 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 	}
 
 	@Override
-	public void configParseComplete(HashMap<String, Object> passthroughParams)
+	public void configParseComplete(PassthroughParams params)
 	{
-		super.configParseComplete(passthroughParams);
+		super.configParseComplete(params);
 		
 		parseLineScroll();
 	}

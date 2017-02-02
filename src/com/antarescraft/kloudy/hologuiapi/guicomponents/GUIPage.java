@@ -18,6 +18,7 @@ import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPage;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.StationaryPlayerGUIPage;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigParser;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.BooleanConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElementKey;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
@@ -291,9 +292,9 @@ public class GUIPage implements ConfigObject
 	}
 
 	@Override
-	public void configParseComplete(HashMap<String, Object> passthroughParams)
+	public void configParseComplete(PassthroughParams params)
 	{
-		plugin = (HoloGUIPlugin)passthroughParams.get("plugin");
+		plugin = (HoloGUIPlugin)params.getParam("plugin");
 		
 		openItem = Utils.parseItemString(openItemString);
 	}

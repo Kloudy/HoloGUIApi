@@ -1,8 +1,7 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
-import java.util.HashMap;
-
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.annotations.DoubleConfigProperty;
 
@@ -42,5 +41,5 @@ public class ComponentPosition implements ConfigObject
 	}
 
 	@Override
-	public void configParseComplete(HashMap<String, Object> passthroughParams){}
+	public void configParseComplete(PassthroughParams params){}
 }

@@ -17,6 +17,7 @@ import com.antarescraft.kloudy.hologuiapi.playerguicomponents.StationaryPlayerGU
 import com.antarescraft.kloudy.hologuiapi.util.HoloGUIApiConfig;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigParser;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElementKey;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
@@ -207,9 +208,9 @@ public class StationaryGUIDisplayContainer implements ConfigObject
 	}
 
 	@Override
-	public void configParseComplete(HashMap<String, Object> passthroughParams)
+	public void configParseComplete(PassthroughParams params)
 	{
-		HoloGUIPlugin plugin = ((HoloGUIApi)passthroughParams.get("plugin")).getHookedHoloGUIPlugin(pluginName);
+		HoloGUIPlugin plugin = ((HoloGUIApi)params.getParam("plugin")).getHookedHoloGUIPlugin(pluginName);
 		if(plugin != null)
 		{
 			defaultGUIPage = plugin.getGUIPage(defaultGUIPageId);
