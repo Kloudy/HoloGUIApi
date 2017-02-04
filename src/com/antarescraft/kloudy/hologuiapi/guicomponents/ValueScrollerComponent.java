@@ -23,6 +23,7 @@ import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.exceptions.InvalidDateFormatException;
 import com.antarescraft.kloudy.plugincore.exceptions.InvalidDurationFormatException;
@@ -31,7 +32,8 @@ import com.antarescraft.kloudy.plugincore.time.TimeFormat;
 
 public class ValueScrollerComponent extends ClickableGUIComponent implements ConfigObject
 {
-	@ConfigProperty(key = "<root>")
+	@ConfigElement
+	@ConfigProperty(key = "")
 	ValueScrollerComponentProperties properties;
 	
 	private AbstractScrollValue<?, ?> componentValue;

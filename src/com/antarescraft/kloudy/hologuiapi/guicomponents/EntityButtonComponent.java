@@ -11,6 +11,7 @@ import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 import com.antarescraft.kloudy.plugincore.utils.Utils;
@@ -20,7 +21,8 @@ import com.antarescraft.kloudy.plugincore.utils.Utils;
  */
 public class EntityButtonComponent extends ClickableGUIComponent implements EntityTypeComponent, ConfigObject
 {	
-	@ConfigProperty(key = "<root>")
+	@ConfigElement
+	@ConfigProperty(key = "")
 	EntityButtonComponentProperties properties;
 	
 	private EntityType entityType = null;

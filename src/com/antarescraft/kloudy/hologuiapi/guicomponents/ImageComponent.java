@@ -6,12 +6,14 @@ import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ImageComponentP
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextComponent;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
 public class ImageComponent extends GUIComponent implements ConfigObject
 {
-	@ConfigProperty(key = "<root>")
+	@ConfigElement
+	@ConfigProperty(key = "")
 	private ImageComponentProperties properties;
 	
 	private int frames = 0;

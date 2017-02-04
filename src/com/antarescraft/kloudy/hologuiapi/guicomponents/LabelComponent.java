@@ -13,6 +13,7 @@ import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextCompo
 import com.antarescraft.kloudy.hologuiapi.util.HoloGUIPlaceholders;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
@@ -23,7 +24,8 @@ import me.clip.placeholderapi.PlaceholderAPI;
  */
 public class LabelComponent extends GUIComponent implements ConfigObject
 {		
-	@ConfigProperty(key = "<root>")
+	@ConfigElement
+	@ConfigProperty(key = "")
 	private LabelComponentProperties properties;
 	
 	private HashSet<Integer> scrollingLines = new HashSet<Integer>();

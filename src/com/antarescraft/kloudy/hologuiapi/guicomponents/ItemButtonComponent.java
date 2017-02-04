@@ -10,6 +10,7 @@ import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.configobjects.ConfigVector;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
@@ -20,7 +21,8 @@ import com.antarescraft.kloudy.plugincore.utils.Utils;
  */
 public class ItemButtonComponent extends ClickableGUIComponent implements ItemTypeComponent, ConfigObject
 {
-	@ConfigProperty(key = "<root>")
+	@ConfigElement
+	@ConfigProperty(key = "")
 	ItemButtonComponentProperties properties;
 	
 	private ItemStack item = null;

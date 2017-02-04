@@ -1,11 +1,9 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
 import java.io.StringReader;
-import java.util.HashMap;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.*;
 import com.antarescraft.kloudy.plugincore.config.ConfigParser;
@@ -52,10 +50,6 @@ public class GUIComponentFactory
 	public static ButtonComponent createButtonComponent(HoloGUIPlugin plugin, ButtonComponentProperties properties)
 	{
 		String propertyString = ConfigParser.generateConfigString(plugin.getName(), properties);
-		System.out.println("button: " + propertyString);
-		
-		HashMap<String, Object> passthroughParams = new HashMap<String, Object>();
-		passthroughParams.put("plugin", plugin);
 		
 		if(propertyString != null)
 		{
@@ -68,11 +62,7 @@ public class GUIComponentFactory
 	public static EntityButtonComponent createEntityButtonComponent(HoloGUIPlugin plugin, EntityButtonComponentProperties properties)
 	{
 		String propertyString = ConfigParser.generateConfigString(plugin.getName(), properties);
-		System.out.println("EntityButtonComponent: " + propertyString);
-		
-		HashMap<String, Object> passthroughParams = new HashMap<String, Object>();
-		passthroughParams.put("plugin", plugin);
-		
+
 		if(propertyString != null)
 		{
 			return ConfigParser.parse(toYaml(propertyString), EntityButtonComponent.class, plugin.getName(), getPassthroughParams(plugin));
@@ -84,8 +74,7 @@ public class GUIComponentFactory
 	public static EntityComponent createEntityComponent(HoloGUIPlugin plugin, EntityComponentProperties properties)
 	{
 		String propertyString = ConfigParser.generateConfigString(plugin.getName(), properties);
-		HoloGUIApi.debugMessage("EntityComponent: " + propertyString);
-		
+
 		if(propertyString != null)
 		{
 			return ConfigParser.parse(toYaml(propertyString), EntityComponent.class, plugin.getName(), getPassthroughParams(plugin));
@@ -97,8 +86,7 @@ public class GUIComponentFactory
 	public static ImageComponent createImageComponent(HoloGUIPlugin plugin, ImageComponentProperties properties)
 	{
 		String propertyString = ConfigParser.generateConfigString(plugin.getName(), properties);
-		HoloGUIApi.debugMessage("ImageComponent: " + propertyString);
-		
+
 		if(propertyString != null)
 		{
 			return ConfigParser.parse(toYaml(propertyString), ImageComponent.class, plugin.getName(), getPassthroughParams(plugin));
@@ -110,8 +98,7 @@ public class GUIComponentFactory
 	public static ItemButtonComponent createItemButtonComponent(HoloGUIPlugin plugin, ItemButtonComponentProperties properties)
 	{
 		String propertyString = ConfigParser.generateConfigString(plugin.getName(), properties);
-		HoloGUIApi.debugMessage("ItemButtonComponent: " + propertyString);
-		
+
 		if(propertyString != null)
 		{
 			return ConfigParser.parse(toYaml(propertyString), ItemButtonComponent.class, plugin.getName(), getPassthroughParams(plugin));
@@ -123,8 +110,7 @@ public class GUIComponentFactory
 	public static ItemComponent createItemComponent(HoloGUIPlugin plugin, ItemComponentProperties properties)
 	{
 		String propertyString = ConfigParser.generateConfigString(plugin.getName(), properties);
-		HoloGUIApi.debugMessage("ItemComponent: " + propertyString);
-		
+
 		if(propertyString != null)
 		{
 			return ConfigParser.parse(toYaml(propertyString), ItemComponent.class, plugin.getName(), getPassthroughParams(plugin));
@@ -136,8 +122,7 @@ public class GUIComponentFactory
 	public static TextBoxComponent createTextBoxComponentComponent(HoloGUIPlugin plugin, TextBoxComponentProperties properties)
 	{
 		String propertyString = ConfigParser.generateConfigString(plugin.getName(), properties);
-		HoloGUIApi.debugMessage("TextBoxComponent: " + propertyString);
-		
+
 		if(propertyString != null)
 		{
 			return ConfigParser.parse(toYaml(propertyString), TextBoxComponent.class, plugin.getName(), getPassthroughParams(plugin));
@@ -149,8 +134,7 @@ public class GUIComponentFactory
 	public static ToggleSwitchComponent createToggleSwitchComponent(HoloGUIPlugin plugin, ToggleSwitchComponentProperties properties)
 	{
 		String propertyString = ConfigParser.generateConfigString(plugin.getName(), properties);
-		HoloGUIApi.debugMessage("ToggleSwitchComponent: " + propertyString);
-		
+
 		if(propertyString != null)
 		{
 			return ConfigParser.parse(toYaml(propertyString), ToggleSwitchComponent.class, plugin.getName(), getPassthroughParams(plugin));
@@ -162,8 +146,7 @@ public class GUIComponentFactory
 	public static ValueScrollerComponent createValueScrollerComponent(HoloGUIPlugin plugin, ValueScrollerComponentProperties properties)
 	{
 		String propertyString = ConfigParser.generateConfigString(plugin.getName(), properties);
-		HoloGUIApi.debugMessage("ValueScrollerComponent: " + propertyString);
-		
+
 		if(propertyString != null)
 		{
 			return ConfigParser.parse(toYaml(propertyString), ValueScrollerComponent.class, plugin.getName(), getPassthroughParams(plugin));

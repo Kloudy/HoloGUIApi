@@ -8,13 +8,15 @@ import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIEntityComponent;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 import com.antarescraft.kloudy.plugincore.utils.Utils;
 
 public class EntityComponent extends GUIComponent implements EntityTypeComponent, ConfigObject
 {
-	@ConfigProperty(key = "<root>")
+	@ConfigElement
+	@ConfigProperty(key = "")
 	private EntityComponentProperties properties;
 	
 	private EntityType entityType = null;

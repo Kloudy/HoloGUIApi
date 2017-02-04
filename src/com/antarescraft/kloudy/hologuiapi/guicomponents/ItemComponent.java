@@ -8,6 +8,7 @@ import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ItemComponentPr
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIItemComponent;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.configobjects.ConfigVector;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
@@ -18,7 +19,8 @@ import com.antarescraft.kloudy.plugincore.utils.Utils;
  */
 public class ItemComponent extends GUIComponent implements ItemTypeComponent, ConfigObject
 {
-	@ConfigProperty(key = "<root>")
+	@ConfigElement
+	@ConfigProperty(key = "")
 	ItemComponentProperties properties;
 	
 	private ItemStack item = null;
