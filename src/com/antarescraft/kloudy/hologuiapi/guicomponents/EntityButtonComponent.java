@@ -13,6 +13,7 @@ import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
 /*
  * Represents a clickable Entity on a GUI
@@ -24,7 +25,19 @@ public class EntityButtonComponent extends ClickableGUIComponent implements Enti
 	EntityButtonComponentProperties properties;
 			
 	private EntityButtonComponent(){}
-
+	
+	@Override
+	public EntityButtonComponent clone()
+	{
+		try
+		{
+			return ObjectMapper.mapObject(this, EntityButtonComponent.class);
+		}
+		catch(Exception e){}
+		
+		return null;
+	}
+	
 	@Override
 	public EntityType getEntityType()
 	{

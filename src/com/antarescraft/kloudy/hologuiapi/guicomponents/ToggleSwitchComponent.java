@@ -16,6 +16,7 @@ import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
 public class ToggleSwitchComponent extends ClickableGUIComponent implements ConfigObject
 {
@@ -30,6 +31,18 @@ public class ToggleSwitchComponent extends ClickableGUIComponent implements Conf
 	private HashMap<UUID, Boolean> playerToggleSwitchStates = new HashMap<UUID, Boolean>();
 	
 	private ToggleSwitchComponent(){}
+	
+	@Override
+	public ToggleSwitchComponent clone()
+	{
+		try
+		{
+			return ObjectMapper.mapObject(this, ToggleSwitchComponent.class, plugin);
+		}
+		catch(Exception e){}
+		
+		return null;
+	}
 	
 	public void registerToggleHandler(Player player, ToggleHandler toggleHandler)
 	{

@@ -26,6 +26,7 @@ import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.exceptions.InvalidDateFormatException;
 import com.antarescraft.kloudy.plugincore.exceptions.InvalidDurationFormatException;
+import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 import com.antarescraft.kloudy.plugincore.time.TimeFormat;
 
 public class ValueScrollerComponent extends ClickableGUIComponent implements ConfigObject
@@ -40,6 +41,18 @@ public class ValueScrollerComponent extends ClickableGUIComponent implements Con
 	private HashMap<UUID, AbstractScrollValue<?, ?>> playerScrollValues = new HashMap<UUID, AbstractScrollValue<?, ?>>();
 	
 	private ValueScrollerComponent(){}
+	
+	@Override
+	public ValueScrollerComponent clone()
+	{
+		try
+		{
+			return ObjectMapper.mapObject(this, ValueScrollerComponent.class, plugin);
+		}
+		catch(Exception e){}
+		
+		return null;
+	}
 	
 	public void setPlayerScrollValue(Player player, AbstractScrollValue<?, ?> value)
 	{

@@ -10,6 +10,7 @@ import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
 public class EntityComponent extends GUIComponent implements EntityTypeComponent, ConfigObject
 {
@@ -18,6 +19,18 @@ public class EntityComponent extends GUIComponent implements EntityTypeComponent
 	private EntityComponentProperties properties;
 	
 	private EntityComponent(){}
+	
+	@Override
+	public EntityComponent clone()
+	{
+		try
+		{
+			return ObjectMapper.mapObject(this, EntityComponent.class, plugin);
+		}
+		catch(Exception e){}
+		
+		return null;
+	}
 
 	@Override
 	public EntityType getEntityType()

@@ -10,6 +10,7 @@ import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
 /*
  * Represents a non-clickable item in a GUI
@@ -21,6 +22,18 @@ public class ItemComponent extends GUIComponent implements ItemTypeComponent, Co
 	ItemComponentProperties properties;
 		
 	private ItemComponent(){}
+	
+	@Override
+	public ItemComponent clone()
+	{
+		try
+		{
+			return ObjectMapper.mapObject(this, ItemComponent.class, plugin);
+		}
+		catch(Exception e){}
+		
+		return null;
+	}
 
 	@Override
 	public PlayerGUIItemComponent initPlayerGUIComponent(Player player)
