@@ -2,6 +2,7 @@ package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
 import java.io.StringReader;
 
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
@@ -19,9 +20,13 @@ public class GUIComponentFactory
 {	
 	private static PassthroughParams params;
 	
-	private static YamlConfiguration toYaml(String propertyString)
+	private static ConfigurationSection toYaml(String configString)
 	{
-		return YamlConfiguration.loadConfiguration(new StringReader(propertyString));
+		YamlConfiguration yaml = YamlConfiguration.loadConfiguration(new StringReader(configString));
+		String[] keys = new String[1];
+		yaml.getKeys(false).toArray(keys);
+		
+		return yaml.getConfigurationSection(keys[0]);
 	}
 	
 	private static PassthroughParams getPassthroughParams(HoloGUIPlugin plugin)
@@ -37,11 +42,11 @@ public class GUIComponentFactory
 	
 	public static LabelComponent createLabelComponent(HoloGUIPlugin plugin, LabelComponentProperties properties)
 	{
-		String propertyString = ConfigParser.generateConfigString(plugin.getName(), properties);
-				
-		if(propertyString != null)
+		String configString = ConfigParser.generateConfigString(plugin.getName(), properties);
+		
+		if(configString != null)
 		{
-			return ConfigParser.parse(toYaml(propertyString), LabelComponent.class, plugin.getName(), getPassthroughParams(plugin));
+			return ConfigParser.parse(toYaml(configString), LabelComponent.class, plugin.getName(), getPassthroughParams(plugin));
 		}
 		
 		return null;

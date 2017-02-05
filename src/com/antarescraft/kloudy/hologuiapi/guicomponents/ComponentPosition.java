@@ -6,11 +6,9 @@ import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 
 public class ComponentPosition implements ConfigObject
 {
-	//@DoubleConfigProperty(defaultValue = 0, maxValue = Double.MAX_VALUE, minValue = Double.MIN_VALUE)
 	@ConfigProperty(key = "x")
 	private double x = 0;
 	
-	//@DoubleConfigProperty(defaultValue = 0, maxValue = Double.MAX_VALUE, minValue = Double.MIN_VALUE)
 	@ConfigProperty(key = "y")
 	private double y = 0;
 	
@@ -40,5 +38,8 @@ public class ComponentPosition implements ConfigObject
 	}
 
 	@Override
-	public void configParseComplete(PassthroughParams params){}
+	public void configParseComplete(PassthroughParams params)
+	{
+		x *= -1;
+	}
 }
