@@ -82,7 +82,7 @@ public abstract class GUIComponentProperties implements ConfigObject
 		return position;
 	}
 	
-	public void setComponentPosition(ComponentPosition position)
+	public void setPosition(ComponentPosition position)
 	{
 		this.position = position;
 	}
