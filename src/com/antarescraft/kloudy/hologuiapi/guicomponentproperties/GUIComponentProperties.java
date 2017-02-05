@@ -9,6 +9,7 @@ import com.antarescraft.kloudy.plugincore.config.annotations.BooleanConfigProper
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElementKey;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.annotations.DoubleConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.annotations.OptionalConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
@@ -29,6 +30,7 @@ public abstract class GUIComponentProperties implements ConfigObject
 	public String label = null;
 	
 	@OptionalConfigProperty
+	@DoubleConfigProperty(defaultValue = -1, maxValue = 2, minValue = 25)
 	@ConfigProperty(key = "label-distance")
 	public double labelDistance = -1;
 	

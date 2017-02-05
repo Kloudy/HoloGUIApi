@@ -3,17 +3,16 @@ package com.antarescraft.kloudy.hologuiapi.guicomponents;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.annotations.DoubleConfigProperty;
 
 public class ComponentPosition implements ConfigObject
 {
-	@DoubleConfigProperty(defaultValue = 0, maxValue = Double.MAX_VALUE, minValue = Double.MIN_VALUE)
+	//@DoubleConfigProperty(defaultValue = 0, maxValue = Double.MAX_VALUE, minValue = Double.MIN_VALUE)
 	@ConfigProperty(key = "x")
-	private double x;
+	private double x = 0;
 	
-	@DoubleConfigProperty(defaultValue = 0, maxValue = Double.MAX_VALUE, minValue = Double.MIN_VALUE)
+	//@DoubleConfigProperty(defaultValue = 0, maxValue = Double.MAX_VALUE, minValue = Double.MIN_VALUE)
 	@ConfigProperty(key = "y")
-	private double y;
+	private double y = 0;
 	
 	@SuppressWarnings("unused")
 	private ComponentPosition(){}
