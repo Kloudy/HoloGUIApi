@@ -15,7 +15,6 @@ import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
-import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 
@@ -33,18 +32,6 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 	private String formatCode = "";
 	
 	private LabelComponent(){}
-	
-	@Override
-	public LabelComponent clone()
-	{
-		try
-		{
-			return ObjectMapper.mapObject(this, LabelComponent.class, plugin);
-		}
-		catch(Exception e){}
-		
-		return null;
-	}
 	
 	private void parseLineScroll()
 	{

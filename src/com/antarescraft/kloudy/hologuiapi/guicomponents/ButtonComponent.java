@@ -11,7 +11,6 @@ import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
-import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
 /*
  * Represents an image based button on a GUI
@@ -27,18 +26,6 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 	private int frames;
 	
 	private ButtonComponent(){}
-	
-	@Override
-	public ButtonComponent clone()
-	{
-		try
-		{
-			return ObjectMapper.mapObject(this, ButtonComponent.class, plugin);
-		} 
-		catch (Exception e){}
-		
-		return null;
-	}
 	
 	@Override
 	public PlayerGUITextComponent initPlayerGUIComponent(Player player)
