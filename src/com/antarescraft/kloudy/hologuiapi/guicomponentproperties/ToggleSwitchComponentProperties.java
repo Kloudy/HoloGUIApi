@@ -14,45 +14,45 @@ public class ToggleSwitchComponentProperties extends ClickableGUIComponentProper
 	@OptionalConfigProperty
 	@BooleanConfigProperty(defaultValue = false)
 	@ConfigProperty(key = "value")
-	public boolean defaultState;
+	private boolean defaultState;
 	
 	@OptionalConfigProperty
 	@ConfigProperty(key = "onclick-on")
-	public String onclickOn;
+	private String onclickOn;
 	
 	@OptionalConfigProperty
 	@ConfigProperty(key = "onclick-off")
-	public String onclickOff;
+	private String onclickOff;
 	
 	@OptionalConfigProperty
 	@StringConfigProperty(defaultValue = "default-toggle-on.png")
 	@ConfigProperty(key = "icon-on")
-	public String onIcon;
+	private String onIcon;
 	
 	@OptionalConfigProperty
 	@StringConfigProperty(defaultValue = "default-toggle-off.png")
 	@ConfigProperty(key = "icon-off")
-	public String offIcon;
+	private String offIcon;
 	
 	@OptionalConfigProperty
 	@BooleanConfigProperty(defaultValue = false)
-	@ConfigProperty(key = "execute-onclick-as-console")
-	public boolean executeOnClickOnAsConsole;
+	@ConfigProperty(key = "execute-onclick-on-as-console")
+	private boolean executeOnclickOnAsConsole;
 	
 	@OptionalConfigProperty
 	@BooleanConfigProperty(defaultValue = false)
 	@ConfigProperty(key = "execute-onclick-off-as-console")
-	public boolean executeOnClickOffAsConsole;
+	private boolean executeOnclickOffAsConsole;
 	
 	@OptionalConfigProperty
 	@StringConfigProperty(defaultValue = "")
 	@ConfigProperty(key = "on-value")
-	public String onValue;
+	private String onValue;
 	
 	@OptionalConfigProperty
 	@StringConfigProperty(defaultValue = "")
 	@ConfigProperty(key = "off-value")
-	public String offValue;
+	private String offValue;
 	
 	@Override
 	public void configParseComplete(PassthroughParams params) 
@@ -68,5 +68,95 @@ public class ToggleSwitchComponentProperties extends ClickableGUIComponentProper
 		{
 			labelZoomDistance = DEFAULT_LABEL_ZOOM_DISTANCE;
 		}
+	}
+	
+	public boolean getDefaultState()
+	{
+		return defaultState;
+	}
+	
+	public void setDefaultState(boolean defaultState)
+	{
+		this.defaultState = defaultState;
+	}
+	
+	public String getOnclickOn()
+	{
+		return onclickOn;
+	}
+	
+	public void setOnclickOn(String onclickOn)
+	{
+		this.onclickOn = onclickOn;
+	}
+	
+	public String getOnclickOff()
+	{
+		return onclickOff;
+	}
+	
+	public void setOnclickOff(String onclickOff)
+	{
+		this.onclickOff = onclickOff;
+	}
+	
+	public String getOnIcon()
+	{
+		return onIcon;
+	}
+	
+	public void setOnIcon(String onIcon)
+	{
+		this.onIcon = onIcon;
+	}
+	
+	public String getOffIcon()
+	{
+		return offIcon;
+	}
+	
+	public void setOffIcon(String offIcon)
+	{
+		this.offIcon = offIcon;
+	}
+	
+	public boolean executeOnclickOnAsConsole()
+	{
+		return executeOnclickOnAsConsole;
+	}
+	
+	public void setExecuteOnclickOnAsConsole(boolean executeOnclickOnAsConsole)
+	{
+		this.executeOnclickOnAsConsole = executeOnclickOnAsConsole;
+	}
+	
+	public boolean executeOnclickOffAsConsole()
+	{
+		return executeOnclickOffAsConsole;
+	}
+	
+	public void setExecuteOnClickOffAsConsole(boolean executeOnclickOffAsConsole)
+	{
+		this.executeOnclickOffAsConsole = executeOnclickOffAsConsole;
+	}
+	
+	public String getOnValue()
+	{
+		return onValue;
+	}
+	
+	public void setOnValue(String onValue)
+	{
+		this.onValue = onValue;
+	}
+	
+	public String getOffValue()
+	{
+		return offValue;
+	}
+	
+	public void setOffValue(String offValue)
+	{
+		this.offValue = offValue;
 	}
 }

@@ -39,7 +39,7 @@ public class PlayerGUIItemComponent extends PlayerGUIComponent
 		
 		renderLabel(lookOrigin, vect, stationary);
 		
-		double horizontalRadianAngle = guiComponent.getProperties().position.getX() * Math.PI/3.72;
+		double horizontalRadianAngle = guiComponent.getProperties().getPosition().getX() * Math.PI/3.72;
 		float degrees = (float)Math.toDegrees(horizontalRadianAngle);
 		
 		ItemTypeComponent itemTypeComponent = (ItemTypeComponent)guiComponent;
@@ -49,7 +49,7 @@ public class PlayerGUIItemComponent extends PlayerGUIComponent
 		float zRotation = (float)itemTypeComponent.getRotation().getZ();
 
 		armorstandLocations[0] = calculateArmorStandLocation(1, lookOrigin, vect, 
-				distance, guiComponent.getLineHeight(), guiComponent.getProperties().position.getY(), guiComponent.getProperties().position.getX());
+				distance, guiComponent.getLineHeight(), guiComponent.getProperties().getPosition().getY(), guiComponent.getProperties().getPosition().getX());
 		
 		armorstandLocations[0].setYaw(yRotation);
 		
@@ -71,7 +71,7 @@ public class PlayerGUIItemComponent extends PlayerGUIComponent
 		Vector vect = lookLocation.getDirection().setY(0.25);
 		vect = customNormalize(vect);
 		
-		double horizontalRadianAngle = guiComponent.getProperties().position.getX() * Math.PI/3.72;
+		double horizontalRadianAngle = guiComponent.getProperties().getPosition().getX() * Math.PI/3.72;
 		float degrees = (float)Math.toDegrees(horizontalRadianAngle);
 		
 		ItemTypeComponent itemTypeComponent = (ItemTypeComponent)guiComponent;
@@ -91,7 +91,7 @@ public class PlayerGUIItemComponent extends PlayerGUIComponent
 		updateLabelLocation(lookOrigin, vect, stationary);
 		
 		armorstandLocations[0] = calculateArmorStandLocation(2, lookOrigin, vect,
-				distance, guiComponent.getLineHeight(), guiComponent.getProperties().position.getY(), guiComponent.getProperties().position.getX());
+				distance, guiComponent.getLineHeight(), guiComponent.getProperties().getPosition().getY(), guiComponent.getProperties().getPosition().getX());
 		
 		armorstandLocations[0].setYaw(yRotation);
 		

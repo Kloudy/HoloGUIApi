@@ -61,10 +61,10 @@ public class PlayerGUIPage
 	 
 	 public void renderComponent(GUIComponent guiComponent)
 	 {
-		 PlayerGUIComponent existingComponent = components.get(guiComponent.getProperties().id);
+		 PlayerGUIComponent existingComponent = components.get(guiComponent.getProperties().getId());
 		 if(existingComponent != null) 
 		 {
-			removeComponent(guiComponent.getProperties().id);
+			removeComponent(guiComponent.getProperties().getId());
 		 }
 		 		 
 		 PlayerGUIComponent playerGUIComponent = guiComponent.initPlayerGUIComponent(player);
@@ -72,15 +72,15 @@ public class PlayerGUIPage
 		 
 		 playerGUIComponent.spawnEntities(lookLocation, (this instanceof StationaryPlayerGUIPage));
 		 
-		 components.put(guiComponent.getProperties().id, playerGUIComponent);
+		 components.put(guiComponent.getProperties().getId(), playerGUIComponent);
 		 
 		 //don't add to guiComponents if the same guicomponent already exists in the gui page. This would cause it to get updated twice
-		 if(guiPage.componentExists(guiComponent.getProperties().id) && guiPage.getComponent(guiComponent.getProperties().id).equals(guiComponent))
+		 if(guiPage.componentExists(guiComponent.getProperties().getId()) && guiPage.getComponent(guiComponent.getProperties().getId()).equals(guiComponent))
 		 {
 			 return;
 		 }
 		 
-		 guiComponents.put(guiComponent.getProperties().id, guiComponent);
+		 guiComponents.put(guiComponent.getProperties().getId(), guiComponent);
 	 }
 	 
 	 public void removeComponent(String componentId)
@@ -125,7 +125,7 @@ public class PlayerGUIPage
 	{
 		for(PlayerGUIComponent playerGUIComponent : components.values())
 		{
-			if(!playerGUIComponent.getGUIComponent().getProperties().hidden)
+			if(!playerGUIComponent.getGUIComponent().getProperties().isHidden())
 			{
 				playerGUIComponent.spawnEntities(lookLocation, false);
 			}

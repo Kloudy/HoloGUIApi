@@ -12,17 +12,17 @@ public class ButtonComponentProperties extends ClickableGUIComponentProperties i
 	private static final double DEFAULT_LABEL_ZOOM_DISTANCE = 4;
 	
 	@ConfigProperty(key = "icon")
-	public String icon;
+	private String icon;
 	
 	@OptionalConfigProperty
 	@BooleanConfigProperty(defaultValue = false)
 	@ConfigProperty(key = "mini")
-	public boolean mini;
+	private boolean mini;
 	
 	@OptionalConfigProperty
 	@BooleanConfigProperty(defaultValue = false)
 	@ConfigProperty(key = "symmetrical")
-	public boolean symmetrical;
+	private boolean symmetrical;
 
 	@Override
 	public void configParseComplete(PassthroughParams params)
@@ -38,5 +38,35 @@ public class ButtonComponentProperties extends ClickableGUIComponentProperties i
 		{
 			labelZoomDistance = DEFAULT_LABEL_ZOOM_DISTANCE;
 		}
+	}
+	
+	public String getIcon()
+	{
+		return icon;
+	}
+	
+	public void setIcon(String icon)
+	{
+		this.icon = icon;
+	}
+	
+	public boolean isMini()
+	{
+		return mini;
+	}
+	
+	public void setMini(boolean mini)
+	{
+		this.mini = mini;
+	}
+	
+	public boolean isSymmetrical()
+	{
+		return symmetrical;
+	}
+	
+	public void setSymmetrical(boolean symmetrical)
+	{
+		this.symmetrical = symmetrical;
 	}
 }

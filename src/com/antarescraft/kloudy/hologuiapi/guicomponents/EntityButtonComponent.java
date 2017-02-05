@@ -14,7 +14,6 @@ import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
-import com.antarescraft.kloudy.plugincore.utils.Utils;
 
 /*
  * Represents a clickable Entity on a GUI
@@ -24,9 +23,7 @@ public class EntityButtonComponent extends ClickableGUIComponent implements Enti
 	@ConfigElement
 	@ConfigProperty(key = "")
 	EntityButtonComponentProperties properties;
-	
-	private EntityType entityType = null;
-		
+			
 	private EntityButtonComponent(){}
 	
 	@Override
@@ -44,13 +41,13 @@ public class EntityButtonComponent extends ClickableGUIComponent implements Enti
 	@Override
 	public EntityType getEntityType()
 	{
-		return entityType;
+		return properties.getEntityType();
 	}
 	
 	@Override
 	public void setEntityType(EntityType entityType)
 	{
-		this.entityType = entityType;
+		properties.setEntityType(entityType);
 	}
 	
 	@Override
@@ -62,13 +59,13 @@ public class EntityButtonComponent extends ClickableGUIComponent implements Enti
 	@Override
 	public float getYaw()
 	{
-		return (float)properties.yaw;
+		return (float)properties.getYaw();
 	}
 	
 	@Override
 	public void setYaw(float yaw)
 	{
-		properties.yaw = yaw;
+		properties.setYaw(yaw);
 	}
 	
 	@Override
@@ -135,7 +132,5 @@ public class EntityButtonComponent extends ClickableGUIComponent implements Enti
 	public void configParseComplete(PassthroughParams params)
 	{
 		super.configParseComplete(params);
-		
-		entityType = Utils.parseEntityType(properties.entityTypeString);
 	}
 }

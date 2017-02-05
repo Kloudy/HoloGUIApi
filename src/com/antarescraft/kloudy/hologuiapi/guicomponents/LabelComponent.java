@@ -50,10 +50,10 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 	{
 		scrollingLines.clear();
 				
-		String[] linesArray = new String[properties.lines.size()];
-		for(int i = 0; i < properties.lines.size(); i++)
+		String[] linesArray = new String[properties.getLines().size()];
+		for(int i = 0; i < properties.getLines().size(); i++)
 		{
-			String str = properties.lines.get(i);
+			String str = properties.getLines().get(i);
 			str = str.replaceAll("§", "&");
 						
 			if(str.startsWith("%scroll%"))
@@ -65,12 +65,12 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 			linesArray[i] = str;
 		}
 		
-		properties.lines = new ArrayList<String>(Arrays.asList(linesArray));
+		properties.setLines(new ArrayList<String>(Arrays.asList(linesArray)));
 	}
 	
 	public void setLines(ArrayList<String> lines)
 	{
-		properties.lines = lines;
+		properties.setLines(lines);
 		
 		parseLineScroll();
 	}
@@ -84,11 +84,11 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 	@Override
 	public void updateIncrement()
 	{
-		String[] linesArray = new String[properties.lines.size()];
+		String[] linesArray = new String[properties.getLines().size()];
 		String currentFormatting = "";
-		for(int i = 0; i < properties.lines.size(); i++)
+		for(int i = 0; i < properties.getLines().size(); i++)
 		{
-			String str = properties.lines.get(i);
+			String str = properties.getLines().get(i);
 			
 			if(scrollingLines.contains(i))
 			{
@@ -147,16 +147,16 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 			linesArray[i] = str;
 		}
 		
-		properties.lines = new ArrayList<String>(Arrays.asList(linesArray));
+		properties.setLines(new ArrayList<String>(Arrays.asList(linesArray)));
 	}
 	
 	@Override
 	public String[] updateComponentLines(Player player)
 	{
-		String[] componentLines = new String[properties.lines.size()];
-		for(int i = 0; i < properties.lines.size(); i++)
+		String[] componentLines = new String[properties.getLines().size()];
+		for(int i = 0; i < properties.getLines().size(); i++)
 		{
-			String str = properties.lines.get(i);
+			String str = properties.getLines().get(i);
 			
 			str = HoloGUIPlaceholders.setHoloGUIPlaceholders(plugin, str, player);
 			if(HoloGUIApi.hasPlaceholderAPI)
@@ -189,7 +189,7 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 	@Override
 	public double getDisplayDistance()
 	{
-		return properties.labelDistance;
+		return properties.getLabelDistance();
 	}
 	
 	@Override

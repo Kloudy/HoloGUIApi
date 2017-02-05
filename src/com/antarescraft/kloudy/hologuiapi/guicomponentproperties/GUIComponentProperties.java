@@ -19,30 +19,30 @@ import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 public abstract class GUIComponentProperties implements ConfigObject
 {
 	@ConfigElementKey
-	public String id;
+	protected String id;
 	
 	@ConfigElement
 	@ConfigProperty(key = "position")
-	public ComponentPosition position;
+	protected ComponentPosition position;
 	
 	@OptionalConfigProperty
 	@ConfigProperty(key = "label")
-	public String label = null;
+	protected String label = null;
 	
 	@OptionalConfigProperty
 	@DoubleConfigProperty(defaultValue = -1, maxValue = 25, minValue = 3)
 	@ConfigProperty(key = "label-distance")
-	public double labelDistance = -1;
+	protected double labelDistance = -1;
 	
 	@OptionalConfigProperty
 	@BooleanConfigProperty(defaultValue = false)
 	@ConfigProperty(key = "always-show-label")
-	public boolean alwaysShowLabel = false;
+	protected boolean alwaysShowLabel = false;
 	
 	@OptionalConfigProperty
 	@BooleanConfigProperty(defaultValue = false)
 	@ConfigProperty(key = "hidden")
-	public boolean hidden = false;
+	protected boolean hidden = false;
 	
 	public GUIComponentProperties(){}
 	
@@ -65,5 +65,65 @@ public abstract class GUIComponentProperties implements ConfigObject
 	public String toString()
 	{
 		return "\n" + ConfigParser.generateConfigString(HoloGUIApi.pluginName, this);
+	}
+	
+	public String getId()
+	{
+		return id;
+	}
+	
+	public void setId(String id)
+	{
+		this.id = id;
+	}
+	
+	public ComponentPosition getPosition()
+	{
+		return position;
+	}
+	
+	public void setComponentPosition(ComponentPosition position)
+	{
+		this.position = position;
+	}
+	
+	public String getLabel()
+	{
+		return label;
+	}
+	
+	public void setLabel(String label)
+	{
+		this.label = label;
+	}
+	
+	public double getLabelDistance()
+	{
+		return labelDistance;
+	}
+	
+	public void setLabelDistance(double labelDistance)
+	{
+		this.labelDistance = labelDistance;
+	}
+	
+	public boolean alwaysShowLabel()
+	{
+		return alwaysShowLabel;
+	}
+	
+	public void setAlwaysShowLabel(boolean alwaysShowLabel)
+	{
+		this.alwaysShowLabel = alwaysShowLabel;
+	}
+	
+	public boolean isHidden()
+	{
+		return hidden;
+	}
+	
+	public void setHidden(boolean hidden)
+	{
+		this.hidden = hidden;
 	}
 }

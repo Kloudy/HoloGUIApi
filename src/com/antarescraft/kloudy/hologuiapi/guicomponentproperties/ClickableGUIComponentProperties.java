@@ -17,41 +17,107 @@ public abstract class ClickableGUIComponentProperties extends GUIComponentProper
 {
 	@OptionalConfigProperty
 	@ConfigProperty(key = "onclick")
-	public String onclick;
+	protected String onclick;
 	
 	@OptionalConfigProperty
 	@BooleanConfigProperty(defaultValue = false)
 	@ConfigProperty(key = "execute-command-as-console")
-	public boolean executeCommandAsConsole;
+	protected boolean executeCommandAsConsole;
 	
 	@OptionalConfigProperty
 	@ConfigProperty(key = "onclick-sound")
-	public String onclickSoundString;
+	protected String onclickSoundString;
 	
 	@OptionalConfigProperty
 	@DoubleConfigProperty(defaultValue = 0.5, maxValue = 1, minValue = 0)
 	@ConfigProperty(key = "onclick-sound-volume")
-	public double onclickSoundVolume;
+	protected double onclickSoundVolume;
 	
 	@OptionalConfigProperty
 	@ConfigProperty(key = "label-zoom-distance")
-	public double labelZoomDistance = -1;
+	protected double labelZoomDistance = -1;
 	
 	@OptionalConfigProperty
 	@ConfigProperty(key = "click-permission")
-	public String clickPermission;
+	protected String clickPermission;
 	
 	@OptionalConfigProperty
 	@ConfigProperty(key = "no-permission-message")
-	public String noPermissionMessage;
-	
-	public Sound onclickSound = null;
-	
+	protected String noPermissionMessage;
+
 	@Override
 	public void configParseComplete(PassthroughParams params)
 	{
 		super.configParseComplete(params);
-		
-		onclickSound = Utils.parseSound(onclickSoundString);
+	}
+	
+	public String getOnclick()
+	{
+		return onclick;
+	}
+	
+	public void setOnclick(String onclick)
+	{
+		this.onclick = onclick;
+	}
+	
+	public boolean getExecuteCommandAsConsole()
+	{
+		 return executeCommandAsConsole;
+	}
+	
+	public void setExecuteCommandAsConsole(boolean executeCommandAsConsole)
+	{
+		this.executeCommandAsConsole = executeCommandAsConsole;
+	}
+	
+	public Sound getOnclickSound()
+	{
+		return Utils.parseSound(onclickSoundString);
+	}
+	
+	public void setOnclickSound(Sound sound)
+	{
+		this.onclickSoundString = sound.toString();
+	}
+	
+	public float getOnclickSoundVolume()
+	{
+		return (float)onclickSoundVolume;
+	}
+	
+	public void setOnClickSoundVolume(float onclickSoundVolume)
+	{
+		this.onclickSoundVolume = (double)onclickSoundVolume;
+	}
+	
+	public double getLabelZoomDistance()
+	{
+		return labelZoomDistance;
+	}
+	
+	public void setLabelZoomDistance(double labelZoomDistance)
+	{
+		this.labelZoomDistance = labelZoomDistance;
+	}
+	
+	public String getClickPermission()
+	{
+		return clickPermission;
+	}
+	
+	public void setClickPermission(String clickPermission)
+	{
+		this.clickPermission = clickPermission;
+	}
+	
+	public String getNoPermissionMessage()
+	{
+		return noPermissionMessage;
+	}
+	
+	public void setNoPermissionMessage(String noPermissionMessage)
+	{
+		this.noPermissionMessage = noPermissionMessage;
 	}
 }

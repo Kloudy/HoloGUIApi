@@ -18,7 +18,7 @@ public abstract class PlayerGUIValueBoxComponent extends PlayerGUIComponent
 	@Override
 	public void focusComponent(boolean stationary)
 	{
-		if(guiComponent.getProperties().label != null && !guiComponent.getProperties().alwaysShowLabel)HoloGUIApi.packetManager.updateEntityCustomNameVisible(player, labelEntityId, true);
+		if(guiComponent.getProperties().getLabel() != null && !guiComponent.getProperties().alwaysShowLabel())HoloGUIApi.packetManager.updateEntityCustomNameVisible(player, labelEntityId, true);
 		Location l = player.getLocation();
 		
 		for(int i = 0; i < componentEntityIds.length; i++)
@@ -45,9 +45,9 @@ public abstract class PlayerGUIValueBoxComponent extends PlayerGUIComponent
 							clickableGUIComponent.getZoomedInLineHeight(), 0, 0);
 				}
 				
-				if(guiComponent.getProperties().label != null && i == 0)//update label location
+				if(guiComponent.getProperties().getLabel() != null && i == 0)//update label location
 				{
-					Location zoomedLabelLocation = calculateArmorStandLocation(i,labelLocation, v, clickableGUIComponent.getProperties().labelZoomDistance,
+					Location zoomedLabelLocation = calculateArmorStandLocation(i,labelLocation, v, clickableGUIComponent.getProperties().getLabelZoomDistance(),
 							clickableGUIComponent.getZoomedInLineHeight(), 0, 0);
 					
 					HoloGUIApi.packetManager.updateEntityLocation(player, labelEntityId, zoomedLabelLocation);
@@ -75,7 +75,7 @@ public abstract class PlayerGUIValueBoxComponent extends PlayerGUIComponent
 		updateLabelLocation(lookOrigin, vect, stationary);
 		
 		armorstandLocations[0] = calculateArmorStandLocation(2, lookOrigin, vect,
-				distance, guiComponent.getLineHeight(), guiComponent.getProperties().position.getY(), guiComponent.getProperties().position.getX());
+				distance, guiComponent.getLineHeight(), guiComponent.getProperties().getPosition().getY(), guiComponent.getProperties().getPosition().getX());
 		
 		if(stationary)
 		{
@@ -88,7 +88,7 @@ public abstract class PlayerGUIValueBoxComponent extends PlayerGUIComponent
 		for(int i = 1; i < componentEntityIds.length; i++)
 		{
 			armorstandLocations[i] = calculateArmorStandLocation(i, lookOrigin, vect,
-					distance, guiComponent.getLineHeight(), guiComponent.getProperties().position.getY(), guiComponent.getProperties().position.getX());
+					distance, guiComponent.getLineHeight(), guiComponent.getProperties().getPosition().getY(), guiComponent.getProperties().getPosition().getX());
 			
 			if(stationary)
 			{

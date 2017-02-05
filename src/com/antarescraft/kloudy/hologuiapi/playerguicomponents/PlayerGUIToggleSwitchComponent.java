@@ -20,14 +20,14 @@ public class PlayerGUIToggleSwitchComponent extends PlayerGUITextComponent imple
 	{
 		if(getToggleSwitchComponent().getPlayerToggleSwitchState(player))
 		{
-			String onState = getToggleSwitchComponent().getOnValue();
+			String onState = getToggleSwitchComponent().getProperties().getOnValue();
 			onState = onState.replace("&", "§");
 			
 			return onState;
 		}
 		else
 		{
-			String offState = getToggleSwitchComponent().getOffValue();
+			String offState = getToggleSwitchComponent().getProperties().getOffValue();
 			offState = offState.replace("&", "§");
 			
 			 return offState;

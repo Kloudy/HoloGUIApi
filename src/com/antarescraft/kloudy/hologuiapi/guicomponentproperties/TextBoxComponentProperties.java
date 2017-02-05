@@ -14,12 +14,12 @@ public class TextBoxComponentProperties extends ClickableGUIComponentProperties
 	@OptionalConfigProperty
 	@StringConfigProperty(defaultValue = "")
 	@ConfigProperty(key = "default-text")
-	public String defaultLine;
+	private String defaultLine;
 	
 	@OptionalConfigProperty
 	@BooleanConfigProperty(defaultValue = false)
 	@ConfigProperty(key = "evaluate-placeholders")
-	public boolean evaluatePlaceholders;
+	private boolean evaluatePlaceholders;
 
 	@Override
 	public void configParseComplete(PassthroughParams params)
@@ -35,5 +35,25 @@ public class TextBoxComponentProperties extends ClickableGUIComponentProperties
 		{
 			labelZoomDistance = DEFAULT_LABEL_ZOOM_DISTANCE;
 		}
+	}
+	
+	public String getDefaultLine()
+	{
+		return defaultLine;
+	}
+	
+	public void setDefaultLine(String defaultLine)
+	{
+		this.defaultLine = defaultLine;
+	}
+	
+	public boolean evaluationPlaceholders()
+	{
+		return evaluatePlaceholders;
+	}
+	
+	public void setEvaluatePlaceholders(boolean evaluatePlaceholders)
+	{
+		this.evaluatePlaceholders = evaluatePlaceholders;
 	}
 }

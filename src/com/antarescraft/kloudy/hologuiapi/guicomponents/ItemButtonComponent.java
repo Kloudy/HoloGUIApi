@@ -12,9 +12,7 @@ import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
-import com.antarescraft.kloudy.plugincore.configobjects.ConfigVector;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
-import com.antarescraft.kloudy.plugincore.utils.Utils;
 
 /*
  * Represents a clickable item on a GUI
@@ -25,8 +23,6 @@ public class ItemButtonComponent extends ClickableGUIComponent implements ItemTy
 	@ConfigProperty(key = "")
 	ItemButtonComponentProperties properties;
 	
-	private ItemStack item = null;
-
 	private ItemButtonComponent(){}
 	
 	@Override
@@ -44,31 +40,31 @@ public class ItemButtonComponent extends ClickableGUIComponent implements ItemTy
 	@Override
 	public PlayerGUIItemComponent initPlayerGUIComponent(Player player)
 	{
-		return new PlayerGUIItemComponent(player, this, item);
+		return new PlayerGUIItemComponent(player, this, properties.getItem());
 	}
 	
 	@Override
 	public ItemStack getItem()
 	{
-		return item;
+		return properties.getItem();
 	}
 	
 	@Override
 	public void setItem(ItemStack item)
 	{
-		this.item = item;
+		properties.setItem(item);
 	}
 	
 	@Override
 	public Vector getRotation()
 	{
-		return properties.rotation.toVector();
+		return properties.getRotation();
 	}
 	
 	@Override
 	public void setRotation(Vector rotation)
 	{
-		properties.rotation = new ConfigVector(rotation);
+		properties.setRotation(rotation);
 	}
 	
 	@Override
@@ -129,8 +125,6 @@ public class ItemButtonComponent extends ClickableGUIComponent implements ItemTy
 	public void configParseComplete(PassthroughParams params) 
 	{
 		super.configParseComplete(params);
-		
-		item = Utils.parseItemString(properties.itemString);
 	}
 	
 	@Override

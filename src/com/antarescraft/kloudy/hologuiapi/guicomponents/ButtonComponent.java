@@ -71,7 +71,7 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 	@Override
 	public AABB.Vec3D getMinBoundingRectPoint18(Point3D origin)
 	{
-		if(properties.mini)
+		if(properties.isMini())
 		{
 			return AABB.Vec3D.fromVector(new Vector(origin.x-0.75, origin.y - 3, origin.z-0.75));
 		}
@@ -84,7 +84,7 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 	@Override
 	public AABB.Vec3D getMaxBoundingRectPoint18(Point3D origin)
 	{
-		if(properties.mini)
+		if(properties.isMini())
 		{
 			return AABB.Vec3D.fromVector(new Vector(origin.x+0.875, origin.y + 0.6, origin.z+0.875));
 		}
@@ -97,7 +97,7 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 	@Override
 	public AABB.Vec3D getMinBoundingRectPoint19(Point3D origin)
 	{
-		if(properties.mini)
+		if(properties.isMini())
 		{
 			return AABB.Vec3D.fromVector(new Vector(origin.x-0.75, origin.y - 2, origin.z-0.75));
 		}
@@ -110,7 +110,7 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 	@Override
 	public AABB.Vec3D getMaxBoundingRectPoint19(Point3D origin)
 	{
-		if(properties.mini)
+		if(properties.isMini())
 		{
 			return AABB.Vec3D.fromVector(new Vector(origin.x+0.875, origin.y + 0.3, origin.z+0.875));
 		}
@@ -138,24 +138,14 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 		return 0.0145;
 	}
 	
-	public String getIcon()
-	{
-		return properties.icon;
-	}
-	
 	public int getWidth()
 	{
-		return (properties.mini) ? 9 : 18;
+		return (properties.isMini()) ? 9 : 18;
 	}
 	
 	public int getHeight()
 	{
 		return getWidth();
-	}
-	
-	public boolean isMini()
-	{
-		return properties.mini;
 	}
 
 	public int getFrames()
@@ -168,7 +158,7 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 	{
 		super.configParseComplete(params);
 		
-		lines = plugin.loadImage(properties.icon, getWidth(), getHeight(), properties.symmetrical);
+		lines = plugin.loadImage(properties.getIcon(), getWidth(), getHeight(), properties.isSymmetrical());
 		
 		frames = lines.length;
 	}

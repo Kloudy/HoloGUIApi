@@ -61,9 +61,9 @@ public class PlayerInteractEventListener implements Listener
 							
 							playerGUIComponent.unfocusComponent(stationary);
 							
-							if(clickableGUIComponent.getProperties().onclickSound != null)
+							if(clickableGUIComponent.getProperties().getOnclickSound() != null)
 							{
-								player.playSound(player.getLocation(), clickableGUIComponent.getProperties().onclickSound, (float)clickableGUIComponent.getProperties().onclickSoundVolume, 1);
+								player.playSound(player.getLocation(), clickableGUIComponent.getProperties().getOnclickSound(), (float)clickableGUIComponent.getProperties().getOnclickSoundVolume(), 1);
 							}
 
 							//animate button press
@@ -71,16 +71,16 @@ public class PlayerInteractEventListener implements Listener
 								@Override
 								public void run()
 								{
-									if(clickableGUIComponent.getProperties().clickPermission != null && !player.hasPermission(clickableGUIComponent.getProperties().clickPermission))
+									if(clickableGUIComponent.getProperties().getClickPermission() != null && !player.hasPermission(clickableGUIComponent.getProperties().getClickPermission()))
 									{
-										if(clickableGUIComponent.getProperties().noPermissionMessage != null) player.sendMessage(clickableGUIComponent.getProperties().noPermissionMessage);
+										if(clickableGUIComponent.getProperties().getNoPermissionMessage() != null) player.sendMessage(clickableGUIComponent.getProperties().getNoPermissionMessage());
 									}
 									else
 									{
 										if(focusedPage instanceof StationaryPlayerGUIPage)
 										{
 											StationaryPlayerGUIPage stationaryPlayerGUIContainer = (StationaryPlayerGUIPage) focusedPage;
-											clickableGUIComponent.executeOnclick(player, stationaryPlayerGUIContainer.getStationaryGUIDisplayPageId(), clickableGUIComponent.getProperties().onclick, stationary);
+											clickableGUIComponent.executeOnclick(player, stationaryPlayerGUIContainer.getStationaryGUIDisplayPageId(), clickableGUIComponent.getProperties().getOnclick(), stationary);
 											
 											if(playerGUIComponent instanceof PlayerGUIToggleSwitchComponent)
 											{
@@ -106,7 +106,7 @@ public class PlayerInteractEventListener implements Listener
 										}
 										else
 										{
-											clickableGUIComponent.executeOnclick(player, null, clickableGUIComponent.getProperties().onclick, stationary);
+											clickableGUIComponent.executeOnclick(player, null, clickableGUIComponent.getProperties().getOnclick(), stationary);
 											
 											if(playerGUIComponent instanceof PlayerGUIToggleSwitchComponent)
 											{

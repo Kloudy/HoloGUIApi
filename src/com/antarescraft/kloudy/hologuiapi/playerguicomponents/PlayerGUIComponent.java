@@ -30,7 +30,7 @@ public abstract class PlayerGUIComponent
 	{		
 		this.player = player;
 		this.guiComponent = guiComponent;
-		this.hidden = guiComponent.getProperties().hidden;
+		this.hidden = guiComponent.getProperties().isHidden();
 	}
 	
 	public abstract void updateComponentLines();
@@ -81,9 +81,9 @@ public abstract class PlayerGUIComponent
 	
 	protected void renderLabel(Location lookLocation, Vector lookDirection, boolean stationary)
 	{
-		if(guiComponent.getProperties().label != null)
+		if(guiComponent.getProperties().getLabel() != null)
 		{
-			double distance = guiComponent.getProperties().labelDistance;
+			double distance = guiComponent.getProperties().getLabelDistance();
 			Location lookOrigin = player.getLocation();
 			if(stationary) 
 			{
@@ -92,7 +92,7 @@ public abstract class PlayerGUIComponent
 			}
 			
 			labelLocation =  calculateArmorStandLocation(-1, lookOrigin, lookDirection, distance, guiComponent.getLineHeight(), 
-					guiComponent.getProperties().position.getY(), guiComponent.getProperties().position.getX());
+					guiComponent.getProperties().getPosition().getY(), guiComponent.getProperties().getPosition().getX());
 			
 			if(stationary)
 			{
@@ -100,7 +100,7 @@ public abstract class PlayerGUIComponent
 				labelLocation.setZ(labelLocation.getZ() + (lookDirection.getZ() * -15));
 			}
 			
-			String labelText = guiComponent.getProperties().label;
+			String labelText = guiComponent.getProperties().getLabel();
 			
 			labelText = HoloGUIPlaceholders.setHoloGUIPlaceholders(guiComponent.getHoloGUIPlugin(), labelText, player);
 			
@@ -112,13 +112,13 @@ public abstract class PlayerGUIComponent
 			PlayerData playerData = PlayerData.getPlayerData(player);
 			if(playerData != null) labelText = HoloGUIPlaceholders.setModelPlaceholders(getGUIComponent().getHoloGUIPlugin(), playerData.getPlayerGUIPageModel(), labelText);
 			
-			labelEntityId = HoloGUIApi.packetManager.spawnEntity(EntityType.ARMOR_STAND, player, labelLocation, labelText, guiComponent.getProperties().alwaysShowLabel);
+			labelEntityId = HoloGUIApi.packetManager.spawnEntity(EntityType.ARMOR_STAND, player, labelLocation, labelText, guiComponent.getProperties().alwaysShowLabel());
 		}
 	}
 	
 	protected void updateLabelText()
 	{
-		String labelText = guiComponent.getProperties().label;
+		String labelText = guiComponent.getProperties().getLabel();
 		if(labelText != null)
 		{
 			labelText = HoloGUIPlaceholders.setHoloGUIPlaceholders(guiComponent.getHoloGUIPlugin(), labelText, player);
@@ -137,9 +137,9 @@ public abstract class PlayerGUIComponent
 	
 	protected void updateLabelLocation(Location lookLocation, Vector lookDirection, boolean stationary)
 	{
-		if(guiComponent.getProperties().label != null)
+		if(guiComponent.getProperties().getLabel() != null)
 		{
-			double distance = guiComponent.getProperties().labelDistance;
+			double distance = guiComponent.getProperties().getLabelDistance();
 			Location lookOrigin = player.getLocation();
 			if(stationary) 
 			{
@@ -148,7 +148,7 @@ public abstract class PlayerGUIComponent
 			}
 			
 			labelLocation = calculateArmorStandLocation(-1, lookOrigin, lookDirection,
-					distance, guiComponent.getLineHeight(), guiComponent.getProperties().position.getY(), guiComponent.getProperties().position.getX());
+					distance, guiComponent.getLineHeight(), guiComponent.getProperties().getPosition().getY(), guiComponent.getProperties().getPosition().getX());
 			
 			if(stationary)
 			{
@@ -235,7 +235,7 @@ public abstract class PlayerGUIComponent
 	
 	public void focusComponent(boolean stationary)
 	{
-		if(guiComponent.getProperties().label != null && !guiComponent.getProperties().alwaysShowLabel)HoloGUIApi.packetManager.updateEntityCustomNameVisible(player, labelEntityId, true);
+		if(guiComponent.getProperties().getLabel() != null && !guiComponent.getProperties().alwaysShowLabel())HoloGUIApi.packetManager.updateEntityCustomNameVisible(player, labelEntityId, true);
 		Location l = player.getLocation();
 		
 		for(int i = 0; i < componentEntityIds.length; i++)
@@ -252,9 +252,9 @@ public abstract class PlayerGUIComponent
 				Location location = calculateArmorStandLocation(i,armorstandLocations[i], v, clickableGUIComponent.zoomDistance(),
 						clickableGUIComponent.getZoomedInLineHeight(), 0, 0);
 				
-				if(guiComponent.getProperties().label != null && i == 0)//update label location
+				if(guiComponent.getProperties().getLabel() != null && i == 0)//update label location
 				{
-					Location zoomedLabelLocation = calculateArmorStandLocation(i,labelLocation, v, clickableGUIComponent.getProperties().labelZoomDistance,
+					Location zoomedLabelLocation = calculateArmorStandLocation(i,labelLocation, v, clickableGUIComponent.getProperties().getLabelZoomDistance(),
 							clickableGUIComponent.getZoomedInLineHeight(), 0, 0);
 					
 					HoloGUIApi.packetManager.updateEntityLocation(player, labelEntityId, zoomedLabelLocation);
@@ -267,7 +267,7 @@ public abstract class PlayerGUIComponent
 	
 	public void unfocusComponent(boolean stationary)
 	{
-		if(guiComponent.getProperties().label != null && !guiComponent.getProperties().alwaysShowLabel)HoloGUIApi.packetManager.updateEntityCustomNameVisible(player, labelEntityId, false);
+		if(guiComponent.getProperties().getLabel() != null && !guiComponent.getProperties().alwaysShowLabel())HoloGUIApi.packetManager.updateEntityCustomNameVisible(player, labelEntityId, false);
 		
 		for(int i = 0; i < componentEntityIds.length; i++)
 		{
@@ -275,7 +275,7 @@ public abstract class PlayerGUIComponent
 			{
 				HoloGUIApi.packetManager.updateEntityLocation(player, componentEntityIds[i], armorstandLocations[i], armorstandLocations[i].getYaw());
 				
-				if(guiComponent.getProperties().label != null && i == 0)//update label location
+				if(guiComponent.getProperties().getLabel() != null && i == 0)//update label location
 				{
 					HoloGUIApi.packetManager.updateEntityLocation(player, labelEntityId, labelLocation);
 				}

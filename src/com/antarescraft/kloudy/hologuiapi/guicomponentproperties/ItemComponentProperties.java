@@ -1,20 +1,24 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponentproperties;
 
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
+
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.configobjects.ConfigVector;
+import com.antarescraft.kloudy.plugincore.utils.Utils;
 
 public class ItemComponentProperties extends GUIComponentProperties
 {
 private static final double DEFAULT_LABEL_DISTANCE = 6;
 	
 	@ConfigProperty(key = "item-id")
-	public String itemString;
+	private String itemString;
 	
 	@ConfigElement
 	@ConfigProperty(key = "rotation")
-	public ConfigVector rotation;
+	private ConfigVector rotation;
 
 	@Override
 	public void configParseComplete(PassthroughParams params)
@@ -25,5 +29,31 @@ private static final double DEFAULT_LABEL_DISTANCE = 6;
 		{
 			labelDistance = DEFAULT_LABEL_DISTANCE;
 		}
+	}
+	
+	public ItemStack getItem()	
+	{
+		try
+		{
+			return Utils.parseItemString(itemString);
+		}
+		catch(Exception e){}
+		
+		return null;
+	}
+	
+	public void setItem(ItemStack item)
+	{
+		this.itemString = Utils.generateItemString(item);
+	}
+	
+	public Vector getRotation()
+	{
+		return rotation.toVector();
+	}
+	
+	public void setRotation(Vector rotation)
+	{
+		this.rotation = new ConfigVector(rotation);
 	}
 }

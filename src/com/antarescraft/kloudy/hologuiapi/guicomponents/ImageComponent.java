@@ -49,6 +49,11 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 			currentFrame = 0;
 		}
 	}
+	
+	public void setLines(String[][] lines)
+	{
+		this.lines = lines;
+	}
 
 	@Override
 	public String[] updateComponentLines(Player player)
@@ -62,41 +67,6 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 		return 15;
 	}
 	
-	public int getWidth()
-	{
-		return properties.width;
-	}
-	
-	public void setWidth(int width)
-	{
-		properties.width = width;
-	}
-	
-	public int getHeight()
-	{
-		return properties.height;
-	}
-	
-	public void setHeight(int height)
-	{
-		properties.height = height;
-	}
-	
-	public String getImageName()
-	{
-		return properties.imageFileName;
-	}
-	
-	public void setImageName(String imageFileName)
-	{
-		properties.imageFileName = imageFileName;
-	}
-	
-	public void setLines(String[][] lines)
-	{
-		this.lines = lines;
-	}
-	
 	@Override
 	public double getLineHeight()
 	{
@@ -108,7 +78,7 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 	{
 		super.configParseComplete(params);
 		
-		lines = plugin.loadImage(properties.imageFileName, properties.width, properties.height, properties.symmetrical);
+		lines = plugin.loadImage(properties.getImageSource(), properties.getWidth(), properties.getHeight(), properties.isSymmetrical());
 		
 		frames = lines.length;
 	}

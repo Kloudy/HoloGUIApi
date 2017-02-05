@@ -10,9 +10,7 @@ import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
-import com.antarescraft.kloudy.plugincore.configobjects.ConfigVector;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
-import com.antarescraft.kloudy.plugincore.utils.Utils;
 
 /*
  * Represents a non-clickable item in a GUI
@@ -22,9 +20,7 @@ public class ItemComponent extends GUIComponent implements ItemTypeComponent, Co
 	@ConfigElement
 	@ConfigProperty(key = "")
 	ItemComponentProperties properties;
-	
-	private ItemStack item = null;
-	
+		
 	private ItemComponent(){}
 	
 	@Override
@@ -42,7 +38,7 @@ public class ItemComponent extends GUIComponent implements ItemTypeComponent, Co
 	@Override
 	public PlayerGUIItemComponent initPlayerGUIComponent(Player player)
 	{
-		return new PlayerGUIItemComponent(player, this, item);
+		return new PlayerGUIItemComponent(player, this, properties.getItem());
 	}
 
 	@Override
@@ -63,25 +59,25 @@ public class ItemComponent extends GUIComponent implements ItemTypeComponent, Co
 	@Override
 	public ItemStack getItem()
 	{
-		return item;
+		return properties.getItem();
 	}
 	
 	@Override
 	public void setItem(ItemStack item)
 	{
-		this.item = item;
+		properties.setItem(item);
 	}
 	
 	@Override
 	public Vector getRotation()
 	{
-		return properties.rotation.toVector();
+		return properties.getRotation();
 	}
 	
 	@Override
 	public void setRotation(Vector rotation)
 	{
-		properties.rotation = new ConfigVector(rotation);
+		properties.setRotation(rotation);
 	}
 
 	@Override
@@ -91,8 +87,6 @@ public class ItemComponent extends GUIComponent implements ItemTypeComponent, Co
 	public void configParseComplete(PassthroughParams params)
 	{
 		super.configParseComplete(params);
-		
-		item = Utils.parseItemString(properties.itemString);
 	}
 	
 	@Override

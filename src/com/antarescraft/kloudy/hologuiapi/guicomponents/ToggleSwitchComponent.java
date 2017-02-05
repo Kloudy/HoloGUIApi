@@ -91,103 +91,13 @@ public class ToggleSwitchComponent extends ClickableGUIComponent implements Conf
 	
 	public boolean getPlayerToggleSwitchState(Player player)
 	{
-		boolean state = properties.defaultState;
+		boolean state = properties.getDefaultState();
 		if(playerToggleSwitchStates.containsKey(player.getUniqueId()))
 		{
 			state = playerToggleSwitchStates.get(player.getUniqueId());
 		}
 		
 		return state;
-	}
-	
-	public boolean getDefaultState()
-	{
-		return properties.defaultState;
-	}
-	
-	public void setDefaultState(boolean defaultState)
-	{
-		properties.defaultState = defaultState;
-	}
-	
-	public String getOnclickOn()
-	{
-		return properties.onclickOn;
-	}
-	
-	public void setOnClickOn(String onclickOn)
-	{
-		properties.onclickOn = onclickOn;
-	}
-	
-	public String getOnclickOff()
-	{
-		return properties.onclickOff;
-	}
-	
-	public void setOnclickOff(String onclickOff)
-	{
-		properties.onclickOff = onclickOff;
-	}
-	
-	public String getOnIcon()
-	{
-		return properties.onIcon;
-	}
-	
-	public void setOnIcon(String onIcon)
-	{
-		properties.onIcon = onIcon;
-	}
-	
-	public String getOffIcon()
-	{
-		return properties.offIcon;
-	}
-	
-	public void setOffIcon(String offIcon)
-	{
-		properties.offIcon = offIcon;
-	}
-	
-	public boolean getExecuteOnClickOnAsConsole()
-	{
-		return properties.executeOnClickOnAsConsole;
-	}
-	
-	public void setExecuteOnClickOnAsConsole(boolean executeOnClickOnAsConsole)
-	{
-		properties.executeOnClickOnAsConsole = executeOnClickOnAsConsole;
-	}
-	
-	public boolean getExecuteOnClickOffAsConsole()
-	{
-		return properties.executeOnClickOffAsConsole;
-	}
-	
-	public void setExecuteOnClickOffAsConsole(boolean executeOnClickOffAsConsole)
-	{
-		properties.executeOnClickOffAsConsole = executeOnClickOffAsConsole;
-	}
-	
-	public String getOnValue()
-	{
-		return properties.onValue;
-	}
-	
-	public void setOnValue(String onValue)
-	{
-		properties.onValue = onValue;
-	}
-	
-	public String getOffValue()
-	{
-		return properties.offValue;
-	}
-	
-	public void setOffValue(String offValue)
-	{
-		properties.offValue = offValue;
 	}
 
 	@Override
@@ -243,8 +153,8 @@ public class ToggleSwitchComponent extends ClickableGUIComponent implements Conf
 	{
 		super.configParseComplete(params);
 		
-		onLines = plugin.loadImage(properties.onIcon, 13, 13, true);
-		offLines = plugin.loadImage(properties.offIcon, 13, 13, true);
+		onLines = plugin.loadImage(properties.getOnIcon(), 13, 13, true);
+		offLines = plugin.loadImage(properties.getOffIcon(), 13, 13, true);
 	}
 	
 	@Override

@@ -11,7 +11,7 @@ public class LabelComponentProperties extends GUIComponentProperties implements 
 	private static final double DEFAULT_LABEL_DISTANCE = 10;
 	
 	@ConfigProperty(key = "text")
-	public ArrayList<String> lines;
+	private ArrayList<String> lines;
 	
 	@Override
 	public void configParseComplete(PassthroughParams params)
@@ -24,5 +24,15 @@ public class LabelComponentProperties extends GUIComponentProperties implements 
 		{
 			labelDistance = DEFAULT_LABEL_DISTANCE;
 		}
+	}
+	
+	public ArrayList<String> getLines()
+	{
+		return lines;
+	}
+	
+	public void setLines(ArrayList<String> lines)
+	{
+		this.lines = lines;
 	}
 }

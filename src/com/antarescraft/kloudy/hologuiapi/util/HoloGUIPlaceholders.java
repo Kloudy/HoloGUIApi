@@ -128,7 +128,7 @@ public class HoloGUIPlaceholders
 				{
 					IValueHolder valueHolder = (IValueHolder)playerGUIComponent;
 					
-					str = str.replace("%" + playerGUIComponent.getGUIComponent().getProperties().id + "_value%", valueHolder.getValue());
+					str = str.replace("%" + playerGUIComponent.getGUIComponent().getProperties().getId() + "_value%", valueHolder.getValue());
 				}
 			}
 		}
@@ -146,7 +146,7 @@ public class HoloGUIPlaceholders
 						{
 							IValueHolder valueHolder = (IValueHolder)playerGUIComponent;
 							
-							str = str.replace("%" + playerGUIComponent.getGUIComponent().getProperties().id + "_value%", valueHolder.getValue());
+							str = str.replace("%" + playerGUIComponent.getGUIComponent().getProperties().getId() + "_value%", valueHolder.getValue());
 						}
 					}
 				}

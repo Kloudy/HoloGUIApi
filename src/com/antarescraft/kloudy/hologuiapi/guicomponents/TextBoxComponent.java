@@ -62,26 +62,6 @@ public class TextBoxComponent extends ClickableGUIComponent implements ConfigObj
 		textboxUpdateHandlers.remove(player.getUniqueId());
 	}
 	
-	public String getDefaultValue()
-	{
-		return properties.defaultLine;
-	}
-	
-	public void setDefaultLine(String defaultLine)
-	{
-		properties.defaultLine = defaultLine;
-	}
-	
-	public boolean evaluatePlaceholders()
-	{
-		return properties.evaluatePlaceholders;
-	}
-	
-	public void setEvaluatePlaceholders(boolean evaluatePlaceholders)
-	{
-		properties.evaluatePlaceholders = evaluatePlaceholders;
-	}
-	
 	public void setPlayerTextBoxValue(Player player, String value)
 	{
 		playerTextBoxValues.put(player.getUniqueId(), value);
@@ -89,14 +69,14 @@ public class TextBoxComponent extends ClickableGUIComponent implements ConfigObj
 	
 	public String getPlayerTextBoxValue(Player player)
 	{
-		String value = properties.defaultLine;
+		String value = properties.getDefaultLine();
 		String v = playerTextBoxValues.get(player.getUniqueId());
 		if(v != null)
 		{
 			value = v;
 		}
 		
-		if(properties.evaluatePlaceholders)
+		if(properties.evaluationPlaceholders())
 		{
 			value = HoloGUIPlaceholders.setHoloGUIPlaceholders(plugin, value, player);
 			

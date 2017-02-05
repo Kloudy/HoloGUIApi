@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.UUID;
 
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -53,32 +52,6 @@ public class ValueScrollerComponent extends ClickableGUIComponent implements Con
 		catch(Exception e){}
 		
 		return null;
-	}
-	
-	public Sound getOnscrollSound()
-	{
-		try
-		{
-			return Sound.valueOf(properties.onscrollSoundString);
-		}
-		catch(Exception e){}
-		
-		return null;
-	}
-	
-	public void setOnscrollSound(Sound onscrollSound)
-	{
-		properties.onscrollSoundString = onscrollSound.toString();
-	}
-	
-	public float getOnscrollSoundVolume()
-	{
-		return (float) properties.onscrollSoundVolume;
-	}
-	
-	public void setOnscrollSoundVolume(float onscrollSoundVolume)
-	{
-		properties.onscrollSoundVolume = onscrollSoundVolume;
 	}
 	
 	public void setPlayerScrollValue(Player player, AbstractScrollValue<?, ?> value)
@@ -182,7 +155,7 @@ public class ValueScrollerComponent extends ClickableGUIComponent implements Con
 	{
 		super.configParseComplete(params);
 		
-		if(properties.valueType.equals("decimal"))
+		if(properties.getValueType().equals("decimal"))
 		{
 			double defaultValue = 0;
 			double step = 1.0;
@@ -191,40 +164,40 @@ public class ValueScrollerComponent extends ClickableGUIComponent implements Con
 			
 			try
 			{
-				defaultValue = Double.parseDouble(properties.defaultValueString);
+				defaultValue = Double.parseDouble(properties.getDefaultValue());
 			}
 			catch(NumberFormatException e){}
 			
-			if(properties.stepString != null)
+			if(properties.getStep() != null)
 			{
 				try
 				{
-					step = Double.parseDouble(properties.stepString);
+					step = Double.parseDouble(properties.getStep());
 				}
 				catch(NumberFormatException e){}
 			}
 			
-			if(properties.minValueString != null) 
+			if(properties.getMinValue() != null) 
 			{
 				try
 				{
-					minValue = Double.parseDouble(properties.minValueString);
+					minValue = Double.parseDouble(properties.getMinValue());
 				}
 				catch(NumberFormatException e){}
 			}
 				
-			if(properties.maxValueString != null)
+			if(properties.getMaxValue() != null)
 			{
 				try
 				{
-					maxValue = Double.parseDouble(properties.maxValueString);
+					maxValue = Double.parseDouble(properties.getMaxValue());
 				}
 				catch(NumberFormatException e){}
 			}
 			
-			componentValue = new DoubleScrollValue(defaultValue, step, minValue, maxValue, properties.decimalFormat, properties.wrap);
+			componentValue = new DoubleScrollValue(defaultValue, step, minValue, maxValue, properties.getDecimalFormat(), properties.wrap());
 		}
-		else if(properties.valueType.equalsIgnoreCase("integer"))
+		else if(properties.getValueType().equalsIgnoreCase("integer"))
 		{
 			int defaultValue = 0;
 			int step = 1;
@@ -233,40 +206,40 @@ public class ValueScrollerComponent extends ClickableGUIComponent implements Con
 			
 			try
 			{
-				defaultValue = Integer.parseInt(properties.defaultValueString);
+				defaultValue = Integer.parseInt(properties.getDefaultValue());
 			}
 			catch(NumberFormatException e){}
 			
-			if(properties.stepString != null)
+			if(properties.getStep() != null)
 			{
 				try
 				{
-					step = Integer.parseInt(properties.stepString);
+					step = Integer.parseInt(properties.getStep());
 				}
 				catch(NumberFormatException e){}
 			}
 			
-			if(properties.minValueString != null) 
+			if(properties.getMinValue() != null) 
 			{
 				try
 				{
-					minValue = Integer.parseInt(properties.minValueString);
+					minValue = Integer.parseInt(properties.getMinValue());
 				}
 				catch(NumberFormatException e){}
 			}
 				
-			if(properties.maxValueString != null)
+			if(properties.getMaxValue() != null)
 			{
 				try
 				{
-					maxValue = Integer.parseInt(properties.maxValueString);
+					maxValue = Integer.parseInt(properties.getMaxValue());
 				}
 				catch(NumberFormatException e){}
 			}
 			
-			componentValue = new IntegerScrollValue(defaultValue, step, minValue, maxValue, properties.wrap);
+			componentValue = new IntegerScrollValue(defaultValue, step, minValue, maxValue, properties.wrap());
 		}
-		else if(properties.valueType.equalsIgnoreCase("duration"))
+		else if(properties.getValueType().equalsIgnoreCase("duration"))
 		{
 			Duration defaultValue = Duration.ZERO;
 			Duration step = Duration.ZERO.plusSeconds(1);
@@ -275,40 +248,40 @@ public class ValueScrollerComponent extends ClickableGUIComponent implements Con
 			
 			try
 			{
-				defaultValue = TimeFormat.parseDurationFormat(properties.defaultValueString);
+				defaultValue = TimeFormat.parseDurationFormat(properties.getDefaultValue());
 			}
 			catch(InvalidDurationFormatException e){}
 			
-			if(properties.stepString != null)
+			if(properties.getStep() != null)
 			{
 				try
 				{
-					step = TimeFormat.parseDurationFormat(properties.stepString);
+					step = TimeFormat.parseDurationFormat(properties.getStep());
 				}
 				catch(InvalidDurationFormatException e){}
 			}
 			
-			if(properties.minValueString != null) 
+			if(properties.getMinValue() != null) 
 			{
 				try
 				{
-					minValue = TimeFormat.parseDurationFormat(properties.minValueString);
+					minValue = TimeFormat.parseDurationFormat(properties.getMinValue());
 				}
 				catch(InvalidDurationFormatException e){}
 			}
 				
-			if(properties.maxValueString != null)
+			if(properties.getMaxValue() != null)
 			{
 				try
 				{
-					maxValue = TimeFormat.parseDurationFormat(properties.maxValueString);
+					maxValue = TimeFormat.parseDurationFormat(properties.getMaxValue());
 				}
 				catch(InvalidDurationFormatException e){}
 			}
 			
-			componentValue = new DurationScrollValue(defaultValue, step, minValue, maxValue, properties.wrap);
+			componentValue = new DurationScrollValue(defaultValue, step, minValue, maxValue, properties.wrap());
 		}
-		else if(properties.valueType.equalsIgnoreCase("date"))
+		else if(properties.getValueType().equalsIgnoreCase("date"))
 		{
 			Calendar defaultValue = Calendar.getInstance();
 			Duration step = Duration.ZERO.plusDays(1);
@@ -317,44 +290,44 @@ public class ValueScrollerComponent extends ClickableGUIComponent implements Con
 			
 			try
 			{
-				defaultValue = TimeFormat.parseDateFormat(properties.defaultValueString);
+				defaultValue = TimeFormat.parseDateFormat(properties.getDefaultValue());
 			}
 			catch(InvalidDateFormatException e){}
 			
-			if(properties.stepString != null)
+			if(properties.getStep() != null)
 			{
 				try
 				{
-					step = TimeFormat.parseDurationFormat(properties.stepString);
+					step = TimeFormat.parseDurationFormat(properties.getStep());
 				}
 				catch(InvalidDurationFormatException e){}
 			}
 			
-			if(properties.minValueString != null) 
+			if(properties.getMinValue() != null) 
 			{
 				try
 				{
-					minValue = TimeFormat.parseDateFormat(properties.minValueString);
+					minValue = TimeFormat.parseDateFormat(properties.getMinValue());
 				}
 				catch(InvalidDateFormatException e){}
 			}
 				
-			if(properties.maxValueString != null)
+			if(properties.getMaxValue() != null)
 			{
 				try
 				{
-					maxValue = TimeFormat.parseDateFormat(properties.maxValueString);
+					maxValue = TimeFormat.parseDateFormat(properties.getMaxValue());
 				}
 				catch(InvalidDateFormatException e){}
 			}
 			
-			componentValue = new DateScrollValue(defaultValue, step, minValue, maxValue, properties.wrap);
+			componentValue = new DateScrollValue(defaultValue, step, minValue, maxValue, properties.wrap());
 		}
-		else if(properties.valueType.equalsIgnoreCase("list"))
+		else if(properties.getValueType().equalsIgnoreCase("list"))
 		{
-			if(properties.listItems != null)
+			if(properties.getListItems() != null)
 			{
-				componentValue = new ListScrollValue(properties.listItems);
+				componentValue = new ListScrollValue(properties.getListItems());
 			}
 			else 
 			{
