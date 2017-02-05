@@ -20,7 +20,7 @@ public class ValueScrollerComponentProperties extends ClickableGUIComponentPrope
 	public String onscrollSoundString;
 	
 	@OptionalConfigProperty
-	@DoubleConfigProperty(defaultValue = 0.5, maxValue = 0.0, minValue = 1.0)
+	@DoubleConfigProperty(defaultValue = 0.5, maxValue = 1.0, minValue = 0)
 	@ConfigProperty(key = "onscroll-sound-volume")
 	public double onscrollSoundVolume;
 	
