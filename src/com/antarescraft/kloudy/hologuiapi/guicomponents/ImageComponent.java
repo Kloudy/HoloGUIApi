@@ -27,7 +27,7 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 	{
 		try
 		{
-			return ObjectMapper.mapObject(this, ImageComponent.class, plugin);
+			return ObjectMapper.mapObject(this, ImageComponent.class);
 		}
 		catch(Exception e){}
 		

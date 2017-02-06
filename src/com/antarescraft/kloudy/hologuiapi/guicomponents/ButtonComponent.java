@@ -33,7 +33,7 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 	{
 		try
 		{
-			return ObjectMapper.mapObject(this, ButtonComponent.class, plugin);
+			return ObjectMapper.mapObject(this, ButtonComponent.class);
 		} 
 		catch (Exception e){}
 		

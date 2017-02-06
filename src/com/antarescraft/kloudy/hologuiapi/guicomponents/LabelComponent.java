@@ -39,9 +39,9 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 	{
 		try
 		{
-			return ObjectMapper.mapObject(this, LabelComponent.class, plugin);
+			return ObjectMapper.mapObject(this, LabelComponent.class);
 		}
-		catch(Exception e){}
+		catch(Exception e){e.printStackTrace();}
 		
 		return null;
 	}

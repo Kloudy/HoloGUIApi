@@ -30,7 +30,7 @@ public class ItemButtonComponent extends ClickableGUIComponent implements ItemTy
 	{
 		try
 		{
-			return ObjectMapper.mapObject(this, ItemButtonComponent.class, plugin);
+			return ObjectMapper.mapObject(this, ItemButtonComponent.class);
 		}
 		catch(Exception e){}
 		

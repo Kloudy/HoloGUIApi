@@ -25,7 +25,7 @@ public class EntityComponent extends GUIComponent implements EntityTypeComponent
 	{
 		try
 		{
-			return ObjectMapper.mapObject(this, EntityComponent.class, plugin);
+			return ObjectMapper.mapObject(this, EntityComponent.class);
 		}
 		catch(Exception e){}
 		

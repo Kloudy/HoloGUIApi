@@ -28,7 +28,7 @@ public class ItemComponent extends GUIComponent implements ItemTypeComponent, Co
 	{
 		try
 		{
-			return ObjectMapper.mapObject(this, ItemComponent.class, plugin);
+			return ObjectMapper.mapObject(this, ItemComponent.class);
 		}
 		catch(Exception e){}
 		

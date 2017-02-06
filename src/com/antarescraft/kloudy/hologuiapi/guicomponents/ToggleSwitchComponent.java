@@ -37,7 +37,7 @@ public class ToggleSwitchComponent extends ClickableGUIComponent implements Conf
 	{
 		try
 		{
-			return ObjectMapper.mapObject(this, ToggleSwitchComponent.class, plugin);
+			return ObjectMapper.mapObject(this, ToggleSwitchComponent.class);
 		}
 		catch(Exception e){}
 		

@@ -47,7 +47,7 @@ public class ValueScrollerComponent extends ClickableGUIComponent implements Con
 	{
 		try
 		{
-			return ObjectMapper.mapObject(this, ValueScrollerComponent.class, plugin);
+			return ObjectMapper.mapObject(this, ValueScrollerComponent.class);
 		}
 		catch(Exception e){}
 		
