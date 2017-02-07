@@ -8,7 +8,6 @@ import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
-import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
 public class ImageComponent extends GUIComponent implements ConfigObject
 {
@@ -21,18 +20,6 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 	private String[][] lines = null;
 	
 	private ImageComponent(){}
-	
-	@Override
-	public ImageComponent clone()
-	{
-		try
-		{
-			return ObjectMapper.mapObject(this, ImageComponent.class);
-		}
-		catch(Exception e){e.printStackTrace();}
-		
-		return null;
-	}
 
 	@Override
 	public PlayerGUITextComponent initPlayerGUIComponent(Player player) 

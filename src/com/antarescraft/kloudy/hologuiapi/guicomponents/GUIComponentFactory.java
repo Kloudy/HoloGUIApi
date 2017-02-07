@@ -1,7 +1,6 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
 import java.io.StringReader;
-import java.lang.reflect.InvocationTargetException;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -48,15 +47,16 @@ public class GUIComponentFactory
 	 * @param id The id of the newly created GUIComponent
 	 * @return deep copy of the input gui components
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T extends GUIComponent> T createComponentFromExistingComponent(T component, String id)
-	{
-		Class<T> t = (Class<T>) component.getClass();
-		
+	{	
 		try 
 		{
-			return ObjectMapper.mapObject(component, t);
+			return (T) ObjectMapper.mapObject(component, component.getClass());
 		} 
 		catch (Exception e){}
+		
+		return null;
 	}
 	
 	public static LabelComponent createLabelComponent(HoloGUIPlugin plugin, LabelComponentProperties properties)

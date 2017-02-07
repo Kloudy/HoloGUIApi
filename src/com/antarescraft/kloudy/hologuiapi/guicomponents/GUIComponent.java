@@ -18,7 +18,6 @@ public abstract class GUIComponent implements ConfigObject
 	public abstract String[] updateComponentLines(Player player);
 	public abstract double getDisplayDistance();
 	public abstract double getLineHeight();
-	public abstract GUIComponent clone();
 	
 	public HoloGUIPlugin getHoloGUIPlugin()
 	{

@@ -18,7 +18,6 @@ import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
-import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 
@@ -33,18 +32,6 @@ public class TextBoxComponent extends ClickableGUIComponent implements ConfigObj
 	private HashMap<UUID, TextBoxUpdateHandler> textboxUpdateHandlers = new HashMap<UUID, TextBoxUpdateHandler>();
 	
 	private TextBoxComponent(){}
-	
-	@Override
-	public TextBoxComponent clone()
-	{
-		try
-		{
-			return ObjectMapper.mapObject(this, TextBoxComponent.class);
-		}
-		catch(Exception e){e.printStackTrace();}
-		
-		return null;
-	}
 	
 	public void registerTextBoxUpdateHandler(Player player, TextBoxUpdateHandler textboxUpdateHandler)
 	{
