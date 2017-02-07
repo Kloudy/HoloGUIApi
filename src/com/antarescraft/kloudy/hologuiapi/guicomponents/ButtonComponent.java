@@ -35,7 +35,7 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 		{
 			return ObjectMapper.mapObject(this, ButtonComponent.class);
 		} 
-		catch (Exception e){}
+		catch (Exception e){e.printStackTrace();}
 		
 		return null;
 	}

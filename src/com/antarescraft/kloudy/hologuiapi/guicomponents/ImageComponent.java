@@ -29,7 +29,7 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 		{
 			return ObjectMapper.mapObject(this, ImageComponent.class);
 		}
-		catch(Exception e){}
+		catch(Exception e){e.printStackTrace();}
 		
 		return null;
 	}

@@ -33,7 +33,7 @@ public class EntityButtonComponent extends ClickableGUIComponent implements Enti
 		{
 			return ObjectMapper.mapObject(this, EntityButtonComponent.class);
 		}
-		catch(Exception e){}
+		catch(Exception e){e.printStackTrace();}
 		
 		return null;
 	}

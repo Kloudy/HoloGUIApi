@@ -27,7 +27,7 @@ public class EntityComponent extends GUIComponent implements EntityTypeComponent
 		{
 			return ObjectMapper.mapObject(this, EntityComponent.class);
 		}
-		catch(Exception e){}
+		catch(Exception e){e.printStackTrace();}
 		
 		return null;
 	}

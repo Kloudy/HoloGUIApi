@@ -41,7 +41,7 @@ public class TextBoxComponent extends ClickableGUIComponent implements ConfigObj
 		{
 			return ObjectMapper.mapObject(this, TextBoxComponent.class);
 		}
-		catch(Exception e){}
+		catch(Exception e){e.printStackTrace();}
 		
 		return null;
 	}

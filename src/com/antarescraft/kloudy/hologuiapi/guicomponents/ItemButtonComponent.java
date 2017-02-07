@@ -32,7 +32,7 @@ public class ItemButtonComponent extends ClickableGUIComponent implements ItemTy
 		{
 			return ObjectMapper.mapObject(this, ItemButtonComponent.class);
 		}
-		catch(Exception e){}
+		catch(Exception e){e.printStackTrace();}
 		
 		return null;
 	}

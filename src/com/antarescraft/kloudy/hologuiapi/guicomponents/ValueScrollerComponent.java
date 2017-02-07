@@ -49,7 +49,7 @@ public class ValueScrollerComponent extends ClickableGUIComponent implements Con
 		{
 			return ObjectMapper.mapObject(this, ValueScrollerComponent.class);
 		}
-		catch(Exception e){}
+		catch(Exception e){e.printStackTrace();}
 		
 		return null;
 	}

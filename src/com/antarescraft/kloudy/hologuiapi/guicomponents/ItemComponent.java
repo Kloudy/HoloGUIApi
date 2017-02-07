@@ -30,7 +30,7 @@ public class ItemComponent extends GUIComponent implements ItemTypeComponent, Co
 		{
 			return ObjectMapper.mapObject(this, ItemComponent.class);
 		}
-		catch(Exception e){}
+		catch(Exception e){e.printStackTrace();}
 		
 		return null;
 	}
