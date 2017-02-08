@@ -26,6 +26,7 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 		this.lines = lines;
 		
 		currentFrame = 0;
+		frames = this.lines.length;
 	}
 
 	@Override
