@@ -36,11 +36,6 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 			currentFrame = 0;
 		}
 	}
-	
-	public void setLines(String[][] lines)
-	{
-		this.lines = lines;
-	}
 
 	@Override
 	public String[] updateComponentLines(Player player)
