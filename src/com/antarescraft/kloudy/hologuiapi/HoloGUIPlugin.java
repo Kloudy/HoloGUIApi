@@ -29,15 +29,13 @@ import net.md_5.bungee.api.ChatColor;
  */
 public abstract class HoloGUIPlugin extends JavaPlugin
 {	
-	private HashMap<String, GUIPage> guiPages;
-	private ArrayList<String> yamlFiles;
+	private HashMap<String, GUIPage> guiPages = new HashMap<String, GUIPage>();
+	private ArrayList<String> yamlFiles = new ArrayList<String>();
 	private boolean guiPagesLoaded;
 	private String minSupportedApiVersion = "1.0";
 	
 	public HoloGUIPlugin()
 	{
-		guiPages = new HashMap<String, GUIPage>();
-		yamlFiles = new ArrayList<String>();
 		guiPagesLoaded = false;
 				
 		initFileStructure();
@@ -283,7 +281,7 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 	 * Loads and processes the specified imageName. Returns the image as a String[][]. Returns null if the file couldn't be found.
 	 */
 	public String[][] loadImage(String imageName, int width, int height, boolean symmetrical)
-	{
+	{		
 		String[][] imageLines = null;
 		
 		try
