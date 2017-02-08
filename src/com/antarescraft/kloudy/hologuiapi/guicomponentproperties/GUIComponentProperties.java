@@ -45,7 +45,7 @@ public abstract class GUIComponentProperties implements ConfigObject
 	public GUIComponentProperties(){}
 	
 	@Override
-	protected GUIComponentProperties clone()
+	public GUIComponentProperties clone()
 	{
 		try
 		{

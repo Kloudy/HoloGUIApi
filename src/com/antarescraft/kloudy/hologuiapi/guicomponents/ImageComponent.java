@@ -20,6 +20,11 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 	private String[][] lines = null;
 	
 	private ImageComponent(){}
+	
+	public void setLines(String[][] lines)
+	{
+		this.lines = lines;
+	}
 
 	@Override
 	public PlayerGUITextComponent initPlayerGUIComponent(Player player) 
