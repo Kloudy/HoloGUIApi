@@ -24,6 +24,8 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 	public void setLines(String[][] lines)
 	{
 		this.lines = lines;
+		
+		currentFrame = 0;
 	}
 
 	@Override
