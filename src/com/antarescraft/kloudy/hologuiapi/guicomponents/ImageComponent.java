@@ -70,7 +70,7 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 		
 		lines = plugin.loadImage(properties.getImageSource(), properties.getWidth(), properties.getHeight(), properties.isSymmetrical());
 		
-		frames = lines.length;
+		frames = (lines != null) ? lines.length : 0;
 	}
 	
 	@Override
