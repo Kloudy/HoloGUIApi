@@ -101,6 +101,8 @@ public class PlayerGUIPage
 	{
 		PlayerData playerData = PlayerData.getPlayerData(player);
 		
+		guiPage.triggerPageCloseHandler(player);
+		
 		for(PlayerGUIComponent playerGUIComponent : components.values())
 		{
 			playerGUIComponent.destroyArmorStands();

@@ -20,8 +20,6 @@ import com.antarescraft.kloudy.hologuiapi.events.PlayerQuitEventListener;
 import com.antarescraft.kloudy.hologuiapi.events.PlayerRespawnEventListener;
 import com.antarescraft.kloudy.hologuiapi.events.PlayerTeleportEventListener;
 import com.antarescraft.kloudy.hologuiapi.events.PlayerToggleSneakEventListener;
-import com.antarescraft.kloudy.hologuiapi.guicomponents.ClickableGUIComponent;
-import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIComponent;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIPage;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.TextBoxComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPage;
@@ -285,7 +283,7 @@ public class HoloGUIApi extends JavaPlugin
 					Location lookLocation = null;
 					if(playerGUIPage != null)//player is already looking at a gui
 					{
-						destroyPlayerGUIPage(playerGUIPage);
+						playerGUIPage.destroy();
 						
 						lookLocation = playerGUIPage.getLookLocation();
 
@@ -303,7 +301,7 @@ public class HoloGUIApi extends JavaPlugin
 	/*
 	 * Helper function that handles properly destroying a GUIPage
 	 */
-	private void destroyPlayerGUIPage(PlayerGUIPage playerGUIPage)
+	/*private void destroyPlayerGUIPage(PlayerGUIPage playerGUIPage)
 	{
 		Player player = playerGUIPage.getPlayer();
 		
@@ -324,9 +322,7 @@ public class HoloGUIApi extends JavaPlugin
 				clickableComponent.removePlayerHandlers(player);
 			}
 		}
-		
-		playerGUIPage.destroy();
-	}
+		*/
 	
 	/**
 	 * Closes the GUI page the player currently has open
@@ -341,7 +337,7 @@ public class HoloGUIApi extends JavaPlugin
 		
 		if(playerGUIPage != null)
 		{
-			destroyPlayerGUIPage(playerGUIPage);
+			playerGUIPage.destroy();
 			
 			playerData.setPlayerGUIPage(null);
 			playerData.setPlayerPreviousGUIPage(null);
