@@ -15,7 +15,6 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 	@ConfigProperty(key = "")
 	private ImageComponentProperties properties;
 	
-	private int frames = 0;
 	private int currentFrame = 0;
 	private String[][] lines = null;
 	
@@ -26,7 +25,6 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 		this.lines = lines;
 		
 		currentFrame = 0;
-		frames = this.lines.length;
 	}
 
 	@Override
@@ -38,11 +36,7 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 	@Override
 	public void updateIncrement()
 	{
-		currentFrame++;
-		if(currentFrame >= frames)
-		{
-			currentFrame = 0;
-		}
+		currentFrame = (currentFrame + 1) % lines.length;
 	}
 
 	@Override
@@ -70,7 +64,8 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 		
 		lines = plugin.loadImage(properties.getImageSource(), properties.getWidth(), properties.getHeight(), properties.isSymmetrical());
 		
-		frames = (lines != null) ? lines.length : 0;
+		if(lines == null)
+			System.out.println("image lines are null for image: " + properties.getImageSource());
 	}
 	
 	@Override

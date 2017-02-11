@@ -284,10 +284,12 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 	{		
 		String[][] imageLines = null;
 		
+		InputStream inputStream = null;
+		
 		try
 		{
-			InputStream inputStream = getResource(HoloGUIApi.PATH_TO_IMAGES + "/" + imageName);
-
+			inputStream = getResource(HoloGUIApi.PATH_TO_IMAGES + "/" + imageName);
+			
 			if(imageName.contains(".gif"))
 			{
 				imageLines = GifProcessor.processGif(imageName, inputStream, width, height, symmetrical);
@@ -296,9 +298,20 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 			{
 				imageLines = PngJpgProcessor.processImage(imageName, inputStream, width, height, symmetrical);
 			}
-			inputStream.close();
 		}
-		catch(Exception e){}
+		catch(Exception e)
+		{
+			System.out.println("Error on opening resource: " + HoloGUIApi.PATH_TO_IMAGES + "/" + imageName);
+			e.printStackTrace();
+		}
+		finally
+		{
+			try 
+			{
+				if(inputStream != null)inputStream.close();
+			} 
+			catch (IOException e) {}
+		}
 		
 		return imageLines;
 	}
