@@ -110,7 +110,7 @@ public class GUIPage implements ConfigObject
 		pageCloseHandlers.put(player.getUniqueId(), pageCloseHandler);
 	}
 	
-	public void trigglerPageCloseHandler(Player player)
+	public void triggerPageCloseHandler(Player player)
 	{
 		GUIPageCloseHandler pageCloseHandler = pageCloseHandlers.get(player.getUniqueId());
 		if(pageCloseHandler != null)

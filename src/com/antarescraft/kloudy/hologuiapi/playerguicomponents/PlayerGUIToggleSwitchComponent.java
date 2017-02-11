@@ -3,10 +3,9 @@ package com.antarescraft.kloudy.hologuiapi.playerguicomponents;
 import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
-import com.antarescraft.kloudy.hologuiapi.guicomponents.IValueHolder;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.ToggleSwitchComponent;
 
-public class PlayerGUIToggleSwitchComponent extends PlayerGUITextComponent implements IValueHolder
+public class PlayerGUIToggleSwitchComponent extends PlayerGUITextComponent implements ValueHolder
 {
 	//private boolean state;
 	

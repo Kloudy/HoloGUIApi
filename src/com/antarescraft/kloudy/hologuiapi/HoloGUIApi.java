@@ -20,6 +20,8 @@ import com.antarescraft.kloudy.hologuiapi.events.PlayerQuitEventListener;
 import com.antarescraft.kloudy.hologuiapi.events.PlayerRespawnEventListener;
 import com.antarescraft.kloudy.hologuiapi.events.PlayerTeleportEventListener;
 import com.antarescraft.kloudy.hologuiapi.events.PlayerToggleSneakEventListener;
+import com.antarescraft.kloudy.hologuiapi.guicomponents.ClickableGUIComponent;
+import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIComponent;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIPage;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.TextBoxComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPage;
@@ -278,16 +280,16 @@ public class HoloGUIApi extends JavaPlugin
 				}
 				else
 				{
-					PlayerGUIPage playerGUIContainer = playerData.getPlayerGUIPage();
+					PlayerGUIPage playerGUIPage = playerData.getPlayerGUIPage();
 					
 					Location lookLocation = null;
-					if(playerGUIContainer != null)//player is already looking at a gui
+					if(playerGUIPage != null)//player is already looking at a gui
 					{
-						playerGUIContainer.destroy();
+						destroyPlayerGUIPage(playerGUIPage);
 						
-						lookLocation = playerGUIContainer.getLookLocation();
+						lookLocation = playerGUIPage.getLookLocation();
 
-						playerData.setPlayerPreviousGUIContainer(playerGUIContainer);
+						playerData.setPlayerPreviousGUIPage(playerGUIPage);
 					}
 					
 					if(lookLocation == null) lookLocation = player.getLocation().clone();
@@ -296,6 +298,34 @@ public class HoloGUIApi extends JavaPlugin
 				}
 			}
 		}
+	}
+	
+	/*
+	 * Helper function that handles properly destroying a GUIPage
+	 */
+	private void destroyPlayerGUIPage(PlayerGUIPage playerGUIPage)
+	{
+		Player player = playerGUIPage.getPlayer();
+		
+		// un-register handlers for the player
+		GUIPage guiPage = playerGUIPage.getGUIPage();
+		
+		guiPage.triggerPageCloseHandler(player);
+		guiPage.removePageCloseHandler(player);
+		guiPage.removePageLoadHandler(player);
+		
+		// remove all handlers for clickable gui components for the player
+		for(GUIComponent guiComponent : guiPage.getComponents())
+		{
+			if(guiComponent instanceof ClickableGUIComponent)
+			{
+				ClickableGUIComponent clickableComponent = (ClickableGUIComponent)guiComponent;
+				
+				clickableComponent.removePlayerHandlers(player);
+			}
+		}
+		
+		playerGUIPage.destroy();
 	}
 	
 	/**
@@ -308,12 +338,13 @@ public class HoloGUIApi extends JavaPlugin
 		PlayerData playerData = PlayerData.getPlayerData(player);
 		playerData.setPlayerGUIPageModel(null);
 		PlayerGUIPage playerGUIPage = playerData.getPlayerGUIPage();
+		
 		if(playerGUIPage != null)
 		{
-			playerGUIPage.getGUIPage().trigglerPageCloseHandler(player);
-			playerGUIPage.destroy();
+			destroyPlayerGUIPage(playerGUIPage);
+			
 			playerData.setPlayerGUIPage(null);
-			playerData.setPlayerPreviousGUIContainer(null);
+			playerData.setPlayerPreviousGUIPage(null);
 		}
 	}
 	
@@ -362,7 +393,7 @@ public class HoloGUIApi extends JavaPlugin
 					previousPlayerGUIContainer.setLookLocation(playerGUIPage.getLookLocation());
 					playerGUIPage.destroy();
 					playerData.setPlayerGUIPage(previousPlayerGUIContainer);
-					playerData.setPlayerPreviousGUIContainer(playerGUIPage);
+					playerData.setPlayerPreviousGUIPage(playerGUIPage);
 					previousPlayerGUIContainer.renderComponents();
 					
 					playerData.setPlayerGUIPageModel(prevModel);

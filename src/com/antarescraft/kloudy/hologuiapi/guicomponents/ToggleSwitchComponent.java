@@ -31,6 +31,14 @@ public class ToggleSwitchComponent extends ClickableGUIComponent implements Conf
 	
 	private ToggleSwitchComponent(){}
 	
+	@Override
+	public void removePlayerHandlers(Player player)
+	{
+		super.removePlayerHandlers(player);
+		
+		toggleHandlers.remove(player.getUniqueId());
+	}
+	
 	public void registerToggleHandler(Player player, ToggleHandler toggleHandler)
 	{
 		toggleHandlers.put(player.getUniqueId(), toggleHandler);
@@ -85,6 +93,11 @@ public class ToggleSwitchComponent extends ClickableGUIComponent implements Conf
 		}
 		
 		return state;
+	}
+	
+	public void removePlayerToggleSwitchState(Player player)
+	{
+		playerToggleSwitchStates.remove(player.getUniqueId());
 	}
 
 	@Override

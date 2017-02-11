@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
 import com.antarescraft.kloudy.hologuiapi.StationaryGUIDisplayContainer;
-import com.antarescraft.kloudy.hologuiapi.guicomponents.IValueHolder;
+import com.antarescraft.kloudy.hologuiapi.playerguicomponents.ValueHolder;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPage;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPageModel;
@@ -124,9 +124,9 @@ public class HoloGUIPlaceholders
 		{
 			for(PlayerGUIComponent playerGUIComponent : playerGUIContainer.getPlayerGUIComponents())
 			{
-				if(playerGUIComponent instanceof IValueHolder)
+				if(playerGUIComponent instanceof ValueHolder)
 				{
-					IValueHolder valueHolder = (IValueHolder)playerGUIComponent;
+					ValueHolder valueHolder = (ValueHolder)playerGUIComponent;
 					
 					str = str.replace("%" + playerGUIComponent.getGUIComponent().getProperties().getId() + "_value%", valueHolder.getValue());
 				}
@@ -142,9 +142,9 @@ public class HoloGUIPlaceholders
 				{
 					for(PlayerGUIComponent playerGUIComponent : stationaryContainer.getPlayerGUIComponents())
 					{
-						if(playerGUIComponent instanceof IValueHolder)
+						if(playerGUIComponent instanceof ValueHolder)
 						{
-							IValueHolder valueHolder = (IValueHolder)playerGUIComponent;
+							ValueHolder valueHolder = (ValueHolder)playerGUIComponent;
 							
 							str = str.replace("%" + playerGUIComponent.getGUIComponent().getProperties().getId() + "_value%", valueHolder.getValue());
 						}

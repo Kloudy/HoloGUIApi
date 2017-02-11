@@ -33,6 +33,14 @@ public class TextBoxComponent extends ClickableGUIComponent implements ConfigObj
 	
 	private TextBoxComponent(){}
 	
+	@Override
+	public void removePlayerHandlers(Player player)
+	{
+		super.removePlayerHandlers(player);
+		
+		textboxUpdateHandlers.remove(player.getUniqueId());
+	}
+	
 	public void registerTextBoxUpdateHandler(Player player, TextBoxUpdateHandler textboxUpdateHandler)
 	{
 		textboxUpdateHandlers.put(player.getUniqueId(), textboxUpdateHandler);
@@ -52,6 +60,11 @@ public class TextBoxComponent extends ClickableGUIComponent implements ConfigObj
 	public void setPlayerTextBoxValue(Player player, String value)
 	{
 		playerTextBoxValues.put(player.getUniqueId(), value);
+	}
+	
+	public void removePlayerTextBoxValue(Player player)
+	{
+		playerTextBoxValues.remove(player.getUniqueId());
 	}
 	
 	public String getPlayerTextBoxValue(Player player)

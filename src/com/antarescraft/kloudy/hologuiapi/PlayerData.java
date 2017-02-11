@@ -95,7 +95,7 @@ public class PlayerData
 		return playerPreviousGUIContainer;
 	}
 	
-	public void setPlayerPreviousGUIContainer(PlayerGUIPage playerPreviousGUIContainer)
+	public void setPlayerPreviousGUIPage(PlayerGUIPage playerPreviousGUIContainer)
 	{
 		this.playerPreviousGUIContainer = playerPreviousGUIContainer;
 	}

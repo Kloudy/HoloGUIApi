@@ -7,12 +7,11 @@ import org.bukkit.util.Vector;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
-import com.antarescraft.kloudy.hologuiapi.guicomponents.IValueHolder;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.TextBoxComponent;
 
 import net.md_5.bungee.api.ChatColor;
 
-public class PlayerGUITextBoxComponent extends PlayerGUIValueBoxComponent implements IValueHolder
+public class PlayerGUITextBoxComponent extends PlayerGUIValueBoxComponent implements ValueHolder
 {
 	private String line;
 	private String prevLine;

@@ -41,9 +41,22 @@ public class ValueScrollerComponent extends ClickableGUIComponent implements Con
 	
 	private ValueScrollerComponent(){}
 	
+	@Override
+	public void removePlayerHandlers(Player player)
+	{
+		super.removePlayerHandlers(player);
+		
+		scrollHandlers.remove(player.getUniqueId());
+	}
+	
 	public void setPlayerScrollValue(Player player, AbstractScrollValue<?, ?> value)
 	{
 		playerScrollValues.put(player.getUniqueId(), value);
+	}
+	
+	public void removePlayerScrollValue(Player player)
+	{
+		playerScrollValues.remove(player.getUniqueId());
 	}
 	
 	public void registerScrollHandler(Player player, ScrollHandler scrollHandler)

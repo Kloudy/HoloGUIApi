@@ -37,6 +37,13 @@ public abstract class ClickableGUIComponent extends GUIComponent
 	public abstract AABB.Vec3D getMaxBoundingRectPoint18(Point3D origin);
 	public abstract AABB.Vec3D getMinBoundingRectPoint19(Point3D origin);
 	public abstract AABB.Vec3D getMaxBoundingRectPoint19(Point3D origin);
+	
+	public void removePlayerHandlers(Player player)
+	{
+		clickHandlers.remove(player.getUniqueId());
+		hoverHandlers.remove(player.getUniqueId());
+		hoverOutHandlers.remove(player.getUniqueId());
+	}
 		
 	@Override
 	public void configParseComplete(PassthroughParams params)

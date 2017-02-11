@@ -8,12 +8,11 @@ import org.bukkit.util.Vector;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIComponent;
-import com.antarescraft.kloudy.hologuiapi.guicomponents.IValueHolder;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.ValueScrollerComponent;
 
 import net.md_5.bungee.api.ChatColor;
 
-public class PlayerGUIValueScrollerComponent extends PlayerGUIValueBoxComponent implements IValueHolder
+public class PlayerGUIValueScrollerComponent extends PlayerGUIValueBoxComponent implements ValueHolder
 {
 	private String prevLine;
 	private String line;

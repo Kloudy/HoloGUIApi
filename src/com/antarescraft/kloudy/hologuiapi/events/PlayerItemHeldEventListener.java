@@ -70,7 +70,7 @@ public class PlayerItemHeldEventListener implements Listener
 			{
 				playerGUIContainer.destroy();
 				playerData.setPlayerGUIPage(null);
-				playerData.setPlayerPreviousGUIContainer(null);
+				playerData.setPlayerPreviousGUIPage(null);
 			}
 		}
 	}
