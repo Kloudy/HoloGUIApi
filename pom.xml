@@ -109,6 +109,7 @@
                 <goal>jar</goal>
             </goals>
             <configuration>
+            	<skip>true</skip>
             	<links>
 		            <link>https://hub.spigotmc.org/javadocs/spigot/</link>
 	          	</links>
