@@ -52,7 +52,7 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 				while((entry = zip.getNextEntry()) != null)
 				{
 				    String entryName = entry.getName();
-				    if( entryName.startsWith(HoloGUIApi.PATH_TO_YAMLS) &&  entryName.endsWith(".yml") )
+				    if(entryName.startsWith(HoloGUIApi.PATH_TO_YAMLS) &&  entryName.endsWith(".yml") )
 				    {
 				    	String[] pathTokens = entryName.split("/");
 				        yamlFiles.add(pathTokens[pathTokens.length-1]);

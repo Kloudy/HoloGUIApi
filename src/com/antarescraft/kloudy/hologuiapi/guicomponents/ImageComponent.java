@@ -63,9 +63,6 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 		super.configParseComplete(params);
 		
 		lines = plugin.loadImage(properties.getImageSource(), properties.getWidth(), properties.getHeight(), properties.isSymmetrical());
-		
-		if(lines == null)
-			System.out.println("image lines are null for image: " + properties.getImageSource());
 	}
 	
 	@Override
