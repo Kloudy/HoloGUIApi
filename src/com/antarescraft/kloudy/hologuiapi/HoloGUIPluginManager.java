@@ -3,10 +3,6 @@ package com.antarescraft.kloudy.hologuiapi;
 import java.util.Collection;
 import java.util.HashMap;
 
-import org.bukkit.Bukkit;
-
-import com.antarescraft.kloudy.hologuiapi.util.ConfigManager;
-
 /**
  * Singleton class that handles logic surrounding hooking into 3rd party plugins
  */
@@ -44,19 +40,16 @@ public class HoloGUIPluginManager
 	}
 	
 	/**
-	 * Loads the holoGUIPlugin's GUI pages from config
-	 */
-	public void loadGUIPages(HoloGUIPlugin holoGUIPlugin)
-	{
-		ConfigManager.getInstance().loadGUIContainers(Bukkit.getConsoleSender(), holoGUIPlugin);
-	}
-	
-	/**
 	 * 
 	 * @return Collection of all hooked HoloGUI plugins
 	 */
 	public Collection<HoloGUIPlugin> getHookedHoloGUIPlugins()
 	{
 		return plugins.values();
+	}
+	
+	public HoloGUIPlugin getHookedHoloGUIPlugin(String pluginName)
+	{
+		return plugins.get(pluginName);
 	}
 }

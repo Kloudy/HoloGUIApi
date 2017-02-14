@@ -4,31 +4,28 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ItemComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIItemComponent;
+import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 
-public class ItemComponent extends GUIComponent implements ItemTypeComponent
+/*
+ * Represents a non-clickable item in a GUI
+ */
+public class ItemComponent extends GUIComponent implements ItemTypeComponent, ConfigObject
 {
-	protected ItemStack item;
-	private Vector rotation;
-	
-	public ItemComponent(GUIComponentProperties properties, ItemStack item, Vector rotation)
-	{
-		super(properties);
+	@ConfigElement
+	@ConfigProperty(key = "")
+	ItemComponentProperties properties;
 		
-		this.item = item;
-		this.rotation = rotation;
-	}
-	
-	@Override
-	public ItemComponent clone()
-	{
-		return new ItemComponent(cloneProperties(), item.clone(), rotation.clone());
-	}
+	private ItemComponent(){}
 
 	@Override
 	public PlayerGUIItemComponent initPlayerGUIComponent(Player player)
 	{
-		return new PlayerGUIItemComponent(player, this, item);
+		return new PlayerGUIItemComponent(player, this, properties.getItem());
 	}
 
 	@Override
@@ -49,27 +46,39 @@ public class ItemComponent extends GUIComponent implements ItemTypeComponent
 	@Override
 	public ItemStack getItem()
 	{
-		return item;
+		return properties.getItem();
 	}
 	
 	@Override
 	public void setItem(ItemStack item)
 	{
-		this.item = item;
+		properties.setItem(item);
 	}
 	
 	@Override
 	public Vector getRotation()
 	{
-		return rotation;
+		return properties.getRotation();
 	}
 	
 	@Override
 	public void setRotation(Vector rotation)
 	{
-		this.rotation = rotation;
+		properties.setRotation(rotation);
 	}
 
 	@Override
 	public String[] updateComponentLines(Player player) {return null;}
+
+	@Override
+	public void configParseComplete(PassthroughParams params)
+	{
+		super.configParseComplete(params);
+	}
+	
+	@Override
+	public ItemComponentProperties getProperties()
+	{
+		return properties;
+	}
 }

@@ -3,50 +3,44 @@ package com.antarescraft.kloudy.hologuiapi.guicomponents;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
+import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.EntityComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIEntityComponent;
+import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 
-public class EntityComponent extends GUIComponent implements EntityTypeComponent
+public class EntityComponent extends GUIComponent implements EntityTypeComponent, ConfigObject
 {
-	private EntityType entityType;
-	private float yaw;
+	@ConfigElement
+	@ConfigProperty(key = "")
+	private EntityComponentProperties properties;
 	
-	public EntityComponent(GUIComponentProperties properties, EntityType entityType, float yaw)
-	{
-		super(properties);
-		
-		this.entityType = entityType;
-		this.yaw = yaw;
-	}
-	
-	@Override
-	public EntityComponent clone()
-	{
-		return new EntityComponent(cloneProperties(), entityType, yaw);
-	}
+	private EntityComponent(){}
 
 	@Override
 	public EntityType getEntityType()
 	{
-		return entityType;
+		return properties.getEntityType();
 	}
 	
 	@Override
 	public void setEntityType(EntityType entityType)
 	{
-		this.entityType = entityType;
+		properties.setEntityType(entityType);
 	}
 	
 	@Override
 	public float getYaw()
 	{
-		return yaw;
+		return (float)properties.getYaw();
 	}
 	
 	@Override
 	public void setYaw(float yaw)
 	{
-		this.yaw = yaw;
+		properties.setYaw(yaw);
 	}
 	
 	@Override
@@ -71,5 +65,17 @@ public class EntityComponent extends GUIComponent implements EntityTypeComponent
 	public double getLineHeight() 
 	{
 		return 0.02;
+	}
+
+	@Override
+	public void configParseComplete(PassthroughParams params)
+	{	
+		super.configParseComplete(params);
+	}
+
+	@Override
+	public EntityComponentProperties getProperties()
+	{
+		return properties;
 	}
 }

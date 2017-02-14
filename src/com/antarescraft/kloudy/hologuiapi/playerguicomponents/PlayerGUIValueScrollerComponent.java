@@ -8,12 +8,11 @@ import org.bukkit.util.Vector;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIComponent;
-import com.antarescraft.kloudy.hologuiapi.guicomponents.IValueHolder;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.ValueScrollerComponent;
 
 import net.md_5.bungee.api.ChatColor;
 
-public class PlayerGUIValueScrollerComponent extends PlayerGUIValueBoxComponent implements IValueHolder
+public class PlayerGUIValueScrollerComponent extends PlayerGUIValueBoxComponent implements ValueHolder
 {
 	private String prevLine;
 	private String line;
@@ -146,7 +145,7 @@ public class PlayerGUIValueScrollerComponent extends PlayerGUIValueBoxComponent 
 		}
 		
 		armorstandLocations[0] = calculateArmorStandLocation(2, lookOrigin, vect, distance, guiComponent.getLineHeight(), 
-				guiComponent.getPosition().getY(), guiComponent.getPosition().getX());
+				guiComponent.getProperties().getPosition().getY(), guiComponent.getProperties().getPosition().getX());
 		
 		if(stationary)
 		{
@@ -167,7 +166,7 @@ public class PlayerGUIValueScrollerComponent extends PlayerGUIValueBoxComponent 
 		for(int i = 1; i < lines.length; i++)
 		{
 			armorstandLocations[i] = calculateArmorStandLocation(i, lookOrigin, vect, distance, guiComponent.getLineHeight(), 
-					guiComponent.getPosition().getY(), guiComponent.getPosition().getX());
+					guiComponent.getProperties().getPosition().getY(), guiComponent.getProperties().getPosition().getX());
 			
 			if(stationary)
 			{
@@ -185,7 +184,7 @@ public class PlayerGUIValueScrollerComponent extends PlayerGUIValueBoxComponent 
 		if(object instanceof PlayerGUIValueScrollerComponent)
 		{
 			PlayerGUIValueScrollerComponent valueScroller = (PlayerGUIValueScrollerComponent)object;
-			return valueScroller.getGUIComponent().getId().equals(this.getGUIComponent().getId());
+			return valueScroller.getGUIComponent().getProperties().getId().equals(this.getGUIComponent().getProperties().getId());
 		}
 		
 		return false;

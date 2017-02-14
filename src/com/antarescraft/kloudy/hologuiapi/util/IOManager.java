@@ -6,7 +6,7 @@ import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 
 public class IOManager
 {
-	public static final String PATH_TO_ROOT = "plugins/HoloGUI";
+	public static final String PATH_TO_ROOT = "plugins/HoloGUIApi";
 	public static final String PATH_TO_ICONS = PATH_TO_ROOT + "/icons";
 	public static final String PATH_TO_IMAGES = PATH_TO_ROOT + "/images";
 	public static final String PATH_TO_GUI_CONFIGURATION_FILES = PATH_TO_ROOT + "/gui configuration files";

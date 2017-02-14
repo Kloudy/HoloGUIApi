@@ -1,5 +1,7 @@
 package com.antarescraft.kloudy.hologuiapi;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -12,31 +14,46 @@ import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIPage;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPage;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPageModel;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.StationaryPlayerGUIPage;
-import com.antarescraft.kloudy.hologuiapi.util.ConfigManager;
-import com.antarescraft.kloudy.hologuiapi.util.IOManager;
+import com.antarescraft.kloudy.hologuiapi.util.HoloGUIApiConfig;
+import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.ConfigParser;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElementKey;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.configobjects.ConfigLocation;
 
-public class StationaryGUIDisplayContainer
+public class StationaryGUIDisplayContainer implements ConfigObject
 {	
+	@ConfigElementKey
 	private String id;
-	private HashMap<UUID, StationaryPlayerGUIPage> stationaryPlayerGUIPages;
-	private HashMap<UUID, StationaryPlayerGUIPage> previousStationaryPlayerGUIPages;
-	private HashMap<UUID, PlayerGUIPageModel> models;
-	private HashMap<UUID, PlayerGUIPageModel> prevModels;
-	private GUIPage defaultGUIContainer;
-	private Location location;
 	
-	public StationaryGUIDisplayContainer(String id, GUIPage guiContainer, Location location)
+	@ConfigElement
+	@ConfigProperty(key = "location")
+	private ConfigLocation location;
+	
+	@ConfigProperty(key = "default-gui-container-id")
+	private String defaultGUIPageId;
+	
+	@ConfigProperty(key = "plugin-name")
+	private String pluginName;
+	
+	private HashMap<UUID, StationaryPlayerGUIPage> stationaryPlayerGUIPages = new HashMap<UUID, StationaryPlayerGUIPage>();
+	private HashMap<UUID, StationaryPlayerGUIPage> previousStationaryPlayerGUIPages = new HashMap<UUID, StationaryPlayerGUIPage>();
+	private HashMap<UUID, PlayerGUIPageModel> models = new HashMap<UUID, PlayerGUIPageModel>();
+	private HashMap<UUID, PlayerGUIPageModel> prevModels = new HashMap<UUID, PlayerGUIPageModel>();
+	
+	private GUIPage defaultGUIPage = null;
+	
+	@SuppressWarnings("unused")
+	private StationaryGUIDisplayContainer(){System.out.println("why am i being initialize?");}
+	
+	public StationaryGUIDisplayContainer(String id, String pluginName, String defaultGUIPageId, Location location)
 	{
 		this.id = id;
-		this.defaultGUIContainer = guiContainer;
-		this.location = location;
-		
-		stationaryPlayerGUIPages = new HashMap<UUID, StationaryPlayerGUIPage>();
-		previousStationaryPlayerGUIPages = new HashMap<UUID, StationaryPlayerGUIPage>();
-		models = new HashMap<UUID, PlayerGUIPageModel>();
-		prevModels = new HashMap<UUID, PlayerGUIPageModel>();
-		
-		writeToConfig();
+		this.pluginName = pluginName;
+		this.defaultGUIPageId = defaultGUIPageId;
+		this.location = new ConfigLocation(location);
 	}
 	
 	public String getId()
@@ -44,14 +61,14 @@ public class StationaryGUIDisplayContainer
 		return id;
 	}
 	
-	public GUIPage getGUIDefaultContainer()
+	public GUIPage getGUIDefaultPage()
 	{
-		return defaultGUIContainer;
+		return defaultGUIPage;
 	}
 	
 	public Location getLocation()
 	{
-		return location;
+		return location.toLocation();
 	}
 	
 	public ArrayList<PlayerGUIPage> getPlayerGUIContainers()
@@ -68,7 +85,25 @@ public class StationaryGUIDisplayContainer
 		return stationaryPlayerGUIPages;
 	}
 	
-	private void writeToConfig()
+	public void save(String pluginName)
+	{
+		try
+		{
+			ConfigParser.saveObject(pluginName, new File(String.format("plugins/%s/config.yml", pluginName)), "stationary-gui-displays." + id, this);
+		} 
+		catch (IOException e) {}
+	}
+	
+	public void delete(String pluginName)
+	{
+		try
+		{
+			ConfigParser.saveObject(pluginName, new File(String.format("plugins/%s/config.yml", pluginName)), "stationary-gui-displays." + id, null);
+		} 
+		catch (IOException e) {}
+	}
+	
+	/*private void writeToConfig()
 	{
 		ConfigManager configManager = ConfigManager.getInstance();
 		configManager.writePropertyToConfigFile(IOManager.PATH_TO_ROOT + "/config.yml", "stationary-gui-displays." + id + ".default-gui-container-id", defaultGUIContainer.getId());
@@ -76,17 +111,17 @@ public class StationaryGUIDisplayContainer
 		configManager.writePropertyToConfigFile(IOManager.PATH_TO_ROOT + "/config.yml", "stationary-gui-displays." + id + ".location.x", location.getX());
 		configManager.writePropertyToConfigFile(IOManager.PATH_TO_ROOT + "/config.yml", "stationary-gui-displays." + id + ".location.y", location.getY());
 		configManager.writePropertyToConfigFile(IOManager.PATH_TO_ROOT + "/config.yml", "stationary-gui-displays." + id + ".location.z", location.getZ());
-	}
+	}*/
 	
-	public void deleteConfigProperties()
+	/*public void delete()
 	{
 		ConfigManager configManager = ConfigManager.getInstance();
 		configManager.writePropertyToConfigFile(IOManager.PATH_TO_ROOT + "/config.yml", "stationary-gui-displays." + id, null);
-	}
+	}*/
 	
 	public void display(Player player)
 	{
-		display(player, defaultGUIContainer);
+		display(player, defaultGUIPage);
 	}
 	
 	public void display(Player player, GUIPage guiPage)
@@ -112,7 +147,7 @@ public class StationaryGUIDisplayContainer
 			}
 			
 			Location playerLoc = player.getLocation();
-			Location locationCopy = location.clone();
+			Location locationCopy = location.toLocation();
 
 			double xi = locationCopy.getX() - playerLoc.getX();
 			double yi = locationCopy.getY() - playerLoc.getY();
@@ -141,7 +176,7 @@ public class StationaryGUIDisplayContainer
 	{
 		Location playerLocation = player.getLocation();
 
-		return (playerLocation.getWorld().getUID().equals(location.getWorld().getUID()) && playerLocation.distance(location) <= HoloGUIApi.stationaryDisplayRenderDistance);
+		return (playerLocation.getWorld().getUID().equals(location.toLocation().getWorld().getUID()) && playerLocation.distance(location.toLocation()) <= HoloGUIApiConfig.stationaryDisplayRenderDistance());
 	}
 	
 	public boolean isDisplayingToPlayer(Player player)
@@ -170,5 +205,15 @@ public class StationaryGUIDisplayContainer
 		
 		stationaryPlayerGUIPages.clear();
 		previousStationaryPlayerGUIPages.clear();
+	}
+
+	@Override
+	public void configParseComplete(PassthroughParams params)
+	{
+		HoloGUIPlugin plugin = ((HoloGUIApi)params.getParam("plugin")).getHookedHoloGUIPlugin(pluginName);
+		if(plugin != null)
+		{
+			defaultGUIPage = plugin.getGUIPage(defaultGUIPageId);
+		}
 	}
 }

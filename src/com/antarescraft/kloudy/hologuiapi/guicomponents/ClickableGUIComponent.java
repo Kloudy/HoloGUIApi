@@ -6,58 +6,29 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
 import com.antarescraft.kloudy.hologuiapi.events.HoloGUIClickEvent;
+import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ClickableGUIComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.handlers.ClickHandler;
 import com.antarescraft.kloudy.hologuiapi.handlers.HoverHandler;
 import com.antarescraft.kloudy.hologuiapi.handlers.HoverOutHandler;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.HoloGUIPlaceholders;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 
 public abstract class ClickableGUIComponent extends GUIComponent
 {
-	private HashMap<UUID, ClickHandler> clickHandlers;
-	private HashMap<UUID, HoverHandler> hoverHandlers;
-	private HashMap<UUID, HoverOutHandler> hoverOutHandlers;
+	private HashMap<UUID, ClickHandler> clickHandlers = new HashMap<UUID, ClickHandler>();
+	private HashMap<UUID, HoverHandler> hoverHandlers = new HashMap<UUID, HoverHandler>();
+	private HashMap<UUID, HoverOutHandler> hoverOutHandlers = new HashMap<UUID, HoverOutHandler>();
 	
-	protected String onclick;
-	protected boolean executeCommandAsConsole;
-	protected Sound onclickSound;
-	protected float onclickSoundVolume;
-	protected double labelZoomDistance;
-	protected String clickPermission;
-	protected String noPermissionMessage;
-	
-	public ClickableGUIComponent(GUIComponentProperties properties, ClickableGUIComponentProperties clickableProperties)
-	{
-		super(properties);
-		
-		this.onclick = clickableProperties.getOnclickCommand();
-		this.executeCommandAsConsole = clickableProperties.executeCommandAsConsole();
-		this.onclickSound = clickableProperties.getOnclickSound();
-		this.onclickSoundVolume = clickableProperties.getOnclickSoundVolume();
-		this.labelZoomDistance = clickableProperties.getLabelZoomDistance();
-		this.clickPermission = clickableProperties.getClickPermission();
-		this.noPermissionMessage = clickableProperties.getNoPermissionMessage();
-		
-		clickHandlers = new HashMap<UUID, ClickHandler>();
-		hoverHandlers = new HashMap<UUID, HoverHandler>();
-		hoverOutHandlers = new HashMap<UUID, HoverOutHandler>();
-	}
-	
-	public ClickableGUIComponentProperties cloneClickableProperties()
-	{
-		return new ClickableGUIComponentProperties(onclick, executeCommandAsConsole, onclickSound, onclickSoundVolume,
-				labelZoomDistance, clickPermission, noPermissionMessage);
-	}
-	
+	public abstract ClickableGUIComponentProperties getProperties();
 	public abstract double getZoomedInLineHeight();
 	public abstract double zoomDistance();
 	
@@ -67,74 +38,17 @@ public abstract class ClickableGUIComponent extends GUIComponent
 	public abstract AABB.Vec3D getMinBoundingRectPoint19(Point3D origin);
 	public abstract AABB.Vec3D getMaxBoundingRectPoint19(Point3D origin);
 	
-	public String getOnClick()
+	public void removePlayerHandlers(Player player)
 	{
-		return onclick;
+		clickHandlers.remove(player.getUniqueId());
+		hoverHandlers.remove(player.getUniqueId());
+		hoverOutHandlers.remove(player.getUniqueId());
 	}
-	
-	public void setOnClick(String onclick)
+		
+	@Override
+	public void configParseComplete(PassthroughParams params)
 	{
-		this.onclick = onclick;
-	}
-	
-	public Sound getOnclickSound()
-	{
-		return onclickSound;
-	}
-	
-	public void setOnClickSound(Sound onclickSound)
-	{
-		this.onclickSound = onclickSound;
-	}
-	
-	public float getOnclickSoundVolume()
-	{
-		return onclickSoundVolume;
-	}
-	
-	public void setOnclickSoundVolume(float onclickSoundVolume)
-	{
-		this.onclickSoundVolume = onclickSoundVolume;
-	}
-	
-	public double getLabelZoomDistance()
-	{
-		return labelZoomDistance;
-	}
-	
-	public void setLabelZoomDistance(double labelZoomDistance)
-	{
-		this.labelZoomDistance = labelZoomDistance;
-	}
-	
-	public String getClickPermission()
-	{
-		return clickPermission;
-	}
-	
-	public void setClickPermission(String clickPermission)
-	{
-		this.clickPermission = clickPermission;
-	}
-	
-	public String getNoPermissionMessage()
-	{
-		return noPermissionMessage;
-	}
-	
-	public void setNoPermissionMesssage(String noPermissionMessage)
-	{
-		this.noPermissionMessage = noPermissionMessage;
-	}
-	
-	public void executeOnclick(Player player)
-	{
-		executeOnclick(player, null, onclick, executeCommandAsConsole);
-	}
-	
-	public void executeOnclick(Player player, String stationaryDisplayId)
-	{
-		executeOnclick(player, stationaryDisplayId, onclick, executeCommandAsConsole);
+		super.configParseComplete(params);
 	}
 	
 	public void registerClickHandler(Player player, ClickHandler clickHandler)
@@ -187,7 +101,7 @@ public abstract class ClickableGUIComponent extends GUIComponent
 
 	public void executeOnclick(Player player, String stationaryDisplayId, String command, boolean executeCommandAsConsole)
 	{
-		HoloGUIClickEvent holoGUIClickEvent = new HoloGUIClickEvent(holoGUIPlugin, this, player);
+		HoloGUIClickEvent holoGUIClickEvent = new HoloGUIClickEvent(plugin, this, player);
 		Bukkit.getServer().getPluginManager().callEvent(holoGUIClickEvent);
 		
 		if(command != null && !command.equals(""))
@@ -203,7 +117,7 @@ public abstract class ClickableGUIComponent extends GUIComponent
 					{
 					    out.writeUTF("Connect");
 					    out.writeUTF(command.split(" ")[1]); // Target Server
-					    player.sendPluginMessage(holoGUIPlugin, "BungeeCord", b.toByteArray());
+					    player.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
 					} catch (Exception e) {}
 				}
 			}
@@ -211,20 +125,20 @@ public abstract class ClickableGUIComponent extends GUIComponent
 			else if(command.matches("\\$model\\.\\w+\\(.*\\);"))//model function trigger
 			{
 				String onclickSetPlaceholders = new String(command);
-				onclickSetPlaceholders = HoloGUIPlaceholders.setHoloGUIPlaceholders(holoGUIPlugin, onclickSetPlaceholders, player);
+				onclickSetPlaceholders = HoloGUIPlaceholders.setHoloGUIPlaceholders(plugin, onclickSetPlaceholders, player);
 
 				if(HoloGUIApi.hasPlaceholderAPI)
 				{
 					onclickSetPlaceholders = PlaceholderAPI.setPlaceholders(player, command);
 				}
 				
-				HoloGUIPlaceholders.setModelPlaceholders(holoGUIPlugin, PlayerData.getPlayerData(player).getPlayerGUIPageModel(), onclickSetPlaceholders);
+				HoloGUIPlaceholders.setModelPlaceholders(plugin, PlayerData.getPlayerData(player).getPlayerGUIPageModel(), onclickSetPlaceholders);
 			}
 			else
 			{
 				String onclickSetPlaceholders = new String(command);
 				
-				onclickSetPlaceholders = HoloGUIPlaceholders.setHoloGUIPlaceholders(holoGUIPlugin, onclickSetPlaceholders, player);
+				onclickSetPlaceholders = HoloGUIPlaceholders.setHoloGUIPlaceholders(plugin, onclickSetPlaceholders, player);
 
 				if(HoloGUIApi.hasPlaceholderAPI)
 				{
@@ -232,7 +146,7 @@ public abstract class ClickableGUIComponent extends GUIComponent
 				}
 				
 				PlayerData playerData = PlayerData.getPlayerData(player);
-				if(playerData != null) onclickSetPlaceholders = HoloGUIPlaceholders.setModelPlaceholders(holoGUIPlugin, playerData.getPlayerGUIPageModel(), onclickSetPlaceholders);
+				if(playerData != null) onclickSetPlaceholders = HoloGUIPlaceholders.setModelPlaceholders(plugin, playerData.getPlayerGUIPageModel(), onclickSetPlaceholders);
 				
 				if(stationaryDisplayId != null)
 				{

@@ -3,59 +3,33 @@ package com.antarescraft.kloudy.hologuiapi.guicomponents;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ButtonComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
+import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 
-public class ButtonComponent extends ClickableGUIComponent
-{
-	private String icon;
-	private String[][] lines;
-	private int currentFrame;
+/*
+ * Represents an image based button on a GUI
+ */
+public class ButtonComponent extends ClickableGUIComponent implements ConfigObject
+{	
+	@ConfigElement
+	@ConfigProperty(key = "")
+	private ButtonComponentProperties properties;
+	
+	private String[][] lines = null;
+	private int currentFrame = 0;
 	private int frames;
-	private boolean mini;
-	private int width;
-	private int height;
 	
-	public ButtonComponent(GUIComponentProperties properties, ClickableGUIComponentProperties clickableProperties,
-			String[][] lines, String icon,  boolean mini, int width, int height)
-	{
-		this(properties, clickableProperties, lines, icon, mini, width, height, 0);
-	}
-	
-	public ButtonComponent(GUIComponentProperties properties, ClickableGUIComponentProperties clickableProperties,
-			String[][] lines, String icon,  boolean mini, int width, int height, int currentFrame)
-	{
-		super(properties, clickableProperties);
-		
-		this.lines = lines;
-		this.icon = icon;
-		this.mini = mini;
-		this.width = width;
-		this.height = height;
-		this.currentFrame = currentFrame;
-	}
-	
-	@Override
-	public ButtonComponent clone()
-	{
-		String[][] linesCopy = new String[lines.length][lines[0].length];
-		for(int i = 0; i < lines.length; i++)
-		{
-			for(int j = 0; j < lines[i].length; j++)
-			{
-				linesCopy[i][j] = lines[i][j];
-			}
-		}
-		
-		return new ButtonComponent(cloneProperties(), cloneClickableProperties(), linesCopy, icon, mini, width, height);
-	}
+	private ButtonComponent(){}
 	
 	@Override
 	public PlayerGUITextComponent initPlayerGUIComponent(Player player)
 	{
-		//lines = ResourceManager.getInstance().getImageLines(icon + ":" + width + "," + height);
-		frames = lines.length;
 		return new PlayerGUITextComponent(player, this, updateComponentLines(player));
 	}
 	
@@ -84,7 +58,7 @@ public class ButtonComponent extends ClickableGUIComponent
 	@Override
 	public AABB.Vec3D getMinBoundingRectPoint18(Point3D origin)
 	{
-		if(mini)
+		if(properties.isMini())
 		{
 			return AABB.Vec3D.fromVector(new Vector(origin.x-0.75, origin.y - 3, origin.z-0.75));
 		}
@@ -97,7 +71,7 @@ public class ButtonComponent extends ClickableGUIComponent
 	@Override
 	public AABB.Vec3D getMaxBoundingRectPoint18(Point3D origin)
 	{
-		if(mini)
+		if(properties.isMini())
 		{
 			return AABB.Vec3D.fromVector(new Vector(origin.x+0.875, origin.y + 0.6, origin.z+0.875));
 		}
@@ -110,7 +84,7 @@ public class ButtonComponent extends ClickableGUIComponent
 	@Override
 	public AABB.Vec3D getMinBoundingRectPoint19(Point3D origin)
 	{
-		if(mini)
+		if(properties.isMini())
 		{
 			return AABB.Vec3D.fromVector(new Vector(origin.x-0.75, origin.y - 2, origin.z-0.75));
 		}
@@ -123,7 +97,7 @@ public class ButtonComponent extends ClickableGUIComponent
 	@Override
 	public AABB.Vec3D getMaxBoundingRectPoint19(Point3D origin)
 	{
-		if(mini)
+		if(properties.isMini())
 		{
 			return AABB.Vec3D.fromVector(new Vector(origin.x+0.875, origin.y + 0.3, origin.z+0.875));
 		}
@@ -151,28 +125,34 @@ public class ButtonComponent extends ClickableGUIComponent
 		return 0.0145;
 	}
 	
-	public String getIcon()
-	{
-		return icon;
-	}
-	
 	public int getWidth()
 	{
-		return width;
+		return (properties.isMini()) ? 9 : 18;
 	}
 	
 	public int getHeight()
 	{
-		return height;
-	}
-	
-	public boolean isMini()
-	{
-		return mini;
+		return getWidth();
 	}
 
 	public int getFrames()
 	{
 		return frames;
+	}
+
+	@Override
+	public void configParseComplete(PassthroughParams params)
+	{
+		super.configParseComplete(params);
+		
+		lines = plugin.loadImage(properties.getIcon(), getWidth(), getHeight(), properties.isSymmetrical());
+		
+		frames = lines.length;
+	}
+	
+	@Override
+	public ButtonComponentProperties getProperties()
+	{
+		return properties;
 	}
 }

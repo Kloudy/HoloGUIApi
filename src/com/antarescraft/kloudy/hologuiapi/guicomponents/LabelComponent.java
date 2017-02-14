@@ -1,67 +1,63 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 
 import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
+import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.LabelComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextComponent;
 import com.antarescraft.kloudy.hologuiapi.util.HoloGUIPlaceholders;
+import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 
-public class LabelComponent extends GUIComponent
-{	
-	private String[] lines;
-	private HashSet<Integer> scrollingLines;
-	private String formatCode;
+/*
+ * Represents text on a GUI
+ */
+public class LabelComponent extends GUIComponent implements ConfigObject
+{		
+	@ConfigElement
+	@ConfigProperty(key = "")
+	private LabelComponentProperties properties;
 	
-	public LabelComponent(GUIComponentProperties properties, String[] lines)
-	{
-		super(properties);
-		this.lines = lines;
-		
-		scrollingLines = new HashSet<Integer>();
-				
-		parseLineScroll();
-				
-		formatCode = "";
-	}
+	private HashSet<Integer> scrollingLines = new HashSet<Integer>();
 	
-	@Override
-	public LabelComponent clone()
-	{
-		String[] linesCopy = new String[lines.length];
-		for(int i = 0 ; i < lines.length; i++)
-		{
-			linesCopy[i] = lines[i];
-		}
-		return new LabelComponent(cloneProperties(), linesCopy);
-	}
+	private String formatCode = "";
+	
+	private LabelComponent(){}
 	
 	private void parseLineScroll()
 	{
 		scrollingLines.clear();
-
-		for(int i = 0; i < lines.length; i++)
+				
+		String[] linesArray = new String[properties.getLines().size()];
+		for(int i = 0; i < properties.getLines().size(); i++)
 		{
-			String str = this.lines[i];
+			String str = properties.getLines().get(i);
 			str = str.replaceAll("§", "&");
-			
+						
 			if(str.startsWith("%scroll%"))
 			{
 				str = str.replace("%scroll%", "");
 				scrollingLines.add(i);
 			}
 			
-			lines[i] = str;
+			linesArray[i] = str;
 		}
+		
+		properties.setLines(new ArrayList<String>(Arrays.asList(linesArray)));
 	}
 	
-	public void setLines(String[] lines)
+	public void setLines(ArrayList<String> lines)
 	{
-		this.lines = lines;
+		properties.setLines(lines);
 		
 		parseLineScroll();
 	}
@@ -75,10 +71,11 @@ public class LabelComponent extends GUIComponent
 	@Override
 	public void updateIncrement()
 	{
+		String[] linesArray = new String[properties.getLines().size()];
 		String currentFormatting = "";
-		for(int i = 0; i < lines.length; i++)
+		for(int i = 0; i < properties.getLines().size(); i++)
 		{
-			String str = lines[i];
+			String str = properties.getLines().get(i);
 			
 			if(scrollingLines.contains(i))
 			{
@@ -132,28 +129,30 @@ public class LabelComponent extends GUIComponent
 				{
 					str = shiftString(str);
 				}
-				
-				lines[i] = str;
-			}
+			}	
+			
+			linesArray[i] = str;
 		}
+		
+		properties.setLines(new ArrayList<String>(Arrays.asList(linesArray)));
 	}
 	
 	@Override
 	public String[] updateComponentLines(Player player)
 	{
-		String[] componentLines = new String[lines.length];
-		for(int i = 0; i < componentLines.length; i++)
+		String[] componentLines = new String[properties.getLines().size()];
+		for(int i = 0; i < properties.getLines().size(); i++)
 		{
-			String str = lines[i];
+			String str = properties.getLines().get(i);
 			
-			str = HoloGUIPlaceholders.setHoloGUIPlaceholders(holoGUIPlugin, str, player);
+			str = HoloGUIPlaceholders.setHoloGUIPlaceholders(plugin, str, player);
 			if(HoloGUIApi.hasPlaceholderAPI)
 			{	
 				str = PlaceholderAPI.setPlaceholders(player, formatCode + str);
 			}
 			
 			PlayerData playerData = PlayerData.getPlayerData(player);
-			if(playerData != null) str = HoloGUIPlaceholders.setModelPlaceholders(holoGUIPlugin, playerData.getPlayerGUIPageModel(), str);
+			if(playerData != null) str = HoloGUIPlaceholders.setModelPlaceholders(plugin, playerData.getPlayerGUIPageModel(), str);
 			
 			componentLines[i] = str;
 		}
@@ -177,12 +176,26 @@ public class LabelComponent extends GUIComponent
 	@Override
 	public double getDisplayDistance()
 	{
-		return labelDistance;
+		return properties.getLabelDistance();
 	}
 	
 	@Override
 	public double getLineHeight()
 	{
 		return 0.02;
+	}
+
+	@Override
+	public void configParseComplete(PassthroughParams params)
+	{
+		super.configParseComplete(params);
+		
+		parseLineScroll();
+	}
+	
+	@Override
+	public LabelComponentProperties getProperties()
+	{
+		return properties;
 	}
 }

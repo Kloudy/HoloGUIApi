@@ -3,10 +3,9 @@ package com.antarescraft.kloudy.hologuiapi.playerguicomponents;
 import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
-import com.antarescraft.kloudy.hologuiapi.guicomponents.IValueHolder;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.ToggleSwitchComponent;
 
-public class PlayerGUIToggleSwitchComponent extends PlayerGUITextComponent implements IValueHolder
+public class PlayerGUIToggleSwitchComponent extends PlayerGUITextComponent implements ValueHolder
 {
 	//private boolean state;
 	
@@ -20,14 +19,14 @@ public class PlayerGUIToggleSwitchComponent extends PlayerGUITextComponent imple
 	{
 		if(getToggleSwitchComponent().getPlayerToggleSwitchState(player))
 		{
-			String onState = getToggleSwitchComponent().getOnValue();
+			String onState = getToggleSwitchComponent().getProperties().getOnValue();
 			onState = onState.replace("&", "§");
 			
 			return onState;
 		}
 		else
 		{
-			String offState = getToggleSwitchComponent().getOffValue();
+			String offState = getToggleSwitchComponent().getProperties().getOffValue();
 			offState = offState.replace("&", "§");
 			
 			 return offState;

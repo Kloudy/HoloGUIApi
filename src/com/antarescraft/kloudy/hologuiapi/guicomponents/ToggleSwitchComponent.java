@@ -6,75 +6,37 @@ import java.util.UUID;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ToggleSwitchComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.handlers.ToggleHandler;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIToggleSwitchComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
+import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 
-public class ToggleSwitchComponent extends ClickableGUIComponent
+public class ToggleSwitchComponent extends ClickableGUIComponent implements ConfigObject
 {
-	private HashMap<UUID, ToggleHandler> toggleHandlers;
+	@ConfigElement
+	@ConfigProperty(key = "")
+	ToggleSwitchComponentProperties properties;
 	
-	private boolean defaultState;
-	private String onclickOn;
-	private String onclickOff;
-	private String onIcon;
-	private String offIcon;
-	private boolean executeOnClickOnAsConsole;
-	private boolean executeOnClickOffAsConsole;
-	private String[][] onLines;
-	private String[][] offLines;
-	private String onValue;
-	private String offValue;
+	private String[][] onLines = null;
+	private String[][] offLines = null;
 	
-	private HashMap<UUID, Boolean> playerToggleSwitchStates;
+	private HashMap<UUID, ToggleHandler> toggleHandlers = new HashMap<UUID, ToggleHandler>();
+	private HashMap<UUID, Boolean> playerToggleSwitchStates = new HashMap<UUID, Boolean>();
 	
-	public ToggleSwitchComponent(GUIComponentProperties properties, ClickableGUIComponentProperties clickableProperties,
-			String[][] onLines, String[][] offLines, boolean defaultState, String onclickOn, String onclickOff, String onIcon, String offIcon, 
-			boolean executeOnClickOnAsConsole, boolean executeOnClickOffAsConsole, String onValue, String offValue)
-	{
-		super(properties, clickableProperties);
-		
-		toggleHandlers = new HashMap<UUID, ToggleHandler>();
-		
-		this.onLines = onLines;
-		this.offLines = offLines;
-		this.defaultState = defaultState;
-		this.onclickOn = onclickOn;
-		this.onclickOff = onclickOff;
-		this.onIcon = onIcon;
-		this.offIcon = offIcon;
-		this.executeOnClickOnAsConsole = executeOnClickOnAsConsole;
-		this.executeOnClickOffAsConsole = executeOnClickOffAsConsole;
-		this.onValue = onValue;
-		this.offValue = offValue;
-		
-		playerToggleSwitchStates = new HashMap<UUID, Boolean>();
-	}
+	private ToggleSwitchComponent(){}
 	
 	@Override
-	public ToggleSwitchComponent clone()
+	public void removePlayerHandlers(Player player)
 	{
-		String[][] onLinesCopy = new String[onLines.length][onLines[0].length];
-		for(int i = 0; i < onLines.length; i++)
-		{
-			for(int j = 0; j < onLines[i].length; j++)
-			{
-				onLinesCopy[i][j] = onLines[i][j];
-			}
-		}
+		super.removePlayerHandlers(player);
 		
-		String[][] offLinesCopy = new String[offLines.length][offLines[0].length];
-		for(int i = 0; i < offLines.length; i++)
-		{
-			for(int j = 0; j < offLines[i].length; j++)
-			{
-				offLinesCopy[i][j] = offLines[i][j];
-			}
-		}
-		return new ToggleSwitchComponent(cloneProperties(), cloneClickableProperties(), onLinesCopy, offLinesCopy, defaultState,
-				onclickOn, onclickOff, onIcon, offIcon, executeOnClickOnAsConsole, executeOnClickOffAsConsole, onValue, offValue);
+		toggleHandlers.remove(player.getUniqueId());
 	}
 	
 	public void registerToggleHandler(Player player, ToggleHandler toggleHandler)
@@ -124,7 +86,7 @@ public class ToggleSwitchComponent extends ClickableGUIComponent
 	
 	public boolean getPlayerToggleSwitchState(Player player)
 	{
-		boolean state = defaultState;
+		boolean state = properties.getDefaultState();
 		if(playerToggleSwitchStates.containsKey(player.getUniqueId()))
 		{
 			state = playerToggleSwitchStates.get(player.getUniqueId());
@@ -133,94 +95,9 @@ public class ToggleSwitchComponent extends ClickableGUIComponent
 		return state;
 	}
 	
-	public boolean getDefaultState()
+	public void removePlayerToggleSwitchState(Player player)
 	{
-		return defaultState;
-	}
-	
-	public void setDefaultState(boolean defaultState)
-	{
-		this.defaultState = defaultState;
-	}
-	
-	public String getOnclickOn()
-	{
-		return onclickOn;
-	}
-	
-	public void setOnClickOn(String onclickOn)
-	{
-		this.onclickOn = onclickOn;
-	}
-	
-	public String getOnclickOff()
-	{
-		return onclickOff;
-	}
-	
-	public void setOnclickOff(String onclickOff)
-	{
-		this.onclickOff = onclickOff;
-	}
-	
-	public String getOnIcon()
-	{
-		return onIcon;
-	}
-	
-	public void setOnIcon(String onIcon)
-	{
-		this.onIcon = onIcon;
-	}
-	
-	public String getOffIcon()
-	{
-		return offIcon;
-	}
-	
-	public void setOffIcon(String offIcon)
-	{
-		this.offIcon = offIcon;
-	}
-	
-	public boolean getExecuteOnClickOnAsConsole()
-	{
-		return executeOnClickOnAsConsole;
-	}
-	
-	public void setExecuteOnClickOnAsConsole(boolean executeOnClickOnAsConsole)
-	{
-		this.executeOnClickOnAsConsole = executeOnClickOnAsConsole;
-	}
-	
-	public boolean getExecuteOnClickOffAsConsole()
-	{
-		return executeOnClickOffAsConsole;
-	}
-	
-	public void setExecuteOnClickOffAsConsole(boolean executeOnClickOffAsConsole)
-	{
-		this.executeOnClickOffAsConsole = executeOnClickOffAsConsole;
-	}
-	
-	public String getOnValue()
-	{
-		return onValue;
-	}
-	
-	public void setOnValue(String onValue)
-	{
-		this.onValue = onValue;
-	}
-	
-	public String getOffValue()
-	{
-		return offValue;
-	}
-	
-	public void setOffValue(String offValue)
-	{
-		this.offValue = offValue;
+		playerToggleSwitchStates.remove(player.getUniqueId());
 	}
 
 	@Override
@@ -269,5 +146,20 @@ public class ToggleSwitchComponent extends ClickableGUIComponent
 	public double getLineHeight()
 	{
 		return 0.014;
+	}
+
+	@Override
+	public void configParseComplete(PassthroughParams params)
+	{
+		super.configParseComplete(params);
+		
+		onLines = plugin.loadImage(properties.getOnIcon(), 13, 13, true);
+		offLines = plugin.loadImage(properties.getOffIcon(), 13, 13, true);
+	}
+	
+	@Override
+	public ToggleSwitchComponentProperties getProperties()
+	{
+		return properties;
 	}
 }

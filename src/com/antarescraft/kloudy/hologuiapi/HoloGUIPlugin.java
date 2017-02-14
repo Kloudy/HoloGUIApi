@@ -14,6 +14,7 @@ import java.util.zip.ZipInputStream;
 import org.apache.commons.io.IOUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIComponent;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIPage;
@@ -28,15 +29,13 @@ import net.md_5.bungee.api.ChatColor;
  */
 public abstract class HoloGUIPlugin extends JavaPlugin
 {	
-	private HashMap<String, GUIPage> guiPages;
-	private ArrayList<String> yamlFiles;
+	private HashMap<String, GUIPage> guiPages = new HashMap<String, GUIPage>();
+	private ArrayList<String> yamlFiles = new ArrayList<String>();
 	private boolean guiPagesLoaded;
 	private String minSupportedApiVersion = "1.0";
 	
 	public HoloGUIPlugin()
 	{
-		guiPages = new HashMap<String, GUIPage>();
-		yamlFiles = new ArrayList<String>();
 		guiPagesLoaded = false;
 				
 		initFileStructure();
@@ -53,7 +52,7 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 				while((entry = zip.getNextEntry()) != null)
 				{
 				    String entryName = entry.getName();
-				    if( entryName.startsWith(HoloGUIApi.PATH_TO_YAMLS) &&  entryName.endsWith(".yml") )
+				    if(entryName.startsWith(HoloGUIApi.PATH_TO_YAMLS) &&  entryName.endsWith(".yml") )
 				    {
 				    	String[] pathTokens = entryName.split("/");
 				        yamlFiles.add(pathTokens[pathTokens.length-1]);
@@ -204,10 +203,41 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 	 */
 	public void loadGUIPages()
 	{
+		loadGUIPages(null);
+	}
+	
+	/**
+	 * Causes HoloGUI to load the gui containers async from yaml for this HoloGUIPlugin.
+	 * A HoloGUIPagesLoadedEvent is triggered after the config values are finished loading
+	 * 
+	 * @param callback callback function that executes when the guipages have finished loading
+	 */
+	public void loadGUIPages(final GUIPageLoadComplete callback)
+	{
 		guiPagesLoaded = false;
 		guiPages.clear();
 		
-		ConfigManager.getInstance().loadGUIContainers(Bukkit.getConsoleSender(), this);
+		final HoloGUIPlugin self = this;
+		new BukkitRunnable()
+		{
+			@Override
+			public void run()
+			{
+				for(String yamlFile : yamlFiles)
+				{
+					GUIPage guiPage = ConfigManager.loadGUIPage(self, new File(String.format("plugins/%s/gui configuration files/%s", getName(), yamlFile)));
+					
+					guiPages.put(guiPage.getId(), guiPage);
+				}
+				
+				if(callback != null)
+				{
+					callback.onGUIPageLoadComplete();
+				}
+				
+				guiPagesLoaded = true;
+			}
+		}.runTaskAsynchronously(this);
 	}
 
 	/**
@@ -251,26 +281,41 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 	 * Loads and processes the specified imageName. Returns the image as a String[][]. Returns null if the file couldn't be found.
 	 */
 	public String[][] loadImage(String imageName, int width, int height, boolean symmetrical)
-	{
-		String[][] iconLines = null;
+	{		
+		String[][] imageLines = null;
+		
+		InputStream inputStream = null;
 		
 		try
 		{
-			InputStream inputStream = getResource(HoloGUIApi.PATH_TO_IMAGES + "/" + imageName);
-
+			inputStream = getResource(HoloGUIApi.PATH_TO_IMAGES + "/" + imageName);
+			
+			if(inputStream == null) return null;
+			
 			if(imageName.contains(".gif"))
 			{
-				iconLines = GifProcessor.processGif(imageName, inputStream, width, height, symmetrical);
+				imageLines = GifProcessor.processGif(imageName, inputStream, width, height, symmetrical);
 			}
 			else if(imageName.contains(".jpg") || imageName.contains(".png"))
 			{
-				iconLines = PngJpgProcessor.processImage(imageName, inputStream, width, height, symmetrical);
+				imageLines = PngJpgProcessor.processImage(imageName, inputStream, width, height, symmetrical);
 			}
-			inputStream.close();
 		}
-		catch(Exception e){}
+		catch(Exception e)
+		{
+			System.out.println("Error on opening resource: " + HoloGUIApi.PATH_TO_IMAGES + "/" + imageName);
+			e.printStackTrace();
+		}
+		finally
+		{
+			try 
+			{
+				if(inputStream != null)inputStream.close();
+			} 
+			catch (IOException e) {}
+		}
 		
-		return iconLines;
+		return imageLines;
 	}
 	
 	/**

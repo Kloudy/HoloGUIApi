@@ -4,53 +4,55 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.EntityButtonComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIEntityComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
+import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 
-public class EntityButtonComponent extends ClickableGUIComponent implements EntityTypeComponent
+/*
+ * Represents a clickable Entity on a GUI
+ */
+public class EntityButtonComponent extends ClickableGUIComponent implements EntityTypeComponent, ConfigObject
 {	
-	private EntityType entityType;
-	private float yaw;
-	
-	public EntityButtonComponent(GUIComponentProperties properties, ClickableGUIComponentProperties clickableProperties,
-			EntityType entityType, float yaw)
-	{
-		super(properties, clickableProperties);
-		
-		this.entityType = entityType;
-		this.yaw = yaw;
-	}
-	
-	@Override
-	public EntityButtonComponent clone()
-	{
-		return new EntityButtonComponent(cloneProperties(), cloneClickableProperties(), entityType, yaw);
-	}
+	@ConfigElement
+	@ConfigProperty(key = "")
+	EntityButtonComponentProperties properties;
+			
+	private EntityButtonComponent(){}
 	
 	@Override
 	public EntityType getEntityType()
 	{
-		return entityType;
+		return properties.getEntityType();
 	}
 	
 	@Override
 	public void setEntityType(EntityType entityType)
 	{
-		this.entityType = entityType;
+		properties.setEntityType(entityType);
+	}
+	
+	@Override
+	public EntityButtonComponentProperties getProperties()
+	{
+		return properties;
 	}
 	
 	@Override
 	public float getYaw()
 	{
-		return yaw;
+		return (float)properties.getYaw();
 	}
 	
 	@Override
 	public void setYaw(float yaw)
 	{
-		this.yaw = yaw;
+		properties.setYaw(yaw);
 	}
 	
 	@Override
@@ -111,5 +113,11 @@ public class EntityButtonComponent extends ClickableGUIComponent implements Enti
 	public double getDisplayDistance() 
 	{
 		return 8;
+	}
+
+	@Override
+	public void configParseComplete(PassthroughParams params)
+	{
+		super.configParseComplete(params);
 	}
 }

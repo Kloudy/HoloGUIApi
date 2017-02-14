@@ -61,10 +61,10 @@ public class PlayerGUIPage
 	 
 	 public void renderComponent(GUIComponent guiComponent)
 	 {
-		 PlayerGUIComponent existingComponent = components.get(guiComponent.getId());
+		 PlayerGUIComponent existingComponent = components.get(guiComponent.getProperties().getId());
 		 if(existingComponent != null) 
 		 {
-			removeComponent(guiComponent.getId());
+			removeComponent(guiComponent.getProperties().getId());
 		 }
 		 		 
 		 PlayerGUIComponent playerGUIComponent = guiComponent.initPlayerGUIComponent(player);
@@ -72,15 +72,15 @@ public class PlayerGUIPage
 		 
 		 playerGUIComponent.spawnEntities(lookLocation, (this instanceof StationaryPlayerGUIPage));
 		 
-		 components.put(guiComponent.getId(), playerGUIComponent);
+		 components.put(guiComponent.getProperties().getId(), playerGUIComponent);
 		 
 		 //don't add to guiComponents if the same guicomponent already exists in the gui page. This would cause it to get updated twice
-		 if(guiPage.componentExists(guiComponent.getId()) && guiPage.getComponent(guiComponent.getId()).equals(guiComponent))
+		 if(guiPage.componentExists(guiComponent.getProperties().getId()) && guiPage.getComponent(guiComponent.getProperties().getId()).equals(guiComponent))
 		 {
 			 return;
 		 }
 		 
-		 guiComponents.put(guiComponent.getId(), guiComponent);
+		 guiComponents.put(guiComponent.getProperties().getId(), guiComponent);
 	 }
 	 
 	 public void removeComponent(String componentId)
@@ -100,6 +100,8 @@ public class PlayerGUIPage
 	public void destroy()
 	{
 		PlayerData playerData = PlayerData.getPlayerData(player);
+		
+		guiPage.triggerPageCloseHandler(player);
 		
 		for(PlayerGUIComponent playerGUIComponent : components.values())
 		{
@@ -125,7 +127,7 @@ public class PlayerGUIPage
 	{
 		for(PlayerGUIComponent playerGUIComponent : components.values())
 		{
-			if(!playerGUIComponent.getGUIComponent().isHidden())
+			if(!playerGUIComponent.getGUIComponent().getProperties().isHidden())
 			{
 				playerGUIComponent.spawnEntities(lookLocation, false);
 			}

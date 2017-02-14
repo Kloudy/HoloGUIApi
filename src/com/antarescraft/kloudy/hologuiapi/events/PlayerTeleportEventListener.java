@@ -22,7 +22,7 @@ public class PlayerTeleportEventListener implements Listener
 			{
 				playerGUIContainer.destroy();
 				PlayerData.getPlayerData(player).setPlayerGUIPage(null);
-				PlayerData.getPlayerData(player).setPlayerPreviousGUIContainer(null);
+				PlayerData.getPlayerData(player).setPlayerPreviousGUIPage(null);
 			}
 		}
 	}

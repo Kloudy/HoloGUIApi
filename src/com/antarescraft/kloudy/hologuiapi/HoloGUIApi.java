@@ -25,11 +25,11 @@ import com.antarescraft.kloudy.hologuiapi.guicomponents.TextBoxComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPage;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPageModel;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextBoxComponent;
-import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIUpdateTask;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.StationaryPlayerGUIPage;
-import com.antarescraft.kloudy.hologuiapi.util.ConfigManager;
+import com.antarescraft.kloudy.hologuiapi.util.HoloGUIApiConfig;
 import com.antarescraft.kloudy.hologuiapi.util.IOManager;
 import com.antarescraft.kloudy.hologuiapi.util.Metrics;
+import com.antarescraft.kloudy.plugincore.messaging.MessageManager;
 import com.antarescraft.kloudy.plugincore.protocol.PacketManager;
 import com.antarescraft.kloudy.plugincore.protocol.WrapperPlayClientChat;
 import com.comphenix.protocol.PacketType;
@@ -41,29 +41,25 @@ import com.comphenix.protocol.events.PacketEvent;
  */
 public class HoloGUIApi extends JavaPlugin
 {	
-	private HashMap<String, StationaryGUIDisplayContainer> stationaryGUIDisplayContainers;
+	private HashMap<String, StationaryGUIDisplayContainer> stationaryGUIDisplayContainers = new HashMap<String, StationaryGUIDisplayContainer>();
 	
-	private HoloGUIPluginManager pluginManager;
-	
+	private static HoloGUIPluginManager pluginManager = new HoloGUIPluginManager();;
+		
+	public static String pluginName = null;
 	public static boolean hasPlaceholderAPI = false;
-	public static double stationaryDisplayRenderDistance;
-	public static boolean b = false;
 	public static String fileHash;
-	public static boolean debugMode;
 	public static String PATH_TO_IMAGES = "resources/images";
 	public static String PATH_TO_YAMLS = "resources/yamls";
 	
-	public static PacketManager packetManager;
+	public static PacketManager packetManager; //TODO: Don't make this static. Pass it into functions that need it
 	
 	@Override
 	public void onEnable()
 	{			
-		pluginManager = new HoloGUIPluginManager();
+		pluginName = getName();
 		
-		debugMode = this.getConfig().getRoot().getBoolean("debug-mode", false);
-		
-		stationaryGUIDisplayContainers = new HashMap<String, StationaryGUIDisplayContainer>();
-		
+		HoloGUIApiConfig.parseConfig(this);
+				
 		IOManager.initFileStructure();
 		
 		saveDefaultConfig();
@@ -112,8 +108,6 @@ public class HoloGUIApi extends JavaPlugin
 			}
 		});
 		
-		ConfigManager.getInstance().loadConfigValues(Bukkit.getConsoleSender(), this);
-		
 		getServer().getPluginManager().registerEvents(new PlayerInteractEventListener(this), this);
 		getServer().getPluginManager().registerEvents(new PlayerQuitEventListener(this), this);
 		getServer().getPluginManager().registerEvents(new PlayerJoinEventListener(this), this);
@@ -125,9 +119,8 @@ public class HoloGUIApi extends JavaPlugin
 		getServer().getPluginManager().registerEvents(new PlayerItemHeldEventListener(), this);
 		getServer().getPluginManager().registerEvents(new PlayerToggleSneakEventListener(), this);
 		
-		int tickrate = getConfig().getRoot().getInt("gui-update-tickrate");
 		PlayerGUIUpdateTask playerGUIUpdateTask = PlayerGUIUpdateTask.getInstance(this);
-		playerGUIUpdateTask.start(tickrate);
+		playerGUIUpdateTask.start(HoloGUIApiConfig.guiUpdateTickrate());
 		
 		try
 		{
@@ -159,6 +152,15 @@ public class HoloGUIApi extends JavaPlugin
 	public void unhookHoloGUIPlugin(HoloGUIPlugin holoGUIPlugin)
 	{
 		pluginManager.unhookHoloGUIPlugin(holoGUIPlugin);
+	}
+	
+	/**
+	 * @param pluginName
+	 * @return instance of hooked HoloGUIPlugin with the specified name
+	 */
+	public HoloGUIPlugin getHookedHoloGUIPlugin(String pluginName)
+	{
+		return pluginManager.getHookedHoloGUIPlugin(pluginName);
 	}
 	
 	/**
@@ -276,16 +278,16 @@ public class HoloGUIApi extends JavaPlugin
 				}
 				else
 				{
-					PlayerGUIPage playerGUIContainer = playerData.getPlayerGUIPage();
+					PlayerGUIPage playerGUIPage = playerData.getPlayerGUIPage();
 					
 					Location lookLocation = null;
-					if(playerGUIContainer != null)//player is already looking at a gui
+					if(playerGUIPage != null)//player is already looking at a gui
 					{
-						playerGUIContainer.destroy();
+						playerGUIPage.destroy();
 						
-						lookLocation = playerGUIContainer.getLookLocation();
+						lookLocation = playerGUIPage.getLookLocation();
 
-						playerData.setPlayerPreviousGUIContainer(playerGUIContainer);
+						playerData.setPlayerPreviousGUIPage(playerGUIPage);
 					}
 					
 					if(lookLocation == null) lookLocation = player.getLocation().clone();
@@ -295,6 +297,32 @@ public class HoloGUIApi extends JavaPlugin
 			}
 		}
 	}
+	
+	/*
+	 * Helper function that handles properly destroying a GUIPage
+	 */
+	/*private void destroyPlayerGUIPage(PlayerGUIPage playerGUIPage)
+	{
+		Player player = playerGUIPage.getPlayer();
+		
+		// un-register handlers for the player
+		GUIPage guiPage = playerGUIPage.getGUIPage();
+		
+		guiPage.triggerPageCloseHandler(player);
+		guiPage.removePageCloseHandler(player);
+		guiPage.removePageLoadHandler(player);
+		
+		// remove all handlers for clickable gui components for the player
+		for(GUIComponent guiComponent : guiPage.getComponents())
+		{
+			if(guiComponent instanceof ClickableGUIComponent)
+			{
+				ClickableGUIComponent clickableComponent = (ClickableGUIComponent)guiComponent;
+				
+				clickableComponent.removePlayerHandlers(player);
+			}
+		}
+		*/
 	
 	/**
 	 * Closes the GUI page the player currently has open
@@ -306,12 +334,13 @@ public class HoloGUIApi extends JavaPlugin
 		PlayerData playerData = PlayerData.getPlayerData(player);
 		playerData.setPlayerGUIPageModel(null);
 		PlayerGUIPage playerGUIPage = playerData.getPlayerGUIPage();
+		
 		if(playerGUIPage != null)
 		{
-			playerGUIPage.getGUIPage().trigglerPageCloseHandler(player);
 			playerGUIPage.destroy();
+			
 			playerData.setPlayerGUIPage(null);
-			playerData.setPlayerPreviousGUIContainer(null);
+			playerData.setPlayerPreviousGUIPage(null);
 		}
 	}
 	
@@ -360,7 +389,7 @@ public class HoloGUIApi extends JavaPlugin
 					previousPlayerGUIContainer.setLookLocation(playerGUIPage.getLookLocation());
 					playerGUIPage.destroy();
 					playerData.setPlayerGUIPage(previousPlayerGUIContainer);
-					playerData.setPlayerPreviousGUIContainer(playerGUIPage);
+					playerData.setPlayerPreviousGUIPage(playerGUIPage);
 					previousPlayerGUIContainer.renderComponents();
 					
 					playerData.setPlayerGUIPageModel(prevModel);
@@ -408,5 +437,23 @@ public class HoloGUIApi extends JavaPlugin
 		stationaryGUIDisplayContainers.clear();
 		
 		PlayerData.removeAllPlayerData();
+	}
+	
+	/**
+	 * Prints a debug message to console if debug mode is enabled in config
+	 * @param message Message to be printed to console
+	 */
+	public static void debugMessage(String message)
+	{
+		if(HoloGUIApiConfig.debugMode()) MessageManager.info(Bukkit.getConsoleSender(), "[HoloGUIApi]: " + message);
+	}
+	
+	/**
+	 * Prints the input object's toString() function to console if debug mode is enabled in config
+	 * @param object The object whose toString function will be called
+	 */
+	public static void debugMessage(Object object)
+	{
+		debugMessage(object.toString());
 	}
 }

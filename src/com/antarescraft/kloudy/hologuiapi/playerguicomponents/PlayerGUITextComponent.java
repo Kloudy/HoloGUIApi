@@ -44,7 +44,7 @@ public class PlayerGUITextComponent extends PlayerGUIComponent
 		for(int i = 0; i < lines.length; i++)
 		{
 			armorstandLocations[i] = calculateArmorStandLocation(i+1, lookOrigin, vect, distance, guiComponent.getLineHeight(), 
-					guiComponent.getPosition().getY(), guiComponent.getPosition().getX());
+					guiComponent.getProperties().getPosition().getY(), guiComponent.getProperties().getPosition().getX());
 			
 			if(stationary)
 			{
@@ -111,7 +111,7 @@ public class PlayerGUITextComponent extends PlayerGUIComponent
 		for(int i = 0; i < componentEntityIds.length; i++)
 		{
 			armorstandLocations[i] = calculateArmorStandLocation(i+1, lookOrigin, vect,
-					distance, guiComponent.getLineHeight(), guiComponent.getPosition().getY(), guiComponent.getPosition().getX());
+					distance, guiComponent.getLineHeight(), guiComponent.getProperties().getPosition().getY(), guiComponent.getProperties().getPosition().getX());
 			
 			if(stationary)
 			{

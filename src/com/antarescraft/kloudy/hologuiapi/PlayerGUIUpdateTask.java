@@ -1,4 +1,4 @@
-package com.antarescraft.kloudy.hologuiapi.playerguicomponents;
+package com.antarescraft.kloudy.hologuiapi;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -10,13 +10,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
-import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
-import com.antarescraft.kloudy.hologuiapi.PlayerData;
-import com.antarescraft.kloudy.hologuiapi.StationaryGUIDisplayContainer;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.ClickableGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIPage;
+import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
+import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPage;
+import com.antarescraft.kloudy.hologuiapi.playerguicomponents.StationaryPlayerGUIPage;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
+import com.antarescraft.kloudy.hologuiapi.util.HoloGUIApiConfig;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
 
 public class PlayerGUIUpdateTask extends BukkitRunnable
@@ -169,7 +169,7 @@ public class PlayerGUIUpdateTask extends BukkitRunnable
 
 					if(!foundIntersection && playerGUIComponent.getGUIComponent() instanceof ClickableGUIComponent)
 					{
-						Vector dir = playerGUIComponent.getPlayer().getLocation().getDirection().multiply(HoloGUIApi.stationaryDisplayRenderDistance);
+						Vector dir = playerGUIComponent.getPlayer().getLocation().getDirection().multiply(HoloGUIApiConfig.stationaryDisplayRenderDistance());
 						Point3D point = new Point3D(playerGUIComponent.getLocation());
 						
 						AABB.Vec3D min = null;
@@ -193,7 +193,8 @@ public class PlayerGUIUpdateTask extends BukkitRunnable
 						AABB.Ray3D ray = new AABB.Ray3D(origin, direction);
 						
 						AABB boundingBox = new AABB(min, max);
-						if(boundingBox.intersectsRay(ray, 0f, (float)HoloGUIApi.stationaryDisplayRenderDistance) != null && !playerGUIComponent.isFocused() && playerGUIPage.getFocusedComponent() == null)//check to see if player is looking at the component
+												
+						if(boundingBox.intersectsRay(ray, 0f, (float)HoloGUIApiConfig.stationaryDisplayRenderDistance()) != null && !playerGUIComponent.isFocused() && playerGUIPage.getFocusedComponent() == null)//check to see if player is looking at the component
 						{
 							playerGUIComponent.setIsFocused(true);
 							playerGUIComponent.focusComponent(stationary);
@@ -203,13 +204,13 @@ public class PlayerGUIUpdateTask extends BukkitRunnable
 							//trigger hover handler for component if it exists
 							clickableGUIComponent.triggerHoverHandler(player);
 						}
-						else if(boundingBox.intersectsRay(ray, 0f, (float)HoloGUIApi.stationaryDisplayRenderDistance) == null && playerGUIComponent.isFocused())
+						else if(boundingBox.intersectsRay(ray, 0f, (float)HoloGUIApiConfig.stationaryDisplayRenderDistance()) == null && playerGUIComponent.isFocused())
 						{
 							playerGUIComponent.unfocusComponent(stationary);
 							playerGUIComponent.setIsFocused(false);
 							PlayerData.getPlayerData(player).setPlayerFocusedPage(null);
 							
-							//triger hover out handler for component if it exists
+							//trigger hover out handler for component if it exists
 							clickableGUIComponent.triggerHoverOutHandler(player);
 						}
 					}

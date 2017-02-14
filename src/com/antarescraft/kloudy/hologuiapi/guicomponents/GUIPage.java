@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
 import com.antarescraft.kloudy.hologuiapi.handlers.GUIPageCloseHandler;
@@ -15,54 +16,74 @@ import com.antarescraft.kloudy.hologuiapi.handlers.GUIPageLoadHandler;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPage;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.StationaryPlayerGUIPage;
+import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.ConfigParser;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
+import com.antarescraft.kloudy.plugincore.config.annotations.BooleanConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElementKey;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.annotations.OptionalConfigProperty;
+import com.antarescraft.kloudy.plugincore.utils.Utils;
 
-public class GUIPage
+/**
+ * Represents a GUI Page containing many different GUI Components
+ * 
+ * This class is initialized and hydrated by the ConfigParser library
+ */
+public class GUIPage implements ConfigObject
 {
-	private HashMap<UUID, GUIPageLoadHandler> pageLoadHandlers;
-	private HashMap<UUID, GUIPageCloseHandler> pageCloseHandlers;
+	private HoloGUIPlugin plugin;
 	
-	private HashMap<String, GUIComponent> guiComponents;
-		
-	private HoloGUIPlugin holoGUIPlugin;
+	public String toString()
+	{
+		return ConfigParser.generateConfigString(HoloGUIApi.pluginName, this);
+	}
+	
+	@ConfigElementKey
 	private String id;
-	private String configFilename;
-	private ItemStack openItem;
+	
+	@OptionalConfigProperty
+	@ConfigProperty(key = "open-item")
+	private String openItemString;
+	
+	@OptionalConfigProperty
+	@ConfigProperty(key = "item-name")
 	private String itemName;
+	
+	@OptionalConfigProperty
+	@BooleanConfigProperty(defaultValue = false)
+	@ConfigProperty(key = "open-on-login")
 	private boolean openOnLogin;
+	
+	@OptionalConfigProperty
+	@ConfigProperty(key = "show-permission")
 	private String showPermission;
+	
+	@OptionalConfigProperty
+	@ConfigProperty(key = "hide-permission")
 	private String hidePermission;
+	
+	@OptionalConfigProperty
+	@BooleanConfigProperty(defaultValue = false)
+	@ConfigProperty(key = "close-on-player-move")
 	private boolean closeOnPlayerMove;
+	
+	@OptionalConfigProperty
+	@BooleanConfigProperty(defaultValue = false)
+	@ConfigProperty(key = "close-on-player-item-switch")
 	private boolean closeOnPlayerItemSwitch;
 	
-	public GUIPage(HoloGUIPlugin holoGUIPlugin, HashMap<String, GUIComponent> guiComponents, String id, String configFilename, 
-			ItemStack openItem, String itemName, boolean openOnLogin, String seePermission, String hidePermission, boolean closeOnPlayerMove, 
-			boolean closeOnPlayerItemSwitch)
-	{
-		this.holoGUIPlugin = holoGUIPlugin;
-		this.guiComponents = guiComponents;
-		this.id = id;
-		this.configFilename = configFilename;
-		this.openItem = openItem;
-		this.itemName = itemName;
-		this.openOnLogin = openOnLogin;
-		this.showPermission = seePermission;
-		this.hidePermission = hidePermission;
-		this.closeOnPlayerMove = closeOnPlayerMove;
-		this.closeOnPlayerItemSwitch = closeOnPlayerItemSwitch;
-		
-		pageLoadHandlers = new HashMap<UUID, GUIPageLoadHandler>();
-		pageCloseHandlers = new HashMap<UUID, GUIPageCloseHandler>();
-	}
+	private ItemStack openItem = null;
 	
-	public GUIPage(String id)
-	{
-		this.id = id;
-		this.configFilename = id + ".yml";
-	}
+	private HashMap<String, GUIComponent> guiComponents = new HashMap<String, GUIComponent>();
+	private HashMap<UUID, GUIPageLoadHandler> pageLoadHandlers = new HashMap<UUID, GUIPageLoadHandler>();
+	private HashMap<UUID, GUIPageCloseHandler> pageCloseHandlers = new HashMap<UUID, GUIPageCloseHandler>();
+	
+	private GUIPage(){}
 	
 	public HoloGUIPlugin getHoloGUIPlugin()
 	{
-		return holoGUIPlugin;
+		return plugin;
 	}
 	
 	public void registerPageLoadHandler(Player player, GUIPageLoadHandler pageLoadHandler)
@@ -89,7 +110,7 @@ public class GUIPage
 		pageCloseHandlers.put(player.getUniqueId(), pageCloseHandler);
 	}
 	
-	public void trigglerPageCloseHandler(Player player)
+	public void triggerPageCloseHandler(Player player)
 	{
 		GUIPageCloseHandler pageCloseHandler = pageCloseHandlers.get(player.getUniqueId());
 		if(pageCloseHandler != null)
@@ -139,6 +160,11 @@ public class GUIPage
 		guiComponents.remove(componentId);
 	}
 	
+	public void addComponent(GUIComponent component)
+	{
+		guiComponents.put(component.getProperties().getId(), component);
+	}
+	
 	public void updateIncrement()
 	{
 		for(GUIComponent guiComponent : guiComponents.values())
@@ -154,7 +180,7 @@ public class GUIPage
 		for(GUIComponent component : guiComponents.values())
 		{
 			PlayerGUIComponent playerGUIComponent = component.initPlayerGUIComponent(player);
-			components.put(component.getId(), playerGUIComponent);
+			components.put(component.getProperties().getId(), playerGUIComponent);
 		}
 		
 		StationaryPlayerGUIPage stationaryPlayerGUIPage = new StationaryPlayerGUIPage(player, components, origin, this, stationaryGUIDisplayPageId);
@@ -171,7 +197,7 @@ public class GUIPage
 		for(GUIComponent component : guiComponents.values())
 		{
 			PlayerGUIComponent playerGUIComponent = component.initPlayerGUIComponent(player);
-			components.put(component.id, playerGUIComponent);
+			components.put(component.getProperties().getId(), playerGUIComponent);
 		}
 		
 		PlayerGUIPage playerGUIPage = new PlayerGUIPage(player, components, lookLocation, this);
@@ -193,11 +219,6 @@ public class GUIPage
 	public String getId()
 	{
 		return id;
-	}
-	
-	public String getConfigFilename()
-	{
-		return configFilename;
 	}
 	
 	public void setOpenItem(ItemStack openItem)
@@ -268,5 +289,13 @@ public class GUIPage
 	public boolean getCloseOnPlayerItemSwitch()
 	{
 		return closeOnPlayerItemSwitch;
+	}
+
+	@Override
+	public void configParseComplete(PassthroughParams params)
+	{
+		plugin = (HoloGUIPlugin)params.getParam("plugin");
+		
+		openItem = Utils.parseItemString(openItemString);
 	}
 }

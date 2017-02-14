@@ -7,12 +7,11 @@ import org.bukkit.util.Vector;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
-import com.antarescraft.kloudy.hologuiapi.guicomponents.IValueHolder;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.TextBoxComponent;
 
 import net.md_5.bungee.api.ChatColor;
 
-public class PlayerGUITextBoxComponent extends PlayerGUIValueBoxComponent implements IValueHolder
+public class PlayerGUITextBoxComponent extends PlayerGUIValueBoxComponent implements ValueHolder
 {
 	private String line;
 	private String prevLine;
@@ -193,7 +192,7 @@ public class PlayerGUITextBoxComponent extends PlayerGUIValueBoxComponent implem
 		}
 		
 		armorstandLocations[0] = calculateArmorStandLocation(2, lookOrigin, vect, distance, guiComponent.getLineHeight(), 
-				guiComponent.getPosition().getY(), guiComponent.getPosition().getX());
+				guiComponent.getProperties().getPosition().getY(), guiComponent.getProperties().getPosition().getX());
 		
 		if(stationary)
 		{
@@ -216,7 +215,7 @@ public class PlayerGUITextBoxComponent extends PlayerGUIValueBoxComponent implem
 		for(int i = 1; i < lines.length; i++)
 		{
 			armorstandLocations[i] = calculateArmorStandLocation(i, lookOrigin, vect, distance, guiComponent.getLineHeight(), 
-					guiComponent.getPosition().getY(), guiComponent.getPosition().getX());
+					guiComponent.getProperties().getPosition().getY(), guiComponent.getProperties().getPosition().getX());
 			
 			if(stationary)
 			{
@@ -234,7 +233,7 @@ public class PlayerGUITextBoxComponent extends PlayerGUIValueBoxComponent implem
 		if(object instanceof PlayerGUITextBoxComponent)
 		{
 			PlayerGUITextBoxComponent textBox = (PlayerGUITextBoxComponent)object;
-			return textBox.getGUIComponent().getId().equals(this.getGUIComponent().getId());
+			return textBox.getGUIComponent().getProperties().getId().equals(this.getGUIComponent().getProperties().getId());
 		}
 		
 		return false;

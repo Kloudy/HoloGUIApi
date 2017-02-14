@@ -2,63 +2,41 @@ package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
 import org.bukkit.entity.Player;
 
+import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ImageComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextComponent;
+import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 
-public class ImageComponent extends GUIComponent
+public class ImageComponent extends GUIComponent implements ConfigObject
 {
-	private int frames = 0;
+	@ConfigElement
+	@ConfigProperty(key = "")
+	private ImageComponentProperties properties;
+	
 	private int currentFrame = 0;
-	private String[][] lines;
-	private String imageName;
-	private int width;
-	private int height;
+	private String[][] lines = null;
 	
-	private double displayDistance;
-	private double lineHeight;
+	private ImageComponent(){}
 	
-	public ImageComponent(GUIComponentProperties properties, String[][] lines, String imageName, int width, int height)
+	public void setLines(String[][] lines)
 	{
-		super(properties);
-		
 		this.lines = lines;
-		this.imageName = imageName;
-		this.width = width;
-		this.height = height;
 		
-		displayDistance = 15;
-		lineHeight = 0.014;
-	}
-	
-	@Override
-	public ImageComponent clone()
-	{
-		String[][] linesCopy = new String[lines.length][lines[0].length];
-		for(int i = 0; i < lines.length; i++)
-		{
-			for(int j = 0; j < lines[i].length; j++)
-			{
-				linesCopy[i][j] = lines[i][j];
-			}
-		}
-		
-		return new ImageComponent(cloneProperties(), linesCopy, imageName, width, height);
+		currentFrame = 0;
 	}
 
 	@Override
 	public PlayerGUITextComponent initPlayerGUIComponent(Player player) 
 	{
-		frames = lines.length;
 		return new PlayerGUITextComponent(player, this, updateComponentLines(player));
 	}
 
 	@Override
 	public void updateIncrement()
 	{
-		currentFrame++;
-		if(currentFrame >= frames)
-		{
-			currentFrame = 0;
-		}
+		currentFrame = (currentFrame + 1) % lines.length;
 	}
 
 	@Override
@@ -66,61 +44,30 @@ public class ImageComponent extends GUIComponent
 	{
 		return lines[currentFrame];
 	}
-	
-	public void setDisplayDistance(double displayDistance)
-	{
-		this.displayDistance = displayDistance;
-	}
 
 	@Override
 	public double getDisplayDistance()
 	{
-		return displayDistance;
-	}
-	
-	public void setLineHeight(double lineHeight)
-	{
-		this.lineHeight = lineHeight;
-	}
-	
-	public int getWidth()
-	{
-		return width;
-	}
-	
-	public void setWidth(int width)
-	{
-		this.width = width;
-	}
-	
-	public int getHeight()
-	{
-		return height;
-	}
-	
-	public void setHeight(int height)
-	{
-		this.height = height;
-	}
-	
-	public String getImageName()
-	{
-		return imageName;
-	}
-	
-	public void setImageName(String imageName)
-	{
-		this.imageName = imageName;
-	}
-	
-	public void setLines(String[][] lines)
-	{
-		this.lines = lines;
+		return 15;
 	}
 	
 	@Override
 	public double getLineHeight()
 	{
-		return lineHeight;
+		return 0.014;
+	}
+
+	@Override
+	public void configParseComplete(PassthroughParams params)
+	{
+		super.configParseComplete(params);
+		
+		lines = plugin.loadImage(properties.getImageSource(), properties.getWidth(), properties.getHeight(), properties.isSymmetrical());
+	}
+	
+	@Override
+	public ImageComponentProperties getProperties()
+	{
+		return properties;
 	}
 }

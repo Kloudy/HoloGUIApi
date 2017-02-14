@@ -4,58 +4,54 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ItemButtonComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIItemComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
+import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 
-public class ItemButtonComponent extends ClickableGUIComponent implements ItemTypeComponent
+/*
+ * Represents a clickable item on a GUI
+ */
+public class ItemButtonComponent extends ClickableGUIComponent implements ItemTypeComponent, ConfigObject
 {
-	private ItemStack item;
-	private Vector rotation;
-
-	public ItemButtonComponent(GUIComponentProperties properties, ClickableGUIComponentProperties clickableProperties,
-			ItemStack item, Vector rotation) 
-	{
-		super(properties, clickableProperties);
-		
-		this.item = item;
-		this.rotation =  rotation;
-	}
+	@ConfigElement
+	@ConfigProperty(key = "")
+	ItemButtonComponentProperties properties;
 	
-	@Override
-	public ItemButtonComponent clone()
-	{
-		return new ItemButtonComponent(cloneProperties(), cloneClickableProperties(), item.clone(), rotation.clone());
-	}
+	private ItemButtonComponent(){}
 	
 	@Override
 	public PlayerGUIItemComponent initPlayerGUIComponent(Player player)
 	{
-		return new PlayerGUIItemComponent(player, this, item);
+		return new PlayerGUIItemComponent(player, this, properties.getItem());
 	}
 	
 	@Override
 	public ItemStack getItem()
 	{
-		return item;
+		return properties.getItem();
 	}
 	
 	@Override
 	public void setItem(ItemStack item)
 	{
-		this.item = item;
+		properties.setItem(item);
 	}
 	
 	@Override
 	public Vector getRotation()
 	{
-		return rotation;
+		return properties.getRotation();
 	}
 	
 	@Override
 	public void setRotation(Vector rotation)
 	{
-		this.rotation = rotation;
+		properties.setRotation(rotation);
 	}
 	
 	@Override
@@ -110,5 +106,17 @@ public class ItemButtonComponent extends ClickableGUIComponent implements ItemTy
 	public double getDisplayDistance()
 	{
 		return 6;
+	}
+
+	@Override
+	public void configParseComplete(PassthroughParams params) 
+	{
+		super.configParseComplete(params);
+	}
+	
+	@Override
+	public ItemButtonComponentProperties getProperties()
+	{
+		return properties;
 	}
 }

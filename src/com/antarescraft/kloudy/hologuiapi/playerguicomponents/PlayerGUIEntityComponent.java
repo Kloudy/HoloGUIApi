@@ -36,12 +36,12 @@ public class PlayerGUIEntityComponent extends PlayerGUIComponent
 		
 		renderLabel(lookOrigin, vect, stationary);
 		
-		double horizontalRadianAngle = guiComponent.getPosition().getX() * Math.PI/3.72;
+		double horizontalRadianAngle = guiComponent.getProperties().getPosition().getX() * Math.PI/3.72;
 		float degrees = (float)Math.toDegrees(horizontalRadianAngle);
 		float yRotation = lookLocation.getYaw() +  (float)entityTypeComponent.getYaw() - degrees + 180f;
 		
 		armorstandLocations[0] = calculateArmorStandLocation(0, lookOrigin, vect,
-				distance, guiComponent.getLineHeight(), guiComponent.getPosition().getY(), guiComponent.getPosition().getX());
+				distance, guiComponent.getLineHeight(), guiComponent.getProperties().getPosition().getY(), guiComponent.getProperties().getPosition().getX());
 		
 		if(stationary)
 		{
@@ -70,7 +70,7 @@ public class PlayerGUIEntityComponent extends PlayerGUIComponent
 		
 		EntityTypeComponent entityTypeComponent = (EntityTypeComponent)guiComponent;
 		
-		double horizontalRadianAngle = guiComponent.getPosition().getX() * Math.PI/3.72;
+		double horizontalRadianAngle = guiComponent.getProperties().getPosition().getX() * Math.PI/3.72;
 		float degrees = (float)Math.toDegrees(horizontalRadianAngle);
 		float yRotation = lookLocation.getYaw() +  (float)entityTypeComponent.getYaw() - degrees + 180f;
 		
@@ -85,7 +85,7 @@ public class PlayerGUIEntityComponent extends PlayerGUIComponent
 		updateLabelLocation(lookOrigin, vect, stationary);
 		
 		armorstandLocations[0] = calculateArmorStandLocation(0, lookOrigin, vect,
-				distance, guiComponent.getLineHeight(), guiComponent.getPosition().getY(), guiComponent.getPosition().getX());
+				distance, guiComponent.getLineHeight(), guiComponent.getProperties().getPosition().getY(), guiComponent.getProperties().getPosition().getX());
 		
 		armorstandLocations[0].setYaw(yRotation);
 		

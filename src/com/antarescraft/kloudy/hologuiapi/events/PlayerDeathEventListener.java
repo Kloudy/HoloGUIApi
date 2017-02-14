@@ -33,7 +33,7 @@ public class PlayerDeathEventListener implements Listener
 			{
 				playerGUIContainer.destroy();
 				PlayerData.getPlayerData(player).setPlayerGUIPage(null);
-				PlayerData.getPlayerData(player).setPlayerPreviousGUIContainer(null);
+				PlayerData.getPlayerData(player).setPlayerPreviousGUIPage(null);
 			}
 			
 			for(StationaryGUIDisplayContainer stationaryDisplay : holoGUI.getStationaryDisplays())
