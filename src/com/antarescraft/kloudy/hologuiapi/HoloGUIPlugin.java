@@ -290,6 +290,8 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 		{
 			inputStream = getResource(HoloGUIApi.PATH_TO_IMAGES + "/" + imageName);
 			
+			if(inputStream == null) return null;
+			
 			if(imageName.contains(".gif"))
 			{
 				imageLines = GifProcessor.processGif(imageName, inputStream, width, height, symmetrical);
