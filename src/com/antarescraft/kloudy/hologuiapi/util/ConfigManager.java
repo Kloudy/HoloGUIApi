@@ -106,7 +106,9 @@ public class ConfigManager
 			{
 				MessageManager.error(Bukkit.getConsoleSender(), 
 						String.format("An error occurred while attempting to parse a GUI Page"));
-			}			
+			}
+			
+			MessageManager.success(Bukkit.getConsoleSender(), String.format("[%s]: GUI Pages finished loading.", plugin.getName()));
 		}
 		
 		return guiPage;
