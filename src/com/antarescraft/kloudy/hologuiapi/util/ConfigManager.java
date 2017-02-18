@@ -93,8 +93,6 @@ public class ConfigManager
 				if(component != null)
 				{
 					guiPage.addComponent(component);
-					
-					HoloGUIApi.debugMessage(component.getProperties());
 				}
 				else
 				{
