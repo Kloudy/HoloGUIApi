@@ -82,7 +82,7 @@
               <goal>shade</goal>
             </goals>
             <configuration>
-              <outputFile>${plugin-folder}/HoloGUIApi-${version}.jar</outputFile>
+              <outputFile>${plugin-folder}/HoloGUIApi-v${version}.jar</outputFile>
               <shadedArtifactAttached>false</shadedArtifactAttached>
               <relocations>
                 <relocation>
@@ -123,7 +123,7 @@
       <artifactId>maven-install-plugin</artifactId>
       <version>2.5.2</version>
       <configuration>
-      	<file>${plugin-folder}/HoloGUIApi-${version}.jar</file>
+      	<file>${plugin-folder}/HoloGUIApi-v${version}.jar</file>
       </configuration>
       <executions>
       	<execution>
