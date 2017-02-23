@@ -44,6 +44,9 @@ public class PlayerQuitEventListener implements Listener
 		{
 			for(GUIPage guiPage : plugin.getGUIPages().values())
 			{
+				// Trigger the page close handler if it exists for the player
+				guiPage.triggerPageCloseHandler(player);
+				
 				// Remove player GUIPage handlers
 				guiPage.removePageCloseHandler(player);
 				guiPage.removePageLoadHandler(player);
