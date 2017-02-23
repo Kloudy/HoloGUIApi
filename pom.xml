@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.antarescraft.kloudy.hologuiapi</groupId>
   <artifactId>HoloGUIApi</artifactId>
-  <version>1.1</version>
+  <version>1.1.1</version>
    <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
@@ -123,7 +123,7 @@
       <artifactId>maven-install-plugin</artifactId>
       <version>2.5.2</version>
       <configuration>
-      	<file>${plugin-folder}/HoloGUIApi.jar</file>
+      	<file>${plugin-folder}/HoloGUIApi-${version}.jar</file>
       </configuration>
       <executions>
       	<execution>
