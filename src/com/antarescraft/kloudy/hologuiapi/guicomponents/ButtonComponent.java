@@ -23,7 +23,6 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 	
 	private String[][] lines = null;
 	private int currentFrame = 0;
-	private int frames;
 	
 	private ButtonComponent(){}
 	
@@ -33,14 +32,17 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 		return new PlayerGUITextComponent(player, this, updateComponentLines(player));
 	}
 	
+	public void setLines(String[][] lines)
+	{
+		this.lines = lines;
+		
+		currentFrame = 0;
+	}
+	
 	@Override
 	public void updateIncrement()
 	{
-		currentFrame++;
-		if(currentFrame >= frames)
-		{
-			currentFrame = 0;
-		}
+		currentFrame = (currentFrame + 1) % lines.length;
 	}
 	
 	@Override
@@ -137,7 +139,7 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 
 	public int getFrames()
 	{
-		return frames;
+		return lines.length;
 	}
 
 	@Override
@@ -146,8 +148,6 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 		super.configParseComplete(params);
 		
 		lines = plugin.loadImage(properties.getIcon(), getWidth(), getHeight(), properties.isSymmetrical());
-		
-		frames = lines.length;
 	}
 	
 	@Override
