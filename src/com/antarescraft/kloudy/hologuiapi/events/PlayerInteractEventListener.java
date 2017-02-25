@@ -63,7 +63,7 @@ public class PlayerInteractEventListener implements Listener
 							
 							if(clickableGUIComponent.getProperties().getOnclickSound() != null)
 							{
-								player.playSound(player.getLocation(), clickableGUIComponent.getProperties().getOnclickSound(), (float)clickableGUIComponent.getProperties().getOnclickSoundVolume(), 1);
+								player.playSound(player.getLocation(), clickableGUIComponent.getProperties().getOnclickSound(), clickableGUIComponent.getProperties().getOnclickSoundVolume(), 1);
 							}
 
 							//animate button press

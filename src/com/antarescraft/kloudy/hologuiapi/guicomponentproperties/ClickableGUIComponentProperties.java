@@ -31,7 +31,7 @@ public abstract class ClickableGUIComponentProperties extends GUIComponentProper
 	@OptionalConfigProperty
 	@DoubleConfigProperty(defaultValue = 0.5, maxValue = 1, minValue = 0)
 	@ConfigProperty(key = "onclick-sound-volume")
-	protected double onclickSoundVolume;
+	protected double onclickSoundVolume = 0.5;
 	
 	@OptionalConfigProperty
 	@ConfigProperty(key = "label-zoom-distance")
