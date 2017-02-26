@@ -12,7 +12,7 @@ public class EntityComponentProperties extends GUIComponentProperties
 {
 	private static final double DEFAULT_LABEL_DISTANCE = 8;
 	
-	@ConfigProperty(key = "type")
+	@ConfigProperty(key = "entity-type")
 	private String entityTypeString;
 	
 	@OptionalConfigProperty

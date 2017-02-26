@@ -13,7 +13,7 @@ public class EntityButtonComponentProperties extends ClickableGUIComponentProper
 	private static final double DEFAULT_LABEL_DISTANCE = 8;
 	private static final double DEFAULT_LABEL_ZOOM_DISTANCE = 1.3;
 	
-	@ConfigProperty(key = "type")
+	@ConfigProperty(key = "entity-type")
 	private String entityTypeString;
 	
 	@OptionalConfigProperty
