@@ -123,21 +123,15 @@ public class TextBoxComponent extends ClickableGUIComponent implements ConfigObj
 	}
 	
 	@Override
-	public double getDisplayDistance()
-	{
-		return 10;
-	}
-	
-	@Override
 	public double getLineHeight()
 	{
-		return 0.023;
+		return (1 / properties.getDistance()) * 0.21;
 	}
 	
 	@Override
 	public double getZoomedInLineHeight()
 	{
-		return 0.018;
+		return getLineHeight() + 0.0005;
 	}
 
 	@Override

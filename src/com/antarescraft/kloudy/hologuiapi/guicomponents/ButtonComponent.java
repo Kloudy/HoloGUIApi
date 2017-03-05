@@ -109,22 +109,22 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 		}
 	}
 	
-	@Override
+	/*@Override
 	public double getDisplayDistance()
 	{
 		return 15;
-	}
+	}*/
 	
 	@Override
 	public double getLineHeight()
 	{
-		return 0.014;
+		return (1 / properties.getDistance()) * 0.21;
 	}
 	
 	@Override
 	public double getZoomedInLineHeight()
 	{
-		return 0.0145;
+		return getLineHeight() + 0.0005;
 	}
 	
 	public int getWidth()

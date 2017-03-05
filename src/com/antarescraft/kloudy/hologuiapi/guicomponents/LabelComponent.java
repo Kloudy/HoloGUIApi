@@ -174,15 +174,9 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 	}
 	
 	@Override
-	public double getDisplayDistance()
-	{
-		return properties.getLabelDistance();
-	}
-	
-	@Override
 	public double getLineHeight()
 	{
-		return 0.02;
+		return (1 / properties.getDistance()) * 0.21;
 	}
 
 	@Override

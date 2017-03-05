@@ -116,9 +116,9 @@ public class ToggleSwitchComponent extends ClickableGUIComponent implements Conf
 	}
 
 	@Override
-	public double getZoomedInLineHeight() 
+	public double getZoomedInLineHeight()
 	{
-		return 0.0145;
+		return getLineHeight() + 0.0005;
 	}
 
 	@Override
@@ -149,12 +149,6 @@ public class ToggleSwitchComponent extends ClickableGUIComponent implements Conf
 	public AABB.Vec3D getMaxBoundingRectPoint19(Point3D origin)
 	{
 		return AABB.Vec3D.fromVector(new Vector(origin.x+1.2, origin.y + 1.2, origin.z+1.2));
-	}
-	
-	@Override
-	public double getDisplayDistance()
-	{
-		return 15;
 	}
 	
 	@Override

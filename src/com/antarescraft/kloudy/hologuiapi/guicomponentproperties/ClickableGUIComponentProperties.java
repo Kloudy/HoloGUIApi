@@ -44,11 +44,18 @@ public abstract class ClickableGUIComponentProperties extends GUIComponentProper
 	@OptionalConfigProperty
 	@ConfigProperty(key = "no-permission-message")
 	protected String noPermissionMessage;
+	
+	protected abstract double getDefaultLabelZoomDistance();
 
 	@Override
 	public void configParseComplete(PassthroughParams params)
 	{
 		super.configParseComplete(params);
+		
+		if(labelZoomDistance == -1)
+		{
+			labelZoomDistance = getDefaultLabelZoomDistance();
+		}
 	}
 	
 	public String getOnclick()

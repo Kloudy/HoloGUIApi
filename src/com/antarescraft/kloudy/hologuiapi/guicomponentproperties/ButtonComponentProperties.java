@@ -8,7 +8,7 @@ import com.antarescraft.kloudy.plugincore.config.annotations.OptionalConfigPrope
 
 public class ButtonComponentProperties extends ClickableGUIComponentProperties implements ConfigObject
 {
-	private static final double DEFAULT_LABEL_DISTANCE = 15;
+	private static final double DEFAULT_DISTANCE = 15;
 	private static final double DEFAULT_LABEL_ZOOM_DISTANCE = 4;
 	
 	@ConfigProperty(key = "icon")
@@ -28,16 +28,18 @@ public class ButtonComponentProperties extends ClickableGUIComponentProperties i
 	public void configParseComplete(PassthroughParams params)
 	{
 		super.configParseComplete(params);
-		
-		if(labelDistance == -1)
-		{
-			labelDistance = DEFAULT_LABEL_DISTANCE;
-		}
-		
-		if(labelZoomDistance == -1)
-		{
-			labelZoomDistance = DEFAULT_LABEL_ZOOM_DISTANCE;
-		}
+	}
+	
+	@Override
+	public double getDefaultDistance()
+	{
+		return DEFAULT_DISTANCE;
+	}
+	
+	@Override
+	public double getDefaultLabelZoomDistance()
+	{
+		return DEFAULT_LABEL_ZOOM_DISTANCE;
 	}
 	
 	public String getIcon()

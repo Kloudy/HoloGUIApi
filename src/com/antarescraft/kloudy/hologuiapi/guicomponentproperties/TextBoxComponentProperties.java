@@ -8,7 +8,7 @@ import com.antarescraft.kloudy.plugincore.config.annotations.StringConfigPropert
 
 public class TextBoxComponentProperties extends ClickableGUIComponentProperties
 {
-	private static final double DEFAULT_LABEL_DISTANCE = 10;
+	private static final double DEFAULT_DISTANCE = 10;
 	private static final double DEFAULT_LABEL_ZOOM_DISTANCE = 2;
 	
 	@OptionalConfigProperty
@@ -25,16 +25,18 @@ public class TextBoxComponentProperties extends ClickableGUIComponentProperties
 	public void configParseComplete(PassthroughParams params)
 	{
 		super.configParseComplete(params);
-		
-		if(labelDistance == -1)
-		{
-			labelDistance = DEFAULT_LABEL_DISTANCE;
-		}
-		
-		if(labelZoomDistance == -1)
-		{
-			labelZoomDistance = DEFAULT_LABEL_ZOOM_DISTANCE;
-		}
+	}
+	
+	@Override
+	public double getDefaultDistance()
+	{
+		return DEFAULT_DISTANCE;
+	}
+	
+	@Override
+	public double getDefaultLabelZoomDistance()
+	{
+		return DEFAULT_LABEL_ZOOM_DISTANCE;
 	}
 	
 	public String getDefaultLine()

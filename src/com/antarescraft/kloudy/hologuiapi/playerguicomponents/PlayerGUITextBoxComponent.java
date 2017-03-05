@@ -183,7 +183,7 @@ public class PlayerGUITextBoxComponent extends PlayerGUIValueBoxComponent implem
 		Vector vect = lookLocation.getDirection().setY(0.25);
 		vect = customNormalize(vect);
 		
-		double distance = guiComponent.getDisplayDistance();
+		double distance = guiComponent.getProperties().getDistance();
 		Location lookOrigin = player.getLocation();
 		if(stationary) 
 		{

@@ -44,17 +44,11 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 	{
 		return lines[currentFrame];
 	}
-
-	@Override
-	public double getDisplayDistance()
-	{
-		return 15;
-	}
 	
 	@Override
 	public double getLineHeight()
 	{
-		return 0.014;
+		return (1 / properties.getDistance()) * 0.21;
 	}
 
 	@Override

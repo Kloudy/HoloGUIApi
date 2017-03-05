@@ -87,13 +87,13 @@ public class ItemButtonComponent extends ClickableGUIComponent implements ItemTy
 	@Override
 	public double getLineHeight()
 	{
-		return 0.02;
+		return (1 / properties.getDistance()) * 0.21;
 	}
 	
 	@Override
 	public double getZoomedInLineHeight()
 	{
-		return 0.0145;
+		return getLineHeight() + 0.0005;
 	}
 	
 	@Override
@@ -101,12 +101,6 @@ public class ItemButtonComponent extends ClickableGUIComponent implements ItemTy
 
 	@Override
 	public void updateIncrement(){}
-
-	@Override
-	public double getDisplayDistance()
-	{
-		return 6;
-	}
 
 	@Override
 	public void configParseComplete(PassthroughParams params) 

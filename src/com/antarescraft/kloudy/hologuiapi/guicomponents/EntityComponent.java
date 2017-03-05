@@ -56,15 +56,9 @@ public class EntityComponent extends GUIComponent implements EntityTypeComponent
 	public String[] updateComponentLines(Player player){return null;}
 
 	@Override
-	public double getDisplayDistance() 
+	public double getLineHeight()
 	{
-		return 8;
-	}
-
-	@Override
-	public double getLineHeight() 
-	{
-		return 0.02;
+		return (1 / properties.getDistance()) * 0.21;
 	}
 
 	@Override

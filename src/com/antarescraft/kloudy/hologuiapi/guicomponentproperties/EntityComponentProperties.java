@@ -10,7 +10,7 @@ import com.antarescraft.kloudy.plugincore.utils.Utils;
 
 public class EntityComponentProperties extends GUIComponentProperties
 {
-	private static final double DEFAULT_LABEL_DISTANCE = 8;
+	private static final double DEFAULT_DISTANCE = 8;
 	
 	@ConfigProperty(key = "entity-type")
 	private String entityTypeString;
@@ -24,11 +24,12 @@ public class EntityComponentProperties extends GUIComponentProperties
 	public void configParseComplete(PassthroughParams params)
 	{
 		super.configParseComplete(params);
-		
-		if(labelDistance == -1)
-		{
-			labelDistance = DEFAULT_LABEL_DISTANCE;
-		}
+	}
+	
+	@Override
+	public double getDefaultDistance()
+	{
+		return DEFAULT_DISTANCE;
 	}
 	
 	public EntityType getEntityType()

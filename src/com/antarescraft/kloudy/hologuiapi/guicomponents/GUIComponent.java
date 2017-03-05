@@ -16,7 +16,6 @@ public abstract class GUIComponent implements ConfigObject
 	public abstract GUIComponentProperties getProperties();
 	public abstract void updateIncrement();//updates the guicomponent's next incremental state
 	public abstract String[] updateComponentLines(Player player);
-	public abstract double getDisplayDistance();
 	public abstract double getLineHeight();
 	
 	public HoloGUIPlugin getHoloGUIPlugin()

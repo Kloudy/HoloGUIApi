@@ -7,7 +7,7 @@ import com.antarescraft.kloudy.plugincore.config.annotations.OptionalConfigPrope
 
 public class ImageComponentProperties extends GUIComponentProperties
 {
-	private static final double DEFAULT_LABEL_DISTANCE = 15;
+	private static final double DEFAULT_DISTANCE = 15;
 	
 	@ConfigProperty(key = "image-src")
 	private String imageSource;
@@ -27,11 +27,12 @@ public class ImageComponentProperties extends GUIComponentProperties
 	public void configParseComplete(PassthroughParams params)
 	{
 		super.configParseComplete(params);
-		
-		if(labelDistance == -1)
-		{
-			labelDistance = DEFAULT_LABEL_DISTANCE;
-		}
+	}
+	
+	@Override
+	public double getDefaultDistance()
+	{
+		return DEFAULT_DISTANCE;
 	}
 	
 	public String getImageSource()

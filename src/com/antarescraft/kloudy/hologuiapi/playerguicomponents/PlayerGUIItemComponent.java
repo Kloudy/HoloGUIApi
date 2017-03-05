@@ -29,7 +29,7 @@ public class PlayerGUIItemComponent extends PlayerGUIComponent
 		Vector vect = lookLocation.getDirection().setY(0.25);
 		vect = customNormalize(vect);
 		
-		double distance = guiComponent.getDisplayDistance();
+		double distance = guiComponent.getProperties().getDistance();
 		Location lookOrigin = player.getLocation();
 		if(stationary) 
 		{
@@ -80,7 +80,7 @@ public class PlayerGUIItemComponent extends PlayerGUIComponent
 		float yRotation = (float)itemTypeComponent.getRotation().getY() + lookLocation.getYaw() - degrees + 180f;// - 90f;
 		float zRotation = (float)itemTypeComponent.getRotation().getZ();
 		
-		double distance = guiComponent.getDisplayDistance();
+		double distance = guiComponent.getProperties().getDistance();
 		Location lookOrigin = player.getLocation();
 		if(stationary) 
 		{

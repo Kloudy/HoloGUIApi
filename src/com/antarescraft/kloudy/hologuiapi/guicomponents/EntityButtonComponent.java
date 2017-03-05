@@ -88,13 +88,13 @@ public class EntityButtonComponent extends ClickableGUIComponent implements Enti
 	@Override
 	public double getLineHeight()
 	{
-		return 0.02;
+		return (1 / properties.getDistance()) * 0.21;
 	}
 	
 	@Override
 	public double getZoomedInLineHeight()
 	{
-		return 0.0145;
+		return getLineHeight() + 0.0005;
 	}
 
 	@Override
@@ -107,13 +107,7 @@ public class EntityButtonComponent extends ClickableGUIComponent implements Enti
 	public void updateIncrement() {}
 
 	@Override
-	public String[] updateComponentLines(Player player){return null;}
-
-	@Override
-	public double getDisplayDistance() 
-	{
-		return 8;
-	}
+	public String[] updateComponentLines(Player player){ return null; }
 
 	@Override
 	public void configParseComplete(PassthroughParams params)

@@ -11,7 +11,7 @@ import com.antarescraft.kloudy.plugincore.utils.Utils;
 
 public class ItemComponentProperties extends GUIComponentProperties
 {
-private static final double DEFAULT_LABEL_DISTANCE = 6;
+private static final double DEFAULT_DISTANCE = 6;
 	
 	@ConfigProperty(key = "item-id")
 	private String itemString;
@@ -24,11 +24,12 @@ private static final double DEFAULT_LABEL_DISTANCE = 6;
 	public void configParseComplete(PassthroughParams params)
 	{
 		super.configParseComplete(params);
-		
-		if(labelDistance == -1)
-		{
-			labelDistance = DEFAULT_LABEL_DISTANCE;
-		}
+	}
+	
+	@Override
+	public double getDefaultDistance()
+	{
+		return DEFAULT_DISTANCE;
 	}
 	
 	public ItemStack getItem()	

@@ -32,15 +32,9 @@ public class ItemComponent extends GUIComponent implements ItemTypeComponent, Co
 	public void updateIncrement(){}
 
 	@Override
-	public double getDisplayDistance()
-	{
-		return 6;
-	}
-
-	@Override
 	public double getLineHeight()
 	{
-		return 0.02;
+		return (1 / properties.getDistance()) * 0.21;
 	}
 	
 	@Override

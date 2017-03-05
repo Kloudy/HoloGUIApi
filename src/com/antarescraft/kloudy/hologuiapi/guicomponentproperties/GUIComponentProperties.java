@@ -9,6 +9,7 @@ import com.antarescraft.kloudy.plugincore.config.annotations.BooleanConfigProper
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElementKey;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.annotations.DoubleConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.annotations.OptionalConfigProperty;
 import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
@@ -42,7 +43,14 @@ public abstract class GUIComponentProperties implements ConfigObject
 	@ConfigProperty(key = "hidden")
 	protected boolean hidden = false;
 	
+	@OptionalConfigProperty
+	@DoubleConfigProperty(defaultValue = 15, maxValue = 50, minValue = 0)
+	@ConfigProperty(key="distance")
+	protected double distance = -1;
+	
 	public GUIComponentProperties(){}
+	
+	protected abstract double getDefaultDistance();
 	
 	@Override
 	public GUIComponentProperties clone()
@@ -57,7 +65,18 @@ public abstract class GUIComponentProperties implements ConfigObject
 	}
 	
 	@Override
-	public void configParseComplete(PassthroughParams params){}
+	public void configParseComplete(PassthroughParams params)
+	{
+		if(distance == -1)
+		{
+			distance = getDefaultDistance();
+		}
+		
+		if(labelDistance == -1)
+		{
+			labelDistance = getDefaultDistance();
+		}
+	}
 	
 	@Override
 	public String toString()
@@ -123,5 +142,15 @@ public abstract class GUIComponentProperties implements ConfigObject
 	public void setHidden(boolean hidden)
 	{
 		this.hidden = hidden;
+	}
+	
+	public double getDistance()
+	{
+		return distance;
+	}
+	
+	public void setDistance(double distance)
+	{
+		this.distance = distance;
 	}
 }

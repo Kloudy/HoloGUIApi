@@ -26,7 +26,7 @@ public class PlayerGUIEntityComponent extends PlayerGUIComponent
 
 		EntityTypeComponent entityTypeComponent = (EntityTypeComponent)guiComponent;
 		
-		double distance = guiComponent.getDisplayDistance();
+		double distance = guiComponent.getProperties().getDistance();
 		Location lookOrigin = player.getLocation();
 		if(stationary) 
 		{
@@ -74,7 +74,7 @@ public class PlayerGUIEntityComponent extends PlayerGUIComponent
 		float degrees = (float)Math.toDegrees(horizontalRadianAngle);
 		float yRotation = lookLocation.getYaw() +  (float)entityTypeComponent.getYaw() - degrees + 180f;
 		
-		double distance = guiComponent.getDisplayDistance();
+		double distance = guiComponent.getProperties().getDistance();
 		Location lookOrigin = player.getLocation();
 		if(stationary) 
 		{
