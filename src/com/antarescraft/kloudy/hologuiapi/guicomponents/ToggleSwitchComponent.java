@@ -81,7 +81,22 @@ public class ToggleSwitchComponent extends ClickableGUIComponent implements Conf
 	
 	public void swapPlayerToggleSwitchState(Player player)
 	{
+		swapPlayerToggleSwitchState(player, null);
+	}
+	
+	public void swapPlayerToggleSwitchState(Player player, String stationaryDisplayId)
+	{
 		setPlayerToggleSwitchState(player, !getPlayerToggleSwitchState(player));
+		
+		boolean state = getPlayerToggleSwitchState(player);
+		if(state)
+		{
+			executeOnclick(player, stationaryDisplayId, properties.getOnclickOn(), properties.executeOnclickOnAsConsole());
+		}
+		else
+		{
+			executeOnclick(player, stationaryDisplayId, properties.getOnclickOff(), properties.executeOnclickOffAsConsole());
+		}
 	}
 	
 	public boolean getPlayerToggleSwitchState(Player player)
