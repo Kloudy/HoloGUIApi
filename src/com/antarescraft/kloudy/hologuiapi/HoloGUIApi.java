@@ -209,18 +209,6 @@ public class HoloGUIApi extends JavaPlugin
 	}
 	
 	/**
-	 * Opens the GUI page with the specified guiPageId and data model
-	 * @param holoGUIPlugin
-	 * @param player
-	 * @param guiPageId
-	 * @param model PlayerGUIPageModel object bound to the GUIPage
-	 */
-	public void openGUIPage(HoloGUIPlugin holoGUIPlugin, Player player, String guiPageId, PlayerGUIPageModel model)
-	{
-		openGUIPage(holoGUIPlugin, player, guiPageId, null, model);
-	}
-	
-	/**
 	 * @param holoGUIPlugin
 	 * @param player
 	 * @param guiPageId
@@ -237,9 +225,9 @@ public class HoloGUIApi extends JavaPlugin
 	 * @param player
 	 * @param model PlayerGUIPageModel object bound to the GUIPage
 	 */
-	public void openGUIPage(HoloGUIPlugin holoGUIPlugin, Player player, PlayerGUIPageModel model)
+	public void openGUIPage(HoloGUIPlugin holoGUIPlugin, PlayerGUIPageModel model)
 	{
-		openGUIPage(holoGUIPlugin, player, model.getGUIPage().getId(), null, model);
+		openGUIPage(holoGUIPlugin, model.getPlayer(), model.getGUIPage().getId(), null, model);
 	}
 	
 	/**

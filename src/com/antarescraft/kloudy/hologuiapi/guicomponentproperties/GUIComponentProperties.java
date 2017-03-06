@@ -44,9 +44,9 @@ public abstract class GUIComponentProperties implements ConfigObject
 	protected boolean hidden = false;
 	
 	@OptionalConfigProperty
-	@DoubleConfigProperty(defaultValue = 15, maxValue = 50, minValue = 0)
+	@DoubleConfigProperty(defaultValue = -1, maxValue = 50, minValue = 0)
 	@ConfigProperty(key="distance")
-	protected double distance = -1;
+	protected double distance;
 	
 	public GUIComponentProperties(){}
 	
@@ -71,7 +71,7 @@ public abstract class GUIComponentProperties implements ConfigObject
 		{
 			distance = getDefaultDistance();
 		}
-		
+				
 		if(labelDistance == -1)
 		{
 			labelDistance = getDefaultDistance();
