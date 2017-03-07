@@ -82,7 +82,7 @@
               <goal>shade</goal>
             </goals>
             <configuration>
-              <outputFile>${plugin-folder}/HoloGUIApi-v${version}.jar</outputFile>
+              <outputFile>${plugin-folder}/HoloGUIApi.jar</outputFile>
               <shadedArtifactAttached>false</shadedArtifactAttached>
               <relocations>
                 <relocation>
