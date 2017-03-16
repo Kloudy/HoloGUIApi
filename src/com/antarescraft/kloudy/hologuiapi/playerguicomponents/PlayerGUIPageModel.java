@@ -31,4 +31,29 @@ public abstract class PlayerGUIPageModel
 	{
 		return guiPage;
 	}
+	
+	/**
+	 * Closes the GuiPage the player is currently viewing
+	 */
+	public void closePage()
+	{
+		plugin.getHoloGUIApi().closeGUIPage(player);
+	}
+	
+	/**
+	 * Opens the specified gui page from the given model for the player
+	 */
+	public void openGuiPage(PlayerGUIPageModel model)
+	{
+		plugin.getHoloGUIApi().openGUIPage(plugin, model);
+	}
+	
+	/**
+	 * Opens the specifed gui page for the player
+	 * @param guiPageId Id of the gui page to open
+	 */
+	public void openGuiPage(String guiPageId)
+	{
+		plugin.getHoloGUIApi().openGUIPage(plugin, player, guiPageId);
+	}
 }
