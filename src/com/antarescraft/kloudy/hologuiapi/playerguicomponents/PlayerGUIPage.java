@@ -17,8 +17,8 @@ public class PlayerGUIPage
 	protected Location lookLocation;
 	protected HashMap<String, PlayerGUIComponent> components;
 	
-	//map of player specific gui components only seen on this player gui page.
-	//gui components in this map are not contained in the global gui page that generated this player gui page.
+	// Map of player specific gui components only seen on this player gui page.
+	// GUI components in this map are not contained in the global gui page that generated this player gui page.
 	private HashMap<String, GUIComponent> guiComponents; 
 		
 	public PlayerGUIPage(Player player, HashMap<String, PlayerGUIComponent> components, Location lookLocation, GUIPage guiPage)
@@ -31,26 +31,44 @@ public class PlayerGUIPage
 		guiComponents = new HashMap<String, GUIComponent>();
 	}
 	
+	/**
+	 * @return The Player associated with this PlayerGUIPage.
+	 */
 	public Player getPlayer()
 	{
 		return player;
 	}
 	
+	/**
+	 * The anchor point Location is the last Location the player was when they stopped moving.
+	 * @return The current anchor point location for this PlayerGUIPage.
+	 */
 	public Location getLookLocation()
 	{
 		return lookLocation;
 	}
 	
+	/**
+	 * Sets the current look location anchor point for this PlayerGUIPage.
+	 * The anchor point Location is the last Location the player was when they stopped moving.
+	 * @param lookLocation The anchor point location.
+	 */
 	public void setLookLocation(Location lookLocation)
 	{
 		this.lookLocation = lookLocation;
 	}
 	
+	/**
+	 * @return The underlying GUIPage being displayed to the player through this PlayerGUIPage.
+	 */
 	public GUIPage getGUIPage()
 	{
 		return guiPage;
 	}
 	
+	/**
+	 * Updates the incremental state of all of the PlayerGUIComponent objects in this PlayerGUIPage.
+	 */
 	public void updateIncrement()
 	{
 		for(GUIComponent guiComponent : guiComponents.values())
@@ -58,45 +76,76 @@ public class PlayerGUIPage
 			guiComponent.updateIncrement();
 		}
 	}
-	 
-	 public void renderComponent(GUIComponent guiComponent)
-	 {
-		 PlayerGUIComponent existingComponent = components.get(guiComponent.getProperties().getId());
-		 if(existingComponent != null) 
-		 {
-			removeComponent(guiComponent.getProperties().getId());
-		 }
-		 		 
-		 PlayerGUIComponent playerGUIComponent = guiComponent.initPlayerGUIComponent(player);
-		 playerGUIComponent.setHidden(false);
-		 
-		 playerGUIComponent.spawnEntities(lookLocation, (this instanceof StationaryPlayerGUIPage));
-		 
-		 components.put(guiComponent.getProperties().getId(), playerGUIComponent);
-		 
-		 //don't add to guiComponents if the same guicomponent already exists in the gui page. This would cause it to get updated twice
-		 if(guiPage.componentExists(guiComponent.getProperties().getId()) && guiPage.getComponent(guiComponent.getProperties().getId()).equals(guiComponent))
-		 {
-			 return;
-		 }
-		 
-		 guiComponents.put(guiComponent.getProperties().getId(), guiComponent);
-	 }
-	 
-	 public void removeComponent(String componentId)
-	 {
-		 PlayerGUIComponent playerGUIComponent = components.get(componentId);
-		 if(playerGUIComponent != null)
-		 {
-			 playerGUIComponent.setHidden(true);
-			 
-			 playerGUIComponent.destroyArmorStands();
-		 }
-		 
-		 guiComponents.remove(componentId);
-		 components.remove(componentId);
-	 }
 	
+	/**
+	 * @param guiComponent The GUIComponent in question.
+	 * @return true if the GUIComponent is currently not visible for the player.
+	 */
+	public boolean isHidden(GUIComponent guiComponent)
+	{
+		return isHidden(guiComponent.getProperties().getId());
+	}
+	
+	/**
+	 * @param guiComponentId The id of the GUIComponent in question.
+	 * @return true if the GUIComponent is currently visible for the player.
+	 */
+	public boolean isHidden(String guiComponentId)
+	{
+		PlayerGUIComponent component = components.get(guiComponentId);
+		
+		return (component != null && component.isHidden());
+	}
+	
+	/**
+	 * Renders the GUIComponent for the player.
+	 * @param guiComponent The GUIComponent to be rendered for the player.
+	 */
+	public void renderComponent(GUIComponent guiComponent)
+	{
+		PlayerGUIComponent existingComponent = components.get(guiComponent.getProperties().getId());
+		if(existingComponent != null) 
+		{
+			removeComponent(guiComponent.getProperties().getId());
+		}
+		 		 
+		PlayerGUIComponent playerGUIComponent = guiComponent.initPlayerGUIComponent(player);
+		playerGUIComponent.setHidden(false);
+		 
+		playerGUIComponent.spawnEntities(lookLocation, (this instanceof StationaryPlayerGUIPage));
+		 
+		components.put(guiComponent.getProperties().getId(), playerGUIComponent);
+		 
+		// Don't add to guiComponents if the same guicomponent already exists in the gui page. This would cause it to get updated twice
+		if(guiPage.componentExists(guiComponent.getProperties().getId()) && guiPage.getComponent(guiComponent.getProperties().getId()).equals(guiComponent))
+		{
+			return;
+		}
+		 
+		guiComponents.put(guiComponent.getProperties().getId(), guiComponent);
+	}
+	
+	/**
+	 * Removes the GUIComponent from the player's GUI.
+	 * @param componentId the id of the GUIComponent being hidden on the player's GUI.
+	 */
+	public void removeComponent(String componentId)
+	{
+		PlayerGUIComponent playerGUIComponent = components.get(componentId);
+		if(playerGUIComponent != null)
+		{
+			playerGUIComponent.setHidden(true);
+			 
+			playerGUIComponent.destroyArmorStands();
+		}
+		 
+		guiComponents.remove(componentId);
+		components.remove(componentId);
+	}
+	
+	/**
+	 * Destroys this PlayerGUIPage.
+	 */
 	public void destroy()
 	{
 		PlayerData playerData = PlayerData.getPlayerData(player);
@@ -118,11 +167,17 @@ public class PlayerGUIPage
 		playerData.setPlayerValueScrollerEditor(null);
 	}
 	
+	/**
+	 * @return A collection of all the PlayerGUIComponents in this PlayerGUIPage.
+	 */
 	public Collection<PlayerGUIComponent> getPlayerGUIComponents()
 	{
 		return components.values();
 	}
 	
+	/**
+	 * Renders all of the GUIComponents onto the player's GUI.
+	 */
 	public void renderComponents()
 	{
 		for(PlayerGUIComponent playerGUIComponent : components.values())
@@ -134,6 +189,10 @@ public class PlayerGUIPage
 		}
 	}
 	
+	/**
+	 * @return The GUIComponent that the player is currently focused upon. 
+	 * 			Returns null if the player is not focused on any component.
+	 */
 	public PlayerGUIComponent getFocusedComponent()
 	{
 		PlayerGUIComponent focusedComponent = null;
