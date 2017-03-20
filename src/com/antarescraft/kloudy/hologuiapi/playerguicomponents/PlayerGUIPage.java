@@ -80,6 +80,7 @@ public class PlayerGUIPage
 	/**
 	 * @param guiComponent The GUIComponent in question.
 	 * @return true if the GUIComponent is currently not visible for the player.
+	 * 			Also returns true of the guiComponent does not exist in this PlayerGUIPage.
 	 */
 	public boolean isHidden(GUIComponent guiComponent)
 	{
@@ -88,13 +89,14 @@ public class PlayerGUIPage
 	
 	/**
 	 * @param guiComponentId The id of the GUIComponent in question.
-	 * @return true if the GUIComponent is currently visible for the player.
+	 * @return true if the GUIComponent is currently visible for the player, otherwise false. 
+	 * 			Also returns true if no GUIComponent exists for the given guiComponentId.
 	 */
 	public boolean isHidden(String guiComponentId)
 	{
 		PlayerGUIComponent component = components.get(guiComponentId);
 		
-		return (component != null && component.isHidden());
+		return (component == null || (component != null && component.isHidden()));
 	}
 	
 	/**

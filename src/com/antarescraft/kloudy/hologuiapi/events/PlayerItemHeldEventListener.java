@@ -33,7 +33,7 @@ public class PlayerItemHeldEventListener implements Listener
 			AbstractScrollValue<?, ?> componentValue = valueScrollerComponent.getPlayerScrollValue(player);
 			
 			//if((newSlot == prevSlot+1 || newSlot == prevSlot + 2) || (newSlot == 0 && prevSlot == 8))//scroll up
-			if(action.getScrollDirection() == MousewheelScrollDirection.UP)
+			if(action.getScrollDirection() == MousewheelScrollDirection.LEFT)
 			{
 				 componentValue.decrement();
 				 
@@ -50,7 +50,7 @@ public class PlayerItemHeldEventListener implements Listener
 				 Bukkit.getPluginManager().callEvent(valueScrollerUpdateEvent);				 
 			}
 			//else if((newSlot == prevSlot-1 || newSlot == prevSlot-2) || (newSlot == 8 && prevSlot == 0))//scroll down
-			else if(action.getScrollDirection() == MousewheelScrollDirection.DOWN)
+			else if(action.getScrollDirection() == MousewheelScrollDirection.RIGHT)
 			{
 				componentValue.increment();
 				

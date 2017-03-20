@@ -36,7 +36,7 @@ public class MousewheelAction
 				(currentSlot == 0 && previousSlot == 8) ||
 				(currentSlot == 1 && previousSlot == 0))
 		{
-			return MousewheelScrollDirection.UP;
+			return MousewheelScrollDirection.RIGHT;
 		}
 		
 		// Scrolled down.
@@ -44,7 +44,7 @@ public class MousewheelAction
 				(currentSlot == 8 && previousSlot == 0) ||
 				(currentSlot == 7 && previousSlot == 8))
 		{
-			return MousewheelScrollDirection.DOWN;
+			return MousewheelScrollDirection.LEFT;
 		}
 		
 		return MousewheelScrollDirection.NONE;
@@ -53,7 +53,7 @@ public class MousewheelAction
 	public enum MousewheelScrollDirection
 	{
 		NONE,
-		UP,
-		DOWN
+		RIGHT,
+		LEFT
 	}
 }
