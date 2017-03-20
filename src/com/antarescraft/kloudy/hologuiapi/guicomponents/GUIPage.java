@@ -13,6 +13,8 @@ import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
 import com.antarescraft.kloudy.hologuiapi.handlers.GUIPageCloseHandler;
 import com.antarescraft.kloudy.hologuiapi.handlers.GUIPageLoadHandler;
+import com.antarescraft.kloudy.hologuiapi.handlers.MousewheelAction;
+import com.antarescraft.kloudy.hologuiapi.handlers.MousewheelScrollHandler;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPage;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.StationaryPlayerGUIPage;
@@ -78,6 +80,7 @@ public class GUIPage implements ConfigObject
 	private HashMap<String, GUIComponent> guiComponents = new HashMap<String, GUIComponent>();
 	private HashMap<UUID, GUIPageLoadHandler> pageLoadHandlers = new HashMap<UUID, GUIPageLoadHandler>();
 	private HashMap<UUID, GUIPageCloseHandler> pageCloseHandlers = new HashMap<UUID, GUIPageCloseHandler>();
+	private HashMap<UUID, MousewheelScrollHandler> mouseWheelScrollHandlers = new HashMap<UUID, MousewheelScrollHandler>();
 	
 	private GUIPage(){}
 	
@@ -122,6 +125,25 @@ public class GUIPage implements ConfigObject
 	public void removePageCloseHandler(Player player)
 	{
 		pageCloseHandlers.remove(player.getUniqueId());
+	}
+	
+	public void registerMouseWheelScrollHandler(Player player, MousewheelScrollHandler handler)
+	{
+		mouseWheelScrollHandlers.put(player.getUniqueId(), handler);
+	}
+	
+	public void triggerMouseWheelScrollHandler(Player player, MousewheelAction action)
+	{
+		MousewheelScrollHandler mouseWheelHandler = mouseWheelScrollHandlers.get(player.getUniqueId());
+		if(mouseWheelHandler != null)
+		{
+			mouseWheelHandler.onMousewheelScroll(action);
+		}
+	}
+	
+	public void removeMouseWheelScrollHandler(Player player)
+	{
+		mouseWheelScrollHandlers.remove(player.getUniqueId());
 	}
 	
 	/**

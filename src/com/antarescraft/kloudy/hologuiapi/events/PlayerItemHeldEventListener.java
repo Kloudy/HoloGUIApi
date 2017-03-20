@@ -8,7 +8,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
+import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIPage;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.ValueScrollerComponent;
+import com.antarescraft.kloudy.hologuiapi.handlers.MousewheelAction;
+import com.antarescraft.kloudy.hologuiapi.handlers.MousewheelAction.MousewheelScrollDirection;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPage;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIValueScrollerComponent;
 import com.antarescraft.kloudy.hologuiapi.scrollvalues.AbstractScrollValue;
@@ -20,9 +23,8 @@ public class PlayerItemHeldEventListener implements Listener
 	{
 		Player player = event.getPlayer();
 		PlayerData playerData = PlayerData.getPlayerData(player);
-		
-		int prevSlot = event.getPreviousSlot();
-		int newSlot = event.getNewSlot();
+
+		MousewheelAction action = new MousewheelAction(event.getPreviousSlot(), event.getNewSlot());
 				
 		PlayerGUIValueScrollerComponent valueScroller = playerData.getPlayerValueScrollerEditor();
 		if(valueScroller != null)
@@ -30,7 +32,8 @@ public class PlayerItemHeldEventListener implements Listener
 			ValueScrollerComponent valueScrollerComponent = valueScroller.getValueScrollerComponent();
 			AbstractScrollValue<?, ?> componentValue = valueScrollerComponent.getPlayerScrollValue(player);
 			
-			if((newSlot == prevSlot+1 || newSlot == prevSlot + 2) || (newSlot == 0 && prevSlot == 8))//scroll up
+			//if((newSlot == prevSlot+1 || newSlot == prevSlot + 2) || (newSlot == 0 && prevSlot == 8))//scroll up
+			if(action.getScrollDirection() == MousewheelScrollDirection.UP)
 			{
 				 componentValue.decrement();
 				 
@@ -46,7 +49,8 @@ public class PlayerItemHeldEventListener implements Listener
 				 HoloGUIValueScrollerUpdateEvent valueScrollerUpdateEvent = new HoloGUIValueScrollerUpdateEvent(valueScrollerComponent.getHoloGUIPlugin(), valueScrollerComponent, player);
 				 Bukkit.getPluginManager().callEvent(valueScrollerUpdateEvent);				 
 			}
-			else if((newSlot == prevSlot-1 || newSlot == prevSlot-2) || (newSlot == 8 && prevSlot == 0))//scroll down
+			//else if((newSlot == prevSlot-1 || newSlot == prevSlot-2) || (newSlot == 8 && prevSlot == 0))//scroll down
+			else if(action.getScrollDirection() == MousewheelScrollDirection.DOWN)
 			{
 				componentValue.increment();
 				
@@ -63,12 +67,17 @@ public class PlayerItemHeldEventListener implements Listener
 			valueScroller.getValueScrollerComponent().setPlayerScrollValue(player, componentValue);
 		}
 		
-		PlayerGUIPage playerGUIContainer = PlayerData.getPlayerData(player).getPlayerGUIPage();
-		if(playerGUIContainer != null)
+		PlayerGUIPage playerGuiPage = PlayerData.getPlayerData(player).getPlayerGUIPage();
+		if(playerGuiPage != null)
 		{
-			if(playerGUIContainer.getGUIPage().getCloseOnPlayerItemSwitch())
+			GUIPage guiPage = playerGuiPage.getGUIPage();
+			
+			 // Trigger the mousewheel handler callback.
+			guiPage.triggerMouseWheelScrollHandler(player, action);
+			
+			if(guiPage.getCloseOnPlayerItemSwitch())
 			{
-				playerGUIContainer.destroy();
+				playerGuiPage.destroy();
 				playerData.setPlayerGUIPage(null);
 				playerData.setPlayerPreviousGUIPage(null);
 			}
