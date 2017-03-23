@@ -34,7 +34,7 @@ import com.antarescraft.kloudy.plugincore.utils.Utils;
  */
 public class GUIPage implements ConfigObject
 {
-	private HoloGUIPlugin plugin;
+	protected HoloGUIPlugin plugin;
 	
 	public String toString()
 	{
@@ -42,45 +42,45 @@ public class GUIPage implements ConfigObject
 	}
 	
 	@ConfigElementKey
-	private String id;
+	protected String id;
 	
 	@OptionalConfigProperty
 	@ConfigProperty(key = "open-item")
-	private String openItemString;
+	protected String openItemString;
 	
 	@OptionalConfigProperty
 	@ConfigProperty(key = "item-name")
-	private String itemName;
+	protected String itemName;
 	
 	@OptionalConfigProperty
 	@BooleanConfigProperty(defaultValue = false)
 	@ConfigProperty(key = "open-on-login")
-	private boolean openOnLogin;
+	protected boolean openOnLogin;
 	
 	@OptionalConfigProperty
 	@ConfigProperty(key = "show-permission")
-	private String showPermission;
+	protected String showPermission;
 	
 	@OptionalConfigProperty
 	@ConfigProperty(key = "hide-permission")
-	private String hidePermission;
+	protected String hidePermission;
 	
 	@OptionalConfigProperty
 	@BooleanConfigProperty(defaultValue = false)
 	@ConfigProperty(key = "close-on-player-move")
-	private boolean closeOnPlayerMove;
+	protected boolean closeOnPlayerMove;
 	
 	@OptionalConfigProperty
 	@BooleanConfigProperty(defaultValue = false)
 	@ConfigProperty(key = "close-on-player-item-switch")
-	private boolean closeOnPlayerItemSwitch;
+	protected boolean closeOnPlayerItemSwitch;
 	
-	private ItemStack openItem = null;
+	protected ItemStack openItem = null;
 	
-	private HashMap<String, GUIComponent> guiComponents = new HashMap<String, GUIComponent>();
-	private HashMap<UUID, GUIPageLoadHandler> pageLoadHandlers = new HashMap<UUID, GUIPageLoadHandler>();
-	private HashMap<UUID, GUIPageCloseHandler> pageCloseHandlers = new HashMap<UUID, GUIPageCloseHandler>();
-	private HashMap<UUID, MousewheelScrollHandler> mouseWheelScrollHandlers = new HashMap<UUID, MousewheelScrollHandler>();
+	protected HashMap<String, GUIComponent> guiComponents = new HashMap<String, GUIComponent>();
+	protected HashMap<UUID, GUIPageLoadHandler> pageLoadHandlers = new HashMap<UUID, GUIPageLoadHandler>();
+	protected HashMap<UUID, GUIPageCloseHandler> pageCloseHandlers = new HashMap<UUID, GUIPageCloseHandler>();
+	protected HashMap<UUID, MousewheelScrollHandler> mouseWheelScrollHandlers = new HashMap<UUID, MousewheelScrollHandler>();
 	
 	protected GUIPage(){}
 	

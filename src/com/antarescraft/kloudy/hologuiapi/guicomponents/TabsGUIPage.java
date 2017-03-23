@@ -1,24 +1,50 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+
 import com.antarescraft.kloudy.hologuiapi.HoloGUIView;
+import com.antarescraft.kloudy.hologuiapi.PlayerData;
+import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
+import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITabsPage;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElementList;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 
 /**
  * Represents a GUI page with a 'tabs' element that allows you to select between gui pages.
  */
 public class TabsGUIPage extends GUIPage
 {
-	private HoloGUIView[] views;
+	@ConfigElementList
+	@ConfigProperty(key = "tabs")
+	private ArrayList<TabEntry> tabs; // List of configured tab elements
 	
-	/**
-	 * 
-	 * @param views An Array of HoloGUIViews in the order that their tabs will be displayed
-	 */
-	public TabsGUIPage(HoloGUIView... views)
+	private HoloGUIView[] views;
+
+	private TabsGUIPage(){}
+	
+	@Override
+	public PlayerGUITabsPage renderComponentsForPlayer(Player player, Location lookLocation)
 	{
-		super();
+		//TODO: finish
+		HashMap<String, PlayerGUIComponent> components = new HashMap<String, PlayerGUIComponent>();
 		
-		if(views == null || (views != null && views.length == 0)) throw new IllegalArgumentException();
+		for(GUIComponent component : guiComponents.values())
+		{
+			PlayerGUIComponent playerGUIComponent = component.initPlayerGUIComponent(player);
+			components.put(component.getProperties().getId(), playerGUIComponent);
+		}
 		
-		this.views = views;
+		PlayerGUITabsPage playerGuiTabsPage = new PlayerGUITabsPage(player, components, lookLocation, this);
+		
+		playerGuiTabsPage.renderComponents();
+		PlayerData.getPlayerData(player).setPlayerGUIPage(playerGuiTabsPage);
+		
+		triggerPageLoadHandler(playerGuiTabsPage);
+
+		return playerGuiTabsPage;
 	}
 }

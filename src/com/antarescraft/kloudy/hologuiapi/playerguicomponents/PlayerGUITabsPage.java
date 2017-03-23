@@ -7,9 +7,9 @@ import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.guicomponents.TabsGUIPage;
 
-public class PlayerTabsGUIPage extends PlayerGUIPage
+public class PlayerGUITabsPage extends PlayerGUIPage
 {
-	public PlayerTabsGUIPage(Player player, HashMap<String, PlayerGUIComponent> components, Location lookLocation, TabsGUIPage guiPage)
+	public PlayerGUITabsPage(Player player, HashMap<String, PlayerGUIComponent> components, Location lookLocation, TabsGUIPage guiPage)
 	{
 		super(player, components, lookLocation, guiPage);
 	}
