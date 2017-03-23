@@ -10,6 +10,7 @@ import com.antarescraft.kloudy.hologuiapi.HoloGUIView;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITabsPage;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElementList;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 
@@ -21,6 +22,10 @@ public class TabsGUIPage extends GUIPage
 	@ConfigElementList
 	@ConfigProperty(key = "tabs")
 	private ArrayList<TabEntry> tabs; // List of configured tab elements
+	
+	@ConfigElement
+	@ConfigProperty(key = "position")
+	private ComponentPosition tabsPosition;
 	
 	private HoloGUIView[] views;
 
