@@ -82,7 +82,7 @@ public class GUIPage implements ConfigObject
 	private HashMap<UUID, GUIPageCloseHandler> pageCloseHandlers = new HashMap<UUID, GUIPageCloseHandler>();
 	private HashMap<UUID, MousewheelScrollHandler> mouseWheelScrollHandlers = new HashMap<UUID, MousewheelScrollHandler>();
 	
-	private GUIPage(){}
+	protected GUIPage(){}
 	
 	public HoloGUIPlugin getHoloGUIPlugin()
 	{
