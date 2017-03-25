@@ -41,11 +41,32 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 	{
 		CanvasComponent canvas = getCanvasComponent();
 		
-		for(int i = 0; i < canvas.getProperties().getHeight(); i++)
+		fill(0, 0, canvas.getProperties().getWidth()-1, canvas.getProperties().getHeight()-1, color);
+	}
+	
+	public void fill(int x1, int y1, int x2, int y2, MinecraftColor color)
+	{
+		for(int i = y1; i <= y2; i++)
 		{
-			for(int j = 0; j < canvas.getProperties().getWidth(); j++)
+			for(int j = x1; j <= x2; j++)
 			{
-				pixels[i][j].updateColor(player, color);
+				if(i < pixels.length && j < pixels[0].length)
+				{
+					pixels[i][j].updateColor(player, color);
+				}
+			}
+		}
+	}
+	
+	public void drawImage(int x, int y, String imageName)
+	{
+		guiComponent.getHoloGUIPlugin().loadImage("warp_icon_3.png", 9, 9, true);
+		
+		for(int i = y; i < pixels.length; i++)
+		{
+			for(int j = x; j < pixels[0].length; j++)
+			{
+				
 			}
 		}
 	}
