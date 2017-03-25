@@ -2,8 +2,10 @@ package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
 import org.bukkit.entity.Player;
 
-import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.GUIComponentProperties;
+import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.CanvasComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUICanvasComponent;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 
 /**
  * Represents a Canvas component on a player's gui.
@@ -14,35 +16,37 @@ import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUICanvasCom
  */
 public class CanvasComponent extends GUIComponent
 {
-
-	@Override
-	public PlayerGUICanvasComponent initPlayerGUIComponent(Player player) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public GUIComponentProperties getProperties() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void updateIncrement() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String[] updateComponentLines(Player player) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public double getLineHeight() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	@ConfigElement
+	@ConfigProperty(key = "")
+	private CanvasComponentProperties properties;
 	
+	@Override
+	public PlayerGUICanvasComponent initPlayerGUIComponent(Player player)
+	{
+		return new PlayerGUICanvasComponent(player, this);
+	}
+
+	@Override
+	public CanvasComponentProperties getProperties() 
+	{
+		return properties;
+	}
+
+	@Override
+	public void updateIncrement()
+	{
+
+	}
+
+	@Override
+	public String[] updateComponentLines(Player player) 
+	{
+		return null;
+	}
+
+	@Override
+	public double getLineHeight()
+	{
+		return (1 / properties.getDistance()) * 0.21;
+	}
 }
