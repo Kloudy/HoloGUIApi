@@ -50,6 +50,14 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 		}
 	}
 	
+	/**
+	 * Clears the canvas.
+	 */
+	public void clear()
+	{
+		destroyArmorStands();
+	}
+	
 	@Override
 	public void destroyArmorStands()
 	{
@@ -91,7 +99,7 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 				pixels[i][j].render(player, calculateArmorStandLocation(i, player.getLocation(), vect, 
 						guiComponent.getProperties().getDistance(), guiComponent.getLineHeight(), 
 						guiComponent.getProperties().getPosition().getY(), 
-						guiComponent.getProperties().getPosition().getX() - (j * 0.018)));
+						guiComponent.getProperties().getPosition().getX() - (j * guiComponent.getLineHeight() * 1.2)));
 			}
 		}
 	}
@@ -109,7 +117,7 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 				pixels[i][j].updateLocation(player, calculateArmorStandLocation(i, player.getLocation(), vect, 
 						guiComponent.getProperties().getDistance(), guiComponent.getLineHeight(), 
 						guiComponent.getProperties().getPosition().getY(), 
-						guiComponent.getProperties().getPosition().getX() - (j * 0.018)));
+						guiComponent.getProperties().getPosition().getX() - (j * guiComponent.getLineHeight() * 1.2)));
 			}
 		}
 	}
