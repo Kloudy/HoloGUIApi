@@ -102,8 +102,10 @@ public class PlayerGUIPage
 	/**
 	 * Renders the GUIComponent for the player.
 	 * @param guiComponent The GUIComponent to be rendered for the player.
+	 * 
+	 * @returns The PlayerGUIComponent used to render the GUIComponent to the player.
 	 */
-	public void renderComponent(GUIComponent guiComponent)
+	public PlayerGUIComponent renderComponent(GUIComponent guiComponent)
 	{
 		PlayerGUIComponent existingComponent = components.get(guiComponent.getProperties().getId());
 		if(existingComponent != null) 
@@ -121,10 +123,12 @@ public class PlayerGUIPage
 		// Don't add to guiComponents if the same guicomponent already exists in the gui page. This would cause it to get updated twice
 		if(guiPage.componentExists(guiComponent.getProperties().getId()) && guiPage.getComponent(guiComponent.getProperties().getId()).equals(guiComponent))
 		{
-			return;
+			return playerGUIComponent;
 		}
 		 
 		guiComponents.put(guiComponent.getProperties().getId(), guiComponent);
+		
+		return playerGUIComponent;
 	}
 	
 	/**
