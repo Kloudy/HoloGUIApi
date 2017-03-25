@@ -6,6 +6,7 @@ import org.bukkit.util.Vector;
 
 import com.antarescraft.kloudy.hologuiapi.guicomponents.CanvasComponent;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.CanvasPixel;
+import com.antarescraft.kloudy.hologuiapi.imageprocessing.MinecraftColor;
 
 public class PlayerGUICanvasComponent extends PlayerGUIComponent
 {
@@ -15,7 +16,29 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 	{
 		super(player, canvasComponent);
 		
-		pixels = new CanvasPixel[canvasComponent.getProperties().getHeight()][];
+		pixels = new CanvasPixel[canvasComponent.getProperties().getHeight()][canvasComponent.getProperties().getWidth()];
+	}
+	
+	public CanvasComponent getCanvasComponent()
+	{
+		return (CanvasComponent)guiComponent;
+	}
+	
+	/**
+	 * Fills the canvas with the given MinecraftColor
+	 * @param color
+	 */
+	public void fill(MinecraftColor color)
+	{
+		CanvasComponent canvas = getCanvasComponent();
+		
+		for(int i = 0; i < canvas.getProperties().getHeight(); i++)
+		{
+			for(int j = 0; j < canvas.getProperties().getWidth(); j++)
+			{			
+				pixels[i][j] = new CanvasPixel(PacketManager.);
+			}
+		}
 	}
 
 	@Override

@@ -1,5 +1,10 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
+import org.bukkit.Location;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+
+import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.imageprocessing.MinecraftColor;
 
 /**
@@ -7,23 +12,86 @@ import com.antarescraft.kloudy.hologuiapi.imageprocessing.MinecraftColor;
  */
 public class CanvasPixel
 {
-	private int entityId;
+	private int x;
+	private int y; 
+	private Integer entityId;
 	private MinecraftColor color;
-	private double distance;
+	private double distanceOffset = 0;
 	
-	public CanvasPixel(int entityId, MinecraftColor color, double distance)
+	/**
+	 * @param x This pixel's x index in the grid of pixels in the containing CanvasComponent.
+	 * @param y This pixel's y index in the grid of pixels in the containing CanvasComponent.
+	 */
+	public CanvasPixel(int x, int y)
 	{
-		this.entityId = entityId;
-		this.color = color;
-		this.distance = distance;
+		this(x, y, MinecraftColor.TRANSPARENT, 0);
 	}
 	
 	/**
-	 * @return The entityId associated with the ArmorStand displaying the pixel.
+	 * @param x This pixel's x index in the grid of pixels in the containing CanvasComponent.
+	 * @param y This pixel's y index in the grid of pixels in the containing CanvasComponent.
+	 * @param color The color of the pixel.
+	 * @param distanceOffset The distance zoom offset towards the player (Used to zoom in/out the pixel with relation to the rest of the CanvasComponent).
 	 */
-	public int getEntityId()
+	public CanvasPixel(int x, int y, MinecraftColor color, double distanceOffset)
 	{
-		return entityId;
+		this.x = x;
+		this.y = y;
+		this.color = color;
+		this.distanceOffset = distanceOffset;
+	}
+	
+	/**
+	 * Updates this pixel's color and distance for the given player. 
+	 * 
+	 * @param player
+	 */
+	public void update(Player player)
+	{
+		if(color == MinecraftColor.TRANSPARENT) // If the color is transparent, just destroy the ArmorStand.
+		{
+			destroy(player);
+			
+			return;
+		}
+		
+		HoloGUIApi.packetManager.updateEntityText(player, entityId, color.symbol() + "▇");
+	}
+	
+	/**
+	 * Renders the pixel for the player at the specified location.
+	 * @param player The player for whom this pixel will be rendered.
+	 * @param location The location that this pixel will be rendered.
+	 */
+	public void render(Player player, Location location)
+	{
+		if(color != MinecraftColor.TRANSPARENT) // If the color is Transparent, don't bother spawning the ArmorStand.
+		{
+			entityId = HoloGUIApi.packetManager.spawnEntity(EntityType.ARMOR_STAND, player, location, color.symbol() + "▇", true);
+		}
+	}
+	
+	/**
+	 * @return true if this pixel's ArmorStand has been spawned
+	 */
+	public boolean isRendered()
+	{
+		return !(entityId == null);
+	}
+	
+	/**
+	 * Destroys the ArmorStand that displays this pixel for the given player.
+	 * 
+	 * @param player The player for whom this pixel will be destroyed.
+	 */
+	public void destroy(Player player)
+	{
+		if(isRendered())
+		{
+			HoloGUIApi.packetManager.destroyEntities(player, new int[] { entityId });
+			
+			entityId = null;
+		}
 	}
 	
 	/**
@@ -47,7 +115,7 @@ public class CanvasPixel
 	 */
 	public double distance()
 	{
-		return distance;
+		return distanceOffset;
 	}
 	
 	/**
@@ -55,6 +123,6 @@ public class CanvasPixel
 	 */
 	public void setDistance(double distance)
 	{
-		this.distance = distance;
+		this.distanceOffset = distance;
 	}
 }
