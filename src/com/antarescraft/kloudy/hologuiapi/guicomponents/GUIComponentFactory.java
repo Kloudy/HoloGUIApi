@@ -178,4 +178,16 @@ public class GUIComponentFactory
 		
 		return null;
 	}
+	
+	public static CanvasComponent createCanvasComponent(HoloGUIPlugin plugin, CanvasComponentProperties properties)
+	{
+		String propertyString = ConfigParser.generateConfigString(plugin.getName(), properties);
+		
+		if(propertyString != null)
+		{
+			return ConfigParser.parse(toYaml(propertyString), CanvasComponent.class, plugin.getName(), getPassthroughParams(plugin));
+		}
+		
+		return null;
+	}
 }

@@ -23,7 +23,7 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 		{
 			for(int j = 0; j < canvasComponent.getProperties().getWidth(); j++)
 			{
-				pixels[i][j] = new CanvasPixel(j, i);
+				pixels[i][j] = new CanvasPixel();
 			}
 		}
 	}
@@ -45,29 +45,40 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 		{
 			for(int j = 0; j < canvas.getProperties().getWidth(); j++)
 			{
-				pixels[i][j].setColor(color);
-				pixels[i][j].update(player);
+				pixels[i][j].updateColor(player, color);
+			}
+		}
+	}
+	
+	/**
+	 * Clears the canvas.
+	 */
+	public void clear()
+	{
+		CanvasComponent canvas = getCanvasComponent();
+		
+		for(int i = 0; i < canvas.getProperties().getHeight(); i++)
+		{
+			for(int j = 0; j < canvas.getProperties().getWidth(); j++)
+			{
+				pixels[i][j].destroy(player);
 			}
 		}
 	}
 	
 	/**
 	 * Updates the pixel at the input coordinates with the given color.
-	 * @param row
-	 * @param column
-	 * @param color
+	 * @param row Zero indexed row of the pixel.
+	 * @param column Zero index column of the pixel.
+	 * @param color The color.
 	 */
 	public void updatePixel(int row, int column, MinecraftColor color)
 	{
-		
+		pixels[row][column].updateColor(player, color);
 	}
 
 	@Override
-	public void updateComponentLines()
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	public void updateComponentLines(){}
 
 	@Override
 	public void spawnEntities(Location lookLocation, boolean stationary)
@@ -82,7 +93,9 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 			for(int j = 0; j < getCanvasComponent().getProperties().getWidth(); j++)
 			{
 				pixels[i][j].render(player, calculatePixelLocation(i, j, player.getLocation(), vect, 
-						distance, guiComponent.getLineHeight(), guiComponent.getProperties().getPosition().getY(), guiComponent.getProperties().getPosition().getX()));
+						distance, guiComponent.getLineHeight(), 
+						guiComponent.getProperties().getPosition().getY(), 
+						guiComponent.getProperties().getPosition().getX()));
 			}
 		}
 	}
@@ -147,8 +160,8 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 		y1 += yi;
 		z1 += zi;
 		
-		x1 += orthogVector.getX() * (horizontalDistance * column);
-		z1 += orthogVector.getZ() * (horizontalDistance * column);
+		x1 += (orthogVector.getX() * horizontalDistance) + (column * guiComponent.getLineHeight());
+		z1 += (orthogVector.getZ() * horizontalDistance) + (column * guiComponent.getLineHeight());
 		return new Location(origin.getWorld(), x1, y1,  z1);
 	}
 }

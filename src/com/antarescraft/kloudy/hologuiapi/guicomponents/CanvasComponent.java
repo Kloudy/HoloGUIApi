@@ -12,13 +12,14 @@ import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
  * 
  * The Canvas component contains a grid of pixels that can be manipulated 
  * independently of each other. Each pixel can be zoomed in/out independent of its neighbors.
- *
  */
 public class CanvasComponent extends GUIComponent
 {
 	@ConfigElement
 	@ConfigProperty(key = "")
 	private CanvasComponentProperties properties;
+	
+	private CanvasComponent(){}
 	
 	@Override
 	public PlayerGUICanvasComponent initPlayerGUIComponent(Player player)
@@ -33,11 +34,8 @@ public class CanvasComponent extends GUIComponent
 	}
 
 	@Override
-	public void updateIncrement()
-	{
-
-	}
-
+	public void updateIncrement(){}
+	
 	@Override
 	public String[] updateComponentLines(Player player) 
 	{

@@ -3,7 +3,6 @@ package com.antarescraft.kloudy.hologuiapi.guicomponents;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.imageprocessing.MinecraftColor;
@@ -13,32 +12,22 @@ import com.antarescraft.kloudy.hologuiapi.imageprocessing.MinecraftColor;
  */
 public class CanvasPixel
 {
-	private int x;
-	private int y; 
 	private Integer entityId;
 	private MinecraftColor color;
-	private double distanceOffset = 0;
+	private double distanceOffset;
 	private Location location;
 	
-	/**
-	 * @param x This pixel's x index in the grid of pixels in the containing CanvasComponent.
-	 * @param y This pixel's y index in the grid of pixels in the containing CanvasComponent.
-	 */
-	public CanvasPixel(int x, int y)
+	public CanvasPixel()
 	{
-		this(x, y, MinecraftColor.TRANSPARENT, 0);
+		this(MinecraftColor.TRANSPARENT, 0);
 	}
 	
 	/**
-	 * @param x This pixel's x index in the grid of pixels in the containing CanvasComponent.
-	 * @param y This pixel's y index in the grid of pixels in the containing CanvasComponent.
 	 * @param color The color of the pixel.
 	 * @param distanceOffset The distance zoom offset towards the player (Used to zoom in/out the pixel with relation to the rest of the CanvasComponent).
 	 */
-	public CanvasPixel(int x, int y, MinecraftColor color, double distanceOffset)
+	public CanvasPixel(MinecraftColor color, double distanceOffset)
 	{
-		this.x = x;
-		this.y = y;
 		this.color = color;
 		this.distanceOffset = distanceOffset;
 	}
@@ -60,12 +49,14 @@ public class CanvasPixel
 			return;
 		}
 		
-		if(!isRendered())
+		if(!isRendered()) // Pixel not already rendered. Render the pixel.
 		{
-			this.render(player, location);
+			render(player, location);
 		}
-		
-		HoloGUIApi.packetManager.updateEntityText(player, entityId, color.symbol() + "▇");
+		else // Pixel already rendered. Just update the color.
+		{
+			HoloGUIApi.packetManager.updateEntityText(player, entityId, color.symbol() + "▇");
+		}
 	}
 	
 	/**
@@ -75,10 +66,21 @@ public class CanvasPixel
 	 */
 	public void updateLocation(Player player, Location location)
 	{
+		this.location = location;
+		
 		if(isRendered())
 		{
 			HoloGUIApi.packetManager.updateEntityLocation(player, entityId, location);
 		}
+	}
+	
+	/**
+	 * Sets the distance offset towards the player this pixel has in relation to the containing CanvasComponent.
+	 */
+	public void setDistanceOffset(double distance)
+	{
+		//TODO: implement.
+		this.distanceOffset = distance;
 	}
 	
 	/**
@@ -88,6 +90,8 @@ public class CanvasPixel
 	 */
 	public void render(Player player, Location location)
 	{
+		this.location = location;
+		
 		if(color != MinecraftColor.TRANSPARENT) // If the color is Transparent, don't bother spawning the ArmorStand.
 		{
 			entityId = HoloGUIApi.packetManager.spawnEntity(EntityType.ARMOR_STAND, player, location, color.symbol() + "▇", true);
@@ -139,24 +143,5 @@ public class CanvasPixel
 	public double distance()
 	{
 		return distanceOffset;
-	}
-	
-	/**
-	 * Sets the distance offset towards the player this pixel has in relation to the containing CanvasComponent.
-	 */
-	public void setDistance(double distance)
-	{
-		this.distanceOffset = distance;
-	}
-	
-	
-	
-	protected Vector rotateAboutYAxis(Vector vector, double radians)
-	{
-		double x = (vector.getZ() * Math.sin(radians)) + (vector.getX() * Math.cos(radians));
-		double y = vector.getY();
-		double z = (vector.getZ() * Math.cos(radians) ) - (vector.getX() * Math.sin(radians));
-	
-		return new Vector(x, y, z);
 	}
 }
