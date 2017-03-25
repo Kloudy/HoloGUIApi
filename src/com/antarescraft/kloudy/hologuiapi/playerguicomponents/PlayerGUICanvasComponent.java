@@ -50,10 +50,8 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 		}
 	}
 	
-	/**
-	 * Clears the canvas.
-	 */
-	public void clear()
+	@Override
+	public void destroyArmorStands()
 	{
 		CanvasComponent canvas = getCanvasComponent();
 		
@@ -85,17 +83,15 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 	{
 		Vector vect = lookLocation.getDirection().setY(0.25);
 		vect = customNormalize(vect);
-		
-		double distance = guiComponent.getProperties().getDistance();
-		
+				
 		for(int i = 0; i < getCanvasComponent().getProperties().getHeight(); i++)
 		{
 			for(int j = 0; j < getCanvasComponent().getProperties().getWidth(); j++)
 			{
-				pixels[i][j].render(player, calculatePixelLocation(i, j, player.getLocation(), vect, 
-						distance, guiComponent.getLineHeight(), 
+				pixels[i][j].render(player, calculateArmorStandLocation(i, player.getLocation(), vect, 
+						guiComponent.getProperties().getDistance(), guiComponent.getLineHeight(), 
 						guiComponent.getProperties().getPosition().getY(), 
-						guiComponent.getProperties().getPosition().getX()));
+						guiComponent.getProperties().getPosition().getX() - (j * 0.018)));
 			}
 		}
 	}
@@ -110,10 +106,10 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 		{
 			for(int j = 0; j < getCanvasComponent().getProperties().getWidth(); j++)
 			{
-				pixels[i][j].updateLocation(player, calculatePixelLocation(i, j, player.getLocation(), vect, 
+				pixels[i][j].updateLocation(player, calculateArmorStandLocation(i, player.getLocation(), vect, 
 						guiComponent.getProperties().getDistance(), guiComponent.getLineHeight(), 
 						guiComponent.getProperties().getPosition().getY(), 
-						guiComponent.getProperties().getPosition().getX()));
+						guiComponent.getProperties().getPosition().getX() - (j * 0.018)));
 			}
 		}
 	}
@@ -121,7 +117,7 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 	/*
 	 * Calculates the location to spawn/move a pixel to.
 	 */
-	private Location calculatePixelLocation(int row, int column, Location origin, Vector vect, double distance, double lineHeight, 
+	/*private Location calculatePixelLocation(int row, int column, Location origin, Vector vect, double distance, double lineHeight, 
 			double verticalOffset, double horizontalOffset)
 	{		
 		double xi = origin.getX();
@@ -160,8 +156,9 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 		y1 += yi;
 		z1 += zi;
 		
-		x1 += (orthogVector.getX() * horizontalDistance) + (column * guiComponent.getLineHeight());
-		z1 += (orthogVector.getZ() * horizontalDistance) + (column * guiComponent.getLineHeight());
+		x1 += (orthogVector.getX() * horizontalDistance) + (column * 0.15);
+		z1 += (orthogVector.getZ() * horizontalDistance) + (column * 0.15);
+		
 		return new Location(origin.getWorld(), x1, y1,  z1);
-	}
+	}*/
 }
