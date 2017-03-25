@@ -18,6 +18,7 @@ public class CanvasPixel
 	private Integer entityId;
 	private MinecraftColor color;
 	private double distanceOffset = 0;
+	private Location location;
 	
 	/**
 	 * @param x This pixel's x index in the grid of pixels in the containing CanvasComponent.
@@ -43,12 +44,15 @@ public class CanvasPixel
 	}
 	
 	/**
-	 * Updates this pixel's color and distance for the given player. 
+	 * Updates this pixel's color for the given player. 
 	 * 
 	 * @param player
+	 * @param color
 	 */
-	public void update(Player player)
+	public void updateColor(Player player, MinecraftColor color)
 	{
+		this.color = color;
+		
 		if(color == MinecraftColor.TRANSPARENT) // If the color is transparent, just destroy the ArmorStand.
 		{
 			destroy(player);
@@ -56,7 +60,25 @@ public class CanvasPixel
 			return;
 		}
 		
+		if(!isRendered())
+		{
+			this.render(player, location);
+		}
+		
 		HoloGUIApi.packetManager.updateEntityText(player, entityId, color.symbol() + "▇");
+	}
+	
+	/**
+	 * Teleport's this pixel's ArmorStand to the input Location
+	 * @param player
+	 * @param location
+	 */
+	public void updateLocation(Player player, Location location)
+	{
+		if(isRendered())
+		{
+			HoloGUIApi.packetManager.updateEntityLocation(player, entityId, location);
+		}
 	}
 	
 	/**
@@ -78,6 +100,14 @@ public class CanvasPixel
 	public boolean isRendered()
 	{
 		return !(entityId == null);
+	}
+	
+	/**
+	 * @return The entity id associated with the ArmorStand that backs this pixel.
+	 */
+	public int getEntityId()
+	{
+		return entityId;
 	}
 	
 	/**
@@ -104,14 +134,6 @@ public class CanvasPixel
 	}
 	
 	/**
-	 * Sets the color for this pixel.
-	 */
-	public void setColor(MinecraftColor color)
-	{
-		this.color = color;
-	}
-	
-	/**
 	 * @return The distance offset towards the player this pixel has in relation to the containing CanvasComponent.
 	 */
 	public double distance()
@@ -127,50 +149,7 @@ public class CanvasPixel
 		this.distanceOffset = distance;
 	}
 	
-	private Location calculateArmorStandLocation(int rowIndex, Location origin, Vector vect, double distance, double lineHeight, 
-			double verticalOffset, double horizontalOffset)
-	{			
-		double xi = origin.getX();
-		double yi = origin.getY();
-		double zi = origin.getZ();
-		
-		//rotate vect by horizontal offset
-		double horizontalRadianAngle = horizontalOffset * Math.PI/3.72;
-		double verticalRadianAngle = verticalOffset * Math.PI/4.7;
-
-		vect = rotateAboutYAxis(vect, horizontalRadianAngle);
-		//double horizontalDistance = (distance * Math.sin(horizontalRadianAngle)) / Math.sin((Math.PI/2) - horizontalOffset);
-		//Vector orthogVector = new Vector(vect.getZ(), 0, -vect.getX());
-		
-		//doing rotation relative origin <0,0,0> will add xi,yi,zi in at the end
-		double x0 = (vect.getX() * distance);
-		double y0 = (vect.getY() * distance);
-		double z0 = (vect.getZ() * distance);
-		//cartesian conversion to spherical coordinates of where player is looking 'distance' blocks away
-		double r0 = Math.sqrt((x0*x0)+(y0*y0)+(z0*z0));
-		double theta0 = Math.acos((y0 / r0));
-		double phi0 = Math.atan2(z0,  x0);
-		
-		//rowIndex 0 is the label, rotate the label up a line length so it sits with a one row gap above the component
-		if(rowIndex == 0) lineHeight *= 2;
-		
-		//rotate theta0 by deltaTheta
-		double r1 = r0;
-		double theta1 = theta0 + (rowIndex * lineHeight) - verticalRadianAngle;
-		double phi1 = phi0;
-		
-		//convert spherical coordinates back into cartesian coordinates
-		double y1 = r1 * Math.cos(theta1);
-		double x1 = r1 * Math.cos(phi1) * Math.sin(theta1);
-		double z1 = r1 * Math.sin(theta1) * Math.sin(phi1);
-		x1 += xi;
-		y1 += yi;
-		z1 += zi;
-		
-		//x1 += orthogVector.getX() * horizontalDistance;
-		//z1 += orthogVector.getZ() * horizontalDistance;
-		return new Location(origin.getWorld(), x1, y1,  z1);
-	}
+	
 	
 	protected Vector rotateAboutYAxis(Vector vector, double radians)
 	{

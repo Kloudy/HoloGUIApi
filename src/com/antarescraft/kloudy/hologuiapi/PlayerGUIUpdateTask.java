@@ -89,6 +89,9 @@ public class PlayerGUIUpdateTask extends BukkitRunnable
 				{
 					playerGUIPage.updateIncrement();
 					playerGUIPages.add(playerGUIPage);
+					
+					// Trigger the gui page update callbacks
+					playerGUIPage.getGUIPage().triggerGUIPageUpdateHandler(playerGUIPage.getPlayer());
 				}
 			}
 			
