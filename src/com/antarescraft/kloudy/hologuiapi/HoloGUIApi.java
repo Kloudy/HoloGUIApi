@@ -9,7 +9,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.antarescraft.kloudy.hologuiapi.events.HoloGUITextBoxUpdateEvent;
 import com.antarescraft.kloudy.hologuiapi.events.PlayerChangedWorldEventListener;
 import com.antarescraft.kloudy.hologuiapi.events.PlayerDeathEventListener;
 import com.antarescraft.kloudy.hologuiapi.events.PlayerInteractEventListener;
@@ -51,7 +50,7 @@ public class HoloGUIApi extends JavaPlugin
 	public static String PATH_TO_IMAGES = "resources/images";
 	public static String PATH_TO_YAMLS = "resources/yamls";
 	
-	public static PacketManager packetManager; //TODO: Don't make this static. Pass it into functions that need it
+	public static PacketManager packetManager;
 	
 	@Override
 	public void onEnable()
@@ -92,9 +91,6 @@ public class HoloGUIApi extends JavaPlugin
 						
 						TextBoxComponent textBoxComponent = textBox.getTextBoxComponent();
 						textBoxComponent.triggerTextBoxUpdateHandler(player, value);
-						
-						HoloGUITextBoxUpdateEvent textBoxUpdateEvent = new HoloGUITextBoxUpdateEvent(textBoxComponent.getHoloGUIPlugin(), textBoxComponent, player);
-						Bukkit.getPluginManager().callEvent(textBoxUpdateEvent);
 						
 						event.setCancelled(true);
 					}					

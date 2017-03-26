@@ -1,6 +1,5 @@
 package com.antarescraft.kloudy.hologuiapi.events;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -89,9 +88,6 @@ public class PlayerInteractEventListener implements Listener
 												ToggleSwitchComponent toggleSwitch = playerToggleSwitch.getToggleSwitchComponent();
 												toggleSwitch.swapPlayerToggleSwitchState(player);
 												toggleSwitch.triggerToggleHandler(player);
-												
-												HoloGUIToggleSwitchUpdateEvent toggleSwitchUpdateEvent = new HoloGUIToggleSwitchUpdateEvent(toggleSwitch.getHoloGUIPlugin(), toggleSwitch, player);
-												Bukkit.getServer().getPluginManager().callEvent(toggleSwitchUpdateEvent);
 											}
 											else if(playerGUIComponent instanceof PlayerGUITextBoxComponent)
 											{
@@ -115,9 +111,6 @@ public class PlayerInteractEventListener implements Listener
 												ToggleSwitchComponent toggleSwitch = playerToggleSwitch.getToggleSwitchComponent();
 												toggleSwitch.swapPlayerToggleSwitchState(player);
 												toggleSwitch.triggerToggleHandler(player);
-												
-												HoloGUIToggleSwitchUpdateEvent toggleSwitchUpdateEvent = new HoloGUIToggleSwitchUpdateEvent(toggleSwitch.getHoloGUIPlugin(), toggleSwitch, player);
-												Bukkit.getServer().getPluginManager().callEvent(toggleSwitchUpdateEvent);
 											}
 											else if(playerGUIComponent instanceof PlayerGUITextBoxComponent)
 											{

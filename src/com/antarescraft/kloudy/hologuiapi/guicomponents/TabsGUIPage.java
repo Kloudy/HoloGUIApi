@@ -8,8 +8,9 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
-import com.antarescraft.kloudy.hologuiapi.HoloGUIView;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
+import com.antarescraft.kloudy.hologuiapi.exceptions.DefaultTabIndexOutOfBoundsException;
+import com.antarescraft.kloudy.hologuiapi.exceptions.TabsNotDefinedException;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITabsPage;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
@@ -17,6 +18,7 @@ import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElementList;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.annotations.IntConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.annotations.OptionalConfigProperty;
 import com.antarescraft.kloudy.plugincore.messaging.MessageManager;
 
 /**
@@ -26,7 +28,7 @@ public class TabsGUIPage extends GUIPage
 {
 	@ConfigElementList
 	@ConfigProperty(key = "tabs")
-	private ArrayList<TabEntry> tabs; // List of configured tab elements
+	private ArrayList<TabEntry> tabs = new ArrayList<TabEntry>(); // List of configured tab elements
 	
 	@ConfigElement
 	@ConfigProperty(key = "tabs-position")
@@ -40,7 +42,15 @@ public class TabsGUIPage extends GUIPage
 	@ConfigProperty(key = "tab-height")
 	private int tabHeight; // The height (in pixels) of each tab.
 	
-	private ArrayList<HoloGUIView> views = new ArrayList<HoloGUIView>();
+	@OptionalConfigProperty
+	@IntConfigProperty(defaultValue = 0, maxValue = Integer.MAX_VALUE, minValue = 0)
+	@ConfigProperty(key = "default-tab-index")
+	private int defaultTabIndex; // The index of the tab that should be open by default.
+	
+	public void addTab(TabEntry tab)
+	{
+		tabs.add(tab);
+	}
 	
 	@Override
 	public PlayerGUITabsPage renderComponentsForPlayer(Player player, Location lookLocation)
@@ -68,6 +78,18 @@ public class TabsGUIPage extends GUIPage
 	{
 		super.configParseComplete(params);
 		
+		// No tabs were defined, treat this as an error scenario.
+		if(tabs.size() == 0)
+		{
+			throw new TabsNotDefinedException(id);
+		}
+		
+		// Defined defaultTabIndex out of bounds.
+		if(defaultTabIndex >= tabs.size())
+		{
+			throw new DefaultTabIndexOutOfBoundsException(defaultTabIndex, id);
+		}
+		
 		HoloGUIPlugin plugin = (HoloGUIPlugin)params.getParam("plugin");
 		
 		for(TabEntry tab : tabs)
@@ -84,9 +106,19 @@ public class TabsGUIPage extends GUIPage
 		}
 	}
 	
+	public ArrayList<TabEntry> getTabs()
+	{
+		return new ArrayList<TabEntry>(tabs);
+	}
+	
 	public int getTabWidth()
 	{
 		return tabWidth;
+	}
+	
+	public void setTabWidth(int tabWidth)
+	{
+		this.tabWidth = tabWidth;
 	}
 	
 	public int getTabHeight()
@@ -94,13 +126,28 @@ public class TabsGUIPage extends GUIPage
 		return tabHeight;
 	}
 	
-	public ArrayList<HoloGUIView> getTabViews()
+	public void setTabHeight(int tabHeight)
 	{
-		return views;
+		this.tabHeight = tabHeight;
+	}
+	
+	public int getDefaultTabIndex()
+	{
+		return defaultTabIndex;
+	}
+	
+	public void setDefaultTabIndex(int defaultTabIndex)
+	{
+		this.defaultTabIndex = defaultTabIndex;
 	}
 	
 	public ComponentPosition getTabsPosition()
 	{
 		return tabsPosition;
+	}
+	
+	public void setTabsPosition(ComponentPosition tabsPosition)
+	{
+		this.tabsPosition = tabsPosition;
 	}
 }

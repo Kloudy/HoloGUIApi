@@ -19,8 +19,14 @@ public class TabEntry implements ConfigObject
 	@ConfigProperty(key = "gui-page-id")
 	private String guiPageId;
 	
-	@Override
-	public void configParseComplete(PassthroughParams params){}
+	public TabEntry(){}
+	
+	public TabEntry(String id, String tabTitle, String guiPageId)
+	{
+		this.id = id;
+		this.tabTitle = tabTitle;
+		this.guiPageId = guiPageId;
+	}
 	
 	public String getId()
 	{
@@ -36,4 +42,7 @@ public class TabEntry implements ConfigObject
 	{
 		return guiPageId;
 	}
+	
+	@Override
+	public void configParseComplete(PassthroughParams params){}
 }

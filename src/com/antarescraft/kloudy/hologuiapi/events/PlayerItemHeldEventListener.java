@@ -1,6 +1,5 @@
 package com.antarescraft.kloudy.hologuiapi.events;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -44,10 +43,7 @@ public class PlayerItemHeldEventListener implements Listener
 					 player.playSound(player.getLocation(), onscrollSound, onscrollSoundVolume, 1);
 				 }
 				 
-				 valueScrollerComponent.triggerScrollHandler(player, componentValue);
-				 
-				 HoloGUIValueScrollerUpdateEvent valueScrollerUpdateEvent = new HoloGUIValueScrollerUpdateEvent(valueScrollerComponent.getHoloGUIPlugin(), valueScrollerComponent, player);
-				 Bukkit.getPluginManager().callEvent(valueScrollerUpdateEvent);				 
+				 valueScrollerComponent.triggerScrollHandler(player, componentValue);		 
 			}
 			//else if((newSlot == prevSlot-1 || newSlot == prevSlot-2) || (newSlot == 8 && prevSlot == 0))//scroll down
 			else if(action.getScrollDirection() == MousewheelScrollDirection.RIGHT)

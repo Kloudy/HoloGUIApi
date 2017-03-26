@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
-import com.antarescraft.kloudy.hologuiapi.events.HoloGUIClickEvent;
 import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ClickableGUIComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.handlers.ClickHandler;
 import com.antarescraft.kloudy.hologuiapi.handlers.HoverHandler;
@@ -101,9 +100,6 @@ public abstract class ClickableGUIComponent extends GUIComponent
 
 	public void executeOnclick(Player player, String stationaryDisplayId, String command, boolean executeCommandAsConsole)
 	{
-		HoloGUIClickEvent holoGUIClickEvent = new HoloGUIClickEvent(plugin, this, player);
-		Bukkit.getServer().getPluginManager().callEvent(holoGUIClickEvent);
-		
 		if(command != null && !command.equals(""))
 		{
 			if(command.startsWith("server"))//bungeecord change server command
