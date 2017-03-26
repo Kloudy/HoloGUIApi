@@ -276,6 +276,21 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 	}
 	
 	/**
+	 * Loads an image resource in the plugin jar.
+	 * @param imageName The image filename to load from the plugin jar.
+	 * @return InputStream for the image.
+	 */
+	public InputStream loadImageStream(String imageName)
+	{
+		if(imageName.contains(".jpg") || imageName.contains(".png"))
+		{
+			return getResource(HoloGUIApi.PATH_TO_IMAGES + "/" + imageName);
+		}
+		
+		return null;
+	}
+	
+	/**
 	 * Resource images should be stored in 'resources/images' in the plugin jar
 	 * 
 	 * Loads and processes the specified imageName. Returns the image as a String[][]. Returns null if the file couldn't be found.
@@ -288,7 +303,7 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 		
 		try
 		{
-			inputStream = getResource(HoloGUIApi.PATH_TO_IMAGES + "/" + imageName);
+			inputStream = loadImageStream(imageName);
 			
 			if(inputStream == null) return null;
 			

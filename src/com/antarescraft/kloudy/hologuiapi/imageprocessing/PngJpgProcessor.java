@@ -26,4 +26,10 @@ public class PngJpgProcessor
 			return null;
 		}
 	}
+	
+	public static MinecraftColor[][] processImage(InputStream input, int width, int height)
+	{
+		// TODO: finish
+		return null;
+	}
 }
