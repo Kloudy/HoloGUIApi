@@ -11,12 +11,12 @@ import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIView;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
-import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPageModel;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITabsPage;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElementList;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.annotations.IntConfigProperty;
 import com.antarescraft.kloudy.plugincore.messaging.MessageManager;
 
 /**
@@ -29,8 +29,16 @@ public class TabsGUIPage extends GUIPage
 	private ArrayList<TabEntry> tabs; // List of configured tab elements
 	
 	@ConfigElement
-	@ConfigProperty(key = "position")
-	private ComponentPosition tabsPosition;
+	@ConfigProperty(key = "tabs-position")
+	private ComponentPosition tabsPosition; // The position of the tabs themselves.
+	
+	@IntConfigProperty(defaultValue = 15, maxValue = 100, minValue = 1)
+	@ConfigProperty(key = "tab-width")
+	private int tabWidth; // The width (in pixels) of each tab.
+	
+	@IntConfigProperty(defaultValue = 7, maxValue = 100, minValue = 1)
+	@ConfigProperty(key = "tab-height")
+	private int tabHeight; // The height (in pixels) of each tab.
 	
 	private ArrayList<HoloGUIView> views = new ArrayList<HoloGUIView>();
 	
@@ -64,8 +72,6 @@ public class TabsGUIPage extends GUIPage
 		
 		for(TabEntry tab : tabs)
 		{
-			Class<?> modelClass = null;
-			
 			// Attempt to find the GUIPage defined in the TabEntry 'gui-page-id' property.
 			GUIPage guiPage = plugin.getGUIPage(tab.getGUIPageId());
 			if(guiPage == null)
@@ -75,32 +81,17 @@ public class TabsGUIPage extends GUIPage
 				
 				break;
 			}
-			
-			// Ensure the model classpath configured points to an actual class.
-			if(tab.getModelClasspath() != null)
-			{
-				try
-				{
-					modelClass = Class.forName(tab.getModelClasspath());
-					
-					// Class exists, but it isn't a PlayerGUIPageModel class.
-					if(!modelClass.isAssignableFrom(PlayerGUIPageModel.class))
-					{
-						MessageManager.error(Bukkit.getConsoleSender(), String.format("Class '%s' must inherit from the PlayerGUIPageModel class in order to be defined as a model class for tab %s. This tab will not be rendered.", 
-								tab.getModelClasspath(), tab.getId()));
-					
-						break;
-					}
-				} 
-				catch (ClassNotFoundException e)
-				{
-					MessageManager.error(Bukkit.getConsoleSender(), String.format("No class exists with classpath: '%s' defined in tab: %s. This tab will not be rendered.", 
-							tab.getModelClasspath(), tab.getId()));
-					
-					break;
-				}
-			}
 		}
+	}
+	
+	public int getTabWidth()
+	{
+		return tabWidth;
+	}
+	
+	public int getTabHeight()
+	{
+		return tabHeight;
 	}
 	
 	public ArrayList<HoloGUIView> getTabViews()
