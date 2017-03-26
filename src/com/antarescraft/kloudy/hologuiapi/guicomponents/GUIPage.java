@@ -13,6 +13,7 @@ import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
 import com.antarescraft.kloudy.hologuiapi.handlers.GUIPageCloseHandler;
 import com.antarescraft.kloudy.hologuiapi.handlers.GUIPageLoadHandler;
+import com.antarescraft.kloudy.hologuiapi.handlers.GUIPageUpdateHandler;
 import com.antarescraft.kloudy.hologuiapi.handlers.MousewheelAction;
 import com.antarescraft.kloudy.hologuiapi.handlers.MousewheelScrollHandler;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
@@ -77,10 +78,11 @@ public class GUIPage implements ConfigObject
 	
 	protected ItemStack openItem = null;
 	
-	protected HashMap<String, GUIComponent> guiComponents = new HashMap<String, GUIComponent>();
-	protected HashMap<UUID, GUIPageLoadHandler> pageLoadHandlers = new HashMap<UUID, GUIPageLoadHandler>();
-	protected HashMap<UUID, GUIPageCloseHandler> pageCloseHandlers = new HashMap<UUID, GUIPageCloseHandler>();
-	protected HashMap<UUID, MousewheelScrollHandler> mouseWheelScrollHandlers = new HashMap<UUID, MousewheelScrollHandler>();
+	private HashMap<String, GUIComponent> guiComponents = new HashMap<String, GUIComponent>();
+	private HashMap<UUID, GUIPageLoadHandler> pageLoadHandlers = new HashMap<UUID, GUIPageLoadHandler>();
+	private HashMap<UUID, GUIPageCloseHandler> pageCloseHandlers = new HashMap<UUID, GUIPageCloseHandler>();
+	private HashMap<UUID, MousewheelScrollHandler> mouseWheelScrollHandlers = new HashMap<UUID, MousewheelScrollHandler>();
+	private HashMap<UUID, GUIPageUpdateHandler> guiPageUpdateHandlers = new HashMap<UUID, GUIPageUpdateHandler>();
 	
 	protected GUIPage(){}
 	
@@ -89,11 +91,20 @@ public class GUIPage implements ConfigObject
 		return plugin;
 	}
 	
+	/**
+	 * Registers a page load handler that gets executed when the gui page loads.
+	 * @param player
+	 * @param pageLoadHandler
+	 */
 	public void registerPageLoadHandler(Player player, GUIPageLoadHandler pageLoadHandler)
 	{
 		pageLoadHandlers.put(player.getUniqueId(), pageLoadHandler);
 	}
 	
+	/**
+	 * Triggers the gui page load handler and passes through the PlayerGUIPage.
+	 * @param playerGUIPage
+	 */
 	public void triggerPageLoadHandler(PlayerGUIPage playerGUIPage)
 	{
 		GUIPageLoadHandler pageLoadHandler = pageLoadHandlers.get(playerGUIPage.getPlayer().getUniqueId());
@@ -103,16 +114,63 @@ public class GUIPage implements ConfigObject
 		}
 	}
 	
+	/**
+	 * Removes the GUIPageLoadHandler for the player.
+	 * @param player
+	 */
 	public void removePageLoadHandler(Player player)
 	{
 		pageLoadHandlers.remove(player.getUniqueId());
 	}
 	
+	/**
+	 * Registers a GUIPageUpdateHandler for the player.
+	 * This handler gets called every time the GUIPage updates. (Default: 2 ticks)
+	 * @param player
+	 * @param handler
+	 */
+	public void registerGUIPageUpdateHandler(Player player, GUIPageUpdateHandler handler)
+	{
+		guiPageUpdateHandlers.put(player.getUniqueId(), handler);
+	}
+	
+	/**
+	 * Removes the GUIPageUpdateHandler for the player.
+	 * @param player
+	 */
+	public void removeGUIPageUpdateHandler(Player player)
+	{
+		guiPageUpdateHandlers.remove(player.getUniqueId());
+	}
+	
+	/**
+	 * Triggers the GUIPageUpdateHandler for the player.
+	 * @param player
+	 */
+	public void triggerGUIPageUpdateHandler(Player player)
+	{
+		GUIPageUpdateHandler handler = guiPageUpdateHandlers.get(player.getUniqueId());
+		if(handler != null)
+		{
+			handler.onUpdate();
+		}
+	}
+	
+	/**
+	 * Registers a GUIPageCloseHandler for the player.
+	 * This handler gets triggered when the player's gui page gets closed.
+	 * @param player
+	 * @param pageCloseHandler
+	 */
 	public void registerPageCloseHandler(Player player, GUIPageCloseHandler pageCloseHandler)
 	{
 		pageCloseHandlers.put(player.getUniqueId(), pageCloseHandler);
 	}
 	
+	/**
+	 * Triggers the GUIPageClose handler for the player.
+	 * @param player
+	 */
 	public void triggerPageCloseHandler(Player player)
 	{
 		GUIPageCloseHandler pageCloseHandler = pageCloseHandlers.get(player.getUniqueId());
@@ -122,16 +180,32 @@ public class GUIPage implements ConfigObject
 		}
 	}
 	
+	/**
+	 * Removes the GUIPageCloseHandler for the player.
+	 * @param player
+	 */
 	public void removePageCloseHandler(Player player)
 	{
 		pageCloseHandlers.remove(player.getUniqueId());
 	}
 	
+	/**
+	 * Registers a MousewheelScrollHandler for the player.
+	 * This handler gets triggered if the player scrolls their mousewheel while a gui page is open.
+	 * @param player
+	 * @param handler
+	 */
 	public void registerMouseWheelScrollHandler(Player player, MousewheelScrollHandler handler)
 	{
 		mouseWheelScrollHandlers.put(player.getUniqueId(), handler);
 	}
 	
+	/**
+	 * Triggers the MousewheelScrollHandlers for the player and passes through the MousewheelAction.
+	 * The Mousewheel action contains useful information about the mousewheel scroll event that occurred.
+	 * @param player
+	 * @param action
+	 */
 	public void triggerMouseWheelScrollHandler(Player player, MousewheelAction action)
 	{
 		MousewheelScrollHandler mouseWheelHandler = mouseWheelScrollHandlers.get(player.getUniqueId());
@@ -141,6 +215,10 @@ public class GUIPage implements ConfigObject
 		}
 	}
 	
+	/**
+	 * Removes the MousewheelScrollHandler for the player.
+	 * @param player
+	 */
 	public void removeMouseWheelScrollHandler(Player player)
 	{
 		mouseWheelScrollHandlers.remove(player.getUniqueId());
@@ -162,26 +240,47 @@ public class GUIPage implements ConfigObject
 		return null;
 	}
 	
+	/**
+	 * @param componentId
+	 * @return true if the specified componentId exists in this GUIPage.
+	 */
 	public boolean componentExists(String componentId)
 	{
 		return guiComponents.containsKey(componentId);
 	}
 	
+	/**
+	 * @return A Collection<GUIComponent> of all GUIComponents contained in this GUIPage.
+	 */
 	public Collection<GUIComponent> getComponents()
 	{
 		return guiComponents.values();
 	}
 	
+	/**
+	 * 
+	 * @param componentId
+	 * @return The GUIComponent contained in this GUIPage with the given id if it exists.
+	 * Returns null if no component exists with the given id.
+	 */
 	public GUIComponent getComponent(String componentId)
 	{
 		return guiComponents.get(componentId);
 	}
 	
+	/**
+	 * Removes the specified component with the given id from this GUIPage.
+	 * @param componentId
+	 */
 	public void removeComponent(String componentId)
 	{
 		guiComponents.remove(componentId);
 	}
 	
+	/**
+	 * Adds the input GUIComponent to this GUIPage.
+	 * @param component
+	 */
 	public void addComponent(GUIComponent component)
 	{
 		guiComponents.put(component.getProperties().getId(), component);
