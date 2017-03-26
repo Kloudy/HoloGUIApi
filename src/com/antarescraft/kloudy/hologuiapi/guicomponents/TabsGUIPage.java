@@ -28,7 +28,7 @@ public class TabsGUIPage extends GUIPage
 {
 	@ConfigElementList
 	@ConfigProperty(key = "tabs")
-	private ArrayList<TabEntry> tabs = new ArrayList<TabEntry>(); // List of configured tab elements
+	private ArrayList<TabComponent> tabs = new ArrayList<TabComponent>(); // List of configured tab elements
 	
 	@ConfigElement
 	@ConfigProperty(key = "tabs-position")
@@ -47,7 +47,7 @@ public class TabsGUIPage extends GUIPage
 	@ConfigProperty(key = "default-tab-index")
 	private int defaultTabIndex; // The index of the tab that should be open by default.
 	
-	public void addTab(TabEntry tab)
+	public void addTab(TabComponent tab)
 	{
 		tabs.add(tab);
 	}
@@ -92,7 +92,7 @@ public class TabsGUIPage extends GUIPage
 		
 		HoloGUIPlugin plugin = (HoloGUIPlugin)params.getParam("plugin");
 		
-		for(TabEntry tab : tabs)
+		for(TabComponent tab : tabs)
 		{
 			// Attempt to find the GUIPage defined in the TabEntry 'gui-page-id' property.
 			GUIPage guiPage = plugin.getGUIPage(tab.getGUIPageId());
@@ -106,9 +106,9 @@ public class TabsGUIPage extends GUIPage
 		}
 	}
 	
-	public ArrayList<TabEntry> getTabs()
+	public ArrayList<TabComponent> getTabs()
 	{
-		return new ArrayList<TabEntry>(tabs);
+		return new ArrayList<TabComponent>(tabs);
 	}
 	
 	public int getTabWidth()

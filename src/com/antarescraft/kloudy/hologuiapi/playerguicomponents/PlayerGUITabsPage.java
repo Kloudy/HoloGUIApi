@@ -36,6 +36,9 @@ public class PlayerGUITabsPage extends PlayerGUIPage
 		
 		CanvasComponent canvasComponent = GUIComponentFactory.createCanvasComponent(tabs.getHoloGUIPlugin(), properties);
 		canvas = (PlayerGUICanvasComponent) renderComponent(canvasComponent);
+		
+		// Render the tabs.
+		
 	}
 	
 	/**
