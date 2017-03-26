@@ -45,6 +45,6 @@ public class CanvasComponent extends GUIComponent
 	@Override
 	public double getLineHeight()
 	{
-		return (1 / properties.getDistance()) * 0.21;
+		return (1 / properties.getDistance()) * 0.19;
 	}
 }
