@@ -15,14 +15,22 @@ public class HoloGUIView
 	
 	public HoloGUIView(String name, GUIPage guiPage)
 	{
-		this(name, guiPage, null);
+		this.name = name;
+		this.guiPage = guiPage;
 	}
 	
 	public HoloGUIView(String name, GUIPage guiPage, PlayerGUIPageModel model)
 	{
-		this.name = name;
-		this.guiPage = guiPage;
+		this(name, guiPage);
+		
 		this.model = model;
+	}
+	
+	public HoloGUIView(String name, GUIPage guiPage, Class<? extends PlayerGUIPageModel> modelClass)
+	{
+		this(name, guiPage);
+		
+		
 	}
 	
 	public String getName()

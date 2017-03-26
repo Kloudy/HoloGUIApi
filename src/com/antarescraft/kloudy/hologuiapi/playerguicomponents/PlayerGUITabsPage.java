@@ -14,5 +14,5 @@ public class PlayerGUITabsPage extends PlayerGUIPage
 		super(player, components, lookLocation, guiPage);
 	}
 	
-	
+	//TODO: implement.
 }
