@@ -78,7 +78,7 @@ public class GUIPage implements ConfigObject
 	
 	protected ItemStack openItem = null;
 	
-	private HashMap<String, GUIComponent> guiComponents = new HashMap<String, GUIComponent>();
+	protected HashMap<String, GUIComponent> guiComponents = new HashMap<String, GUIComponent>();
 	private HashMap<UUID, GUIPageLoadHandler> pageLoadHandlers = new HashMap<UUID, GUIPageLoadHandler>();
 	private HashMap<UUID, GUIPageCloseHandler> pageCloseHandlers = new HashMap<UUID, GUIPageCloseHandler>();
 	private HashMap<UUID, MousewheelScrollHandler> mouseWheelScrollHandlers = new HashMap<UUID, MousewheelScrollHandler>();
