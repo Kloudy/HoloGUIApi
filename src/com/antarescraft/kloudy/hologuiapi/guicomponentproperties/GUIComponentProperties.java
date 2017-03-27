@@ -11,7 +11,6 @@ import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElementKey;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.annotations.DoubleConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.annotations.OptionalConfigProperty;
-import com.antarescraft.kloudy.plugincore.objectmapping.ObjectMapper;
 
 /**
  * Collection all of the properties that all gui components share
@@ -51,18 +50,6 @@ public abstract class GUIComponentProperties implements ConfigObject
 	public GUIComponentProperties(){}
 	
 	protected abstract double getDefaultDistance();
-	
-	@Override
-	public GUIComponentProperties clone()
-	{
-		try
-		{
-			return ObjectMapper.mapObject(this, GUIComponentProperties.class);
-		}
-		catch(Exception e){}
-		
-		return null;
-	}
 	
 	@Override
 	public void configParseComplete(PassthroughParams params)

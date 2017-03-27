@@ -2,8 +2,6 @@ package com.antarescraft.kloudy.hologuiapi.util;
 
 import java.io.File;
 
-import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
-
 public class IOManager
 {
 	public static final String PATH_TO_ROOT = "plugins/HoloGUIApi";
@@ -13,7 +11,6 @@ public class IOManager
 	
 	public static void initFileStructure()
 	{
-		HoloGUIApi.fileHash = "1023747109832452458297393%%__USER__%%134018927310";
 		try
 		{
 			File folder = new File(PATH_TO_ROOT);

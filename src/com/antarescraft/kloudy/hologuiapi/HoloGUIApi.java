@@ -46,7 +46,6 @@ public class HoloGUIApi extends JavaPlugin
 		
 	public static String pluginName = null;
 	public static boolean hasPlaceholderAPI = false;
-	public static String fileHash;
 	public static String PATH_TO_IMAGES = "resources/images";
 	public static String PATH_TO_YAMLS = "resources/yamls";
 	
