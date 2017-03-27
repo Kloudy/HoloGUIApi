@@ -1,4 +1,4 @@
-package com.antarescraft.kloudy.hologuiapi.guicomponentproperties;
+package com.antarescraft.kloudy.hologuiapi.config;
 
 import org.bukkit.Sound;
 

@@ -6,7 +6,7 @@ import java.util.UUID;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ToggleSwitchComponentProperties;
+import com.antarescraft.kloudy.hologuiapi.config.ToggleSwitchComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.handlers.ToggleHandler;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIToggleSwitchComponent;

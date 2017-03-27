@@ -2,7 +2,7 @@ package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
 import org.bukkit.entity.Player;
 
-import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.CanvasComponentProperties;
+import com.antarescraft.kloudy.hologuiapi.config.CanvasComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUICanvasComponent;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;

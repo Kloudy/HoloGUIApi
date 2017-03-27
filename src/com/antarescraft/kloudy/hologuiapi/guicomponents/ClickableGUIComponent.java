@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
-import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ClickableGUIComponentProperties;
+import com.antarescraft.kloudy.hologuiapi.config.ClickableGUIComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.handlers.ClickHandler;
 import com.antarescraft.kloudy.hologuiapi.handlers.HoverHandler;
 import com.antarescraft.kloudy.hologuiapi.handlers.HoverOutHandler;

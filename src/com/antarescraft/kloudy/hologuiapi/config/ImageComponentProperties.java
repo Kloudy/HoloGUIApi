@@ -1,29 +1,28 @@
-package com.antarescraft.kloudy.hologuiapi.guicomponentproperties;
+package com.antarescraft.kloudy.hologuiapi.config;
 
-import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.BooleanConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.annotations.OptionalConfigProperty;
 
-public class ButtonComponentProperties extends ClickableGUIComponentProperties implements ConfigObject
+public class ImageComponentProperties extends GUIComponentProperties
 {
 	private static final double DEFAULT_DISTANCE = 15;
-	private static final double DEFAULT_LABEL_ZOOM_DISTANCE = 4;
 	
-	@ConfigProperty(key = "icon")
-	private String icon;
+	@ConfigProperty(key = "image-src")
+	private String imageSource;
 	
-	@OptionalConfigProperty
-	@BooleanConfigProperty(defaultValue = false)
-	@ConfigProperty(key = "mini")
-	private boolean mini;
+	@ConfigProperty(key = "width")
+	private int width;
+	
+	@ConfigProperty(key = "height")
+	private int height;
 	
 	@OptionalConfigProperty
 	@BooleanConfigProperty(defaultValue = false)
 	@ConfigProperty(key = "symmetrical")
 	private boolean symmetrical;
-
+	
 	@Override
 	public void configParseComplete(PassthroughParams params)
 	{
@@ -36,30 +35,34 @@ public class ButtonComponentProperties extends ClickableGUIComponentProperties i
 		return DEFAULT_DISTANCE;
 	}
 	
-	@Override
-	public double getDefaultLabelZoomDistance()
+	public String getImageSource()
 	{
-		return DEFAULT_LABEL_ZOOM_DISTANCE;
+		return imageSource;
 	}
 	
-	public String getIcon()
+	public void setImageSource(String imageSource)
 	{
-		return icon;
+		this.imageSource = imageSource;
 	}
 	
-	public void setIcon(String icon)
+	public int getWidth()
 	{
-		this.icon = icon;
+		return width;
 	}
 	
-	public boolean isMini()
+	public void setWidth(int width)
 	{
-		return mini;
+		this.width = width;
 	}
 	
-	public void setMini(boolean mini)
+	public int getHeight()
 	{
-		this.mini = mini;
+		return height;
+	}
+	
+	public void setHeight(int height)
+	{
+		this.height = height;
 	}
 	
 	public boolean isSymmetrical()

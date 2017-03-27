@@ -3,7 +3,7 @@ package com.antarescraft.kloudy.hologuiapi.guicomponents;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ButtonComponentProperties;
+import com.antarescraft.kloudy.hologuiapi.config.ButtonComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;

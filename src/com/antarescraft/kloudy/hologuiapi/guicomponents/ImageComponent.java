@@ -2,7 +2,7 @@ package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
 import org.bukkit.entity.Player;
 
-import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ImageComponentProperties;
+import com.antarescraft.kloudy.hologuiapi.config.ImageComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextComponent;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;

@@ -1,4 +1,4 @@
-package com.antarescraft.kloudy.hologuiapi.guicomponentproperties;
+package com.antarescraft.kloudy.hologuiapi.config;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -9,9 +9,10 @@ import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.configobjects.ConfigVector;
 import com.antarescraft.kloudy.plugincore.utils.Utils;
 
-public class ItemComponentProperties extends GUIComponentProperties
+public class ItemButtonComponentProperties extends ClickableGUIComponentProperties
 {
-private static final double DEFAULT_DISTANCE = 6;
+	private static final double DEFAULT_DISTANCE = 6;
+	private static final double DEFAULT_LABEL_ZOOM_DISTANCE = 1.3;
 	
 	@ConfigProperty(key = "item-id")
 	private String itemString;
@@ -21,7 +22,7 @@ private static final double DEFAULT_DISTANCE = 6;
 	private ConfigVector rotation;
 
 	@Override
-	public void configParseComplete(PassthroughParams params)
+	public void configParseComplete(PassthroughParams params) 
 	{
 		super.configParseComplete(params);
 	}
@@ -30,6 +31,12 @@ private static final double DEFAULT_DISTANCE = 6;
 	public double getDefaultDistance()
 	{
 		return DEFAULT_DISTANCE;
+	}
+	
+	@Override
+	public double getDefaultLabelZoomDistance()
+	{
+		return DEFAULT_LABEL_ZOOM_DISTANCE;
 	}
 	
 	public ItemStack getItem()	

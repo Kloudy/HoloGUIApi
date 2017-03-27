@@ -4,7 +4,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.EntityButtonComponentProperties;
+import com.antarescraft.kloudy.hologuiapi.config.EntityButtonComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIEntityComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;

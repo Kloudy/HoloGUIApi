@@ -1,4 +1,4 @@
-package com.antarescraft.kloudy.hologuiapi.guicomponentproperties;
+package com.antarescraft.kloudy.hologuiapi.config;
 
 import org.bukkit.entity.EntityType;
 
@@ -8,19 +8,18 @@ import com.antarescraft.kloudy.plugincore.config.annotations.DoubleConfigPropert
 import com.antarescraft.kloudy.plugincore.config.annotations.OptionalConfigProperty;
 import com.antarescraft.kloudy.plugincore.utils.Utils;
 
-public class EntityButtonComponentProperties extends ClickableGUIComponentProperties
+public class EntityComponentProperties extends GUIComponentProperties
 {
 	private static final double DEFAULT_DISTANCE = 8;
-	private static final double DEFAULT_LABEL_ZOOM_DISTANCE = 1.3;
 	
 	@ConfigProperty(key = "entity-type")
 	private String entityTypeString;
 	
 	@OptionalConfigProperty
-	@DoubleConfigProperty(defaultValue = 0, maxValue = Double.MAX_VALUE, minValue = 0)
+	@DoubleConfigProperty(defaultValue = 0, maxValue = 360, minValue = 0)
 	@ConfigProperty(key = "yaw")
 	private double yaw;
-
+	
 	@Override
 	public void configParseComplete(PassthroughParams params)
 	{
@@ -31,12 +30,6 @@ public class EntityButtonComponentProperties extends ClickableGUIComponentProper
 	public double getDefaultDistance()
 	{
 		return DEFAULT_DISTANCE;
-	}
-	
-	@Override
-	public double getDefaultLabelZoomDistance()
-	{
-		return DEFAULT_LABEL_ZOOM_DISTANCE;
 	}
 	
 	public EntityType getEntityType()

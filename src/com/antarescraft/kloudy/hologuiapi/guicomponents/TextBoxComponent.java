@@ -8,7 +8,7 @@ import org.bukkit.util.Vector;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
-import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.TextBoxComponentProperties;
+import com.antarescraft.kloudy.hologuiapi.config.TextBoxComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.handlers.TextBoxUpdateHandler;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextBoxComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;

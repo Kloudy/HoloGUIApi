@@ -6,7 +6,8 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
-import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.CanvasComponentProperties;
+import com.antarescraft.kloudy.hologuiapi.config.CanvasComponentProperties;
+import com.antarescraft.kloudy.hologuiapi.config.TabsGUIPageConfig;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.CanvasComponent;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIComponentFactory;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.TabComponent;
@@ -14,7 +15,7 @@ import com.antarescraft.kloudy.hologuiapi.guicomponents.TabsGUIPage;
 
 public class PlayerGUITabsPage extends PlayerGUIPage
 {
-	private TabsGUIPage tabs;
+	private TabsGUIPageConfig config;
 	
 	private PlayerGUICanvasComponent canvas;
 	
@@ -22,30 +23,30 @@ public class PlayerGUITabsPage extends PlayerGUIPage
 	{
 		super(player, components, lookLocation, tabs);
 		
-		this.tabs = tabs;
+		config = tabs.getConfig();
 		
 		// Initialize the canvas.
 		
-		int width = tabs.getTabWidth() * tabs.getTabs().size() + (tabs.getTabs().size()-1) + 10;
-		int height = tabs.getTabHeight();
+		int width = config.tabWidth() * config.tabs().size() + (config.tabs().size()-1) + 10;
+		int height = config.tabHeight();
 		
 		CanvasComponentProperties properties = new CanvasComponentProperties();
 		properties.setId("###tab-canvas###");
-		properties.setPosition(tabs.getTabsPosition());
+		properties.setPosition(config.tabsPosition());
 		properties.setWidth(width);
 		properties.setHeight(height);
-		properties.setDistance(12);
+		properties.setDistance(config.tabDistance());
 		
 		CanvasComponent canvasComponent = GUIComponentFactory.createCanvasComponent(tabs.getHoloGUIPlugin(), properties);
 		canvas = (PlayerGUICanvasComponent) renderComponent(canvasComponent);
 		
 		// Render the tabs.
 		int i = 0;
-		for(TabComponent tab : tabs.getTabs())
+		for(TabComponent tab : config.tabs())
 		{
-			boolean open = tabs.getDefaultTabIndex() == i;
+			boolean open = config.defaultOpenTabIndex() == i;
 			
-			tab.renderTab(canvas, i, tabs.getTabImageName(), tabs.getTabWidth(), tabs.getTabHeight(), open);
+			tab.renderTab(canvas, i, config.tabImageName(), config.tabWidth(), config.tabHeight(), open);
 			
 			i++;
 		}
@@ -94,7 +95,7 @@ public class PlayerGUITabsPage extends PlayerGUIPage
 	 */
 	public void openTab(int tabIndex, PlayerGUIPageModel model)
 	{
-		TabComponent tab = tabs.getTabs().get(tabIndex);
+		TabComponent tab = config.tabs().get(tabIndex);
 		
 		openTab(tab, model);
 	}
@@ -117,7 +118,7 @@ public class PlayerGUITabsPage extends PlayerGUIPage
 	{
 		TabComponent tab = null;
 		
-		for(TabComponent t : tabs.getTabs())
+		for(TabComponent t : config.tabs())
 		{
 			if(t.getId().equals(tabId))
 			{

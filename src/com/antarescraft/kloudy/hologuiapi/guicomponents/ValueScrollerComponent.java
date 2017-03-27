@@ -9,7 +9,7 @@ import java.util.UUID;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ValueScrollerComponentProperties;
+import com.antarescraft.kloudy.hologuiapi.config.ValueScrollerComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.handlers.ScrollHandler;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIValueScrollerComponent;
 import com.antarescraft.kloudy.hologuiapi.scrollvalues.AbstractScrollValue;

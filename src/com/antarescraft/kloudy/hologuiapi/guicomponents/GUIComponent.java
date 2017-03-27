@@ -3,7 +3,7 @@ package com.antarescraft.kloudy.hologuiapi.guicomponents;
 import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
-import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.GUIComponentProperties;
+import com.antarescraft.kloudy.hologuiapi.config.GUIComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
