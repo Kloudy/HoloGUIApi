@@ -58,13 +58,38 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 		}
 	}
 	
-	public void drawImage(int x, int y, String imageName)
+	/**
+	 * Draws the BufferedImage onto the canvas. <x,y> coordinates denote the top left pixel of the image.
+	 * @param x 
+	 * @param y
+	 * @param image The image to be drawn on the canvas.
+	 */
+	public void drawImage(int x, int y, String imageName, int width, int height)
 	{
-		for(int i = y; i < pixels.length; i++)
+		MinecraftColor[][] imagePixels = guiComponent.getHoloGUIPlugin().loadImage(imageName, width, height);
+		if(imagePixels != null)
 		{
-			for(int j = x; j < pixels[0].length; j++)
+			for(int i = 0; i < imagePixels.length; i++)
 			{
-				//TODO: finish
+				for(int j = 0; j < imagePixels[0].length; j++)
+				{
+					// No more rows left on the canvas, return.
+					if(i + y >= pixels.length)
+					{
+						return;
+					}
+					
+					// No more columns left on this row of the canvas, break.
+					if(j + x >= pixels[0].length)
+					{
+						break;
+					}
+					
+					if(imagePixels[i][j] != MinecraftColor.TRANSPARENT)
+					{
+						this.updatePixel(i + y, j + x, imagePixels[i][j]);
+					}
+				}
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponentproperties;
 
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 
 /**

@@ -1,5 +1,6 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
+import com.antarescraft.kloudy.hologuiapi.imageprocessing.MinecraftColor;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUICanvasComponent;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
@@ -30,15 +31,33 @@ public class TabComponent implements ConfigObject
 	}
 	
 	/**
-	 * Renders this tab with the given canvas.
-	 * @param cavas
-	 * @param tabIndex The index of this tab.
-	 * @param tabWidth The width (in pixels) of the tab
-	 * @param tabHeight The height (in pixels of the tab
+	 * Renders the tab
+	 * @param canvas
+	 * @param tabIndex
+	 * @param image
+	 * @param open
 	 */
-	public void renderTab(PlayerGUICanvasComponent canvas, int tabIndex, int tabWidth, int tabHeight)
+	public void renderTab(PlayerGUICanvasComponent canvas, int tabIndex, String tabImageName, int tabWidth, int tabHeight, boolean open)
 	{
+		int imageX = (tabIndex * tabWidth) + tabIndex + 2;
+		int imageY = 0;
 		
+		canvas.drawImage(imageX, imageY, tabImageName, tabWidth, tabHeight);
+		
+		//canvas.fill(0, tabHeight-1, canvas.getCanvasComponent().getProperties().getWidth(), tabHeight - 1, MinecraftColor.BLACK);
+		
+		if(open)
+		{
+			int x1 = imageX + 1;
+			int y1 = tabHeight - 1;
+			int x2 = x1 + tabWidth - 3;
+			int y2 = y1;
+			
+			System.out.println(String.format("x1: %d, y1: %d, x2: %d, y2: %d", x1, y1, x2, y2));
+			
+			// Removes the bottom line on the tab, making it appear 'open'
+			canvas.fill(x1, y1, x2, y2, MinecraftColor.TRANSPARENT);
+		}
 	}
 	
 	public String getId()

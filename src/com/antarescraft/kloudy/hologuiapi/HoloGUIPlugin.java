@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import javax.imageio.ImageIO;
+
 import org.apache.commons.io.IOUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,6 +21,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIComponent;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIPage;
 import com.antarescraft.kloudy.hologuiapi.imageprocessing.GifProcessor;
+import com.antarescraft.kloudy.hologuiapi.imageprocessing.ImageProcessor;
+import com.antarescraft.kloudy.hologuiapi.imageprocessing.MinecraftColor;
 import com.antarescraft.kloudy.hologuiapi.imageprocessing.PngJpgProcessor;
 import com.antarescraft.kloudy.hologuiapi.util.ConfigManager;
 
@@ -276,6 +280,41 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 	}
 	
 	/**
+	 * Loads an image and converts it into a 2D array of MinecraftColors.
+	 * @param imageName The name of the image located in the plugin jar in directory: /resources/images/<image_name>
+	 * @param width
+	 * @param height
+	 * @return A 2D array of MinecraftColors representing the image. 
+	 * Returns null if the image could not be loaded.
+	 */
+	public MinecraftColor[][] loadImage(String imageName, int width, int height)
+	{
+		InputStream input = null;
+		
+		try
+		{
+			input = getResource(HoloGUIApi.PATH_TO_IMAGES + "/" + imageName);
+			
+			return ImageProcessor.processImage(ImageIO.read(input), width, height);
+		}
+		catch(Exception e)
+		{
+			System.out.println("Error on opening resource: " + HoloGUIApi.PATH_TO_IMAGES + "/" + imageName);
+			e.printStackTrace();
+		}
+		finally
+		{
+			try 
+			{
+				if(input != null)input.close(); // Always close your InputStreams, kids.
+			} 
+			catch (IOException e) {}
+		}
+		
+		return null;
+	}
+	
+	/**
 	 * Resource images should be stored in 'resources/images' in the plugin jar
 	 * 
 	 * Loads and processes the specified imageName. Returns the image as a String[][]. Returns null if the file couldn't be found.
@@ -310,7 +349,7 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 		{
 			try 
 			{
-				if(inputStream != null)inputStream.close();
+				if(inputStream != null)inputStream.close(); // Always close your InputStreams, kids.
 			} 
 			catch (IOException e) {}
 		}

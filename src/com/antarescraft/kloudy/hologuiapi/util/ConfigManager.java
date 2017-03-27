@@ -30,9 +30,21 @@ public class ConfigManager
 		PassthroughParams params = new PassthroughParams();
 		params.addParam("plugin", plugin);
 		
-		GUIPage guiPage = ConfigParser.parse(yaml.getConfigurationSection(guiPageId), GUIPage.class, plugin.getName(), params);
+		ConfigurationSection guiPageSection = yaml.getConfigurationSection(guiPageId);
+		
+		GUIPage guiPage = null;
+		
+		// GUIPage is a TabsGUIPage
+		if(guiPageSection.contains("tabs"))
+		{
+			guiPage = ConfigParser.parse(guiPageSection, TabsGUIPage.class, plugin.getName(), params);
+		}
+		// Regular GUIPage
+		else
+		{
+			guiPage = ConfigParser.parse(guiPageSection, GUIPage.class, plugin.getName(), params);
+		}
 				
-		ConfigurationSection guiPageSection = yaml.getConfigurationSection(guiPage.getId());
 		ConfigurationSection componentsSection = guiPageSection.getConfigurationSection("components");
 				
 		for(String key : componentsSection.getKeys(false))

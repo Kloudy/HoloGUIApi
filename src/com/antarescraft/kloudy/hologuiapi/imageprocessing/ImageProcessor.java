@@ -7,6 +7,69 @@ import java.awt.image.BufferedImage;
 
 public class ImageProcessor 
 {
+	/**
+	 * Converts an image into a 2D array of MinecraftColors.
+	 * @param image
+	 * @param width
+	 * @param height
+	 * @return A 2D array of MinecraftColors representing the image.
+	 */
+	public static MinecraftColor[][] processImage(BufferedImage image, int width, int height)
+	{
+		MinecraftColor[][] pixels = new MinecraftColor[height][width];
+		
+		int type = image.getType() == 0? BufferedImage.TYPE_INT_ARGB : image.getType();
+		image = resizeImageWithHint(image, type, width, height);
+		
+		//process each rbg value of each pixel
+		for(int y = 0; y < height; y++)
+		{
+			for(int x = 0; x < width; x++)
+			{
+				int rgb = image.getRGB(x, y);
+				MinecraftColor closestColor = null;
+				
+				int mask = 0x0000FF;
+				int alpha = (rgb >> 24) & mask;
+				int red = (rgb >> 16) & mask;
+				int green = (rgb >> 8) & mask;
+				int blue = rgb & mask;
+				
+				int difRGB = Integer.MAX_VALUE;
+				
+				for(MinecraftColor color: MinecraftColor.values())
+				{
+					int r = color.red();
+					int g = color.green();
+					int b = color.blue();
+					int dif = Math.abs(r - red) + Math.abs(g - green) + Math.abs(b - blue);
+					
+					if(dif < difRGB)
+					{
+						difRGB = dif;
+						closestColor = color;
+					}
+				}
+				
+				if(alpha < 255)
+				{
+					closestColor = MinecraftColor.TRANSPARENT;
+				}
+				
+				pixels[y][x] = closestColor;
+			}
+		}
+		
+		return pixels;
+	}
+	
+	/**
+	 * @param frames
+	 * @param width
+	 * @param height
+	 * @param symmetrical true | false if the surround transparent background should be removed. (This only works well for symmetrical images)
+	 * @return A 2D array of strings representing the image.
+	 */
 	public static String[][] processImage(BufferedImage[] frames, int width, int height, boolean symmetrical)
 	{
 		String[][] lines = null;

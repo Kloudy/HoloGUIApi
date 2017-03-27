@@ -47,6 +47,9 @@ public class TabsGUIPage extends GUIPage
 	@ConfigProperty(key = "default-tab-index")
 	private int defaultTabIndex; // The index of the tab that should be open by default.
 	
+	@ConfigProperty(key = "tab-image")
+	private String tabImageName; // The imageName of the tab image.
+	
 	public void addTab(TabComponent tab)
 	{
 		tabs.add(tab);
@@ -149,5 +152,10 @@ public class TabsGUIPage extends GUIPage
 	public void setTabsPosition(ComponentPosition tabsPosition)
 	{
 		this.tabsPosition = tabsPosition;
+	}
+	
+	public String getTabImageName()
+	{
+		return tabImageName;
 	}
 }
