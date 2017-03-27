@@ -52,9 +52,7 @@ public class TabComponent implements ConfigObject
 			int y1 = tabHeight - 1;
 			int x2 = x1 + tabWidth - 3;
 			int y2 = y1;
-			
-			System.out.println(String.format("x1: %d, y1: %d, x2: %d, y2: %d", x1, y1, x2, y2));
-			
+						
 			// Removes the bottom line on the tab, making it appear 'open'
 			canvas.fill(x1, y1, x2, y2, MinecraftColor.TRANSPARENT);
 		}

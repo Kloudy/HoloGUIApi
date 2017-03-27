@@ -11,14 +11,17 @@ import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
 import com.antarescraft.kloudy.hologuiapi.exceptions.DefaultTabIndexOutOfBoundsException;
 import com.antarescraft.kloudy.hologuiapi.exceptions.TabsNotDefinedException;
+import com.antarescraft.kloudy.hologuiapi.imageprocessing.MinecraftColor;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITabsPage;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElementList;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.annotations.DoubleConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.annotations.IntConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.annotations.OptionalConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.annotations.StringConfigProperty;
 import com.antarescraft.kloudy.plugincore.messaging.MessageManager;
 
 /**
@@ -26,33 +29,13 @@ import com.antarescraft.kloudy.plugincore.messaging.MessageManager;
  */
 public class TabsGUIPage extends GUIPage
 {
-	@ConfigElementList
-	@ConfigProperty(key = "tabs")
-	private ArrayList<TabComponent> tabs = new ArrayList<TabComponent>(); // List of configured tab elements
-	
 	@ConfigElement
-	@ConfigProperty(key = "tabs-position")
-	private ComponentPosition tabsPosition; // The position of the tabs themselves.
-	
-	@IntConfigProperty(defaultValue = 15, maxValue = 100, minValue = 1)
-	@ConfigProperty(key = "tab-width")
-	private int tabWidth; // The width (in pixels) of each tab.
-	
-	@IntConfigProperty(defaultValue = 7, maxValue = 100, minValue = 1)
-	@ConfigProperty(key = "tab-height")
-	private int tabHeight; // The height (in pixels) of each tab.
-	
-	@OptionalConfigProperty
-	@IntConfigProperty(defaultValue = 0, maxValue = Integer.MAX_VALUE, minValue = 0)
-	@ConfigProperty(key = "default-tab-index")
-	private int defaultTabIndex; // The index of the tab that should be open by default.
-	
-	@ConfigProperty(key = "tab-image")
-	private String tabImageName; // The imageName of the tab image.
+	@ConfigProperty(key = "tabs")
+	TabsConfig tabsConfig;
 	
 	public void addTab(TabComponent tab)
 	{
-		tabs.add(tab);
+		tabsConfig.tabs.add(tab);
 	}
 	
 	@Override
@@ -82,20 +65,20 @@ public class TabsGUIPage extends GUIPage
 		super.configParseComplete(params);
 		
 		// No tabs were defined, treat this as an error scenario.
-		if(tabs.size() == 0)
+		if(tabsConfig.tabs.size() == 0)
 		{
 			throw new TabsNotDefinedException(id);
 		}
 		
 		// Defined defaultTabIndex out of bounds.
-		if(defaultTabIndex >= tabs.size())
+		if(tabsConfig.defaultTabIndex >= tabsConfig.tabs.size())
 		{
-			throw new DefaultTabIndexOutOfBoundsException(defaultTabIndex, id);
+			throw new DefaultTabIndexOutOfBoundsException(tabsConfig.defaultTabIndex, id);
 		}
 		
 		HoloGUIPlugin plugin = (HoloGUIPlugin)params.getParam("plugin");
 		
-		for(TabComponent tab : tabs)
+		for(TabComponent tab : tabsConfig.tabs)
 		{
 			// Attempt to find the GUIPage defined in the TabEntry 'gui-page-id' property.
 			GUIPage guiPage = plugin.getGUIPage(tab.getGUIPageId());
@@ -111,51 +94,108 @@ public class TabsGUIPage extends GUIPage
 	
 	public ArrayList<TabComponent> getTabs()
 	{
-		return new ArrayList<TabComponent>(tabs);
+		return new ArrayList<TabComponent>(tabsConfig.tabs);
 	}
 	
 	public int getTabWidth()
 	{
-		return tabWidth;
+		return tabsConfig.tabWidth;
 	}
 	
 	public void setTabWidth(int tabWidth)
 	{
-		this.tabWidth = tabWidth;
+		tabsConfig.tabWidth = tabWidth;
 	}
 	
 	public int getTabHeight()
 	{
-		return tabHeight;
+		return tabsConfig.tabHeight;
 	}
 	
 	public void setTabHeight(int tabHeight)
 	{
-		this.tabHeight = tabHeight;
+		tabsConfig.tabHeight = tabHeight;
 	}
 	
 	public int getDefaultTabIndex()
 	{
-		return defaultTabIndex;
+		return tabsConfig.defaultTabIndex;
 	}
 	
 	public void setDefaultTabIndex(int defaultTabIndex)
 	{
-		this.defaultTabIndex = defaultTabIndex;
+		tabsConfig.defaultTabIndex = defaultTabIndex;
 	}
 	
 	public ComponentPosition getTabsPosition()
 	{
-		return tabsPosition;
+		return tabsConfig.tabsPosition;
 	}
 	
 	public void setTabsPosition(ComponentPosition tabsPosition)
 	{
-		this.tabsPosition = tabsPosition;
+		tabsConfig.tabsPosition = tabsPosition;
 	}
 	
 	public String getTabImageName()
 	{
-		return tabImageName;
+		return tabsConfig.tabImageName;
+	}
+	
+	public double getTabsDistance()
+	{
+		return tabsConfig.tabDistance;
+	}
+	
+	public MinecraftColor getTabLineColor()
+	{
+		try
+		{
+			return MinecraftColor.valueOf(tabsConfig.tabLineColor);
+		}
+		catch(Exception e)
+		{
+			MessageManager.error(Bukkit.getConsoleSender(), String.format("%s is not a valid color for the tab-line-color. Defaulting to 'BLACK'.", 
+					tabsConfig.tabLineColor));
+		}
+		
+		return MinecraftColor.BLACK;
+	}
+	
+	private class TabsConfig
+	{
+		@ConfigElementList
+		@ConfigProperty(key = "tabs-list")
+		public ArrayList<TabComponent> tabs = new ArrayList<TabComponent>(); // List of configured tab elements
+		
+		@ConfigElement
+		@ConfigProperty(key = "tabs-position")
+		public ComponentPosition tabsPosition; // The position of the tabs themselves.
+		
+		@IntConfigProperty(defaultValue = 15, maxValue = 100, minValue = 1)
+		@ConfigProperty(key = "tab-width")
+		public int tabWidth; // The width (in pixels) of each tab.
+		
+		@IntConfigProperty(defaultValue = 7, maxValue = 100, minValue = 1)
+		@ConfigProperty(key = "tab-height")
+		public int tabHeight; // The height (in pixels) of each tab.
+		
+		@OptionalConfigProperty
+		@IntConfigProperty(defaultValue = 0, maxValue = Integer.MAX_VALUE, minValue = 0)
+		@ConfigProperty(key = "default-open-tab-index")
+		public int defaultTabIndex; // The index of the tab that should be open by default.
+		
+		@ConfigProperty(key = "tab-image")
+		public String tabImageName; // The image filename of the tab image.
+		
+		@OptionalConfigProperty
+		@DoubleConfigProperty(defaultValue = 10, maxValue = 50, minValue = 2)
+		@ConfigProperty(key = "tabs-distance")
+		public double tabDistance; // The distance away from the Player the Tabs are.
+		
+		@OptionalConfigProperty
+		@StringConfigProperty(defaultValue = "BLACK")
+		@ConfigProperty(key = "tab-line-color")
+		public String tabLineColor; // The color of the dividing line under the tabs.
 	}
 }

@@ -11,7 +11,6 @@ import com.antarescraft.kloudy.hologuiapi.guicomponents.CanvasComponent;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIComponentFactory;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.TabComponent;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.TabsGUIPage;
-import com.antarescraft.kloudy.hologuiapi.imageprocessing.MinecraftColor;
 
 public class PlayerGUITabsPage extends PlayerGUIPage
 {
