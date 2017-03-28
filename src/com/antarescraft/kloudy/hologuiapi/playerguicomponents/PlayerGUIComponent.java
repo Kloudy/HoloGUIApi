@@ -254,7 +254,7 @@ public abstract class PlayerGUIComponent
 				
 				if(guiComponent.getConfig().getLabel() != null && i == 0)//update label location
 				{
-					Location zoomedLabelLocation = calculateArmorStandLocation(i,labelLocation, v, clickableGUIComponent.getConfig().getLabelZoomDistance(),
+					Location zoomedLabelLocation = calculateArmorStandLocation(i,labelLocation, v, clickableGUIComponent.getConfig().labelZoomDistance,
 							clickableGUIComponent.getZoomedInLineHeight(), 0, 0);
 					
 					HoloGUIApi.packetManager.updateEntityLocation(player, labelEntityId, zoomedLabelLocation);

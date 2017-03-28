@@ -6,12 +6,12 @@ import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 
-public class LabelComponentProperties extends GUIComponentProperties implements ConfigObject
+public class LabelComponentConfig extends GUIComponentConfig implements ConfigObject
 {
 	private static final double DEFAULT_DISTANCE = 10;
 	
 	@ConfigProperty(key = "text")
-	private ArrayList<String> lines;
+	public ArrayList<String> lines;
 	
 	@Override
 	public void configParseComplete(PassthroughParams params)
@@ -25,15 +25,5 @@ public class LabelComponentProperties extends GUIComponentProperties implements 
 	public double getDefaultDistance()
 	{
 		return DEFAULT_DISTANCE;
-	}
-	
-	public ArrayList<String> getLines()
-	{
-		return lines;
-	}
-	
-	public void setLines(ArrayList<String> lines)
-	{
-		this.lines = lines;
 	}
 }

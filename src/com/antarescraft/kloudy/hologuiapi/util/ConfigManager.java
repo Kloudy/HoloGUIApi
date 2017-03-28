@@ -36,19 +36,19 @@ public class ConfigManager
 		
 		GUIPage guiPage = null;
 		
-		GUIPageConfig config = ConfigParser.parse(guiPageSection, GUIPageConfig.class, plugin.getName(), params);
+		GUIPageConfig guiPageConfig = ConfigParser.parse(guiPageSection, GUIPageConfig.class, plugin.getName(), params);
 		
 		// GUIPage is a TabsGUIPage
 		if(guiPageSection.contains("tabs"))
 		{
 			TabsGUIPageConfig tabsConfig = ConfigParser.parse(guiPageSection.getConfigurationSection("tabs"), TabsGUIPageConfig.class, plugin.getName(), params);
 		
-			guiPage = new TabsGUIPage(plugin, config, tabsConfig);
+			guiPage = new TabsGUIPage(plugin, guiPageConfig, tabsConfig);
 		}
 		// Regular GUIPage
 		else
 		{
-			guiPage = new GUIPage(plugin, config);
+			guiPage = new GUIPage(plugin, guiPageConfig);
 		}
 		
 		System.out.println("GUI PAGE: " + guiPage);
@@ -57,10 +57,10 @@ public class ConfigManager
 				
 		for(String key : componentsSection.getKeys(false))
 		{
-			ConfigurationSection section = componentsSection.getConfigurationSection(key);
+			ConfigurationSection componentSection = componentsSection.getConfigurationSection(key);
 			
-			String type = section.getString("type");
-			boolean clickable = section.getBoolean("clickable", false);
+			String type = componentSection.getString("type");
+			boolean clickable = componentSection.getBoolean("clickable", false);
 			
 			if(type == null)
 			{
@@ -73,38 +73,56 @@ public class ConfigManager
 			GUIComponent component = null;
 			
 			if(type.equalsIgnoreCase("label"))
-			{				
-				component = (LabelComponent)ConfigParser.parse(section, LabelComponent.class, plugin.getName(), params);
+			{		
+				component = GUIComponentFactory.createLabelComponent(plugin, componentSection);
+				
+				//config = (LabelComponentConfig)ConfigParser.parse(section, LabelComponentConfig.class, plugin.getName(), params);
 			}
 			else if(type.equalsIgnoreCase("button"))
 			{
-				component = (ButtonComponent)ConfigParser.parse(section, ButtonComponent.class, plugin.getName(), params);
+				component = GUIComponentFactory.createButtonComponent(plugin, componentSection);
+				
+				//config = (ButtonComponentConfig)ConfigParser.parse(section, ButtonComponentConfig.class, plugin.getName(), params);
 			}
 			else if(type.equalsIgnoreCase("image"))
 			{
-				component = (ImageComponent)ConfigParser.parse(section, ImageComponent.class, plugin.getName(), params);
+				component = GUIComponentFactory.createImageComponent(plugin, componentSection);
+				
+				//config = (ImageComponentConfig)ConfigParser.parse(componentSection, ImageComponentConfig.class, plugin.getName(), params);
 			}
 			else if(type.equalsIgnoreCase("entity"))
 			{
-				if(clickable)component = (EntityButtonComponent)ConfigParser.parse(section, EntityButtonComponent.class, plugin.getName(), params);
-				else component = (EntityComponent)ConfigParser.parse(section, EntityComponent.class, plugin.getName(), params);
+				if(clickable) component = GUIComponentFactory.createEntityButtonComponent(plugin, componentSection);
+				else component = GUIComponentFactory.createEntityComponent(plugin, componentSection);
+				
+				//if(clickable)config = (EntityButtonComponentConfig)ConfigParser.parse(componentSection, EntityButtonComponentConfig.class, plugin.getName(), params);
+				//else config = (EntityComponentConfig)ConfigParser.parse(componentSection, EntityComponentConfig.class, plugin.getName(), params);
 			}
 			else if(type.equalsIgnoreCase("item"))
 			{
-				if(clickable) component = (ItemButtonComponent)ConfigParser.parse(section, ItemButtonComponent.class, plugin.getName(), params);
-				else component = (ItemComponent)ConfigParser.parse(section, ItemComponent.class, plugin.getName(), params);
+				if(clickable) component = GUIComponentFactory.createItemButtonComponent(plugin, componentSection);
+				else component = GUIComponentFactory.createItemComponent(plugin, componentSection);
+				
+				//if(clickable) config = (ItemButtonComponentConfig)ConfigParser.parse(componentSection, ItemButtonComponentConfig.class, plugin.getName(), params);
+				//else config = (ItemComponentConfig)ConfigParser.parse(componentSection, ItemComponentConfig.class, plugin.getName(), params);
 			}
 			else if(type.equalsIgnoreCase("toggle-switch"))
 			{
-				component = (ToggleSwitchComponent)ConfigParser.parse(section, ToggleSwitchComponent.class, plugin.getName(), params);
+				component = GUIComponentFactory.createToggleSwitchComponent(plugin, componentSection);
+				
+				//config = (ToggleSwitchComponentConfig)ConfigParser.parse(componentSection, ToggleSwitchComponentConfig.class, plugin.getName(), params);
 			}
 			else if(type.equalsIgnoreCase("text-box"))
 			{
-				component = (TextBoxComponent)ConfigParser.parse(section, TextBoxComponent.class, plugin.getName(), params);
+				component = GUIComponentFactory.createTextBoxComponent(plugin, componentSection);
+				
+				//config = (TextBoxComponentConfig)ConfigParser.parse(componentSection, TextBoxComponentConfig.class, plugin.getName(), params);
 			}
 			else if(type.equalsIgnoreCase("value-scroller"))
 			{
-				component = (ValueScrollerComponent)ConfigParser.parse(section, ValueScrollerComponent.class, plugin.getName(), params);
+				component = GUIComponentFactory.createValueScrollerComponent(plugin, componentSection);
+				
+				//config = (ValueScrollerComponentConfig)ConfigParser.parse(componentSection, ValueScrollerComponentConfig.class, plugin.getName(), params);
 			}
 			
 			if(guiPage != null)

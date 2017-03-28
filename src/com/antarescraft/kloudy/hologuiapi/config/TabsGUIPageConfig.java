@@ -77,11 +77,11 @@ public class TabsGUIPageConfig implements ConfigObject
 		for(TabComponent tab : tabsList)
 		{
 			// Attempt to find the GUIPage defined in the TabEntry 'gui-page-id' property.
-			GUIPage guiPage = plugin.getGUIPage(tab.getGUIPageId());
+			GUIPage guiPage = plugin.getGUIPage(tab.getTabConfig().guiPageId);
 			if(guiPage == null)
 			{
 				MessageManager.error(Bukkit.getConsoleSender(), String.format("No GUIPage exists with id '%s' defined in tab: %s. This tab will not be rendered.", 
-						tab.getGUIPageId(), tab.getId()));
+						tab.getTabConfig().guiPageId, tab.getTabConfig().id));
 				
 				break;
 			}

@@ -4,54 +4,56 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import com.antarescraft.kloudy.hologuiapi.config.ItemButtonComponentProperties;
+import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
+import com.antarescraft.kloudy.hologuiapi.config.ItemButtonComponentConfig;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIItemComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
-import com.antarescraft.kloudy.plugincore.config.ConfigObject;
-import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
-import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
-import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.configwrappers.ItemStackConfigWrapper;
+import com.antarescraft.kloudy.plugincore.configwrappers.VectorConfigWrapper;
 
 /*
  * Represents a clickable item on a GUI
  */
-public class ItemButtonComponent extends ClickableGUIComponent implements ItemTypeComponent, ConfigObject
+public class ItemButtonComponent extends ClickableGUIComponent implements ItemTypeComponent
 {
-	@ConfigElement
-	@ConfigProperty(key = "")
-	ItemButtonComponentProperties properties;
+	ItemButtonComponentConfig config;
 	
-	private ItemButtonComponent(){}
+	ItemButtonComponent(HoloGUIPlugin plugin, ItemButtonComponentConfig config)
+	{
+		super(plugin);
+		
+		this.config = config;
+	}
 	
 	@Override
 	public PlayerGUIItemComponent initPlayerGUIComponent(Player player)
 	{
-		return new PlayerGUIItemComponent(player, this, properties.getItem());
+		return new PlayerGUIItemComponent(player, this, config.item.unwrap());
 	}
 	
 	@Override
 	public ItemStack getItem()
 	{
-		return properties.getItem();
+		return config.item.unwrap();
 	}
 	
 	@Override
 	public void setItem(ItemStack item)
 	{
-		properties.setItem(item);
+		config.item = new ItemStackConfigWrapper(item);
 	}
 	
 	@Override
 	public Vector getRotation()
 	{
-		return properties.getRotation();
+		return config.rotation.toVector();
 	}
 	
 	@Override
 	public void setRotation(Vector rotation)
 	{
-		properties.setRotation(rotation);
+		config.rotation = new VectorConfigWrapper(rotation);
 	}
 	
 	@Override
@@ -87,7 +89,7 @@ public class ItemButtonComponent extends ClickableGUIComponent implements ItemTy
 	@Override
 	public double getLineHeight()
 	{
-		return (1 / properties.getDistance()) * 0.21;
+		return (1 / config.getDistance()) * 0.21;
 	}
 	
 	@Override
@@ -101,16 +103,10 @@ public class ItemButtonComponent extends ClickableGUIComponent implements ItemTy
 
 	@Override
 	public void updateIncrement(){}
-
-	@Override
-	public void configParseComplete(PassthroughParams params) 
-	{
-		super.configParseComplete(params);
-	}
 	
 	@Override
-	public ItemButtonComponentProperties getConfig()
+	public ItemButtonComponentConfig getConfig()
 	{
-		return properties;
+		return config;
 	}
 }

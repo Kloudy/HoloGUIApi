@@ -6,7 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
-import com.antarescraft.kloudy.hologuiapi.config.CanvasComponentProperties;
+import com.antarescraft.kloudy.hologuiapi.config.CanvasComponentConfig;
 import com.antarescraft.kloudy.hologuiapi.config.TabsGUIPageConfig;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.CanvasComponent;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIComponentFactory;
@@ -37,7 +37,7 @@ public class PlayerGUITabsPage extends PlayerGUIPage
 		int width = config.tabWidth * config.tabsList.size() + (config.tabsList.size()-1) + 10;
 		int height = config.tabHeight;
 		
-		CanvasComponentProperties properties = new CanvasComponentProperties();
+		CanvasComponentConfig properties = new CanvasComponentConfig();
 		properties.setId("###tab-canvas###");
 		properties.setPosition(config.tabsPosition);
 		properties.width = width;
@@ -135,7 +135,7 @@ public class PlayerGUITabsPage extends PlayerGUIPage
 		
 		for(TabComponent t : config.tabsList)
 		{
-			if(t.getId().equals(tabId))
+			if(t.getTabConfig().id.equals(tabId))
 			{
 				tab = t;
 				break;

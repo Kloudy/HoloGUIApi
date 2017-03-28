@@ -16,7 +16,7 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 	{
 		super(player, canvasComponent);
 		
-		pixels = new CanvasPixel[canvasComponent.getConfig().getHeight()][canvasComponent.getConfig().getWidth()];	
+		pixels = new CanvasPixel[canvasComponent.getConfig().height][canvasComponent.getConfig().width];	
 	}
 	
 	public CanvasComponent getCanvasComponent()
@@ -32,7 +32,7 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 	{
 		CanvasComponent canvas = getCanvasComponent();
 		
-		fill(0, 0, canvas.getConfig().getWidth()-1, canvas.getConfig().getHeight()-1, color);
+		fill(0, 0, canvas.getConfig().width-1, canvas.getConfig().height-1, color);
 	}
 	
 	public void fill(int x1, int y1, int x2, int y2, MinecraftColor color)
@@ -98,9 +98,9 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 	{
 		CanvasComponent canvas = getCanvasComponent();
 		
-		for(int i = 0; i < canvas.getConfig().getHeight(); i++)
+		for(int i = 0; i < canvas.getConfig().height; i++)
 		{
-			for(int j = 0; j < canvas.getConfig().getWidth(); j++)
+			for(int j = 0; j < canvas.getConfig().width; j++)
 			{
 				pixels[i][j].destroy(player);
 			}
@@ -127,9 +127,9 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 		Vector vect = lookLocation.getDirection().setY(0.25);
 		vect = customNormalize(vect);
 				
-		for(int i = 0; i < getCanvasComponent().getConfig().getHeight(); i++)
+		for(int i = 0; i < getCanvasComponent().getConfig().height; i++)
 		{
-			for(int j = 0; j < getCanvasComponent().getConfig().getWidth(); j++)
+			for(int j = 0; j < getCanvasComponent().getConfig().width; j++)
 			{
 				pixels[i][j] = new CanvasPixel(calculatePixelLocation(i, j, player.getLocation(), vect, 
 						guiComponent.getConfig().getDistance(), guiComponent.getLineHeight(), 
@@ -145,9 +145,9 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 		Vector vect = lookLocation.getDirection().setY(0.25);
 		vect = customNormalize(vect);
 		
-		for(int i = 0; i < getCanvasComponent().getConfig().getHeight(); i++)
+		for(int i = 0; i < getCanvasComponent().getConfig().height; i++)
 		{
-			for(int j = 0; j < getCanvasComponent().getConfig().getWidth(); j++)
+			for(int j = 0; j < getCanvasComponent().getConfig().width; j++)
 			{
 				pixels[i][j].updateLocation(player, calculatePixelLocation(i, j, player.getLocation(), vect, 
 						guiComponent.getConfig().getDistance(), guiComponent.getLineHeight(), 

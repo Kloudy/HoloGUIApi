@@ -1,25 +1,24 @@
 package com.antarescraft.kloudy.hologuiapi.config;
 
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
-
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.config.annotations.ParsableConfigProperty;
+import com.antarescraft.kloudy.plugincore.configwrappers.ItemStackConfigWrapper;
 import com.antarescraft.kloudy.plugincore.configwrappers.VectorConfigWrapper;
-import com.antarescraft.kloudy.plugincore.utils.Utils;
 
-public class ItemButtonComponentProperties extends ClickableGUIComponentProperties
+public class ItemButtonComponentConfig extends ClickableGUIComponentConfig
 {
 	private static final double DEFAULT_DISTANCE = 6;
 	private static final double DEFAULT_LABEL_ZOOM_DISTANCE = 1.3;
 	
+	@ParsableConfigProperty
 	@ConfigProperty(key = "item-id")
-	private String itemString;
+	public ItemStackConfigWrapper item;
 	
 	@ConfigElement
 	@ConfigProperty(key = "rotation")
-	private VectorConfigWrapper rotation;
+	public VectorConfigWrapper rotation;
 
 	@Override
 	public void configParseComplete(PassthroughParams params) 
@@ -37,31 +36,5 @@ public class ItemButtonComponentProperties extends ClickableGUIComponentProperti
 	public double getDefaultLabelZoomDistance()
 	{
 		return DEFAULT_LABEL_ZOOM_DISTANCE;
-	}
-	
-	public ItemStack getItem()	
-	{
-		try
-		{
-			return Utils.parseItemString(itemString);
-		}
-		catch(Exception e){}
-		
-		return null;
-	}
-	
-	public void setItem(ItemStack item)
-	{
-		this.itemString = Utils.generateItemString(item);
-	}
-	
-	public Vector getRotation()
-	{
-		return rotation.toVector();
-	}
-	
-	public void setRotation(Vector rotation)
-	{
-		this.rotation = new VectorConfigWrapper(rotation);
 	}
 }

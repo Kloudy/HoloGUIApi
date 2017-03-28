@@ -5,7 +5,7 @@ import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 /**
  * Collection of properties that all CanvasComponents have.
  */
-public class CanvasComponentProperties extends GUIComponentProperties
+public class CanvasComponentConfig extends GUIComponentConfig
 {
 	private static final double DEFAULT_DISTANCE = 15;
 	

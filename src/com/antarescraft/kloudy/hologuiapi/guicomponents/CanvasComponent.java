@@ -2,10 +2,9 @@ package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
 import org.bukkit.entity.Player;
 
-import com.antarescraft.kloudy.hologuiapi.config.CanvasComponentProperties;
+import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
+import com.antarescraft.kloudy.hologuiapi.config.CanvasComponentConfig;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUICanvasComponent;
-import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
-import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 
 /**
  * Represents a Canvas component on a player's gui.
@@ -15,11 +14,14 @@ import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
  */
 public class CanvasComponent extends GUIComponent
 {
-	@ConfigElement
-	@ConfigProperty
-	private CanvasComponentProperties properties;
+	private CanvasComponentConfig config;
 	
-	private CanvasComponent(){}
+	CanvasComponent(HoloGUIPlugin plugin, CanvasComponentConfig config)
+	{
+		super(plugin);
+		
+		this.config = config;
+	}
 	
 	@Override
 	public PlayerGUICanvasComponent initPlayerGUIComponent(Player player)
@@ -28,9 +30,9 @@ public class CanvasComponent extends GUIComponent
 	}
 
 	@Override
-	public CanvasComponentProperties getConfig() 
+	public CanvasComponentConfig getConfig() 
 	{
-		return properties;
+		return config;
 	}
 
 	@Override
@@ -45,6 +47,6 @@ public class CanvasComponent extends GUIComponent
 	@Override
 	public double getLineHeight()
 	{
-		return (1 / properties.getDistance()) * 0.19;
+		return (1 / config.getDistance()) * 0.19;
 	}
 }

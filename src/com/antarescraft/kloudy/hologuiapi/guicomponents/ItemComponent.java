@@ -4,28 +4,30 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import com.antarescraft.kloudy.hologuiapi.config.ItemComponentProperties;
+import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
+import com.antarescraft.kloudy.hologuiapi.config.ItemComponentConfig;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIItemComponent;
-import com.antarescraft.kloudy.plugincore.config.ConfigObject;
-import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
-import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
-import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.configwrappers.ItemStackConfigWrapper;
+import com.antarescraft.kloudy.plugincore.configwrappers.VectorConfigWrapper;
 
 /*
  * Represents a non-clickable item in a GUI
  */
-public class ItemComponent extends GUIComponent implements ItemTypeComponent, ConfigObject
+public class ItemComponent extends GUIComponent implements ItemTypeComponent
 {
-	@ConfigElement
-	@ConfigProperty(key = "")
-	ItemComponentProperties properties;
+	ItemComponentConfig config;
 		
-	private ItemComponent(){}
+	ItemComponent(HoloGUIPlugin plugin, ItemComponentConfig config)
+	{
+		super(plugin);
+		
+		this.config = config;
+	}
 
 	@Override
 	public PlayerGUIItemComponent initPlayerGUIComponent(Player player)
 	{
-		return new PlayerGUIItemComponent(player, this, properties.getItem());
+		return new PlayerGUIItemComponent(player, this, config.item.unwrap());
 	}
 
 	@Override
@@ -34,45 +36,39 @@ public class ItemComponent extends GUIComponent implements ItemTypeComponent, Co
 	@Override
 	public double getLineHeight()
 	{
-		return (1 / properties.getDistance()) * 0.21;
+		return (1 / config.getDistance()) * 0.21;
 	}
 	
 	@Override
 	public ItemStack getItem()
 	{
-		return properties.getItem();
+		return config.item.unwrap();
 	}
 	
 	@Override
 	public void setItem(ItemStack item)
 	{
-		properties.setItem(item);
+		config.item = new ItemStackConfigWrapper(item);
 	}
 	
 	@Override
 	public Vector getRotation()
 	{
-		return properties.getRotation();
+		return config.rotation.toVector();
 	}
 	
 	@Override
 	public void setRotation(Vector rotation)
 	{
-		properties.setRotation(rotation);
+		config.rotation = new VectorConfigWrapper(rotation);
 	}
 
 	@Override
 	public String[] updateComponentLines(Player player) {return null;}
 
 	@Override
-	public void configParseComplete(PassthroughParams params)
+	public ItemComponentConfig getConfig()
 	{
-		super.configParseComplete(params);
-	}
-	
-	@Override
-	public ItemComponentProperties getConfig()
-	{
-		return properties;
+		return config;
 	}
 }

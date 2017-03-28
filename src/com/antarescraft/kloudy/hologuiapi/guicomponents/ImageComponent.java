@@ -2,23 +2,25 @@ package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
 import org.bukkit.entity.Player;
 
-import com.antarescraft.kloudy.hologuiapi.config.ImageComponentProperties;
+import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
+import com.antarescraft.kloudy.hologuiapi.config.ImageComponentConfig;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextComponent;
-import com.antarescraft.kloudy.plugincore.config.ConfigObject;
-import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
-import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
-import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 
-public class ImageComponent extends GUIComponent implements ConfigObject
+public class ImageComponent extends GUIComponent
 {
-	@ConfigElement
-	@ConfigProperty(key = "")
-	private ImageComponentProperties properties;
+	private ImageComponentConfig config;
 	
 	private int currentFrame = 0;
 	private String[][] lines = null;
 	
-	private ImageComponent(){}
+	ImageComponent(HoloGUIPlugin plugin, ImageComponentConfig config)
+	{
+		super(plugin);
+		
+		this.config = config;
+		
+		lines = plugin.loadImage(config.imageSource, config.width, config.height, config.symmetrical);
+	}
 	
 	public void setLines(String[][] lines)
 	{
@@ -48,20 +50,12 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 	@Override
 	public double getLineHeight()
 	{
-		return (1 / properties.getDistance()) * 0.21;
-	}
-
-	@Override
-	public void configParseComplete(PassthroughParams params)
-	{
-		super.configParseComplete(params);
-		
-		lines = plugin.loadImage(properties.getImageSource(), properties.getWidth(), properties.getHeight(), properties.isSymmetrical());
+		return (1 / config.getDistance()) * 0.21;
 	}
 	
 	@Override
-	public ImageComponentProperties getConfig()
+	public ImageComponentConfig getConfig()
 	{
-		return properties;
+		return config;
 	}
 }

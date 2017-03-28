@@ -6,7 +6,7 @@ import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.annotations.OptionalConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.annotations.StringConfigProperty;
 
-public class TextBoxComponentProperties extends ClickableGUIComponentProperties
+public class TextBoxComponentConfig extends ClickableGUIComponentConfig
 {
 	private static final double DEFAULT_DISTANCE = 10;
 	private static final double DEFAULT_LABEL_ZOOM_DISTANCE = 2;
@@ -14,12 +14,12 @@ public class TextBoxComponentProperties extends ClickableGUIComponentProperties
 	@OptionalConfigProperty
 	@StringConfigProperty(defaultValue = "")
 	@ConfigProperty(key = "default-text")
-	private String defaultLine;
+	public String defaultLine;
 	
 	@OptionalConfigProperty
 	@BooleanConfigProperty(defaultValue = false)
 	@ConfigProperty(key = "evaluate-placeholders")
-	private boolean evaluatePlaceholders;
+	public boolean evaluatePlaceholders;
 
 	@Override
 	public void configParseComplete(PassthroughParams params)
@@ -37,25 +37,5 @@ public class TextBoxComponentProperties extends ClickableGUIComponentProperties
 	public double getDefaultLabelZoomDistance()
 	{
 		return DEFAULT_LABEL_ZOOM_DISTANCE;
-	}
-	
-	public String getDefaultLine()
-	{
-		return defaultLine;
-	}
-	
-	public void setDefaultLine(String defaultLine)
-	{
-		this.defaultLine = defaultLine;
-	}
-	
-	public boolean evaluationPlaceholders()
-	{
-		return evaluatePlaceholders;
-	}
-	
-	public void setEvaluatePlaceholders(boolean evaluatePlaceholders)
-	{
-		this.evaluatePlaceholders = evaluatePlaceholders;
 	}
 }

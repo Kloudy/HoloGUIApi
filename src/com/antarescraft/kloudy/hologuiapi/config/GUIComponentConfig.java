@@ -15,7 +15,7 @@ import com.antarescraft.kloudy.plugincore.config.annotations.OptionalConfigPrope
 /**
  * Collection all of the properties that all gui components share
  */
-public abstract class GUIComponentProperties implements ConfigObject
+public abstract class GUIComponentConfig implements ConfigObject
 {
 	@ConfigElementKey
 	protected String id;
@@ -47,7 +47,7 @@ public abstract class GUIComponentProperties implements ConfigObject
 	@ConfigProperty(key="distance")
 	protected double distance;
 	
-	public GUIComponentProperties(){}
+	public GUIComponentConfig(){}
 	
 	protected abstract double getDefaultDistance();
 	

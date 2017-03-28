@@ -9,15 +9,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
+import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
-import com.antarescraft.kloudy.hologuiapi.config.ClickableGUIComponentProperties;
+import com.antarescraft.kloudy.hologuiapi.config.ClickableGUIComponentConfig;
 import com.antarescraft.kloudy.hologuiapi.handlers.ClickHandler;
 import com.antarescraft.kloudy.hologuiapi.handlers.HoverHandler;
 import com.antarescraft.kloudy.hologuiapi.handlers.HoverOutHandler;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.HoloGUIPlaceholders;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
-import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 
@@ -27,7 +27,7 @@ public abstract class ClickableGUIComponent extends GUIComponent
 	private HashMap<UUID, HoverHandler> hoverHandlers = new HashMap<UUID, HoverHandler>();
 	private HashMap<UUID, HoverOutHandler> hoverOutHandlers = new HashMap<UUID, HoverOutHandler>();
 	
-	public abstract ClickableGUIComponentProperties getConfig();
+	public abstract ClickableGUIComponentConfig getConfig();
 	public abstract double getZoomedInLineHeight();
 	public abstract double zoomDistance();
 	
@@ -37,17 +37,16 @@ public abstract class ClickableGUIComponent extends GUIComponent
 	public abstract AABB.Vec3D getMinBoundingRectPoint19(Point3D origin);
 	public abstract AABB.Vec3D getMaxBoundingRectPoint19(Point3D origin);
 	
+	ClickableGUIComponent(HoloGUIPlugin plugin)
+	{
+		super(plugin);
+	}
+	
 	public void removePlayerHandlers(Player player)
 	{
 		clickHandlers.remove(player.getUniqueId());
 		hoverHandlers.remove(player.getUniqueId());
 		hoverOutHandlers.remove(player.getUniqueId());
-	}
-		
-	@Override
-	public void configParseComplete(PassthroughParams params)
-	{
-		super.configParseComplete(params);
 	}
 	
 	public void registerClickHandler(Player player, ClickHandler clickHandler)

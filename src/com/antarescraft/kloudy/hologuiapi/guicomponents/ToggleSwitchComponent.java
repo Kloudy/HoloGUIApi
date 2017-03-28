@@ -6,22 +6,17 @@ import java.util.UUID;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import com.antarescraft.kloudy.hologuiapi.config.ToggleSwitchComponentProperties;
+import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
+import com.antarescraft.kloudy.hologuiapi.config.ToggleSwitchComponentConfig;
 import com.antarescraft.kloudy.hologuiapi.handlers.ToggleHandler;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIToggleSwitchComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
-import com.antarescraft.kloudy.plugincore.config.ConfigObject;
-import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
-import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
-import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 
-public class ToggleSwitchComponent extends ClickableGUIComponent implements ConfigObject
+public class ToggleSwitchComponent extends ClickableGUIComponent
 {
-	@ConfigElement
-	@ConfigProperty(key = "")
-	ToggleSwitchComponentProperties properties;
+	ToggleSwitchComponentConfig config;
 	
 	private String[][] onLines = null;
 	private String[][] offLines = null;
@@ -29,7 +24,15 @@ public class ToggleSwitchComponent extends ClickableGUIComponent implements Conf
 	private HashMap<UUID, ToggleHandler> toggleHandlers = new HashMap<UUID, ToggleHandler>();
 	private HashMap<UUID, Boolean> playerToggleSwitchStates = new HashMap<UUID, Boolean>();
 	
-	private ToggleSwitchComponent(){}
+	ToggleSwitchComponent(HoloGUIPlugin plugin, ToggleSwitchComponentConfig config)
+	{
+		super(plugin);
+		
+		this.config = config;
+		
+		onLines = plugin.loadImage(config.onIcon, 13, 13, true);
+		offLines = plugin.loadImage(config.offIcon, 13, 13, true);
+	}
 	
 	@Override
 	public void removePlayerHandlers(Player player)
@@ -91,17 +94,17 @@ public class ToggleSwitchComponent extends ClickableGUIComponent implements Conf
 		boolean state = getPlayerToggleSwitchState(player);
 		if(state)
 		{
-			executeOnclick(player, stationaryDisplayId, properties.getOnclickOn(), properties.executeOnclickOnAsConsole());
+			executeOnclick(player, stationaryDisplayId, config.onclickOn, config.executeOnclickOnAsConsole);
 		}
 		else
 		{
-			executeOnclick(player, stationaryDisplayId, properties.getOnclickOff(), properties.executeOnclickOffAsConsole());
+			executeOnclick(player, stationaryDisplayId, config.onclickOff, config.executeOnclickOffAsConsole);
 		}
 	}
 	
 	public boolean getPlayerToggleSwitchState(Player player)
 	{
-		boolean state = properties.getDefaultState();
+		boolean state = config.defaultState;
 		if(playerToggleSwitchStates.containsKey(player.getUniqueId()))
 		{
 			state = playerToggleSwitchStates.get(player.getUniqueId());
@@ -156,19 +159,10 @@ public class ToggleSwitchComponent extends ClickableGUIComponent implements Conf
 	{
 		return 0.014;
 	}
-
-	@Override
-	public void configParseComplete(PassthroughParams params)
-	{
-		super.configParseComplete(params);
-		
-		onLines = plugin.loadImage(properties.getOnIcon(), 13, 13, true);
-		offLines = plugin.loadImage(properties.getOffIcon(), 13, 13, true);
-	}
 	
 	@Override
-	public ToggleSwitchComponentProperties getConfig()
+	public ToggleSwitchComponentConfig getConfig()
 	{
-		return properties;
+		return config;
 	}
 }

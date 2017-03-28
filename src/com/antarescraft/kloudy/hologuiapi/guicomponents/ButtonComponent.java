@@ -3,28 +3,30 @@ package com.antarescraft.kloudy.hologuiapi.guicomponents;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import com.antarescraft.kloudy.hologuiapi.config.ButtonComponentProperties;
+import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
+import com.antarescraft.kloudy.hologuiapi.config.ButtonComponentConfig;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
-import com.antarescraft.kloudy.plugincore.config.ConfigObject;
-import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
-import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
-import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 
 /*
  * Represents an image based button on a GUI
  */
-public class ButtonComponent extends ClickableGUIComponent implements ConfigObject
+public class ButtonComponent extends ClickableGUIComponent
 {	
-	@ConfigElement
-	@ConfigProperty(key = "")
-	private ButtonComponentProperties properties;
+	private ButtonComponentConfig config;
 	
 	private String[][] lines = null;
 	private int currentFrame = 0;
 	
-	private ButtonComponent(){}
+	ButtonComponent(HoloGUIPlugin plugin, ButtonComponentConfig config)
+	{
+		super(plugin);
+		
+		this.config = config;
+		
+		lines = plugin.loadImage(config.icon, getWidth(), getHeight(), config.symmetrical);
+	}
 	
 	@Override
 	public PlayerGUITextComponent initPlayerGUIComponent(Player player)
@@ -60,7 +62,7 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 	@Override
 	public AABB.Vec3D getMinBoundingRectPoint18(Point3D origin)
 	{
-		if(properties.isMini())
+		if(config.mini)
 		{
 			return AABB.Vec3D.fromVector(new Vector(origin.x-0.75, origin.y - 3, origin.z-0.75));
 		}
@@ -73,7 +75,7 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 	@Override
 	public AABB.Vec3D getMaxBoundingRectPoint18(Point3D origin)
 	{
-		if(properties.isMini())
+		if(config.mini)
 		{
 			return AABB.Vec3D.fromVector(new Vector(origin.x+0.875, origin.y + 0.6, origin.z+0.875));
 		}
@@ -86,7 +88,7 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 	@Override
 	public AABB.Vec3D getMinBoundingRectPoint19(Point3D origin)
 	{
-		if(properties.isMini())
+		if(config.mini)
 		{
 			return AABB.Vec3D.fromVector(new Vector(origin.x-0.75, origin.y - 2, origin.z-0.75));
 		}
@@ -99,7 +101,7 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 	@Override
 	public AABB.Vec3D getMaxBoundingRectPoint19(Point3D origin)
 	{
-		if(properties.isMini())
+		if(config.mini)
 		{
 			return AABB.Vec3D.fromVector(new Vector(origin.x+0.875, origin.y + 0.3, origin.z+0.875));
 		}
@@ -109,16 +111,10 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 		}
 	}
 	
-	/*@Override
-	public double getDisplayDistance()
-	{
-		return 15;
-	}*/
-	
 	@Override
 	public double getLineHeight()
 	{
-		return (1 / properties.getDistance()) * 0.21;
+		return (1 / config.getDistance()) * 0.21;
 	}
 	
 	@Override
@@ -129,7 +125,7 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 	
 	public int getWidth()
 	{
-		return (properties.isMini()) ? 9 : 18;
+		return (config.mini) ? 9 : 18;
 	}
 	
 	public int getHeight()
@@ -141,18 +137,10 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 	{
 		return lines.length;
 	}
-
-	@Override
-	public void configParseComplete(PassthroughParams params)
-	{
-		super.configParseComplete(params);
-		
-		lines = plugin.loadImage(properties.getIcon(), getWidth(), getHeight(), properties.isSymmetrical());
-	}
 	
 	@Override
-	public ButtonComponentProperties getConfig()
+	public ButtonComponentConfig getConfig()
 	{
-		return properties;
+		return config;
 	}
 }

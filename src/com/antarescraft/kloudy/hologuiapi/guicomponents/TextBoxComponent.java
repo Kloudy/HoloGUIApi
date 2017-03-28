@@ -7,31 +7,30 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
+import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
-import com.antarescraft.kloudy.hologuiapi.config.TextBoxComponentProperties;
+import com.antarescraft.kloudy.hologuiapi.config.TextBoxComponentConfig;
 import com.antarescraft.kloudy.hologuiapi.handlers.TextBoxUpdateHandler;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextBoxComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.HoloGUIPlaceholders;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
-import com.antarescraft.kloudy.plugincore.config.ConfigObject;
-import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
-import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
-import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 
-
-public class TextBoxComponent extends ClickableGUIComponent implements ConfigObject
+public class TextBoxComponent extends ClickableGUIComponent
 {
-	@ConfigElement
-	@ConfigProperty(key = "")
-	private TextBoxComponentProperties properties;
+	private TextBoxComponentConfig config;
 	
 	private HashMap<UUID, String> playerTextBoxValues = new HashMap<UUID, String>();
 	private HashMap<UUID, TextBoxUpdateHandler> textboxUpdateHandlers = new HashMap<UUID, TextBoxUpdateHandler>();
 	
-	private TextBoxComponent(){}
+	TextBoxComponent(HoloGUIPlugin plugin, TextBoxComponentConfig config)
+	{
+		super(plugin);
+		
+		this.config = config;
+	}
 	
 	@Override
 	public void removePlayerHandlers(Player player)
@@ -69,14 +68,14 @@ public class TextBoxComponent extends ClickableGUIComponent implements ConfigObj
 	
 	public String getPlayerTextBoxValue(Player player)
 	{
-		String value = properties.getDefaultLine();
+		String value = config.defaultLine;
 		String v = playerTextBoxValues.get(player.getUniqueId());
 		if(v != null)
 		{
 			value = v;
 		}
 		
-		if(properties.evaluationPlaceholders())
+		if(config.evaluatePlaceholders)
 		{
 			value = HoloGUIPlaceholders.setHoloGUIPlaceholders(plugin, value, player);
 			
@@ -125,7 +124,7 @@ public class TextBoxComponent extends ClickableGUIComponent implements ConfigObj
 	@Override
 	public double getLineHeight()
 	{
-		return (1 / properties.getDistance()) * 0.21;
+		return (1 / config.getDistance()) * 0.21;
 	}
 	
 	@Override
@@ -151,16 +150,10 @@ public class TextBoxComponent extends ClickableGUIComponent implements ConfigObj
 	{
 		return new String[]{playerTextBoxValues.get(player.getUniqueId())};
 	}
-
-	@Override
-	public void configParseComplete(PassthroughParams params)
-	{
-		super.configParseComplete(params);
-	}
 	
 	@Override
-	public TextBoxComponentProperties getConfig()
+	public TextBoxComponentConfig getConfig()
 	{
-		return properties;
+		return config;
 	}
 }

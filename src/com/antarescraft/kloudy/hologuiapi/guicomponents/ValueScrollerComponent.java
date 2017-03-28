@@ -9,7 +9,8 @@ import java.util.UUID;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import com.antarescraft.kloudy.hologuiapi.config.ValueScrollerComponentProperties;
+import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
+import com.antarescraft.kloudy.hologuiapi.config.ValueScrollerComponentConfig;
 import com.antarescraft.kloudy.hologuiapi.handlers.ScrollHandler;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIValueScrollerComponent;
 import com.antarescraft.kloudy.hologuiapi.scrollvalues.AbstractScrollValue;
@@ -20,26 +21,205 @@ import com.antarescraft.kloudy.hologuiapi.scrollvalues.IntegerScrollValue;
 import com.antarescraft.kloudy.hologuiapi.scrollvalues.ListScrollValue;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
-import com.antarescraft.kloudy.plugincore.config.ConfigObject;
-import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
-import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
-import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.exceptions.InvalidDateFormatException;
 import com.antarescraft.kloudy.plugincore.exceptions.InvalidDurationFormatException;
 import com.antarescraft.kloudy.plugincore.time.TimeFormat;
 
-public class ValueScrollerComponent extends ClickableGUIComponent implements ConfigObject
+public class ValueScrollerComponent extends ClickableGUIComponent
 {
-	@ConfigElement
-	@ConfigProperty(key = "")
-	ValueScrollerComponentProperties properties;
+	ValueScrollerComponentConfig config;
 	
 	private AbstractScrollValue<?, ?> componentValue;
 	
 	private HashMap<UUID, ScrollHandler> scrollHandlers = new HashMap<UUID, ScrollHandler>();
 	private HashMap<UUID, AbstractScrollValue<?, ?>> playerScrollValues = new HashMap<UUID, AbstractScrollValue<?, ?>>();
 	
-	private ValueScrollerComponent(){}
+	ValueScrollerComponent(HoloGUIPlugin plugin, ValueScrollerComponentConfig config)
+	{
+		super(plugin);
+		
+		this.config = config;
+		
+		if(config.valueType.equals("decimal"))
+		{
+			double defaultValue = 0;
+			double step = 1.0;
+			Double minValue = null;
+			Double maxValue = null;
+			
+			try
+			{
+				defaultValue = Double.parseDouble(config.defaultValue);
+			}
+			catch(NumberFormatException e){}
+			
+			if(config.step != null)
+			{
+				try
+				{
+					step = Double.parseDouble(config.step);
+				}
+				catch(NumberFormatException e){}
+			}
+			
+			if(config.minValue != null) 
+			{
+				try
+				{
+					minValue = Double.parseDouble(config.minValue);
+				}
+				catch(NumberFormatException e){}
+			}
+				
+			if(config.maxValue != null)
+			{
+				try
+				{
+					maxValue = Double.parseDouble(config.maxValue);
+				}
+				catch(NumberFormatException e){}
+			}
+			
+			componentValue = new DoubleScrollValue(defaultValue, step, minValue, maxValue, config.decimalFormat, config.wrap);
+		}
+		else if(config.valueType.equalsIgnoreCase("integer"))
+		{
+			int defaultValue = 0;
+			int step = 1;
+			Integer minValue = null;
+			Integer maxValue = null;
+			
+			try
+			{
+				defaultValue = Integer.parseInt(config.defaultValue);
+			}
+			catch(NumberFormatException e){}
+			
+			if(config.step != null)
+			{
+				try
+				{
+					step = Integer.parseInt(config.step);
+				}
+				catch(NumberFormatException e){}
+			}
+			
+			if(config.minValue != null) 
+			{
+				try
+				{
+					minValue = Integer.parseInt(config.minValue);
+				}
+				catch(NumberFormatException e){}
+			}
+				
+			if(config.maxValue != null)
+			{
+				try
+				{
+					maxValue = Integer.parseInt(config.maxValue);
+				}
+				catch(NumberFormatException e){}
+			}
+			
+			componentValue = new IntegerScrollValue(defaultValue, step, minValue, maxValue, config.wrap);
+		}
+		else if(config.valueType.equalsIgnoreCase("duration"))
+		{
+			Duration defaultValue = Duration.ZERO;
+			Duration step = Duration.ZERO.plusSeconds(1);
+			Duration minValue = null;
+			Duration maxValue = null;
+			
+			try
+			{
+				defaultValue = TimeFormat.parseDurationFormat(config.defaultValue);
+			}
+			catch(InvalidDurationFormatException e){}
+			
+			if(config.step != null)
+			{
+				try
+				{
+					step = TimeFormat.parseDurationFormat(config.step);
+				}
+				catch(InvalidDurationFormatException e){}
+			}
+			
+			if(config.minValue != null) 
+			{
+				try
+				{
+					minValue = TimeFormat.parseDurationFormat(config.minValue);
+				}
+				catch(InvalidDurationFormatException e){}
+			}
+				
+			if(config.maxValue != null)
+			{
+				try
+				{
+					maxValue = TimeFormat.parseDurationFormat(config.maxValue);
+				}
+				catch(InvalidDurationFormatException e){}
+			}
+			
+			componentValue = new DurationScrollValue(defaultValue, step, minValue, maxValue, config.wrap);
+		}
+		else if(config.valueType.equalsIgnoreCase("date"))
+		{
+			Calendar defaultValue = Calendar.getInstance();
+			Duration step = Duration.ZERO.plusDays(1);
+			Calendar minValue = null;
+			Calendar maxValue = null;
+			
+			try
+			{
+				defaultValue = TimeFormat.parseDateFormat(config.defaultValue);
+			}
+			catch(InvalidDateFormatException e){}
+			
+			if(config.step != null)
+			{
+				try
+				{
+					step = TimeFormat.parseDurationFormat(config.step);
+				}
+				catch(InvalidDurationFormatException e){}
+			}
+			
+			if(config.minValue != null) 
+			{
+				try
+				{
+					minValue = TimeFormat.parseDateFormat(config.minValue);
+				}
+				catch(InvalidDateFormatException e){}
+			}
+				
+			if(config.maxValue != null)
+			{
+				try
+				{
+					maxValue = TimeFormat.parseDateFormat(config.maxValue);
+				}
+				catch(InvalidDateFormatException e){}
+			}
+			
+			componentValue = new DateScrollValue(defaultValue, step, minValue, maxValue, config.wrap);
+		}
+		else if(config.valueType.equalsIgnoreCase("list"))
+		{
+			if(config.listItems != null)
+			{
+				componentValue = new ListScrollValue(config.listItems);
+			}
+			else 
+			{
+				componentValue = new ListScrollValue(new ArrayList<String>());
+			}
+		}
+	}
 	
 	@Override
 	public void removePlayerHandlers(Player player)
@@ -135,7 +315,7 @@ public class ValueScrollerComponent extends ClickableGUIComponent implements Con
 	@Override
 	public double getLineHeight()
 	{
-		return (1 / properties.getDistance()) * 0.21;
+		return (1 / config.getDistance()) * 0.21;
 	}
 	
 	@Override
@@ -143,196 +323,10 @@ public class ValueScrollerComponent extends ClickableGUIComponent implements Con
 	{
 		return getLineHeight() + 0.0005;
 	}
-
-	@Override
-	public void configParseComplete(PassthroughParams params)
-	{
-		super.configParseComplete(params);
-		
-		if(properties.getValueType().equals("decimal"))
-		{
-			double defaultValue = 0;
-			double step = 1.0;
-			Double minValue = null;
-			Double maxValue = null;
-			
-			try
-			{
-				defaultValue = Double.parseDouble(properties.getDefaultValue());
-			}
-			catch(NumberFormatException e){}
-			
-			if(properties.getStep() != null)
-			{
-				try
-				{
-					step = Double.parseDouble(properties.getStep());
-				}
-				catch(NumberFormatException e){}
-			}
-			
-			if(properties.getMinValue() != null) 
-			{
-				try
-				{
-					minValue = Double.parseDouble(properties.getMinValue());
-				}
-				catch(NumberFormatException e){}
-			}
-				
-			if(properties.getMaxValue() != null)
-			{
-				try
-				{
-					maxValue = Double.parseDouble(properties.getMaxValue());
-				}
-				catch(NumberFormatException e){}
-			}
-			
-			componentValue = new DoubleScrollValue(defaultValue, step, minValue, maxValue, properties.getDecimalFormat(), properties.wrap());
-		}
-		else if(properties.getValueType().equalsIgnoreCase("integer"))
-		{
-			int defaultValue = 0;
-			int step = 1;
-			Integer minValue = null;
-			Integer maxValue = null;
-			
-			try
-			{
-				defaultValue = Integer.parseInt(properties.getDefaultValue());
-			}
-			catch(NumberFormatException e){}
-			
-			if(properties.getStep() != null)
-			{
-				try
-				{
-					step = Integer.parseInt(properties.getStep());
-				}
-				catch(NumberFormatException e){}
-			}
-			
-			if(properties.getMinValue() != null) 
-			{
-				try
-				{
-					minValue = Integer.parseInt(properties.getMinValue());
-				}
-				catch(NumberFormatException e){}
-			}
-				
-			if(properties.getMaxValue() != null)
-			{
-				try
-				{
-					maxValue = Integer.parseInt(properties.getMaxValue());
-				}
-				catch(NumberFormatException e){}
-			}
-			
-			componentValue = new IntegerScrollValue(defaultValue, step, minValue, maxValue, properties.wrap());
-		}
-		else if(properties.getValueType().equalsIgnoreCase("duration"))
-		{
-			Duration defaultValue = Duration.ZERO;
-			Duration step = Duration.ZERO.plusSeconds(1);
-			Duration minValue = null;
-			Duration maxValue = null;
-			
-			try
-			{
-				defaultValue = TimeFormat.parseDurationFormat(properties.getDefaultValue());
-			}
-			catch(InvalidDurationFormatException e){}
-			
-			if(properties.getStep() != null)
-			{
-				try
-				{
-					step = TimeFormat.parseDurationFormat(properties.getStep());
-				}
-				catch(InvalidDurationFormatException e){}
-			}
-			
-			if(properties.getMinValue() != null) 
-			{
-				try
-				{
-					minValue = TimeFormat.parseDurationFormat(properties.getMinValue());
-				}
-				catch(InvalidDurationFormatException e){}
-			}
-				
-			if(properties.getMaxValue() != null)
-			{
-				try
-				{
-					maxValue = TimeFormat.parseDurationFormat(properties.getMaxValue());
-				}
-				catch(InvalidDurationFormatException e){}
-			}
-			
-			componentValue = new DurationScrollValue(defaultValue, step, minValue, maxValue, properties.wrap());
-		}
-		else if(properties.getValueType().equalsIgnoreCase("date"))
-		{
-			Calendar defaultValue = Calendar.getInstance();
-			Duration step = Duration.ZERO.plusDays(1);
-			Calendar minValue = null;
-			Calendar maxValue = null;
-			
-			try
-			{
-				defaultValue = TimeFormat.parseDateFormat(properties.getDefaultValue());
-			}
-			catch(InvalidDateFormatException e){}
-			
-			if(properties.getStep() != null)
-			{
-				try
-				{
-					step = TimeFormat.parseDurationFormat(properties.getStep());
-				}
-				catch(InvalidDurationFormatException e){}
-			}
-			
-			if(properties.getMinValue() != null) 
-			{
-				try
-				{
-					minValue = TimeFormat.parseDateFormat(properties.getMinValue());
-				}
-				catch(InvalidDateFormatException e){}
-			}
-				
-			if(properties.getMaxValue() != null)
-			{
-				try
-				{
-					maxValue = TimeFormat.parseDateFormat(properties.getMaxValue());
-				}
-				catch(InvalidDateFormatException e){}
-			}
-			
-			componentValue = new DateScrollValue(defaultValue, step, minValue, maxValue, properties.wrap());
-		}
-		else if(properties.getValueType().equalsIgnoreCase("list"))
-		{
-			if(properties.getListItems() != null)
-			{
-				componentValue = new ListScrollValue(properties.getListItems());
-			}
-			else 
-			{
-				componentValue = new ListScrollValue(new ArrayList<String>());
-			}
-		}
-	}
 	
 	@Override
-	public ValueScrollerComponentProperties getConfig()
+	public ValueScrollerComponentConfig getConfig()
 	{
-		return properties;
+		return config;
 	}
 }

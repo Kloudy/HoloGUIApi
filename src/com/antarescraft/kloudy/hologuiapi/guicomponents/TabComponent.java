@@ -1,33 +1,24 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
+import com.antarescraft.kloudy.hologuiapi.TabComponentConfig;
 import com.antarescraft.kloudy.hologuiapi.imageprocessing.MinecraftColor;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUICanvasComponent;
-import com.antarescraft.kloudy.plugincore.config.ConfigObject;
-import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
-import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElementKey;
-import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 
 /**
  * Config object class that parses a tab entry for a TabGUIPage.
  */
-public class TabComponent implements ConfigObject
+public class TabComponent
 {
-	@ConfigElementKey
-	private String id;
+	private TabComponentConfig config;
 	
-	@ConfigProperty(key = "tab-title")
-	private String tabTitle;
-	
-	@ConfigProperty(key = "gui-page-id")
-	private String guiPageId;
-	
-	public TabComponent(){}
-	
-	public TabComponent(String id, String tabTitle, String guiPageId)
+	TabComponent(TabComponentConfig config)
 	{
-		this.id = id;
-		this.tabTitle = tabTitle;
-		this.guiPageId = guiPageId;
+		this.config = config;
+	}
+	
+	public TabComponentConfig getTabConfig()
+	{
+		return config;
 	}
 	
 	/**
@@ -55,22 +46,4 @@ public class TabComponent implements ConfigObject
 			canvas.fill(x1, y1, x2, y2, MinecraftColor.TRANSPARENT);
 		}
 	}
-	
-	public String getId()
-	{
-		return id;
-	}
-	
-	public String getTabTitle()
-	{
-		return tabTitle;
-	}
-	
-	public String getGUIPageId()
-	{
-		return guiPageId;
-	}
-	
-	@Override
-	public void configParseComplete(PassthroughParams params){}
 }

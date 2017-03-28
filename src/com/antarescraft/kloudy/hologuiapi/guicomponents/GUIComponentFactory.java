@@ -8,7 +8,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.config.*;
 import com.antarescraft.kloudy.plugincore.config.ConfigParser;
-import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 
 /*
  * Factory class used to construct new GUIComponents
@@ -18,8 +17,6 @@ import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
  */
 public class GUIComponentFactory
 {	
-	private static PassthroughParams params;
-	
 	private static ConfigurationSection toYaml(String configString)
 	{
 		YamlConfiguration yaml = YamlConfiguration.loadConfiguration(new StringReader(configString));
@@ -29,144 +26,410 @@ public class GUIComponentFactory
 		return yaml.getConfigurationSection(keys[0]);
 	}
 	
-	private static PassthroughParams getPassthroughParams(HoloGUIPlugin plugin)
+	/**
+	 * Creates a LabelComponent.
+	 * This function parses the input configuration section and performs validation checks.
+	 * 
+	 * @param plugin The HoloGUIPlugin associated with the component.
+	 * @param section The ConfigurationSection that defines the component.
+	 * @return LabelComponent hydrated with the given config values after passing validation.
+	 * 		    Returns null if the config values did not pass validation.
+	 */
+	public static LabelComponent createLabelComponent(HoloGUIPlugin plugin, ConfigurationSection section)
 	{
-		if(params == null)
-		{
-			params = new PassthroughParams();
-			params.addParam("plugin", plugin);
-		}
+		LabelComponentConfig config = ConfigParser.parse(section, LabelComponentConfig.class, plugin.getName());
 		
-		return params;
+		return new LabelComponent(plugin, config);
 	}
 	
-	public static LabelComponent createLabelComponent(HoloGUIPlugin plugin, LabelComponentProperties properties)
+	/**
+	 * Creates a LabelComponent.
+	 * This function parses the input config object and performs validation checks.
+	 * 
+	 * @param plugin The HoloGUIPlugin associated with the component.
+	 * @param config for the component.
+	 * @return LabelComponent hydrated with the given config object after passing validation.
+	 * 		    Returns null if the config object did not pass validation.
+	 */
+	public static LabelComponent createLabelComponent(HoloGUIPlugin plugin, LabelComponentConfig config)
 	{
-		String configString = ConfigParser.generateConfigString(plugin.getName(), properties);
+		String configString = ConfigParser.generateConfigString(plugin.getName(), config);
 		
 		if(configString != null)
 		{
-			return ConfigParser.parse(toYaml(configString), LabelComponent.class, plugin.getName(), getPassthroughParams(plugin));
+			config = ConfigParser.parse(toYaml(configString), LabelComponentConfig.class, plugin.getName());
+		
+			return new LabelComponent(plugin, config);
 		}
 		
 		return null;
 	}
 	
-	public static ButtonComponent createButtonComponent(HoloGUIPlugin plugin, ButtonComponentProperties properties)
+	/**
+	 * Creates a ButtonComponent.
+	 * This function parses the input ConfigurationSection and performs validation checks.
+	 * 
+	 * @param plugin The HoloGUIPlugin associated with the component.
+	 * @param section The ConfigurationSection that defines the component.
+	 * @return ButtonComponent hydrated with the given config values after passing validation.
+	 * 		    Returns null if the config object did not pass validation.
+	 */
+	public static ButtonComponent createButtonComponent(HoloGUIPlugin plugin, ConfigurationSection section)
 	{
-		String propertyString = ConfigParser.generateConfigString(plugin.getName(), properties);
+		ButtonComponentConfig config = ConfigParser.parse(section, ButtonComponentConfig.class, plugin.getName());
+	
+		return new ButtonComponent(plugin, config);
+	}
+	
+	/**
+	 * Creates a ButtonComponent.
+	 * This function parses the input config object and performs validation checks.
+	 * 
+	 * @param plugin The HoloGUIPlugin associated with the component.
+	 * @param config for the component.
+	 * @return LabelComponent hydrated with the given config object after passing validation.
+	 * 		    Returns null if the config object did not pass validation.
+	 */
+	public static ButtonComponent createButtonComponent(HoloGUIPlugin plugin, ButtonComponentConfig config)
+	{
+		String propertyString = ConfigParser.generateConfigString(plugin.getName(), config);
 		
 		if(propertyString != null)
 		{
-			return ConfigParser.parse(toYaml(propertyString), ButtonComponent.class, plugin.getName(), getPassthroughParams(plugin));
+			config = ConfigParser.parse(toYaml(propertyString), ButtonComponentConfig.class, plugin.getName());
+		
+			return new ButtonComponent(plugin, config);
 		}
 		
 		return null;
 	}
 	
-	public static EntityButtonComponent createEntityButtonComponent(HoloGUIPlugin plugin, EntityButtonComponentProperties properties)
+	/**
+	 * Creates an EntityButtonComponent.
+	 * This function parses the input ConfigurationSection and performs validation checks.
+	 * 
+	 * @param plugin The HoloGUIPlugin associated with the component.
+	 * @param section The ConfigurationSection that defines the component.
+	 * @return EntityButtonComponent hydrated with the given config values after passing validation.
+	 * 		    Returns null if the config object did not pass validation.
+	 */
+	public static EntityButtonComponent createEntityButtonComponent(HoloGUIPlugin plugin, ConfigurationSection section)
 	{
-		String propertyString = ConfigParser.generateConfigString(plugin.getName(), properties);
+		EntityButtonComponentConfig config = ConfigParser.parse(section, EntityButtonComponentConfig.class, plugin.getName());
+	
+		return new EntityButtonComponent(plugin, config);
+	}
+	
+	/**
+	 * Creates an EntityButtonComponent.
+	 * This function parses the input config object and performs validation checks.
+	 * 
+	 * @param plugin The HoloGUIPlugin associated with the component.
+	 * @param config for the component.
+	 * @return EntityButtonComponent hydrated with the given config object after passing validation.
+	 * 		    Returns null if the config object did not pass validation.
+	 */
+	public static EntityButtonComponent createEntityButtonComponent(HoloGUIPlugin plugin, EntityButtonComponentConfig config)
+	{
+		String propertyString = ConfigParser.generateConfigString(plugin.getName(), config);
 
 		if(propertyString != null)
 		{
-			return ConfigParser.parse(toYaml(propertyString), EntityButtonComponent.class, plugin.getName(), getPassthroughParams(plugin));
+			config = ConfigParser.parse(toYaml(propertyString), EntityButtonComponentConfig.class, plugin.getName());
+		
+			return new EntityButtonComponent(plugin, config);
 		}
 		
 		return null;
 	}
 	
-	public static EntityComponent createEntityComponent(HoloGUIPlugin plugin, EntityComponentProperties properties)
+	/**
+	 * Creates an EntityComponent.
+	 * This function parses the input ConfigurationSection and performs validation checks.
+	 * 
+	 * @param plugin The HoloGUIPlugin associated with the component.
+	 * @param section The ConfigurationSection that defines the component.
+	 * @return EntityComponent hydrated with the given config values after passing validation.
+	 * 		    Returns null if the config object did not pass validation.
+	 */
+	public static EntityComponent createEntityComponent(HoloGUIPlugin plugin, ConfigurationSection section)
 	{
-		String propertyString = ConfigParser.generateConfigString(plugin.getName(), properties);
+		EntityComponentConfig config = ConfigParser.parse(section, EntityComponentConfig.class, plugin.getName());
+		
+		return new EntityComponent(plugin, config);
+	}
+	
+	/**
+	 * Creates an EntityComponent.
+	 * This function parses the input config object and performs validation checks.
+	 * 
+	 * @param plugin The HoloGUIPlugin associated with the component.
+	 * @param config for the component.
+	 * @return EntityComponent hydrated with the given config object after passing validation.
+	 * 		    Returns null if the config object did not pass validation.
+	 */
+	public static EntityComponent createEntityComponent(HoloGUIPlugin plugin, EntityComponentConfig config)
+	{
+		String propertyString = ConfigParser.generateConfigString(plugin.getName(), config);
 
 		if(propertyString != null)
 		{
-			return ConfigParser.parse(toYaml(propertyString), EntityComponent.class, plugin.getName(), getPassthroughParams(plugin));
+			config = ConfigParser.parse(toYaml(propertyString), EntityComponentConfig.class, plugin.getName());
+		
+			return new EntityComponent(plugin, config);
 		}
 		
 		return null;
 	}
 	
-	public static ImageComponent createImageComponent(HoloGUIPlugin plugin, ImageComponentProperties properties)
+	/**
+	 * Creates an ImageComponent.
+	 * This function parses the input ConfigurationSection and performs validation checks.
+	 * 
+	 * @param plugin The HoloGUIPlugin associated with the component.
+	 * @param section The ConfigurationSection that defines the component.
+	 * @return ImageComponent hydrated with the given config values after passing validation.
+	 * 		    Returns null if the config object did not pass validation.
+	 */
+	public static ImageComponent createImageComponent(HoloGUIPlugin plugin, ConfigurationSection section)
 	{
-		String propertyString = ConfigParser.generateConfigString(plugin.getName(), properties);
+		ImageComponentConfig config = ConfigParser.parse(section, ImageComponentConfig.class, plugin.getName());
+	
+		return new ImageComponent(plugin, config);
+	}
+	
+	/**
+	 * Creates an ImageComponent.
+	 * This function parses the input config object and performs validation checks.
+	 * 
+	 * @param plugin The HoloGUIPlugin associated with the component.
+	 * @param config for the component.
+	 * @return EntityComponent hydrated with the given config object after passing validation.
+	 * 		    Returns null if the config object did not pass validation.
+	 */
+	public static ImageComponent createImageComponent(HoloGUIPlugin plugin, ImageComponentConfig config)
+	{
+		String propertyString = ConfigParser.generateConfigString(plugin.getName(), config);
 
 		if(propertyString != null)
 		{
-			return ConfigParser.parse(toYaml(propertyString), ImageComponent.class, plugin.getName(), getPassthroughParams(plugin));
+			config = ConfigParser.parse(toYaml(propertyString), ImageComponentConfig.class, plugin.getName());
+		
+			return new ImageComponent(plugin, config);
 		}
 		
 		return null;
 	}
 	
-	public static ItemButtonComponent createItemButtonComponent(HoloGUIPlugin plugin, ItemButtonComponentProperties properties)
+	/**
+	 * Creates an ItemButtonComponent.
+	 * This function parses the input ConfigurationSection and performs validation checks.
+	 * 
+	 * @param plugin The HoloGUIPlugin associated with the component.
+	 * @param section The ConfigurationSection that defines the component.
+	 * @return ItemButtonComponent hydrated with the given config values after passing validation.
+	 * 		    Returns null if the config object did not pass validation.
+	 */
+	public static ItemButtonComponent createItemButtonComponent(HoloGUIPlugin plugin, ConfigurationSection section)
 	{
-		String propertyString = ConfigParser.generateConfigString(plugin.getName(), properties);
+		ItemButtonComponentConfig config = ConfigParser.parse(section, ItemButtonComponentConfig.class, plugin.getName());
+
+		return new ItemButtonComponent(plugin, config);
+	}
+	
+	/**
+	 * Creates an ItemButtonComponent.
+	 * This function parses the input config object and performs validation checks.
+	 * 
+	 * @param plugin The HoloGUIPlugin associated with the component.
+	 * @param config for the component.
+	 * @return ItemButtonComponent hydrated with the given config object after passing validation.
+	 * 		    Returns null if the config object did not pass validation.
+	 */
+	public static ItemButtonComponent createItemButtonComponent(HoloGUIPlugin plugin, ItemButtonComponentConfig config)
+	{
+		String propertyString = ConfigParser.generateConfigString(plugin.getName(), config);
 
 		if(propertyString != null)
 		{
-			return ConfigParser.parse(toYaml(propertyString), ItemButtonComponent.class, plugin.getName(), getPassthroughParams(plugin));
+			config = ConfigParser.parse(toYaml(propertyString), ItemButtonComponentConfig.class, plugin.getName());
 		}
 		
 		return null;
 	}
 	
-	public static ItemComponent createItemComponent(HoloGUIPlugin plugin, ItemComponentProperties properties)
+	/**
+	 * Creates an ItemComponent.
+	 * This function parses the input ConfigurationSection and performs validation checks.
+	 * 
+	 * @param plugin The HoloGUIPlugin associated with the component.
+	 * @param section The ConfigurationSection that defines the component.
+	 * @return ItemComponent hydrated with the given config values after passing validation.
+	 * 		    Returns null if the config object did not pass validation.
+	 */
+	public static ItemComponent createItemComponent(HoloGUIPlugin plugin, ConfigurationSection section)
 	{
-		String propertyString = ConfigParser.generateConfigString(plugin.getName(), properties);
+		ItemComponentConfig config = ConfigParser.parse(section, ItemComponentConfig.class, plugin.getName());
+	
+		return new ItemComponent(plugin, config);
+	}
+	
+	/**
+	 * Creates an ItemComponent.
+	 * This function parses the input config object and performs validation checks.
+	 * 
+	 * @param plugin The HoloGUIPlugin associated with the component.
+	 * @param config for the component.
+	 * @return ItemComponent hydrated with the given config object after passing validation.
+	 * 		    Returns null if the config object did not pass validation.
+	 */
+	public static ItemComponent createItemComponent(HoloGUIPlugin plugin, ItemComponentConfig config)
+	{
+		String propertyString = ConfigParser.generateConfigString(plugin.getName(), config);
 
 		if(propertyString != null)
 		{
-			return ConfigParser.parse(toYaml(propertyString), ItemComponent.class, plugin.getName(), getPassthroughParams(plugin));
+			config = ConfigParser.parse(toYaml(propertyString), ItemComponentConfig.class, plugin.getName());
+		
+			return new ItemComponent(plugin, config);
 		}
 		
 		return null;
 	}
 	
-	public static TextBoxComponent createTextBoxComponentComponent(HoloGUIPlugin plugin, TextBoxComponentProperties properties)
+	/**
+	 * Creates an TextBoxComponent.
+	 * This function parses the input ConfigurationSection and performs validation checks.
+	 * 
+	 * @param plugin The HoloGUIPlugin associated with the component.
+	 * @param section The ConfigurationSection that defines the component.
+	 * @return TextBoxComponent hydrated with the given config values after passing validation.
+	 * 		    Returns null if the config object did not pass validation.
+	 */
+	public static TextBoxComponent createTextBoxComponent(HoloGUIPlugin plugin, ConfigurationSection section)
 	{
-		String propertyString = ConfigParser.generateConfigString(plugin.getName(), properties);
+		TextBoxComponentConfig config = ConfigParser.parse(section, TextBoxComponentConfig.class, plugin.getName());
+
+		return new TextBoxComponent(plugin, config);
+	}
+	
+	/**
+	 * Creates an TextBoxComponent.
+	 * This function parses the input config object and performs validation checks.
+	 * 
+	 * @param plugin The HoloGUIPlugin associated with the component.
+	 * @param config for the component.
+	 * @return TextBoxComponent hydrated with the given config object after passing validation.
+	 * 		    Returns null if the config object did not pass validation.
+	 */
+	public static TextBoxComponent createTextBoxComponentComponent(HoloGUIPlugin plugin, TextBoxComponentConfig config)
+	{
+		String propertyString = ConfigParser.generateConfigString(plugin.getName(), config);
 
 		if(propertyString != null)
 		{
-			return ConfigParser.parse(toYaml(propertyString), TextBoxComponent.class, plugin.getName(), getPassthroughParams(plugin));
+			config = ConfigParser.parse(toYaml(propertyString), TextBoxComponentConfig.class, plugin.getName());
+		
+			return new TextBoxComponent(plugin, config);
 		}
 		
 		return null;
 	}
 	
-	public static ToggleSwitchComponent createToggleSwitchComponent(HoloGUIPlugin plugin, ToggleSwitchComponentProperties properties)
+	/**
+	 * Creates an ToggleSwitchComponent.
+	 * This function parses the input ConfigurationSection and performs validation checks.
+	 * 
+	 * @param plugin The HoloGUIPlugin associated with the component.
+	 * @param section The ConfigurationSection that defines the component.
+	 * @return ToggleSwitchComponent hydrated with the given config values after passing validation.
+	 * 		    Returns null if the config object did not pass validation.
+	 */
+	public static ToggleSwitchComponent createToggleSwitchComponent(HoloGUIPlugin plugin, ConfigurationSection section)
 	{
-		String propertyString = ConfigParser.generateConfigString(plugin.getName(), properties);
+		ToggleSwitchComponentConfig config = ConfigParser.parse(section, ToggleSwitchComponentConfig.class, plugin.getName());
+
+		return new ToggleSwitchComponent(plugin, config);
+	}
+	
+	/**
+	 * Creates an ToggleSwitchComponent.
+	 * This function parses the input config object and performs validation checks.
+	 * 
+	 * @param plugin The HoloGUIPlugin associated with the component.
+	 * @param config for the component.
+	 * @return ToggleSwitchComponent hydrated with the given config object after passing validation.
+	 * 		    Returns null if the config object did not pass validation.
+	 */
+	public static ToggleSwitchComponent createToggleSwitchComponent(HoloGUIPlugin plugin, ToggleSwitchComponentConfig config)
+	{
+		String propertyString = ConfigParser.generateConfigString(plugin.getName(), config);
 
 		if(propertyString != null)
 		{
-			return ConfigParser.parse(toYaml(propertyString), ToggleSwitchComponent.class, plugin.getName(), getPassthroughParams(plugin));
+			config = ConfigParser.parse(toYaml(propertyString), ToggleSwitchComponentConfig.class, plugin.getName());
 		}
 		
 		return null;
 	}
 	
-	public static ValueScrollerComponent createValueScrollerComponent(HoloGUIPlugin plugin, ValueScrollerComponentProperties properties)
+	/**
+	 * Creates an ValueScrollerComponent.
+	 * This function parses the input ConfigurationSection and performs validation checks.
+	 * 
+	 * @param plugin The HoloGUIPlugin associated with the component.
+	 * @param section The ConfigurationSection that defines the component.
+	 * @return ValueScrollerComponent hydrated with the given config values after passing validation.
+	 * 		    Returns null if the config object did not pass validation.
+	 */
+	public static ValueScrollerComponent createValueScrollerComponent(HoloGUIPlugin plugin, ConfigurationSection section)
 	{
-		String propertyString = ConfigParser.generateConfigString(plugin.getName(), properties);
+		ValueScrollerComponentConfig config = ConfigParser.parse(section, ValueScrollerComponentConfig.class, plugin.getName());
+
+		return new ValueScrollerComponent(plugin, config);
+	}
+	
+	/**
+	 * Creates an ValueScrollComponent.
+	 * This function parses the input config object and performs validation checks.
+	 * 
+	 * @param plugin The HoloGUIPlugin associated with the component.
+	 * @param config for the component.
+	 * @return ValueScrollComponent hydrated with the given config object after passing validation.
+	 * 		    Returns null if the config object did not pass validation.
+	 */
+	public static ValueScrollerComponent createValueScrollerComponent(HoloGUIPlugin plugin, ValueScrollerComponentConfig config)
+	{
+		String propertyString = ConfigParser.generateConfigString(plugin.getName(), config);
 
 		if(propertyString != null)
 		{
-			return ConfigParser.parse(toYaml(propertyString), ValueScrollerComponent.class, plugin.getName(), getPassthroughParams(plugin));
+			config = ConfigParser.parse(toYaml(propertyString), ValueScrollerComponentConfig.class, plugin.getName());
+		
+			return new ValueScrollerComponent(plugin, config);
 		}
 		
 		return null;
 	}
 	
-	public static CanvasComponent createCanvasComponent(HoloGUIPlugin plugin, CanvasComponentProperties properties)
+	/**
+	 * Creates an CanvasComponent.
+	 * This function parses the input config object and performs validation checks.
+	 * 
+	 * @param plugin The HoloGUIPlugin associated with the component.
+	 * @param config for the component.
+	 * @return CanvasComponent hydrated with the given config object after passing validation.
+	 * 		    Returns null if the config object did not pass validation.
+	 */
+	public static CanvasComponent createCanvasComponent(HoloGUIPlugin plugin, CanvasComponentConfig config)
 	{
-		String propertyString = ConfigParser.generateConfigString(plugin.getName(), properties);
+		String propertyString = ConfigParser.generateConfigString(plugin.getName(), config);
 		
 		if(propertyString != null)
 		{
-			return ConfigParser.parse(toYaml(propertyString), CanvasComponent.class, plugin.getName(), getPassthroughParams(plugin));
+			config = ConfigParser.parse(toYaml(propertyString), CanvasComponentConfig.class, plugin.getName());
+			
+			return new CanvasComponent(plugin, config);
 		}
 		
 		return null;

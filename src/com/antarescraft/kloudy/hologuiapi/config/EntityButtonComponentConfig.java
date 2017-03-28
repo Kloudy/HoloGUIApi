@@ -1,25 +1,25 @@
 package com.antarescraft.kloudy.hologuiapi.config;
 
-import org.bukkit.entity.EntityType;
-
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.annotations.DoubleConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.annotations.OptionalConfigProperty;
-import com.antarescraft.kloudy.plugincore.utils.Utils;
+import com.antarescraft.kloudy.plugincore.config.annotations.ParsableConfigProperty;
+import com.antarescraft.kloudy.plugincore.configwrappers.EntityTypeConfigWrapper;
 
-public class EntityButtonComponentProperties extends ClickableGUIComponentProperties
+public class EntityButtonComponentConfig extends ClickableGUIComponentConfig
 {
 	private static final double DEFAULT_DISTANCE = 8;
 	private static final double DEFAULT_LABEL_ZOOM_DISTANCE = 1.3;
 	
+	@ParsableConfigProperty
 	@ConfigProperty(key = "entity-type")
-	private String entityTypeString;
+	public EntityTypeConfigWrapper entityType;
 	
 	@OptionalConfigProperty
 	@DoubleConfigProperty(defaultValue = 0, maxValue = Double.MAX_VALUE, minValue = 0)
 	@ConfigProperty(key = "yaw")
-	private double yaw;
+	public double yaw;
 
 	@Override
 	public void configParseComplete(PassthroughParams params)
@@ -37,25 +37,5 @@ public class EntityButtonComponentProperties extends ClickableGUIComponentProper
 	public double getDefaultLabelZoomDistance()
 	{
 		return DEFAULT_LABEL_ZOOM_DISTANCE;
-	}
-	
-	public EntityType getEntityType()
-	{
-		return Utils.parseEntityType(entityTypeString);
-	}
-	
-	public void setEntityType(EntityType entityType)
-	{
-		entityTypeString = entityType.toString();
-	}
-	
-	public double getYaw()	
-	{
-		return yaw;
-	}
-	
-	public void setYaw(double yaw)
-	{
-		this.yaw = yaw;
 	}
 }

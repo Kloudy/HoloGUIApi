@@ -36,9 +36,9 @@ public class PlayerItemHeldEventListener implements Listener
 			{
 				 componentValue.decrement();
 				 
-				 Sound onscrollSound = valueScroller.getValueScrollerComponent().getConfig().getOnscrollSound();
-				 float onscrollSoundVolume = valueScroller.getValueScrollerComponent().getConfig().getOnscrollSoundVolume();
-				 if(valueScroller.getValueScrollerComponent().getConfig().getOnscrollSound() != null)
+				 Sound onscrollSound = valueScroller.getValueScrollerComponent().getConfig().onscrollSound.unwrap();
+				 float onscrollSoundVolume = (float)valueScroller.getValueScrollerComponent().getConfig().onscrollSoundVolume;
+				 if(valueScroller.getValueScrollerComponent().getConfig().onscrollSound.unwrap() != null)
 				 {
 					 player.playSound(player.getLocation(), onscrollSound, onscrollSoundVolume, 1);
 				 }
@@ -50,9 +50,9 @@ public class PlayerItemHeldEventListener implements Listener
 			{
 				componentValue.increment();
 				
-				 Sound onscrollSound = valueScroller.getValueScrollerComponent().getConfig().getOnscrollSound();
-				 float onscrollSoundVolume = valueScroller.getValueScrollerComponent().getConfig().getOnscrollSoundVolume();
-				 if(valueScroller.getValueScrollerComponent().getConfig().getOnscrollSound() != null)
+				 Sound onscrollSound = valueScroller.getValueScrollerComponent().getConfig().onscrollSound.unwrap();
+				 float onscrollSoundVolume = (float)valueScroller.getValueScrollerComponent().getConfig().onscrollSoundVolume;
+				 if(valueScroller.getValueScrollerComponent().getConfig().onscrollSound.unwrap() != null)
 				 {
 					 player.playSound(player.getLocation(), onscrollSound, onscrollSoundVolume, 1);
 				 }

@@ -3,44 +3,45 @@ package com.antarescraft.kloudy.hologuiapi.guicomponents;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
-import com.antarescraft.kloudy.hologuiapi.config.EntityComponentProperties;
+import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
+import com.antarescraft.kloudy.hologuiapi.config.EntityComponentConfig;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIEntityComponent;
-import com.antarescraft.kloudy.plugincore.config.ConfigObject;
-import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
-import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
-import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.configwrappers.EntityTypeConfigWrapper;
 
-public class EntityComponent extends GUIComponent implements EntityTypeComponent, ConfigObject
+public class EntityComponent extends GUIComponent implements EntityTypeComponent
 {
-	@ConfigElement
-	@ConfigProperty
-	private EntityComponentProperties properties;
+	private EntityComponentConfig config;
 	
-	private EntityComponent(){}
+	EntityComponent(HoloGUIPlugin plugin, EntityComponentConfig config)
+	{
+		super(plugin);
+		
+		this.config = config;
+	}
 
 	@Override
 	public EntityType getEntityType()
 	{
-		return properties.getEntityType();
+		return config.entityType.unwrap();
 	}
 	
 	@Override
 	public void setEntityType(EntityType entityType)
 	{
-		properties.setEntityType(entityType);
+		config.entityType = new EntityTypeConfigWrapper(entityType);
 	}
 	
 	@Override
 	public float getYaw()
 	{
-		return (float)properties.getYaw();
+		return (float)config.yaw;
 	}
 	
 	@Override
 	public void setYaw(float yaw)
 	{
-		properties.setYaw(yaw);
+		config.yaw = yaw;
 	}
 	
 	@Override
@@ -58,18 +59,12 @@ public class EntityComponent extends GUIComponent implements EntityTypeComponent
 	@Override
 	public double getLineHeight()
 	{
-		return (1 / properties.getDistance()) * 0.21;
+		return (1 / config.getDistance()) * 0.21;
 	}
 
 	@Override
-	public void configParseComplete(PassthroughParams params)
-	{	
-		super.configParseComplete(params);
-	}
-
-	@Override
-	public EntityComponentProperties getConfig()
+	public EntityComponentConfig getConfig()
 	{
-		return properties;
+		return config;
 	}
 }

@@ -7,40 +7,41 @@ import java.util.HashSet;
 import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
+import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
-import com.antarescraft.kloudy.hologuiapi.config.LabelComponentProperties;
+import com.antarescraft.kloudy.hologuiapi.config.LabelComponentConfig;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextComponent;
 import com.antarescraft.kloudy.hologuiapi.util.HoloGUIPlaceholders;
-import com.antarescraft.kloudy.plugincore.config.ConfigObject;
-import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
-import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
-import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 
 /*
  * Represents text on a GUI
  */
-public class LabelComponent extends GUIComponent implements ConfigObject
+public class LabelComponent extends GUIComponent
 {		
-	@ConfigElement
-	@ConfigProperty(key = "")
-	private LabelComponentProperties properties;
+	private LabelComponentConfig config;
 	
 	private HashSet<Integer> scrollingLines = new HashSet<Integer>();
-	
 	private String formatCode = "";
 	
-	private LabelComponent(){}
+	LabelComponent(HoloGUIPlugin plugin, LabelComponentConfig config)
+	{
+		super(plugin);
+		
+		this.config = config;
+		
+		parseLineScroll();
+	}
 	
 	private void parseLineScroll()
 	{
 		scrollingLines.clear();
 				
-		String[] linesArray = new String[properties.getLines().size()];
-		for(int i = 0; i < properties.getLines().size(); i++)
+		String[] linesArray = new String[config.lines.size()];
+		for(int i = 0; i < config.lines.size(); i++)
 		{
-			String str = properties.getLines().get(i);
+			String str = config.lines.get(i);
 			str = str.replaceAll("§", "&");
 						
 			if(str.startsWith("%scroll%"))
@@ -52,12 +53,12 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 			linesArray[i] = str;
 		}
 		
-		properties.setLines(new ArrayList<String>(Arrays.asList(linesArray)));
+		config.lines = new ArrayList<String>(Arrays.asList(linesArray));
 	}
 	
 	public void setLines(ArrayList<String> lines)
 	{
-		properties.setLines(lines);
+		config.lines = lines;
 		
 		parseLineScroll();
 	}
@@ -71,11 +72,11 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 	@Override
 	public void updateIncrement()
 	{
-		String[] linesArray = new String[properties.getLines().size()];
+		String[] linesArray = new String[config.lines.size()];
 		String currentFormatting = "";
-		for(int i = 0; i < properties.getLines().size(); i++)
+		for(int i = 0; i < config.lines.size(); i++)
 		{
-			String str = properties.getLines().get(i);
+			String str = config.lines.get(i);
 			
 			if(scrollingLines.contains(i))
 			{
@@ -134,16 +135,16 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 			linesArray[i] = str;
 		}
 		
-		properties.setLines(new ArrayList<String>(Arrays.asList(linesArray)));
+		config.lines = new ArrayList<String>(Arrays.asList(linesArray));
 	}
 	
 	@Override
 	public String[] updateComponentLines(Player player)
 	{
-		String[] componentLines = new String[properties.getLines().size()];
-		for(int i = 0; i < properties.getLines().size(); i++)
+		String[] componentLines = new String[config.lines.size()];
+		for(int i = 0; i < config.lines.size(); i++)
 		{
-			String str = properties.getLines().get(i);
+			String str = config.lines.get(i);
 			
 			str = HoloGUIPlaceholders.setHoloGUIPlaceholders(plugin, str, player);
 			if(HoloGUIApi.hasPlaceholderAPI)
@@ -176,20 +177,12 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 	@Override
 	public double getLineHeight()
 	{
-		return (1 / properties.getDistance()) * 0.21;
-	}
-
-	@Override
-	public void configParseComplete(PassthroughParams params)
-	{
-		super.configParseComplete(params);
-		
-		parseLineScroll();
+		return (1 / config.getDistance()) * 0.21;
 	}
 	
 	@Override
-	public LabelComponentProperties getConfig()
+	public LabelComponentConfig getConfig()
 	{
-		return properties;
+		return config;
 	}
 }

@@ -7,8 +7,6 @@ import com.antarescraft.kloudy.hologuiapi.guicomponents.ToggleSwitchComponent;
 
 public class PlayerGUIToggleSwitchComponent extends PlayerGUITextComponent implements ValueHolder
 {
-	//private boolean state;
-	
 	public PlayerGUIToggleSwitchComponent(Player player, ToggleSwitchComponent toggleComponent, String[] lines)
 	{
 		super(player, toggleComponent, lines);
@@ -19,14 +17,14 @@ public class PlayerGUIToggleSwitchComponent extends PlayerGUITextComponent imple
 	{
 		if(getToggleSwitchComponent().getPlayerToggleSwitchState(player))
 		{
-			String onState = getToggleSwitchComponent().getConfig().getOnValue();
+			String onState = getToggleSwitchComponent().getConfig().onValue;
 			onState = onState.replace("&", "§");
 			
 			return onState;
 		}
 		else
 		{
-			String offState = getToggleSwitchComponent().getConfig().getOffValue();
+			String offState = getToggleSwitchComponent().getConfig().offValue;
 			offState = offState.replace("&", "§");
 			
 			 return offState;
