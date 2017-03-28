@@ -38,7 +38,7 @@ public class EntityButtonComponent extends ClickableGUIComponent implements Enti
 	}
 	
 	@Override
-	public EntityButtonComponentProperties getProperties()
+	public EntityButtonComponentProperties getConfig()
 	{
 		return properties;
 	}

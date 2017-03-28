@@ -28,7 +28,7 @@ public class CanvasComponent extends GUIComponent
 	}
 
 	@Override
-	public CanvasComponentProperties getProperties() 
+	public CanvasComponentProperties getConfig() 
 	{
 		return properties;
 	}

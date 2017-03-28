@@ -109,7 +109,7 @@ public class ItemButtonComponent extends ClickableGUIComponent implements ItemTy
 	}
 	
 	@Override
-	public ItemButtonComponentProperties getProperties()
+	public ItemButtonComponentProperties getConfig()
 	{
 		return properties;
 	}

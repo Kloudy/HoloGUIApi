@@ -71,7 +71,7 @@ public class ItemComponent extends GUIComponent implements ItemTypeComponent, Co
 	}
 	
 	@Override
-	public ItemComponentProperties getProperties()
+	public ItemComponentProperties getConfig()
 	{
 		return properties;
 	}

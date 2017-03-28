@@ -34,7 +34,7 @@ public class TabsGUIPage extends GUIPage
 		for(GUIComponent component : guiComponents.values())
 		{
 			PlayerGUIComponent playerGUIComponent = component.initPlayerGUIComponent(player);
-			components.put(component.getProperties().getId(), playerGUIComponent);
+			components.put(component.getConfig().getId(), playerGUIComponent);
 		}
 		
 		PlayerGUITabsPage playerGuiTabsPage = new PlayerGUITabsPage(player, components, lookLocation, this);

@@ -151,7 +151,7 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 	}
 	
 	@Override
-	public ButtonComponentProperties getProperties()
+	public ButtonComponentProperties getConfig()
 	{
 		return properties;
 	}

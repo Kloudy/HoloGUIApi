@@ -17,18 +17,19 @@ public class CanvasPixel
 	private double distanceOffset;
 	private Location location;
 	
-	public CanvasPixel()
+	public CanvasPixel(Location location)
 	{
-		this(MinecraftColor.TRANSPARENT, 0);
+		this(MinecraftColor.TRANSPARENT, location, 0);
 	}
 	
 	/**
 	 * @param color The color of the pixel.
 	 * @param distanceOffset The distance zoom offset towards the player (Used to zoom in/out the pixel with relation to the rest of the CanvasComponent).
 	 */
-	public CanvasPixel(MinecraftColor color, double distanceOffset)
+	public CanvasPixel(MinecraftColor color, Location location, double distanceOffset)
 	{
 		this.color = color;
+		this.location = location;
 		this.distanceOffset = distanceOffset;
 	}
 	
@@ -51,7 +52,7 @@ public class CanvasPixel
 		
 		if(!isRendered()) // Pixel not already rendered. Render the pixel.
 		{
-			render(player, location);
+			entityId = HoloGUIApi.packetManager.spawnEntity(EntityType.ARMOR_STAND, player, location, color.symbol() + "▇", true);
 		}
 		else // Pixel already rendered. Just update the color.
 		{
@@ -84,26 +85,11 @@ public class CanvasPixel
 	}
 	
 	/**
-	 * Renders the pixel for the player at the specified location.
-	 * @param player The player for whom this pixel will be rendered.
-	 * @param location The location that this pixel will be rendered.
-	 */
-	public void render(Player player, Location location)
-	{
-		this.location = location;
-		
-		if(color != MinecraftColor.TRANSPARENT) // If the color is Transparent, don't bother spawning the ArmorStand.
-		{
-			entityId = HoloGUIApi.packetManager.spawnEntity(EntityType.ARMOR_STAND, player, location, color.symbol() + "▇", true);
-		}
-	}
-	
-	/**
 	 * @return true if this pixel's ArmorStand has been spawned
 	 */
 	public boolean isRendered()
 	{
-		return !(entityId == null);
+		return entityId != null;
 	}
 	
 	/**

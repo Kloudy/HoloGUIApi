@@ -10,34 +10,14 @@ public class CanvasComponentProperties extends GUIComponentProperties
 	private static final double DEFAULT_DISTANCE = 15;
 	
 	@ConfigProperty(key = "width")
-	private int width;
+	public int width;
 	
 	@ConfigProperty(key = "height")
-	private int height;
+	public int height;
 	
 	@Override
 	protected double getDefaultDistance()
 	{
 		return DEFAULT_DISTANCE;
-	}
-	
-	public void setWidth(int width)
-	{
-		this.width = width;
-	}
-	
-	public int getWidth()
-	{
-		return width;
-	}
-	
-	public void setHeight(int height)
-	{
-		this.height = height;
-	}
-	
-	public int getHeight()
-	{
-		return height;
 	}
 }

@@ -60,7 +60,7 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 	}
 	
 	@Override
-	public ImageComponentProperties getProperties()
+	public ImageComponentProperties getConfig()
 	{
 		return properties;
 	}

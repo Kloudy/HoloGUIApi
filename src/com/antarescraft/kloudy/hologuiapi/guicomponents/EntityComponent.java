@@ -68,7 +68,7 @@ public class EntityComponent extends GUIComponent implements EntityTypeComponent
 	}
 
 	@Override
-	public EntityComponentProperties getProperties()
+	public EntityComponentProperties getConfig()
 	{
 		return properties;
 	}

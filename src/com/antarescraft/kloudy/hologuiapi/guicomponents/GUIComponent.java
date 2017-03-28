@@ -13,7 +13,7 @@ public abstract class GUIComponent implements ConfigObject
 	protected HoloGUIPlugin plugin;
 	
 	public abstract PlayerGUIComponent initPlayerGUIComponent(Player player);
-	public abstract GUIComponentProperties getProperties();
+	public abstract GUIComponentProperties getConfig();
 	public abstract void updateIncrement();//updates the guicomponent's next incremental state
 	public abstract String[] updateComponentLines(Player player);
 	public abstract double getLineHeight();

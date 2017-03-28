@@ -84,7 +84,7 @@ public class PlayerGUIPage
 	 */
 	public boolean isHidden(GUIComponent guiComponent)
 	{
-		return isHidden(guiComponent.getProperties().getId());
+		return isHidden(guiComponent.getConfig().getId());
 	}
 	
 	/**
@@ -107,10 +107,10 @@ public class PlayerGUIPage
 	 */
 	public PlayerGUIComponent renderComponent(GUIComponent guiComponent)
 	{
-		PlayerGUIComponent existingComponent = components.get(guiComponent.getProperties().getId());
+		PlayerGUIComponent existingComponent = components.get(guiComponent.getConfig().getId());
 		if(existingComponent != null) 
 		{
-			removeComponent(guiComponent.getProperties().getId());
+			removeComponent(guiComponent.getConfig().getId());
 		}
 		 		 
 		PlayerGUIComponent playerGUIComponent = guiComponent.initPlayerGUIComponent(player);
@@ -118,15 +118,15 @@ public class PlayerGUIPage
 		 
 		playerGUIComponent.spawnEntities(lookLocation, (this instanceof StationaryPlayerGUIPage));
 		 
-		components.put(guiComponent.getProperties().getId(), playerGUIComponent);
+		components.put(guiComponent.getConfig().getId(), playerGUIComponent);
 		 
 		// Don't add to guiComponents if the same guicomponent already exists in the gui page. This would cause it to get updated twice
-		if(guiPage.componentExists(guiComponent.getProperties().getId()) && guiPage.getComponent(guiComponent.getProperties().getId()).equals(guiComponent))
+		if(guiPage.componentExists(guiComponent.getConfig().getId()) && guiPage.getComponent(guiComponent.getConfig().getId()).equals(guiComponent))
 		{
 			return playerGUIComponent;
 		}
 		 
-		guiComponents.put(guiComponent.getProperties().getId(), guiComponent);
+		guiComponents.put(guiComponent.getConfig().getId(), guiComponent);
 		
 		return playerGUIComponent;
 	}
@@ -188,7 +188,7 @@ public class PlayerGUIPage
 	{
 		for(PlayerGUIComponent playerGUIComponent : components.values())
 		{
-			if(!playerGUIComponent.getGUIComponent().getProperties().isHidden())
+			if(!playerGUIComponent.getGUIComponent().getConfig().isHidden())
 			{
 				playerGUIComponent.spawnEntities(lookLocation, false);
 			}

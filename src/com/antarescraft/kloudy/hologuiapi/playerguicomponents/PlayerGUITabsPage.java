@@ -12,6 +12,7 @@ import com.antarescraft.kloudy.hologuiapi.guicomponents.CanvasComponent;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIComponentFactory;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.TabComponent;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.TabsGUIPage;
+import com.antarescraft.kloudy.hologuiapi.imageprocessing.MinecraftColor;
 
 public class PlayerGUITabsPage extends PlayerGUIPage
 {
@@ -24,6 +25,12 @@ public class PlayerGUITabsPage extends PlayerGUIPage
 		super(player, components, lookLocation, tabs);
 		
 		config = tabs.getTabsConfig();
+	}
+	
+	@Override
+	public void renderComponents()
+	{
+		super.renderComponents();
 		
 		// Initialize the canvas.
 		
@@ -33,12 +40,14 @@ public class PlayerGUITabsPage extends PlayerGUIPage
 		CanvasComponentProperties properties = new CanvasComponentProperties();
 		properties.setId("###tab-canvas###");
 		properties.setPosition(config.tabsPosition);
-		properties.setWidth(width);
-		properties.setHeight(height);
+		properties.width = width;
+		properties.height = height;
 		properties.setDistance(config.tabDistance);
 		
-		CanvasComponent canvasComponent = GUIComponentFactory.createCanvasComponent(tabs.getHoloGUIPlugin(), properties);
+		CanvasComponent canvasComponent = GUIComponentFactory.createCanvasComponent(guiPage.getHoloGUIPlugin(), properties);
 		canvas = (PlayerGUICanvasComponent) renderComponent(canvasComponent);
+		
+		renderDividerLine();
 		
 		// Render the tabs.
 		int i = 0;
@@ -50,6 +59,12 @@ public class PlayerGUITabsPage extends PlayerGUIPage
 			
 			i++;
 		}
+	}
+	
+	// Render the line under the tabs.
+	private void renderDividerLine()
+	{
+		canvas.fill(0, config.tabHeight-1, canvas.getCanvasComponent().getConfig().width, config.tabHeight - 1, MinecraftColor.BLACK);
 	}
 	
 	/**

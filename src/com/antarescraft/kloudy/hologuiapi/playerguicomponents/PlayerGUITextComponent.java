@@ -31,7 +31,7 @@ public class PlayerGUITextComponent extends PlayerGUIComponent
 		Vector vect = lookLocation.getDirection().setY(0.25);
 		vect = customNormalize(vect);
 		
-		double distance = guiComponent.getProperties().getDistance();
+		double distance = guiComponent.getConfig().getDistance();
 		Location lookOrigin = player.getLocation();
 		if(stationary) 
 		{
@@ -44,7 +44,7 @@ public class PlayerGUITextComponent extends PlayerGUIComponent
 		for(int i = 0; i < lines.length; i++)
 		{
 			armorstandLocations[i] = calculateArmorStandLocation(i+1, lookOrigin, vect, distance, guiComponent.getLineHeight(), 
-					guiComponent.getProperties().getPosition().getY(), guiComponent.getProperties().getPosition().getX());
+					guiComponent.getConfig().getPosition().getY(), guiComponent.getConfig().getPosition().getX());
 			
 			if(stationary)
 			{
@@ -98,7 +98,7 @@ public class PlayerGUITextComponent extends PlayerGUIComponent
 		Vector vect = lookLocation.getDirection().setY(0.25);
 		vect = customNormalize(vect);
 		
-		double distance = guiComponent.getProperties().getDistance();
+		double distance = guiComponent.getConfig().getDistance();
 		Location lookOrigin = player.getLocation();
 		if(stationary) 
 		{
@@ -111,7 +111,7 @@ public class PlayerGUITextComponent extends PlayerGUIComponent
 		for(int i = 0; i < componentEntityIds.length; i++)
 		{
 			armorstandLocations[i] = calculateArmorStandLocation(i+1, lookOrigin, vect,
-					distance, guiComponent.getLineHeight(), guiComponent.getProperties().getPosition().getY(), guiComponent.getProperties().getPosition().getX());
+					distance, guiComponent.getLineHeight(), guiComponent.getConfig().getPosition().getY(), guiComponent.getConfig().getPosition().getX());
 			
 			if(stationary)
 			{

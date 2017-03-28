@@ -43,9 +43,7 @@ public class TabComponent implements ConfigObject
 		int imageY = 0;
 		
 		canvas.drawImage(imageX, imageY, tabImageName, tabWidth, tabHeight);
-		
-		//canvas.fill(0, tabHeight-1, canvas.getCanvasComponent().getProperties().getWidth(), tabHeight - 1, MinecraftColor.BLACK);
-		
+				
 		if(open)
 		{
 			int x1 = imageX + 1;

@@ -331,7 +331,7 @@ public class ValueScrollerComponent extends ClickableGUIComponent implements Con
 	}
 	
 	@Override
-	public ValueScrollerComponentProperties getProperties()
+	public ValueScrollerComponentProperties getConfig()
 	{
 		return properties;
 	}

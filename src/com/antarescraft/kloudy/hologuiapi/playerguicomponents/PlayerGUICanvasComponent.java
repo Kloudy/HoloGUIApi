@@ -16,16 +16,7 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 	{
 		super(player, canvasComponent);
 		
-		pixels = new CanvasPixel[canvasComponent.getProperties().getHeight()][canvasComponent.getProperties().getWidth()];
-		
-		// Initialize all of the CanvasPixels.
-		for(int i = 0; i < canvasComponent.getProperties().getHeight(); i++)
-		{
-			for(int j = 0; j < canvasComponent.getProperties().getWidth(); j++)
-			{
-				pixels[i][j] = new CanvasPixel();
-			}
-		}
+		pixels = new CanvasPixel[canvasComponent.getConfig().getHeight()][canvasComponent.getConfig().getWidth()];	
 	}
 	
 	public CanvasComponent getCanvasComponent()
@@ -41,7 +32,7 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 	{
 		CanvasComponent canvas = getCanvasComponent();
 		
-		fill(0, 0, canvas.getProperties().getWidth()-1, canvas.getProperties().getHeight()-1, color);
+		fill(0, 0, canvas.getConfig().getWidth()-1, canvas.getConfig().getHeight()-1, color);
 	}
 	
 	public void fill(int x1, int y1, int x2, int y2, MinecraftColor color)
@@ -107,9 +98,9 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 	{
 		CanvasComponent canvas = getCanvasComponent();
 		
-		for(int i = 0; i < canvas.getProperties().getHeight(); i++)
+		for(int i = 0; i < canvas.getConfig().getHeight(); i++)
 		{
-			for(int j = 0; j < canvas.getProperties().getWidth(); j++)
+			for(int j = 0; j < canvas.getConfig().getWidth(); j++)
 			{
 				pixels[i][j].destroy(player);
 			}
@@ -136,14 +127,14 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 		Vector vect = lookLocation.getDirection().setY(0.25);
 		vect = customNormalize(vect);
 				
-		for(int i = 0; i < getCanvasComponent().getProperties().getHeight(); i++)
+		for(int i = 0; i < getCanvasComponent().getConfig().getHeight(); i++)
 		{
-			for(int j = 0; j < getCanvasComponent().getProperties().getWidth(); j++)
+			for(int j = 0; j < getCanvasComponent().getConfig().getWidth(); j++)
 			{
-				pixels[i][j].render(player, calculatePixelLocation(i, j, player.getLocation(), vect, 
-						guiComponent.getProperties().getDistance(), guiComponent.getLineHeight(), 
-						guiComponent.getProperties().getPosition().getY(), 
-						guiComponent.getProperties().getPosition().getX()));// - (j * guiComponent.getLineHeight() * 1.2)));
+				pixels[i][j] = new CanvasPixel(calculatePixelLocation(i, j, player.getLocation(), vect, 
+						guiComponent.getConfig().getDistance(), guiComponent.getLineHeight(), 
+						guiComponent.getConfig().getPosition().getY(), 
+						guiComponent.getConfig().getPosition().getX()));
 			}
 		}
 	}
@@ -154,14 +145,14 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 		Vector vect = lookLocation.getDirection().setY(0.25);
 		vect = customNormalize(vect);
 		
-		for(int i = 0; i < getCanvasComponent().getProperties().getHeight(); i++)
+		for(int i = 0; i < getCanvasComponent().getConfig().getHeight(); i++)
 		{
-			for(int j = 0; j < getCanvasComponent().getProperties().getWidth(); j++)
+			for(int j = 0; j < getCanvasComponent().getConfig().getWidth(); j++)
 			{
 				pixels[i][j].updateLocation(player, calculatePixelLocation(i, j, player.getLocation(), vect, 
-						guiComponent.getProperties().getDistance(), guiComponent.getLineHeight(), 
-						guiComponent.getProperties().getPosition().getY(), 
-						guiComponent.getProperties().getPosition().getX()));// - (j * guiComponent.getLineHeight() * 1.2)));
+						guiComponent.getConfig().getDistance(), guiComponent.getLineHeight(), 
+						guiComponent.getConfig().getPosition().getY(), 
+						guiComponent.getConfig().getPosition().getX()));// - (j * guiComponent.getLineHeight() * 1.2)));
 			}
 		}
 	}

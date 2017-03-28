@@ -167,7 +167,7 @@ public class ToggleSwitchComponent extends ClickableGUIComponent implements Conf
 	}
 	
 	@Override
-	public ToggleSwitchComponentProperties getProperties()
+	public ToggleSwitchComponentProperties getConfig()
 	{
 		return properties;
 	}

@@ -159,7 +159,7 @@ public class TextBoxComponent extends ClickableGUIComponent implements ConfigObj
 	}
 	
 	@Override
-	public TextBoxComponentProperties getProperties()
+	public TextBoxComponentProperties getConfig()
 	{
 		return properties;
 	}

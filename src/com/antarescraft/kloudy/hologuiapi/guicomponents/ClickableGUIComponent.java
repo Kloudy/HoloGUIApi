@@ -27,7 +27,7 @@ public abstract class ClickableGUIComponent extends GUIComponent
 	private HashMap<UUID, HoverHandler> hoverHandlers = new HashMap<UUID, HoverHandler>();
 	private HashMap<UUID, HoverOutHandler> hoverOutHandlers = new HashMap<UUID, HoverOutHandler>();
 	
-	public abstract ClickableGUIComponentProperties getProperties();
+	public abstract ClickableGUIComponentProperties getConfig();
 	public abstract double getZoomedInLineHeight();
 	public abstract double zoomDistance();
 	

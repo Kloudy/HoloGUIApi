@@ -188,7 +188,7 @@ public class LabelComponent extends GUIComponent implements ConfigObject
 	}
 	
 	@Override
-	public LabelComponentProperties getProperties()
+	public LabelComponentProperties getConfig()
 	{
 		return properties;
 	}
