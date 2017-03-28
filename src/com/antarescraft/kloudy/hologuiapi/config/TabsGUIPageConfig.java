@@ -7,7 +7,6 @@ import org.bukkit.Bukkit;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.exceptions.DefaultTabIndexOutOfBoundsException;
 import com.antarescraft.kloudy.hologuiapi.exceptions.TabsNotDefinedException;
-import com.antarescraft.kloudy.hologuiapi.guicomponents.ComponentPosition;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIPage;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.TabComponent;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;

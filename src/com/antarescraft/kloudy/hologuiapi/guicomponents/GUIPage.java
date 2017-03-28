@@ -244,7 +244,7 @@ public class GUIPage
 	 */
 	public void addComponent(GUIComponent component)
 	{
-		guiComponents.put(component.getConfig().getId(), component);
+		guiComponents.put(component.getConfig().id, component);
 	}
 	
 	public void updateIncrement()
@@ -262,7 +262,7 @@ public class GUIPage
 		for(GUIComponent component : guiComponents.values())
 		{
 			PlayerGUIComponent playerGUIComponent = component.initPlayerGUIComponent(player);
-			components.put(component.getConfig().getId(), playerGUIComponent);
+			components.put(component.getConfig().id, playerGUIComponent);
 		}
 		
 		StationaryPlayerGUIPage stationaryPlayerGUIPage = new StationaryPlayerGUIPage(player, components, origin, this, stationaryGUIDisplayPageId);
@@ -279,7 +279,7 @@ public class GUIPage
 		for(GUIComponent component : guiComponents.values())
 		{
 			PlayerGUIComponent playerGUIComponent = component.initPlayerGUIComponent(player);
-			components.put(component.getConfig().getId(), playerGUIComponent);
+			components.put(component.getConfig().id, playerGUIComponent);
 		}
 		
 		PlayerGUIPage playerGUIPage = new PlayerGUIPage(player, components, lookLocation, this);

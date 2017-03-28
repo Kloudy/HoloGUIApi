@@ -36,7 +36,7 @@ public class ItemComponent extends GUIComponent implements ItemTypeComponent
 	@Override
 	public double getLineHeight()
 	{
-		return (1 / config.getDistance()) * 0.21;
+		return (1 / config.distance) * 0.21;
 	}
 	
 	@Override

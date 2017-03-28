@@ -183,7 +183,7 @@ public class PlayerGUITextBoxComponent extends PlayerGUIValueBoxComponent implem
 		Vector vect = lookLocation.getDirection().setY(0.25);
 		vect = customNormalize(vect);
 		
-		double distance = guiComponent.getConfig().getDistance();
+		double distance = guiComponent.getConfig().distance;
 		Location lookOrigin = player.getLocation();
 		if(stationary) 
 		{
@@ -192,7 +192,7 @@ public class PlayerGUITextBoxComponent extends PlayerGUIValueBoxComponent implem
 		}
 		
 		armorstandLocations[0] = calculateArmorStandLocation(2, lookOrigin, vect, distance, guiComponent.getLineHeight(), 
-				guiComponent.getConfig().getPosition().getY(), guiComponent.getConfig().getPosition().getX());
+				guiComponent.getConfig().position.getY(), guiComponent.getConfig().position.getX());
 		
 		if(stationary)
 		{
@@ -215,7 +215,7 @@ public class PlayerGUITextBoxComponent extends PlayerGUIValueBoxComponent implem
 		for(int i = 1; i < lines.length; i++)
 		{
 			armorstandLocations[i] = calculateArmorStandLocation(i, lookOrigin, vect, distance, guiComponent.getLineHeight(), 
-					guiComponent.getConfig().getPosition().getY(), guiComponent.getConfig().getPosition().getX());
+					guiComponent.getConfig().position.getY(), guiComponent.getConfig().position.getX());
 			
 			if(stationary)
 			{
@@ -233,7 +233,7 @@ public class PlayerGUITextBoxComponent extends PlayerGUIValueBoxComponent implem
 		if(object instanceof PlayerGUITextBoxComponent)
 		{
 			PlayerGUITextBoxComponent textBox = (PlayerGUITextBoxComponent)object;
-			return textBox.getGUIComponent().getConfig().getId().equals(this.getGUIComponent().getConfig().getId());
+			return textBox.getGUIComponent().getConfig().id.equals(this.getGUIComponent().getConfig().id);
 		}
 		
 		return false;

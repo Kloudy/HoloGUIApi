@@ -1,4 +1,4 @@
-package com.antarescraft.kloudy.hologuiapi.guicomponents;
+package com.antarescraft.kloudy.hologuiapi.config;
 
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
@@ -19,6 +19,12 @@ public class ComponentPosition implements ConfigObject
 	{
 		this.x = x;
 		this.y = y;
+	}
+	
+	public ComponentPosition(ComponentPosition position)
+	{
+		x = position.getX();
+		y = position.getY();
 	}
 	
 	public double getX()

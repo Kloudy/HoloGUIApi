@@ -50,7 +50,7 @@ public class ImageComponent extends GUIComponent
 	@Override
 	public double getLineHeight()
 	{
-		return (1 / config.getDistance()) * 0.21;
+		return (1 / config.distance) * 0.21;
 	}
 	
 	@Override

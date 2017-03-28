@@ -124,7 +124,7 @@ public class TextBoxComponent extends ClickableGUIComponent
 	@Override
 	public double getLineHeight()
 	{
-		return (1 / config.getDistance()) * 0.21;
+		return (1 / config.distance) * 0.21;
 	}
 	
 	@Override

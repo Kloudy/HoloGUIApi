@@ -1,7 +1,6 @@
 package com.antarescraft.kloudy.hologuiapi.config;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
-import com.antarescraft.kloudy.hologuiapi.guicomponents.ComponentPosition;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigParser;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
@@ -18,36 +17,34 @@ import com.antarescraft.kloudy.plugincore.config.annotations.OptionalConfigPrope
 public abstract class GUIComponentConfig implements ConfigObject
 {
 	@ConfigElementKey
-	protected String id;
+	public String id;
 	
 	@ConfigElement
 	@ConfigProperty(key = "position")
-	protected ComponentPosition position;
+	public ComponentPosition position;
 	
 	@OptionalConfigProperty
 	@ConfigProperty(key = "label")
-	protected String label = null;
+	public String label = null;
 	
 	@OptionalConfigProperty
 	@ConfigProperty(key = "label-distance")
-	protected double labelDistance = -1;
+	public double labelDistance = -1;
 	
 	@OptionalConfigProperty
 	@BooleanConfigProperty(defaultValue = false)
 	@ConfigProperty(key = "always-show-label")
-	protected boolean alwaysShowLabel = false;
+	public boolean alwaysShowLabel = false;
 	
 	@OptionalConfigProperty
 	@BooleanConfigProperty(defaultValue = false)
 	@ConfigProperty(key = "hidden")
-	protected boolean hidden = false;
+	public boolean hidden = false;
 	
 	@OptionalConfigProperty
 	@DoubleConfigProperty(defaultValue = -1, maxValue = 50, minValue = 2)
 	@ConfigProperty(key="distance")
-	protected double distance;
-	
-	public GUIComponentConfig(){}
+	public double distance;
 	
 	protected abstract double getDefaultDistance();
 	
@@ -69,75 +66,5 @@ public abstract class GUIComponentConfig implements ConfigObject
 	public String toString()
 	{
 		return "\n" + ConfigParser.generateConfigString(HoloGUIApi.pluginName, this);
-	}
-	
-	public String getId()
-	{
-		return id;
-	}
-	
-	public void setId(String id)
-	{
-		this.id = id;
-	}
-	
-	public ComponentPosition getPosition()
-	{
-		return position;
-	}
-	
-	public void setPosition(ComponentPosition position)
-	{
-		this.position = position;
-	}
-	
-	public String getLabel()
-	{
-		return label;
-	}
-	
-	public void setLabel(String label)
-	{
-		this.label = label;
-	}
-	
-	public double getLabelDistance()
-	{
-		return labelDistance;
-	}
-	
-	public void setLabelDistance(double labelDistance)
-	{
-		this.labelDistance = labelDistance;
-	}
-	
-	public boolean alwaysShowLabel()
-	{
-		return alwaysShowLabel;
-	}
-	
-	public void setAlwaysShowLabel(boolean alwaysShowLabel)
-	{
-		this.alwaysShowLabel = alwaysShowLabel;
-	}
-	
-	public boolean isHidden()
-	{
-		return hidden;
-	}
-	
-	public void setHidden(boolean hidden)
-	{
-		this.hidden = hidden;
-	}
-	
-	public double getDistance()
-	{
-		return distance;
-	}
-	
-	public void setDistance(double distance)
-	{
-		this.distance = distance;
 	}
 }
