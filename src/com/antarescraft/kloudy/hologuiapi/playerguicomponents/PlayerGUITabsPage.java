@@ -8,10 +8,10 @@ import org.bukkit.entity.Player;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
 import com.antarescraft.kloudy.hologuiapi.config.CanvasComponentConfig;
 import com.antarescraft.kloudy.hologuiapi.config.ComponentPosition;
+import com.antarescraft.kloudy.hologuiapi.config.TabComponentConfig;
 import com.antarescraft.kloudy.hologuiapi.config.TabsGUIPageConfig;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.CanvasComponent;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIComponentFactory;
-import com.antarescraft.kloudy.hologuiapi.guicomponents.TabComponent;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.TabsGUIPage;
 import com.antarescraft.kloudy.hologuiapi.imageprocessing.MinecraftColor;
 
@@ -52,7 +52,7 @@ public class PlayerGUITabsPage extends PlayerGUIPage
 		
 		// Render the tabs.
 		int i = 0;
-		for(TabComponent tab : config.tabsList)
+		for(TabComponentConfig tab : config.tabsList)
 		{
 			boolean open = config.defaultOpenTabIndex == i;
 			
@@ -111,7 +111,7 @@ public class PlayerGUITabsPage extends PlayerGUIPage
 	 */
 	public void openTab(int tabIndex, PlayerGUIPageModel model)
 	{
-		TabComponent tab = config.tabsList.get(tabIndex);
+		TabComponentConfig tab = config.tabsList.get(tabIndex);
 		
 		openTab(tab, model);
 	}
@@ -132,13 +132,13 @@ public class PlayerGUITabsPage extends PlayerGUIPage
 	 */
 	public void openTab(String tabId, PlayerGUIPageModel model)
 	{
-		TabComponent tab = null;
+		TabComponentConfig tab = null;
 		
-		for(TabComponent t : config.tabsList)
+		for(TabComponentConfig tabConfig : config.tabsList)
 		{
-			if(t.getTabConfig().id.equals(tabId))
+			if(tabConfig.id.equals(tabId))
 			{
-				tab = t;
+				tab = tabConfig;
 				break;
 			}
 		}
@@ -146,7 +146,7 @@ public class PlayerGUITabsPage extends PlayerGUIPage
 		openTab(tab, model);
 	}
 	
-	private void openTab(TabComponent tab, PlayerGUIPageModel model)
+	private void openTab(TabComponentConfig tab, PlayerGUIPageModel model)
 	{
 		//TODO: implement.
 	}

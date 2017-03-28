@@ -1,25 +1,22 @@
-package com.antarescraft.kloudy.hologuiapi.guicomponents;
+package com.antarescraft.kloudy.hologuiapi.config;
 
-import com.antarescraft.kloudy.hologuiapi.TabComponentConfig;
 import com.antarescraft.kloudy.hologuiapi.imageprocessing.MinecraftColor;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUICanvasComponent;
+import com.antarescraft.kloudy.plugincore.config.ConfigObject;
+import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElementKey;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 
-/**
- * Config object class that parses a tab entry for a TabGUIPage.
- */
-public class TabComponent
+public class TabComponentConfig implements ConfigObject
 {
-	private TabComponentConfig config;
+	@ConfigElementKey
+	public String id;
 	
-	TabComponent(TabComponentConfig config)
-	{
-		this.config = config;
-	}
+	@ConfigProperty(key = "tab-title")
+	public String tabTitle;
 	
-	public TabComponentConfig getTabConfig()
-	{
-		return config;
-	}
+	@ConfigProperty(key = "gui-page-id")
+	public String guiPageId;
 	
 	/**
 	 * Renders the tab
@@ -46,4 +43,7 @@ public class TabComponent
 			canvas.fill(x1, y1, x2, y2, MinecraftColor.TRANSPARENT);
 		}
 	}
+	
+	@Override
+	public void configParseComplete(PassthroughParams params){}
 }

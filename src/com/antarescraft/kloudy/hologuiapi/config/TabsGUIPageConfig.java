@@ -8,7 +8,6 @@ import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.exceptions.DefaultTabIndexOutOfBoundsException;
 import com.antarescraft.kloudy.hologuiapi.exceptions.TabsNotDefinedException;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIPage;
-import com.antarescraft.kloudy.hologuiapi.guicomponents.TabComponent;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
@@ -24,7 +23,7 @@ public class TabsGUIPageConfig implements ConfigObject
 {
 	@ConfigElementList
 	@ConfigProperty(key = "tabs-list")
-	public ArrayList<TabComponent> tabsList = new ArrayList<TabComponent>(); // List of configured tab elements
+	public ArrayList<TabComponentConfig> tabsList = new ArrayList<TabComponentConfig>(); // List of configured tab elements
 	
 	@ConfigElement
 	@ConfigProperty(key = "tabs-position")
@@ -73,14 +72,14 @@ public class TabsGUIPageConfig implements ConfigObject
 		
 		HoloGUIPlugin plugin = (HoloGUIPlugin)params.getParam("plugin");
 		
-		for(TabComponent tab : tabsList)
+		for(TabComponentConfig tab : tabsList)
 		{
 			// Attempt to find the GUIPage defined in the TabEntry 'gui-page-id' property.
-			GUIPage guiPage = plugin.getGUIPage(tab.getTabConfig().guiPageId);
+			GUIPage guiPage = plugin.getGUIPage(tab.guiPageId);
 			if(guiPage == null)
 			{
 				MessageManager.error(Bukkit.getConsoleSender(), String.format("No GUIPage exists with id '%s' defined in tab: %s. This tab will not be rendered.", 
-						tab.getTabConfig().guiPageId, tab.getTabConfig().id));
+						tab.guiPageId, tab.id));
 				
 				break;
 			}
