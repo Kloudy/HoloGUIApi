@@ -16,7 +16,7 @@ import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 public class CanvasComponent extends GUIComponent
 {
 	@ConfigElement
-	@ConfigProperty(key = "")
+	@ConfigProperty
 	private CanvasComponentProperties properties;
 	
 	private CanvasComponent(){}

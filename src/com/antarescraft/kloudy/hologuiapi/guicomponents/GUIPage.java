@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
+import com.antarescraft.kloudy.hologuiapi.config.GUIPageConfig;
 import com.antarescraft.kloudy.hologuiapi.handlers.GUIPageCloseHandler;
 import com.antarescraft.kloudy.hologuiapi.handlers.GUIPageLoadHandler;
 import com.antarescraft.kloudy.hologuiapi.handlers.GUIPageUpdateHandler;
@@ -22,11 +23,8 @@ import com.antarescraft.kloudy.hologuiapi.playerguicomponents.StationaryPlayerGU
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigParser;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
-import com.antarescraft.kloudy.plugincore.config.annotations.BooleanConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElementKey;
+import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
-import com.antarescraft.kloudy.plugincore.config.annotations.OptionalConfigProperty;
-import com.antarescraft.kloudy.plugincore.utils.Utils;
 
 /**
  * Represents a GUI Page containing many different GUI Components
@@ -42,39 +40,9 @@ public class GUIPage implements ConfigObject
 		return ConfigParser.generateConfigString(HoloGUIApi.pluginName, this);
 	}
 	
-	@ConfigElementKey
-	protected String id;
-	
-	@OptionalConfigProperty
-	@ConfigProperty(key = "open-item")
-	protected String openItemString;
-	
-	@OptionalConfigProperty
-	@ConfigProperty(key = "item-name")
-	protected String itemName;
-	
-	@OptionalConfigProperty
-	@BooleanConfigProperty(defaultValue = false)
-	@ConfigProperty(key = "open-on-login")
-	protected boolean openOnLogin;
-	
-	@OptionalConfigProperty
-	@ConfigProperty(key = "show-permission")
-	protected String showPermission;
-	
-	@OptionalConfigProperty
-	@ConfigProperty(key = "hide-permission")
-	protected String hidePermission;
-	
-	@OptionalConfigProperty
-	@BooleanConfigProperty(defaultValue = false)
-	@ConfigProperty(key = "close-on-player-move")
-	protected boolean closeOnPlayerMove;
-	
-	@OptionalConfigProperty
-	@BooleanConfigProperty(defaultValue = false)
-	@ConfigProperty(key = "close-on-player-item-switch")
-	protected boolean closeOnPlayerItemSwitch;
+	@ConfigElement
+	@ConfigProperty
+	GUIPageConfig config;
 	
 	protected ItemStack openItem = null;
 	
@@ -230,7 +198,7 @@ public class GUIPage implements ConfigObject
 	public PlayerGUIPage getPlayerGUIPage(Player player)
 	{
 		PlayerGUIPage playerGUIPage = PlayerData.getPlayerData(player).getPlayerGUIPage();
-		if(playerGUIPage.getGUIPage().getId().equals(id))
+		if(playerGUIPage.getGUIPage().getConfig().id.equals(config.id))
 		{
 			return playerGUIPage;
 		}
@@ -331,90 +299,18 @@ public class GUIPage implements ConfigObject
 	
 	public boolean playerHasPermission(Player player)
 	{
-		return(((showPermission == null || (showPermission != null && player.hasPermission(showPermission))) &&
-				(hidePermission == null || (hidePermission != null && !player.hasPermission(hidePermission)))) || player.isOp());
-	}
-
-	public String getId()
-	{
-		return id;
+		return(((config.showPermission == null || (config.showPermission != null && player.hasPermission(config.showPermission))) &&
+				(config.hidePermission == null || (config.hidePermission != null && !player.hasPermission(config.hidePermission)))) || player.isOp());
 	}
 	
-	public void setOpenItem(ItemStack openItem)
+	public GUIPageConfig getConfig()
 	{
-		this.openItem = openItem;
-	}
-	
-	public ItemStack getOpenItem()
-	{
-		return openItem;
-	}
-	
-	public void setItemName(String itemName)
-	{
-		this.itemName = itemName;
-	}
-	
-	public String getItemName()
-	{
-		return itemName;
-	}
-	
-	public void setOpenOnLogin(boolean openOnLogin)
-	{
-		this.openOnLogin = openOnLogin;
-	}
-	
-	public boolean getOpenOnLogin()
-	{
-		return openOnLogin;
-	}
-	
-	public void setShowPermission(String showPermission)
-	{
-		this.showPermission = showPermission;
-	}
-	
-	public String getShowPermission()
-	{
-		return showPermission;
-	}
-	
-	public void setHidePermission(String hidePermission)
-	{
-		this.hidePermission = hidePermission;
-	}
-	
-	public String getHidePermission()
-	{
-		return hidePermission;
-	}
-	
-	public void setCloseOnPlayerMove(boolean closeOnPlayerMove)
-	{
-		this.closeOnPlayerMove = closeOnPlayerMove;
-	}
-	
-	public boolean getCloseOnPlayerMove()
-	{
-		return closeOnPlayerMove;
-	}
-	
-	public void setCloseOnPlayerItemSwitch(boolean closeOnPlayerItemSwitch)
-	{
-		this.closeOnPlayerItemSwitch = closeOnPlayerItemSwitch;
-	}
-	
-	public boolean getCloseOnPlayerItemSwitch()
-	{
-		return closeOnPlayerItemSwitch;
+		return config;
 	}
 
 	@Override
 	public void configParseComplete(PassthroughParams params)
 	{
 		plugin = (HoloGUIPlugin)params.getParam("plugin");
-		
-		openItem = Utils.parseItemString(openItemString);
 	}
 }

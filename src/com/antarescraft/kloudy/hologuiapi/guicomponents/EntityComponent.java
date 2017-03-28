@@ -14,7 +14,7 @@ import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 public class EntityComponent extends GUIComponent implements EntityTypeComponent, ConfigObject
 {
 	@ConfigElement
-	@ConfigProperty(key = "")
+	@ConfigProperty
 	private EntityComponentProperties properties;
 	
 	private EntityComponent(){}

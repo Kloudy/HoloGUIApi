@@ -231,7 +231,7 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 				{
 					GUIPage guiPage = ConfigManager.loadGUIPage(self, new File(String.format("plugins/%s/gui configuration files/%s", getName(), yamlFile)));
 					
-					guiPages.put(guiPage.getId(), guiPage);
+					guiPages.put(guiPage.getConfig().id, guiPage);
 				}
 				
 				if(callback != null)

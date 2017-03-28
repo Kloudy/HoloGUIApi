@@ -25,7 +25,7 @@ public class TabsGUIPage extends GUIPage
 {
 	@ConfigElement
 	@ConfigProperty(key = "tabs")
-	TabsGUIPageConfig tabsConfig;
+	TabsGUIPageConfig config;
 	
 	@Override
 	public PlayerGUITabsPage renderComponentsForPlayer(Player player, Location lookLocation)
@@ -54,20 +54,20 @@ public class TabsGUIPage extends GUIPage
 		super.configParseComplete(params);
 		
 		// No tabs were defined, treat this as an error scenario.
-		if(tabsConfig.tabs().size() == 0)
+		if(config.tabsList.size() == 0)
 		{
-			throw new TabsNotDefinedException(id);
+			throw new TabsNotDefinedException(config.id);
 		}
 		
 		// Defined defaultTabIndex out of bounds.
-		if(tabsConfig.defaultOpenTabIndex() >= tabsConfig.tabs().size())
+		if(config.defaultOpenTabIndex >= config.tabsList.size())
 		{
-			throw new DefaultTabIndexOutOfBoundsException(tabsConfig.defaultOpenTabIndex(), id);
+			throw new DefaultTabIndexOutOfBoundsException(config.defaultOpenTabIndex, config.id);
 		}
 		
 		HoloGUIPlugin plugin = (HoloGUIPlugin)params.getParam("plugin");
 		
-		for(TabComponent tab : tabsConfig.tabs())
+		for(TabComponent tab : config.tabsList)
 		{
 			// Attempt to find the GUIPage defined in the TabEntry 'gui-page-id' property.
 			GUIPage guiPage = plugin.getGUIPage(tab.getGUIPageId());
@@ -83,6 +83,6 @@ public class TabsGUIPage extends GUIPage
 	
 	public TabsGUIPageConfig getConfig()
 	{
-		return tabsConfig;
+		return config;
 	}
 }

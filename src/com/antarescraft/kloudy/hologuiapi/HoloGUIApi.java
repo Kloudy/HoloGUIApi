@@ -222,7 +222,7 @@ public class HoloGUIApi extends JavaPlugin
 	 */
 	public void openGUIPage(HoloGUIPlugin holoGUIPlugin, PlayerGUIPageModel model)
 	{
-		openGUIPage(holoGUIPlugin, model.getPlayer(), model.getGUIPage().getId(), null, model);
+		openGUIPage(holoGUIPlugin, model.getPlayer(), model.getGUIPage().getConfig().id, null, model);
 	}
 	
 	/**

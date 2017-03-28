@@ -27,26 +27,26 @@ public class PlayerGUITabsPage extends PlayerGUIPage
 		
 		// Initialize the canvas.
 		
-		int width = config.tabWidth() * config.tabs().size() + (config.tabs().size()-1) + 10;
-		int height = config.tabHeight();
+		int width = config.tabWidth * config.tabsList.size() + (config.tabsList.size()-1) + 10;
+		int height = config.tabHeight;
 		
 		CanvasComponentProperties properties = new CanvasComponentProperties();
 		properties.setId("###tab-canvas###");
-		properties.setPosition(config.tabsPosition());
+		properties.setPosition(config.tabsPosition);
 		properties.setWidth(width);
 		properties.setHeight(height);
-		properties.setDistance(config.tabDistance());
+		properties.setDistance(config.tabDistance);
 		
 		CanvasComponent canvasComponent = GUIComponentFactory.createCanvasComponent(tabs.getHoloGUIPlugin(), properties);
 		canvas = (PlayerGUICanvasComponent) renderComponent(canvasComponent);
 		
 		// Render the tabs.
 		int i = 0;
-		for(TabComponent tab : config.tabs())
+		for(TabComponent tab : config.tabsList)
 		{
-			boolean open = config.defaultOpenTabIndex() == i;
+			boolean open = config.defaultOpenTabIndex == i;
 			
-			tab.renderTab(canvas, i, config.tabImageName(), config.tabWidth(), config.tabHeight(), open);
+			tab.renderTab(canvas, i, config.tabImageName, config.tabWidth, config.tabHeight, open);
 			
 			i++;
 		}
@@ -95,7 +95,7 @@ public class PlayerGUITabsPage extends PlayerGUIPage
 	 */
 	public void openTab(int tabIndex, PlayerGUIPageModel model)
 	{
-		TabComponent tab = config.tabs().get(tabIndex);
+		TabComponent tab = config.tabsList.get(tabIndex);
 		
 		openTab(tab, model);
 	}
@@ -118,7 +118,7 @@ public class PlayerGUITabsPage extends PlayerGUIPage
 	{
 		TabComponent tab = null;
 		
-		for(TabComponent t : config.tabs())
+		for(TabComponent t : config.tabsList)
 		{
 			if(t.getId().equals(tabId))
 			{

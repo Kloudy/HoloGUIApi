@@ -71,7 +71,7 @@ public class PlayerItemHeldEventListener implements Listener
 			 // Trigger the mousewheel handler callback.
 			guiPage.triggerMouseWheelScrollHandler(player, action);
 			
-			if(guiPage.getCloseOnPlayerItemSwitch())
+			if(guiPage.getConfig().closeOnPlayerItemSwitch)
 			{
 				playerGuiPage.destroy();
 				playerData.setPlayerGUIPage(null);

@@ -141,21 +141,21 @@ public class PlayerInteractEventListener implements Listener
 				
 				for(HoloGUIPlugin holoGUIPlugin : holoGUI.getHookedHoloGUIPlugins())
 				{
-					for(GUIPage guiContainer : holoGUIPlugin.getGUIPages().values())
+					for(GUIPage guiPage : holoGUIPlugin.getGUIPages().values())
 					{
-						if(guiContainer.playerHasPermission(player))
+						if(guiPage.playerHasPermission(player))
 						{
 							//check to see if item matches the open item
-							if(item != null && guiContainer.getOpenItem() != null && item.getType() == guiContainer.getOpenItem().getType() && 
+							if(item != null && guiPage.getConfig().openItem.unwrap() != null && item.getType() == guiPage.getConfig().openItem.unwrap().getType() && 
 									PlayerData.getPlayerData(player).getPlayerGUIPage() == null)
 							{
 								//check to see if the display name matches (if it exists)
-								if((guiContainer.getItemName() != null && item.hasItemMeta() && item.getItemMeta().getDisplayName() != null &&
-										item.getItemMeta().getDisplayName().equals(guiContainer.getItemName())) || guiContainer.getItemName() == null)
+								if((guiPage.getConfig().itemName != null && item.hasItemMeta() && item.getItemMeta().getDisplayName() != null &&
+										item.getItemMeta().getDisplayName().equals(guiPage.getConfig().itemName)) || guiPage.getConfig().itemName == null)
 								{
-									if(guiContainer.getHoloGUIPlugin().guiPagesLoaded())
+									if(guiPage.getHoloGUIPlugin().guiPagesLoaded())
 									{
-										guiContainer.renderComponentsForPlayer(player, player.getLocation().clone());
+										guiPage.renderComponentsForPlayer(player, player.getLocation().clone());
 										break;
 									}
 								}

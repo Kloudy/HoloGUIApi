@@ -6,7 +6,7 @@ import org.bukkit.util.Vector;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
-import com.antarescraft.kloudy.plugincore.configobjects.ConfigVector;
+import com.antarescraft.kloudy.plugincore.configwrappers.VectorConfigWrapper;
 import com.antarescraft.kloudy.plugincore.utils.Utils;
 
 public class ItemComponentProperties extends GUIComponentProperties
@@ -18,7 +18,7 @@ private static final double DEFAULT_DISTANCE = 6;
 	
 	@ConfigElement
 	@ConfigProperty(key = "rotation")
-	private ConfigVector rotation;
+	private VectorConfigWrapper rotation;
 
 	@Override
 	public void configParseComplete(PassthroughParams params)
@@ -55,6 +55,6 @@ private static final double DEFAULT_DISTANCE = 6;
 	
 	public void setRotation(Vector rotation)
 	{
-		this.rotation = new ConfigVector(rotation);
+		this.rotation = new VectorConfigWrapper(rotation);
 	}
 }

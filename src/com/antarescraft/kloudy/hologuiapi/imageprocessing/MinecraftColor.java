@@ -2,9 +2,7 @@ package com.antarescraft.kloudy.hologuiapi.imageprocessing;
 
 import java.io.Serializable;
 
-import com.antarescraft.kloudy.plugincore.config.Parsable;
-
-public enum MinecraftColor implements Serializable, Parsable
+public enum MinecraftColor implements Serializable
 {
 	BLACK("00", "00", "00", "§0"),
 	DARK_BLUE("00", "00", "AA", "§1"),
@@ -67,23 +65,5 @@ public enum MinecraftColor implements Serializable, Parsable
 	public byte alpha()
 	{
 		return alpha;
-	}
-
-	@Override
-	public MinecraftColor parse(String value)
-	{
-		try
-		{
-			return valueOf(value);
-		}
-		catch(Exception e){}
-
-		return null;
-	}
-
-	@Override
-	public String save()
-	{
-		return toString();
 	}
 }

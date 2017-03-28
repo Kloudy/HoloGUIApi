@@ -220,7 +220,7 @@ public class PlayerGUIPage
 		if(obj instanceof PlayerGUIPage)
 		{
 			PlayerGUIPage playerGUIPage = (PlayerGUIPage)obj;
-			if(playerGUIPage.getGUIPage().getId().equals(guiPage.getId())) return true;
+			if(playerGUIPage.getGUIPage().getConfig().id.equals(guiPage.getConfig().id)) return true;
 		}
 		return false;
 	}

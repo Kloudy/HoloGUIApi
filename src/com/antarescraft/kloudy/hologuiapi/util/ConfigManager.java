@@ -57,7 +57,7 @@ public class ConfigManager
 			if(type == null)
 			{
 				MessageManager.error(Bukkit.getConsoleSender(), 
-						String.format("Component '%s' in GUI Page '%s' does not contain a 'type'. Config parsing skipped for this component.", key, guiPage.getId()));
+						String.format("Component '%s' in GUI Page '%s' does not contain a 'type'. Config parsing skipped for this component.", key, guiPage.getConfig().id));
 				
 				continue;
 			}
@@ -108,7 +108,7 @@ public class ConfigManager
 				else
 				{
 					MessageManager.error(Bukkit.getConsoleSender(), 
-							String.format("Component '%s' in GUI Page '%s' does not have a valid 'type' value. Config parsing skipped for this component.", key, guiPage.getId()));
+							String.format("Component '%s' in GUI Page '%s' does not have a valid 'type' value. Config parsing skipped for this component.", key, guiPage.getConfig().id));
 				}
 			}
 			else

@@ -141,7 +141,7 @@ public class PlayerGUIUpdateTask extends BukkitRunnable
 				{
 					if(updateLocation)
 					{
-						if(playerGUIPage.getGUIPage().getCloseOnPlayerMove())
+						if(playerGUIPage.getGUIPage().getConfig().closeOnPlayerMove)
 						{
 							playerGUIPage.destroy();
 							playersToRemove.add(playerGUIPage.getPlayer());

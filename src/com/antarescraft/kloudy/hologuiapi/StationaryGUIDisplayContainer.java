@@ -21,7 +21,7 @@ import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElementKey;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
-import com.antarescraft.kloudy.plugincore.configobjects.ConfigLocation;
+import com.antarescraft.kloudy.plugincore.configwrappers.LocationConfigWrapper;
 
 public class StationaryGUIDisplayContainer implements ConfigObject
 {	
@@ -30,7 +30,7 @@ public class StationaryGUIDisplayContainer implements ConfigObject
 	
 	@ConfigElement
 	@ConfigProperty(key = "location")
-	private ConfigLocation location;
+	private LocationConfigWrapper location;
 	
 	@ConfigProperty(key = "default-gui-container-id")
 	private String defaultGUIPageId;
@@ -53,7 +53,7 @@ public class StationaryGUIDisplayContainer implements ConfigObject
 		this.id = id;
 		this.pluginName = pluginName;
 		this.defaultGUIPageId = defaultGUIPageId;
-		this.location = new ConfigLocation(location);
+		this.location = new LocationConfigWrapper(location);
 	}
 	
 	public String getId()

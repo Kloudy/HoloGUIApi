@@ -31,7 +31,7 @@ public class PlayerJoinEventListener implements Listener
 				{
 					if(guiContainer.playerHasPermission(player))
 					{
-						if(guiContainer.getOpenOnLogin() && guiContainer.getHoloGUIPlugin().guiPagesLoaded())
+						if(guiContainer.getConfig().openOnLogin && guiContainer.getHoloGUIPlugin().guiPagesLoaded())
 						{
 							guiContainer.renderComponentsForPlayer(player, player.getLocation().clone());
 							break;

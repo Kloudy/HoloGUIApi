@@ -38,7 +38,7 @@ public class StationaryPlayerGUIPage extends PlayerGUIPage
 		if(obj instanceof StationaryPlayerGUIPage)
 		{
 			StationaryPlayerGUIPage stationaryPlayerGUIContainer = (StationaryPlayerGUIPage)obj;
-			if(stationaryPlayerGUIContainer.getGUIPage().getId().equals(this.guiPage.getId())) return true;
+			if(stationaryPlayerGUIContainer.getGUIPage().getConfig().id.equals(this.guiPage.getConfig().id)) return true;
 		}
 		return false;
 	}

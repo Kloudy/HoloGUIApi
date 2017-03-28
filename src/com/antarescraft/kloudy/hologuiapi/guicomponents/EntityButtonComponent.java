@@ -20,7 +20,7 @@ import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
 public class EntityButtonComponent extends ClickableGUIComponent implements EntityTypeComponent, ConfigObject
 {	
 	@ConfigElement
-	@ConfigProperty(key = "")
+	@ConfigProperty
 	EntityButtonComponentProperties properties;
 			
 	private EntityButtonComponent(){}
