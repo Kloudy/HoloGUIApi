@@ -51,7 +51,7 @@ public class TabsGUIPageConfig implements ConfigObject
 	public double tabDistance; // The distance away from the Player the Tabs are.
 	
 	@OptionalConfigProperty
-	@ParsableConfigProperty(defaultValue = "BLACK")
+	@ParsableConfigProperty(defaultValue = "GREEN")
 	@ConfigProperty(key = "tab-line-color")
 	public MinecraftColorConfigWrapper tabLineColor; // The color of the dividing line under the tabs.
 

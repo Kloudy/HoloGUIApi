@@ -21,11 +21,20 @@ public class PlayerGUITabsPage extends PlayerGUIPage
 	
 	private PlayerGUICanvasComponent canvas;
 	
+	private int currentlyOpenTabIndex;
+	
 	public PlayerGUITabsPage(Player player, HashMap<String, PlayerGUIComponent> components, Location lookLocation, TabsGUIPage tabs)
 	{
 		super(player, components, lookLocation, tabs);
 		
 		config = tabs.getTabsConfig();
+		
+		currentlyOpenTabIndex = config.defaultOpenTabIndex;
+	}
+	
+	public int getCurrentlyOpenTabIndex()
+	{
+		return currentlyOpenTabIndex;
 	}
 	
 	@Override
@@ -45,11 +54,11 @@ public class PlayerGUITabsPage extends PlayerGUIPage
 		properties.height = height;
 		properties.distance = config.tabDistance;
 		
+		System.out.println("Tabs distance: " + config.tabDistance);
+		
 		CanvasComponent canvasComponent = GUIComponentFactory.createCanvasComponent(guiPage.getHoloGUIPlugin(), properties);
 		canvas = (PlayerGUICanvasComponent) renderComponent(canvasComponent);
-		
-		renderDividerLine();
-		
+
 		// Render the tabs.
 		int i = 0;
 		for(TabComponentConfig tab : config.tabsList)
@@ -60,12 +69,14 @@ public class PlayerGUITabsPage extends PlayerGUIPage
 			
 			i++;
 		}
+		
+		openTab(currentlyOpenTabIndex);
 	}
 	
 	// Render the line under the tabs.
 	private void renderDividerLine()
 	{
-		canvas.fill(0, config.tabHeight-1, canvas.getCanvasComponent().getConfig().width, config.tabHeight - 1, MinecraftColor.BLACK);
+		canvas.fill(0, config.tabHeight-1, canvas.getCanvasComponent().getConfig().width, config.tabHeight - 1, config.tabLineColor.unwrap());
 	}
 	
 	/**
@@ -105,49 +116,20 @@ public class PlayerGUITabsPage extends PlayerGUIPage
 	}
 	
 	/**
-	 * Opens the tab at the given index and binds the given PlayerGUIPageModel to the GUIPage associated with the tab.
+	 * Opens the tab at the given index and binds the model to the gui page.
 	 * @param tabIndex
 	 * @param model
 	 */
 	public void openTab(int tabIndex, PlayerGUIPageModel model)
 	{
-		TabComponentConfig tab = config.tabsList.get(tabIndex);
+		renderDividerLine();
 		
-		openTab(tab, model);
-	}
-	
-	/**
-	 * Opens the tab with the given tabId
-	 * @param tabId
-	 */
-	public void openTab(String tabId)
-	{
-		openTab(tabId, null);
-	}
-	
-	/**
-	 * Opens the tab with the given tabId and binds the given PlayerGUIPageModel to the GUIPage associated with the tab.
-	 * @param tabId
-	 * @param model
-	 */
-	public void openTab(String tabId, PlayerGUIPageModel model)
-	{
-		TabComponentConfig tab = null;
-		
-		for(TabComponentConfig tabConfig : config.tabsList)
-		{
-			if(tabConfig.id.equals(tabId))
-			{
-				tab = tabConfig;
-				break;
-			}
-		}
-		
-		openTab(tab, model);
-	}
-	
-	private void openTab(TabComponentConfig tab, PlayerGUIPageModel model)
-	{
-		//TODO: implement.
+		int x1 = (tabIndex * config.tabWidth) + tabIndex + 2 + 1;
+		int y1 = config.tabHeight - 1;
+		int x2 = x1 + config.tabWidth - 3;
+		int y2 = y1;
+					
+		// Removes the bottom line on the tab, making it appear 'open'
+		canvas.fill(x1, y1, x2, y2, MinecraftColor.TRANSPARENT);
 	}
 }

@@ -197,8 +197,8 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 		y1 += yi;
 		z1 += zi;
 		
-		x1 += orthogVector.getX() * (horizontalDistance - (colIndex * guiComponent.getLineHeight() * 10));
-		z1 += orthogVector.getZ() * (horizontalDistance - (colIndex * guiComponent.getLineHeight() * 10));
+		x1 += orthogVector.getX() * (horizontalDistance - (colIndex * guiComponent.getLineHeight() * 13));
+		z1 += orthogVector.getZ() * (horizontalDistance - (colIndex * guiComponent.getLineHeight() * 13));
 		return new Location(origin.getWorld(), x1, y1,  z1);
 	}
 }
