@@ -2,7 +2,13 @@ package com.antarescraft.kloudy.hologuiapi.config;
 
 import java.util.ArrayList;
 
+import org.bukkit.Bukkit;
+
+import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
+import com.antarescraft.kloudy.hologuiapi.exceptions.DefaultTabIndexOutOfBoundsException;
+import com.antarescraft.kloudy.hologuiapi.exceptions.TabsNotDefinedException;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.ComponentPosition;
+import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIPage;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.TabComponent;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
@@ -13,8 +19,9 @@ import com.antarescraft.kloudy.plugincore.config.annotations.DoubleConfigPropert
 import com.antarescraft.kloudy.plugincore.config.annotations.IntConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.annotations.OptionalConfigProperty;
 import com.antarescraft.kloudy.plugincore.config.annotations.ParsableConfigProperty;
+import com.antarescraft.kloudy.plugincore.messaging.MessageManager;
 
-public class TabsGUIPageConfig extends GUIPageConfig implements ConfigObject
+public class TabsGUIPageConfig implements ConfigObject
 {
 	@ConfigElementList
 	@ConfigProperty(key = "tabs-list")
@@ -51,5 +58,33 @@ public class TabsGUIPageConfig extends GUIPageConfig implements ConfigObject
 	public MinecraftColorConfigWrapper tabLineColor; // The color of the dividing line under the tabs.
 
 	@Override
-	public void configParseComplete(PassthroughParams params) {}
+	public void configParseComplete(PassthroughParams params) 
+	{
+		// No tabs were defined, treat this as an error scenario.
+		if(tabsList.size() == 0)
+		{
+			throw new TabsNotDefinedException();
+		}
+		
+		// Defined defaultTabIndex out of bounds.
+		if(defaultOpenTabIndex >= tabsList.size())
+		{
+			throw new DefaultTabIndexOutOfBoundsException(defaultOpenTabIndex);
+		}
+		
+		HoloGUIPlugin plugin = (HoloGUIPlugin)params.getParam("plugin");
+		
+		for(TabComponent tab : tabsList)
+		{
+			// Attempt to find the GUIPage defined in the TabEntry 'gui-page-id' property.
+			GUIPage guiPage = plugin.getGUIPage(tab.getGUIPageId());
+			if(guiPage == null)
+			{
+				MessageManager.error(Bukkit.getConsoleSender(), String.format("No GUIPage exists with id '%s' defined in tab: %s. This tab will not be rendered.", 
+						tab.getGUIPageId(), tab.getId()));
+				
+				break;
+			}
+		}
+	}
 }

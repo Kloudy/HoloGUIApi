@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
@@ -20,31 +19,16 @@ import com.antarescraft.kloudy.hologuiapi.handlers.MousewheelScrollHandler;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIPage;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.StationaryPlayerGUIPage;
-import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.ConfigParser;
-import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
-import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
-import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
-
 /**
  * Represents a GUI Page containing many different GUI Components
  * 
  * This class is initialized and hydrated by the ConfigParser library
  */
-public class GUIPage implements ConfigObject
+public class GUIPage
 {
 	protected HoloGUIPlugin plugin;
-	
-	public String toString()
-	{
-		return ConfigParser.generateConfigString(HoloGUIApi.pluginName, this);
-	}
-	
-	@ConfigElement
-	@ConfigProperty
-	GUIPageConfig config;
-	
-	protected ItemStack openItem = null;
+	protected GUIPageConfig config;
 	
 	protected HashMap<String, GUIComponent> guiComponents = new HashMap<String, GUIComponent>();
 	private HashMap<UUID, GUIPageLoadHandler> pageLoadHandlers = new HashMap<UUID, GUIPageLoadHandler>();
@@ -52,9 +36,20 @@ public class GUIPage implements ConfigObject
 	private HashMap<UUID, MousewheelScrollHandler> mouseWheelScrollHandlers = new HashMap<UUID, MousewheelScrollHandler>();
 	private HashMap<UUID, GUIPageUpdateHandler> guiPageUpdateHandlers = new HashMap<UUID, GUIPageUpdateHandler>();
 	
+	public GUIPage(HoloGUIPlugin plugin, GUIPageConfig config)
+	{
+		this.plugin = plugin;
+		this.config = config;
+	}
+	
 	public HoloGUIPlugin getHoloGUIPlugin()
 	{
 		return plugin;
+	}
+	
+	public GUIPageConfig getConfig()
+	{
+		return config;
 	}
 	
 	/**
@@ -303,14 +298,8 @@ public class GUIPage implements ConfigObject
 				(config.hidePermission == null || (config.hidePermission != null && !player.hasPermission(config.hidePermission)))) || player.isOp());
 	}
 	
-	public GUIPageConfig getConfig()
+	public String toString()
 	{
-		return config;
-	}
-
-	@Override
-	public void configParseComplete(PassthroughParams params)
-	{
-		plugin = (HoloGUIPlugin)params.getParam("plugin");
+		return ConfigParser.generateConfigString(HoloGUIApi.pluginName, config);
 	}
 }

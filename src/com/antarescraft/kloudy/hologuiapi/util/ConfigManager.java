@@ -6,6 +6,8 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
+import com.antarescraft.kloudy.hologuiapi.config.GUIPageConfig;
+import com.antarescraft.kloudy.hologuiapi.config.TabsGUIPageConfig;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.*;
 import com.antarescraft.kloudy.plugincore.config.ConfigParser;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
@@ -34,16 +36,22 @@ public class ConfigManager
 		
 		GUIPage guiPage = null;
 		
+		GUIPageConfig config = ConfigParser.parse(guiPageSection, GUIPageConfig.class, plugin.getName(), params);
+		
 		// GUIPage is a TabsGUIPage
 		if(guiPageSection.contains("tabs"))
 		{
-			guiPage = ConfigParser.parse(guiPageSection, TabsGUIPage.class, plugin.getName(), params);
+			TabsGUIPageConfig tabsConfig = ConfigParser.parse(guiPageSection.getConfigurationSection("tabs"), TabsGUIPageConfig.class, plugin.getName(), params);
+		
+			guiPage = new TabsGUIPage(plugin, config, tabsConfig);
 		}
 		// Regular GUIPage
 		else
 		{
-			guiPage = ConfigParser.parse(guiPageSection, GUIPage.class, plugin.getName(), params);
+			guiPage = new GUIPage(plugin, config);
 		}
+		
+		System.out.println("GUI PAGE: " + guiPage);
 				
 		ConfigurationSection componentsSection = guiPageSection.getConfigurationSection("components");
 				

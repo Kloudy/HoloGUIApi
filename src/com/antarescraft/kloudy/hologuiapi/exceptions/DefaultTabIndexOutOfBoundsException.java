@@ -12,9 +12,9 @@ public class DefaultTabIndexOutOfBoundsException extends HoloGUIException
 {
 	private static final long serialVersionUID = 1L;
 
-	public DefaultTabIndexOutOfBoundsException(int defaultTabIndex, String tabsGuiPageId)
+	public DefaultTabIndexOutOfBoundsException(int defaultTabIndex)
 	{
-		super(String.format("'default-tab-index' value: %d for TabsGUIPage '%s' is out of bounds. This value must >= 0 and < the number of tabs defined - 1.", 
-				defaultTabIndex, tabsGuiPageId));
+		super(String.format("'default-tab-index' value: %d for TabsGUIPage is out of bounds. This value must >= 0 and < the number of tabs defined - 1.", 
+				defaultTabIndex));
 	}
 }

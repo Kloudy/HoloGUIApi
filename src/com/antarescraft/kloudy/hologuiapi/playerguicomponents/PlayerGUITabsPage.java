@@ -23,7 +23,7 @@ public class PlayerGUITabsPage extends PlayerGUIPage
 	{
 		super(player, components, lookLocation, tabs);
 		
-		config = tabs.getConfig();
+		config = tabs.getTabsConfig();
 		
 		// Initialize the canvas.
 		
