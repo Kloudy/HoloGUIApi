@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import com.antarescraft.kloudy.hologuiapi.PlayerData;
 import com.antarescraft.kloudy.hologuiapi.config.CanvasComponentConfig;
 import com.antarescraft.kloudy.hologuiapi.config.ComponentPosition;
-import com.antarescraft.kloudy.hologuiapi.config.TabComponentConfig;
+import com.antarescraft.kloudy.hologuiapi.config.TabConfig;
 import com.antarescraft.kloudy.hologuiapi.config.TabsGUIPageConfig;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.CanvasComponent;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIComponentFactory;
@@ -53,19 +53,19 @@ public class PlayerGUITabsPage extends PlayerGUIPage
 		properties.width = width;
 		properties.height = height;
 		properties.distance = config.tabDistance;
-		
-		System.out.println("Tabs distance: " + config.tabDistance);
-		
+				
 		CanvasComponent canvasComponent = GUIComponentFactory.createCanvasComponent(guiPage.getHoloGUIPlugin(), properties);
 		canvas = (PlayerGUICanvasComponent) renderComponent(canvasComponent);
 
 		// Render the tabs.
 		int i = 0;
-		for(TabComponentConfig tab : config.tabsList)
+		for(TabConfig tab : config.tabsList)
 		{
 			boolean open = config.defaultOpenTabIndex == i;
 			
-			tab.renderTab(canvas, i, config.tabImageName, config.tabWidth, config.tabHeight, open);
+			PlayerGUITabComponent playerTab = new PlayerGUITabComponent(player, canvas, tab.tabTitle, i, config.tabImageName, config.tabWidth, config.tabHeight, open);
+			playerTab.spawnEntities(lookLocation, false);
+			components.put(playerTab.getGUIComponent().getConfig().id, playerTab);
 			
 			i++;
 		}
@@ -131,5 +131,7 @@ public class PlayerGUITabsPage extends PlayerGUIPage
 					
 		// Removes the bottom line on the tab, making it appear 'open'
 		canvas.fill(x1, y1, x2, y2, MinecraftColor.TRANSPARENT);
+		
+		
 	}
 }

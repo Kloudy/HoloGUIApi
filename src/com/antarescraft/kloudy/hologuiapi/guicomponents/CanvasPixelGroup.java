@@ -5,22 +5,23 @@ import java.util.ArrayList;
 import org.bukkit.entity.Player;
 
 import com.antarescraft.kloudy.hologuiapi.imageprocessing.MinecraftColor;
+import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerCanvasPixel;
 
 /**
  * This class allows the grouping of CanvasPixels so that operations can be done on them as a unit.
  */
 public class CanvasPixelGroup
 {
-	private ArrayList<CanvasPixel> pixels = new ArrayList<CanvasPixel>();
+	private ArrayList<PlayerCanvasPixel> pixels = new ArrayList<PlayerCanvasPixel>();
 	
-	public void addPixel(CanvasPixel pixel)
+	public void addPixel(PlayerCanvasPixel pixel)
 	{
 		pixels.add(pixel);
 	}
 	
 	public void updatePixel(Player player, MinecraftColor color)
 	{
-		for(CanvasPixel pixel : pixels)
+		for(PlayerCanvasPixel pixel : pixels)
 		{
 			pixel.updateColor(player, color);
 		}
@@ -28,7 +29,7 @@ public class CanvasPixelGroup
 	
 	public void updateDistance(Player player, double distance)
 	{
-		for(CanvasPixel pixel : pixels)
+		for(PlayerCanvasPixel pixel : pixels)
 		{
 			pixel.setDistanceOffset(distance);
 		}
@@ -36,7 +37,7 @@ public class CanvasPixelGroup
 	
 	public void destroy(Player player)
 	{
-		for(CanvasPixel pixel : pixels)
+		for(PlayerCanvasPixel pixel : pixels)
 		{
 			pixel.destroy(player);
 		}

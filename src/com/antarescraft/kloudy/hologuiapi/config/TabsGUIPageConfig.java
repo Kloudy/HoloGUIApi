@@ -23,7 +23,7 @@ public class TabsGUIPageConfig implements ConfigObject
 {
 	@ConfigElementList
 	@ConfigProperty(key = "tabs-list")
-	public ArrayList<TabComponentConfig> tabsList = new ArrayList<TabComponentConfig>(); // List of configured tab elements
+	public ArrayList<TabConfig> tabsList = new ArrayList<TabConfig>(); // List of configured tab elements
 	
 	@ConfigElement
 	@ConfigProperty(key = "tabs-position")
@@ -72,7 +72,7 @@ public class TabsGUIPageConfig implements ConfigObject
 		
 		HoloGUIPlugin plugin = (HoloGUIPlugin)params.getParam("plugin");
 		
-		for(TabComponentConfig tab : tabsList)
+		for(TabConfig tab : tabsList)
 		{
 			// Attempt to find the GUIPage defined in the TabEntry 'gui-page-id' property.
 			GUIPage guiPage = plugin.getGUIPage(tab.guiPageId);

@@ -1,4 +1,4 @@
-package com.antarescraft.kloudy.hologuiapi.guicomponents;
+package com.antarescraft.kloudy.hologuiapi.playerguicomponents;
 
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
@@ -8,16 +8,16 @@ import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.imageprocessing.MinecraftColor;
 
 /**
- * Represents a single pixel in a CanvasComponent
+ * Represents a single pixel in a PlayerGUICanvasComponent
  */
-public class CanvasPixel
+public class PlayerCanvasPixel
 {
 	private Integer entityId;
 	private MinecraftColor color;
 	private double distanceOffset;
 	private Location location;
 	
-	public CanvasPixel(Location location)
+	public PlayerCanvasPixel(Location location)
 	{
 		this(MinecraftColor.TRANSPARENT, location, 0);
 	}
@@ -26,7 +26,7 @@ public class CanvasPixel
 	 * @param color The color of the pixel.
 	 * @param distanceOffset The distance zoom offset towards the player (Used to zoom in/out the pixel with relation to the rest of the CanvasComponent).
 	 */
-	public CanvasPixel(MinecraftColor color, Location location, double distanceOffset)
+	public PlayerCanvasPixel(MinecraftColor color, Location location, double distanceOffset)
 	{
 		this.color = color;
 		this.location = location;
@@ -126,8 +126,13 @@ public class CanvasPixel
 	/**
 	 * @return The distance offset towards the player this pixel has in relation to the containing CanvasComponent.
 	 */
-	public double distance()
+	public double getDistance()
 	{
 		return distanceOffset;
+	}
+	
+	public Location getLocation()
+	{
+		return location;
 	}
 }

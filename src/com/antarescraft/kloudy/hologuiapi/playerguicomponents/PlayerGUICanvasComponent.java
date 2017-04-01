@@ -5,23 +5,32 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import com.antarescraft.kloudy.hologuiapi.guicomponents.CanvasComponent;
-import com.antarescraft.kloudy.hologuiapi.guicomponents.CanvasPixel;
 import com.antarescraft.kloudy.hologuiapi.imageprocessing.MinecraftColor;
 
 public class PlayerGUICanvasComponent extends PlayerGUIComponent
 {
-	CanvasPixel[][] pixels;
-
-	public PlayerGUICanvasComponent(Player player, CanvasComponent canvasComponent)
+	PlayerCanvasPixel[][] pixels;
+	
+	public PlayerGUICanvasComponent(Player player, CanvasComponent canvas)
 	{
-		super(player, canvasComponent);
-		
-		pixels = new CanvasPixel[canvasComponent.getConfig().height][canvasComponent.getConfig().width];	
+		super(player, canvas);
+				
+		pixels = new PlayerCanvasPixel[canvas.getConfig().height][canvas.getConfig().width];	
 	}
 	
 	public CanvasComponent getCanvasComponent()
 	{
 		return (CanvasComponent)guiComponent;
+	}
+	
+	public PlayerCanvasPixel getPixel(int x, int y)
+	{
+		if(x >= 0 && y >= 0 && x < pixels[0].length && y < pixels.length)
+		{
+			return pixels[y][x];
+		}
+		
+		return null;
 	}
 	
 	/**
@@ -131,7 +140,7 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 		{
 			for(int j = 0; j < getCanvasComponent().getConfig().width; j++)
 			{
-				pixels[i][j] = new CanvasPixel(calculatePixelLocation(i, j, player.getLocation(), vect, 
+				pixels[i][j] = new PlayerCanvasPixel(calculatePixelLocation(i, j, player.getLocation(), vect, 
 						guiComponent.getConfig().distance, guiComponent.getLineHeight(), 
 						guiComponent.getConfig().position.getY(), 
 						guiComponent.getConfig().position.getX()));
