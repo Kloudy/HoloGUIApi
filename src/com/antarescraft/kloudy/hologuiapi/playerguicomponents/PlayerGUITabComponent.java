@@ -3,14 +3,11 @@ package com.antarescraft.kloudy.hologuiapi.playerguicomponents;
 import java.util.ArrayList;
 
 import org.bukkit.Location;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
-import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.config.ComponentPosition;
 import com.antarescraft.kloudy.hologuiapi.config.LabelComponentConfig;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIComponentFactory;
-import com.antarescraft.kloudy.hologuiapi.guicomponents.LabelComponent;
 import com.antarescraft.kloudy.hologuiapi.imageprocessing.MinecraftColor;
 
 public class PlayerGUITabComponent extends PlayerGUIComponent
