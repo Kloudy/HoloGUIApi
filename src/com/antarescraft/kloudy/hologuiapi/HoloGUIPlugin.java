@@ -330,7 +330,7 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 	 */
 	public InputStream loadImageStream(String imageName)
 	{
-		if(imageName.contains(".jpg") || imageName.contains(".png"))
+		if(imageName.contains(".jpg") || imageName.contains(".png") || imageName.contains(".gif"))
 		{
 			return getResource(HoloGUIApi.PATH_TO_IMAGES + "/" + imageName);
 		}
@@ -355,11 +355,11 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 			
 			if(inputStream == null) return null;
 			
-			if(imageName.contains(".gif"))
+			if(imageName.endsWith(".gif"))
 			{
 				imageLines = GifProcessor.processGif(imageName, inputStream, width, height, symmetrical);
 			}
-			else if(imageName.contains(".jpg") || imageName.contains(".png"))
+			else if(imageName.endsWith(".jpg") || imageName.endsWith(".png"))
 			{
 				imageLines = PngJpgProcessor.processImage(imageName, inputStream, width, height, symmetrical);
 			}
