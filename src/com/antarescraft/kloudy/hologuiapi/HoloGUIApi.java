@@ -43,7 +43,7 @@ public class HoloGUIApi extends JavaPlugin
 {	
 	private HashMap<String, StationaryGUIDisplayContainer> stationaryGUIDisplayContainers = new HashMap<String, StationaryGUIDisplayContainer>();
 	
-	private static HoloGUIPluginManager pluginManager = new HoloGUIPluginManager();;
+	private static HoloGUIPluginManager pluginManager = new HoloGUIPluginManager();
 		
 	public static String pluginName = null;
 	public static boolean hasPlaceholderAPI = false;

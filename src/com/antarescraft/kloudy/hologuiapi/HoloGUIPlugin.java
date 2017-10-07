@@ -30,7 +30,8 @@ import net.md_5.bungee.api.ChatColor;
 public abstract class HoloGUIPlugin extends JavaPlugin
 {	
 	private HashMap<String, GUIPage> guiPages = new HashMap<String, GUIPage>();
-	private ArrayList<String> yamlFiles = new ArrayList<String>();
+	private ArrayList<String> yamlFiles = new ArrayList<String>(); // Array of resource yaml filenames within the jar
+	private ArrayList<String> imageFiles = new ArrayList<String>(); // Array of resource image filenames within the jar
 	private boolean guiPagesLoaded;
 	private String minSupportedApiVersion = "1.0";
 	
@@ -40,6 +41,7 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 				
 		initFileStructure();
 		
+		// Pull out all resource files from the jar and save them to the correct plugin data folder.
 		CodeSource source = this.getClass().getProtectionDomain().getCodeSource();
 		if(source != null) 
 		{
@@ -52,14 +54,25 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 				while((entry = zip.getNextEntry()) != null)
 				{
 				    String entryName = entry.getName();
+				    
+				    // Yaml files
 				    if(entryName.startsWith(HoloGUIApi.PATH_TO_YAMLS) &&  entryName.endsWith(".yml") )
 				    {
 				    	String[] pathTokens = entryName.split("/");
 				        yamlFiles.add(pathTokens[pathTokens.length-1]);
 				    }
+				    
+				    // Image files
+				    if(entryName.startsWith(HoloGUIApi.PATH_TO_IMAGES) && 
+				    		(entryName.endsWith(".png") || entryName.endsWith(".jpg") || entryName.endsWith(".gif")))
+				    {
+				    	String[] pathTokens = entryName.split("/");
+				    	imageFiles.add(pathTokens[pathTokens.length-1]);
+				    }
 				}
 				
 				copyResourceConfigs();
+				copyResourceImages();
 				
 			} catch (IOException e) 
 		    {
@@ -239,6 +252,41 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 			}
 		}.runTaskAsynchronously(this);
 	}
+	
+	/**
+	 * Copy resource images into the plugin image data folder
+	 */
+	public void copyResourceImages()
+	{
+		copyResourceImages(false);
+	}
+	
+	/**
+	 * @param overwriteExistingImages (true|false) if the plugin should override images files from plugin folder with the images from inside the jar
+	 * Copies the resource images from the plugin jar to plugins/<holoGUI_plugin_name>/images folder
+	 */
+	public void copyResourceImages(boolean overwriteExistingImages)
+	{
+		for(String imageName : imageFiles)
+		{
+			try
+			{
+				InputStream inputStream = getResource("resources/images/" + imageName);
+				File imagePath = new File(String.format("plugins/%s/images/%s", 
+						getName(), imageName));
+				
+				if((!overwriteExistingImages && !imagePath.exists()) || overwriteExistingImages)
+				{
+					FileOutputStream output = new FileOutputStream(imagePath);
+					output.write(IOUtils.toByteArray(inputStream));
+					
+					inputStream.close();
+					output.close();
+				}
+			}
+			catch(Exception e){e.printStackTrace();}
+		}
+	}
 
 	/**
 	 * * Copies the resource gui pages from the plugin jar to plugins/<holoGUI_plugin_name>/gui configuration files folder
@@ -340,13 +388,19 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 	{
 		try
 		{
-			File folder = new File(String.format("plugins/%s", getName()));//plugin data folder
+			File folder = new File(String.format("plugins/%s", getName()));
 			if(!folder.exists())
 			{
 				folder.mkdir();
 			}
 			
-			folder = new File(String.format("plugins/%s/gui configuration files", getName()));//gui page config folder
+			folder = new File(String.format("plugins/%s/gui configuration files", getName()));
+			if(!folder.exists())
+			{
+				folder.mkdir();
+			}
+			
+			folder = new File(String.format("plugins/%s/images", getName()));
 			if(!folder.exists())
 			{
 				folder.mkdir();
