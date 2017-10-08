@@ -162,8 +162,8 @@ public class ToggleSwitchComponent extends ClickableGUIComponent implements Conf
 	{
 		super.configParseComplete(params);
 		
-		onLines = plugin.loadImage(properties.getOnIcon(), 13, 13, true);
-		offLines = plugin.loadImage(properties.getOffIcon(), 13, 13, true);
+		onLines = plugin.loadImageFromFile(properties.getOnIcon(), 13, 13, true);
+		offLines = plugin.loadImageFromFile(properties.getOffIcon(), 13, 13, true);
 	}
 	
 	@Override

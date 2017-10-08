@@ -56,7 +56,7 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 	{
 		super.configParseComplete(params);
 		
-		lines = plugin.loadImage(properties.getImageSource(), properties.getWidth(), properties.getHeight(), properties.isSymmetrical());
+		lines = plugin.loadImageFromFile(properties.getImageSource(), properties.getWidth(), properties.getHeight(), properties.isSymmetrical());
 	}
 	
 	@Override

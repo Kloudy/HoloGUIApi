@@ -1,6 +1,8 @@
 package com.antarescraft.kloudy.hologuiapi;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,17 +31,24 @@ import net.md_5.bungee.api.ChatColor;
  */
 public abstract class HoloGUIPlugin extends JavaPlugin
 {	
+	public static String PATH_TO_YAMLS;
+	public static String PATH_TO_IMAGES;
+	
 	private HashMap<String, GUIPage> guiPages = new HashMap<String, GUIPage>();
-	private ArrayList<String> yamlFiles = new ArrayList<String>(); // Array of resource yaml filenames within the jar
-	private ArrayList<String> imageFiles = new ArrayList<String>(); // Array of resource image filenames within the jar
+	private ArrayList<String> resourceYamlFilenames = new ArrayList<String>(); // Array of resource yaml filenames within the jar
+	private ArrayList<String> resourceImageFilenames = new ArrayList<String>(); // Array of resource image filenames within the jar
 	private boolean guiPagesLoaded;
 	private String minSupportedApiVersion = "1.0";
 	
 	public HoloGUIPlugin()
 	{
+		PATH_TO_YAMLS = "plugins/" + getName() + "/gui configuration files";
+		PATH_TO_IMAGES = "plugins/" + getName() + "/images";
+		
 		guiPagesLoaded = false;
 				
-		initFileStructure();
+ 		initFileStructure();
+ 		
 		
 		// Pull out all resource files from the jar and save them to the correct plugin data folder.
 		CodeSource source = this.getClass().getProtectionDomain().getCodeSource();
@@ -59,15 +68,15 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 				    if(entryName.startsWith(HoloGUIApi.PATH_TO_YAMLS) &&  entryName.endsWith(".yml") )
 				    {
 				    	String[] pathTokens = entryName.split("/");
-				        yamlFiles.add(pathTokens[pathTokens.length-1]);
+				        resourceYamlFilenames.add(pathTokens[pathTokens.length-1]);
 				    }
 				    
 				    // Image files
-				    if(entryName.startsWith(HoloGUIApi.PATH_TO_IMAGES) && 
+				    if(entryName.startsWith(HoloGUIApi.PATH_TO_RESOURCE_IMAGES) && 
 				    		(entryName.endsWith(".png") || entryName.endsWith(".jpg") || entryName.endsWith(".gif")))
 				    {
 				    	String[] pathTokens = entryName.split("/");
-				    	imageFiles.add(pathTokens[pathTokens.length-1]);
+				    	resourceImageFilenames.add(pathTokens[pathTokens.length-1]);
 				    }
 				}
 				
@@ -146,7 +155,7 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 	 */
 	public ArrayList<String> getYamlFilenames()
 	{
-		return yamlFiles;
+		return resourceYamlFilenames;
 	}
 	
 	/**
@@ -236,11 +245,16 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 			@Override
 			public void run()
 			{
-				for(String yamlFile : yamlFiles)
+				// Load all the yamls in the plugin data folder.
+				File yamlsFolder = new File(PATH_TO_YAMLS);
+				for(File file : yamlsFolder.listFiles())
 				{
-					GUIPage guiPage = ConfigManager.loadGUIPage(self, new File(String.format("plugins/%s/gui configuration files/%s", getName(), yamlFile)));
-					
-					guiPages.put(guiPage.getId(), guiPage);
+					if(file.getName().endsWith(".yml"))
+					{
+						GUIPage guiPage = ConfigManager.loadGUIPage(self, file);
+						
+						guiPages.put(guiPage.getId(), guiPage);
+					}
 				}
 				
 				if(callback != null)
@@ -267,7 +281,7 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 	 */
 	public void copyResourceImages(boolean overwriteExistingImages)
 	{
-		for(String imageName : imageFiles)
+		for(String imageName : resourceImageFilenames)
 		{
 			try
 			{
@@ -302,7 +316,7 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 	 */
 	public void copyResourceConfigs(boolean overwriteExistingYamls)
 	{
-		for(String yamlName : yamlFiles)
+		for(String yamlName : resourceYamlFilenames)
 		{
 			try
 			{
@@ -323,59 +337,73 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 		}
 	}
 	
-	/**
-	 * Loads an image resource in the plugin jar.
-	 * @param imageName The image filename to load from the plugin jar.
-	 * @return InputStream for the image.
-	 */
-	public InputStream loadImageStream(String imageName)
-	{
-		if(imageName.contains(".jpg") || imageName.contains(".png") || imageName.contains(".gif"))
-		{
-			return getResource(HoloGUIApi.PATH_TO_IMAGES + "/" + imageName);
-		}
-		
-		return null;
-	}
 	
 	/**
 	 * Resource images should be stored in 'resources/images' in the plugin jar
 	 * 
 	 * Loads and processes the specified imageName. Returns the image as a String[][]. Returns null if the file couldn't be found.
 	 */
-	public String[][] loadImage(String imageName, int width, int height, boolean symmetrical)
+	public String[][] loadImageFromResource(String imageName, int width, int height, boolean symmetrical)
 	{		
+		InputStream inputStream = getResource(HoloGUIApi.PATH_TO_RESOURCE_IMAGES + "/" + imageName);
+			
+		return processImage(imageName, inputStream, width, height, symmetrical);
+	}
+	
+	/**
+	 * Processes the image given an InputStream to the image.
+	 * @return String[][] representing the image.
+	 */
+	private String[][] processImage(String imageName, InputStream inputStream, int width, int height, boolean symmetrical)
+	{
 		String[][] imageLines = null;
 		
-		InputStream inputStream = null;
+		if(inputStream == null) return null;
 		
-		try
+		if(imageName.endsWith(".gif"))
 		{
-			inputStream = loadImageStream(imageName);
-			
-			if(inputStream == null) return null;
-			
-			if(imageName.endsWith(".gif"))
-			{
-				imageLines = GifProcessor.processGif(imageName, inputStream, width, height, symmetrical);
-			}
-			else if(imageName.endsWith(".jpg") || imageName.endsWith(".png"))
-			{
-				imageLines = PngJpgProcessor.processImage(imageName, inputStream, width, height, symmetrical);
-			}
+			imageLines = GifProcessor.processGif(imageName, inputStream, width, height, symmetrical);
 		}
-		catch(Exception e)
+		else if(imageName.endsWith(".jpg") || imageName.endsWith(".png"))
 		{
-			System.out.println("Error on opening resource: " + HoloGUIApi.PATH_TO_IMAGES + "/" + imageName);
+			imageLines = PngJpgProcessor.processImage(imageName, inputStream, width, height, symmetrical);
+		}
+		
+		try 
+		{
+			inputStream.close();
+		} 
+		catch (Exception e) 
+		{
+			System.out.println("Error loading resource: " + HoloGUIApi.PATH_TO_RESOURCE_IMAGES + "/" + imageName);
+
 			e.printStackTrace();
 		}
-		finally
+		
+		return imageLines;
+	}
+	
+	/**
+	 * Loads an image from the images folder in the plugin data folder.
+	 * @param imageName The image filename to load from file.
+	 * @return InputStream for the image.
+	 */
+	public String[][] loadImageFromFile(String imageName, int width, int height, boolean symmetrical)
+	{
+		String[][] imageLines = null;
+		
+		if(imageName.contains(".jpg") || imageName.contains(".png") || imageName.contains(".gif"))
 		{
 			try 
 			{
-				if(inputStream != null)inputStream.close();
+				InputStream inputStream = new FileInputStream(PATH_TO_IMAGES + "/" + imageName);
+				
+				imageLines = processImage(imageName, inputStream, width, height, symmetrical);
 			} 
-			catch (IOException e) {}
+			catch (FileNotFoundException e)
+			{
+				e.printStackTrace();
+			}
 		}
 		
 		return imageLines;

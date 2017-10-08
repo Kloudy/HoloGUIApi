@@ -147,7 +147,7 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 	{
 		super.configParseComplete(params);
 		
-		lines = plugin.loadImage(properties.getIcon(), getWidth(), getHeight(), properties.isSymmetrical());
+		lines = plugin.loadImageFromFile(properties.getIcon(), getWidth(), getHeight(), properties.isSymmetrical());
 	}
 	
 	@Override

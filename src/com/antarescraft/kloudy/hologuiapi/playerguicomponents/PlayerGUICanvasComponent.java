@@ -60,7 +60,7 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 	
 	public void drawImage(int x, int y, int width, int height, String imageName)
 	{
-		guiComponent.getHoloGUIPlugin().loadImage("warp_icon_3.png", 9, 9, true);
+		guiComponent.getHoloGUIPlugin().loadImageFromFile("warp_icon_3.png", 9, 9, true);
 		
 		for(int i = y; i < pixels.length; i++)
 		{
