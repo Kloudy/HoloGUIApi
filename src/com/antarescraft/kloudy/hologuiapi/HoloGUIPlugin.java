@@ -31,8 +31,8 @@ import net.md_5.bungee.api.ChatColor;
  */
 public abstract class HoloGUIPlugin extends JavaPlugin
 {	
-	public static String PATH_TO_YAMLS;
-	public static String PATH_TO_IMAGES;
+	private String PATH_TO_YAMLS;
+	private String PATH_TO_IMAGES;
 	
 	private HashMap<String, GUIPage> guiPages = new HashMap<String, GUIPage>();
 	private ArrayList<String> resourceYamlFilenames = new ArrayList<String>(); // Array of resource yaml filenames within the jar
