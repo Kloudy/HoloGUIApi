@@ -1,9 +1,12 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import com.antarescraft.kloudy.hologuiapi.exceptions.InvalidImageException;
 import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ButtonComponentProperties;
+import com.antarescraft.kloudy.hologuiapi.imageprocessing.ImageOptions;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
 import com.antarescraft.kloudy.hologuiapi.util.Point3D;
@@ -11,6 +14,7 @@ import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.messaging.MessageManager;
 
 /*
  * Represents an image based button on a GUI
@@ -147,7 +151,19 @@ public class ButtonComponent extends ClickableGUIComponent implements ConfigObje
 	{
 		super.configParseComplete(params);
 		
-		lines = plugin.loadImageFromFile(properties.getIcon(), getWidth(), getHeight(), properties.isSymmetrical());
+		ImageOptions options = new ImageOptions();
+		options.width = getWidth();
+		options.height = getHeight();
+		options.symmetrical = properties.isSymmetrical();
+		
+		try 
+		{
+			lines = plugin.loadImage(properties.getIcon(), options);
+		} 
+		catch (InvalidImageException e) 
+		{
+			MessageManager.error(Bukkit.getConsoleSender(), "An error occured while attempting to load the image for GUI component: " + properties.getId());
+		}
 	}
 	
 	@Override

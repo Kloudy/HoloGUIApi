@@ -5,29 +5,43 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
-public class ImageProcessor 
-{
-	public static String[][] processImage(BufferedImage[] frames, int width, int height, boolean symmetrical)
+public class ImageProcessor
+{	
+	private static ImageProcessor instance;
+	
+	private ImageProcessor(){}
+	
+	public static ImageProcessor getInstance()
+	{
+		if(instance == null)
+		{
+			instance = new ImageProcessor();
+		}
+		
+		return instance;
+	}
+	
+	public String[][] processImage(BufferedImage[] image, ImageOptions options)
 	{
 		String[][] lines = null;
-		if(frames != null && frames.length > 0)
+		if(image != null && image.length > 0)
 		{
-			lines = new String[frames.length][height];
+			lines = new String[image.length][options.height];
 			
 			//process each frame
-			for(int i = 0; i < frames.length; i++)
+			for(int i = 0; i < image.length; i++)
 			{
-				BufferedImage frame = frames[i];
+				BufferedImage frame = image[i];
 
 				int type = frame.getType() == 0? BufferedImage.TYPE_INT_ARGB : frame.getType();
-				frame = resizeImageWithHint(frame, type, width, height);
+				frame = resizeImageWithHint(frame, type, options.width, options.height);
 				
 				//process each rbg value of each pixel
-				for(int y = 0; y < height; y++)
+				for(int y = 0; y < options.height; y++)
 				{
 					MinecraftColor lastColor = MinecraftColor.TRANSPARENT;
 					int numTrans = 0;
-					for(int x = 0; x < width; x++)
+					for(int x = 0; x < options.width; x++)
 					{
 						int rgb = frame.getRGB(x, y);
 						MinecraftColor closestColor = null;
@@ -127,7 +141,7 @@ public class ImageProcessor
 						numTrans = 0;
 					}
 					
-					if(symmetrical)
+					if(options.symmetrical)
 					{
 						//trying to get rid of border
 						int beginningIndex = lines[i][y].length();
@@ -164,11 +178,11 @@ public class ImageProcessor
 		return lines;
 	}
 	
-    private static BufferedImage resizeImageWithHint(BufferedImage originalImage, int type, int IMG_WIDTH, int IMG_HEIGHT)
+    private static BufferedImage resizeImageWithHint(BufferedImage originalImage, int type, int width, int height)
     {
-		BufferedImage resizedImage = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, type);
+		BufferedImage resizedImage = new BufferedImage(width, height, type);
 		Graphics2D g = resizedImage.createGraphics();
-		g.drawImage(originalImage, 0, 0, IMG_WIDTH, IMG_HEIGHT, null);
+		g.drawImage(originalImage, 0, 0, width, height, null);
 		g.dispose();	
 		g.setComposite(AlphaComposite.Src);
 	 
@@ -180,5 +194,5 @@ public class ImageProcessor
 		RenderingHints.VALUE_ANTIALIAS_ON);
 	 
 		return resizedImage;
-    }	
+    }
 }

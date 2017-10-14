@@ -3,11 +3,14 @@ package com.antarescraft.kloudy.hologuiapi.guicomponents;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import com.antarescraft.kloudy.hologuiapi.exceptions.InvalidImageException;
 import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ToggleSwitchComponentProperties;
 import com.antarescraft.kloudy.hologuiapi.handlers.ToggleHandler;
+import com.antarescraft.kloudy.hologuiapi.imageprocessing.ImageOptions;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIComponent;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUIToggleSwitchComponent;
 import com.antarescraft.kloudy.hologuiapi.util.AABB;
@@ -16,6 +19,7 @@ import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.messaging.MessageManager;
 
 public class ToggleSwitchComponent extends ClickableGUIComponent implements ConfigObject
 {
@@ -162,8 +166,20 @@ public class ToggleSwitchComponent extends ClickableGUIComponent implements Conf
 	{
 		super.configParseComplete(params);
 		
-		onLines = plugin.loadImageFromFile(properties.getOnIcon(), 13, 13, true);
-		offLines = plugin.loadImageFromFile(properties.getOffIcon(), 13, 13, true);
+		ImageOptions options = new ImageOptions();
+		options.width = 13;
+		options.height = 13;
+		options.symmetrical = true;
+		
+		try 
+		{
+			onLines = plugin.loadImage(properties.getOnIcon(), options);
+			offLines = plugin.loadImage(properties.getOffIcon(), options);
+		}
+		catch (InvalidImageException e)
+		{
+			MessageManager.error(Bukkit.getConsoleSender(), "An error occured while attempting to load the image for GUI component: " + properties.getId());
+		}
 	}
 	
 	@Override

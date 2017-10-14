@@ -74,9 +74,12 @@ public class PlayerGUIUpdateTask extends BukkitRunnable
 			//update all the guiComponents incremental state
 			for(HoloGUIPlugin holoGUIPlugin : holoGUI.getHookedHoloGUIPlugins())
 			{
-				for(GUIPage guiPage : holoGUIPlugin.getGUIPages().values())
+				if(holoGUIPlugin.guiPagesLoaded())
 				{
-					guiPage.updateIncrement();
+					for(GUIPage guiPage : holoGUIPlugin.getGUIPages().values())
+					{
+						guiPage.updateIncrement();
+					}
 				}
 			}			
 

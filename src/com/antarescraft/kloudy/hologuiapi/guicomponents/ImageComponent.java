@@ -1,13 +1,17 @@
 package com.antarescraft.kloudy.hologuiapi.guicomponents;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import com.antarescraft.kloudy.hologuiapi.exceptions.InvalidImageException;
 import com.antarescraft.kloudy.hologuiapi.guicomponentproperties.ImageComponentProperties;
+import com.antarescraft.kloudy.hologuiapi.imageprocessing.ImageOptions;
 import com.antarescraft.kloudy.hologuiapi.playerguicomponents.PlayerGUITextComponent;
 import com.antarescraft.kloudy.plugincore.config.ConfigObject;
 import com.antarescraft.kloudy.plugincore.config.PassthroughParams;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigElement;
 import com.antarescraft.kloudy.plugincore.config.annotations.ConfigProperty;
+import com.antarescraft.kloudy.plugincore.messaging.MessageManager;
 
 public class ImageComponent extends GUIComponent implements ConfigObject
 {
@@ -56,7 +60,19 @@ public class ImageComponent extends GUIComponent implements ConfigObject
 	{
 		super.configParseComplete(params);
 		
-		lines = plugin.loadImageFromFile(properties.getImageSource(), properties.getWidth(), properties.getHeight(), properties.isSymmetrical());
+		ImageOptions options = new ImageOptions();
+		options.width = properties.getWidth();
+		options.height = properties.getHeight();
+		options.symmetrical = properties.isSymmetrical();
+		
+		try
+		{
+			lines = plugin.loadImage(properties.getImageSource(), options);
+		} 
+		catch (InvalidImageException e)
+		{
+			MessageManager.error(Bukkit.getConsoleSender(), "An error occured while attempting to load the image for GUI component: " + properties.getId());
+		}
 	}
 	
 	@Override

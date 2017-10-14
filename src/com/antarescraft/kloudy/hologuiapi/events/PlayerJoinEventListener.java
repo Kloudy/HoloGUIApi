@@ -7,16 +7,15 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.antarescraft.kloudy.hologuiapi.HoloGUIApi;
 import com.antarescraft.kloudy.hologuiapi.HoloGUIPlugin;
-import com.antarescraft.kloudy.hologuiapi.StationaryGUIDisplayContainer;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIPage;
 
 public class PlayerJoinEventListener implements Listener
 {
-	private HoloGUIApi holoGUI;
+	private HoloGUIApi holoGUIApi;
 	
-	public PlayerJoinEventListener(HoloGUIApi holoGUI)
+	public PlayerJoinEventListener(HoloGUIApi holoGUIApi)
 	{
-		this.holoGUI = holoGUI;
+		this.holoGUIApi = holoGUIApi;
 	}
 	
 	@EventHandler
@@ -25,22 +24,25 @@ public class PlayerJoinEventListener implements Listener
 		Player player = event.getPlayer();
 		if(player.hasPermission("hg.see"))
 		{
-			for(HoloGUIPlugin holoGUIPlugin : holoGUI.getHookedHoloGUIPlugins())
+			for(HoloGUIPlugin holoGUIPlugin : holoGUIApi.getHookedHoloGUIPlugins())
 			{
-				for(GUIPage guiContainer : holoGUIPlugin.getGUIPages().values())
+				if(holoGUIPlugin.guiPagesLoaded())
 				{
-					if(guiContainer.playerHasPermission(player))
+					for(GUIPage guiContainer : holoGUIPlugin.getGUIPages().values())
 					{
-						if(guiContainer.getOpenOnLogin() && guiContainer.getHoloGUIPlugin().guiPagesLoaded())
+						if(guiContainer.playerHasPermission(player))
 						{
-							guiContainer.renderComponentsForPlayer(player, player.getLocation().clone());
-							break;
+							if(guiContainer.getOpenOnLogin() && guiContainer.getHoloGUIPlugin().guiPagesLoaded())
+							{
+								guiContainer.renderComponentsForPlayer(player, player.getLocation().clone());
+								break;
+							}
 						}
 					}
 				}
 			}
 			
-			for(StationaryGUIDisplayContainer stationaryDisplay : holoGUI.getStationaryDisplays())
+			/*for(StationaryGUIDisplayContainer stationaryDisplay : holoGUIApi.getStationaryDisplays())
 			{
 				if(stationaryDisplay.playerInRange(player))
 				{
@@ -53,7 +55,7 @@ public class PlayerJoinEventListener implements Listener
 				{
 					stationaryDisplay.destroy(player);
 				}
-			}
+			}*/
 		}		
 	}
 }

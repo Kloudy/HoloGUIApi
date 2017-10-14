@@ -1,12 +1,16 @@
 package com.antarescraft.kloudy.hologuiapi.playerguicomponents;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import com.antarescraft.kloudy.hologuiapi.exceptions.InvalidImageException;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.CanvasComponent;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.CanvasPixel;
+import com.antarescraft.kloudy.hologuiapi.imageprocessing.ImageOptions;
 import com.antarescraft.kloudy.hologuiapi.imageprocessing.MinecraftColor;
+import com.antarescraft.kloudy.plugincore.messaging.MessageManager;
 
 public class PlayerGUICanvasComponent extends PlayerGUIComponent
 {
@@ -60,7 +64,19 @@ public class PlayerGUICanvasComponent extends PlayerGUIComponent
 	
 	public void drawImage(int x, int y, int width, int height, String imageName)
 	{
-		guiComponent.getHoloGUIPlugin().loadImageFromFile("warp_icon_3.png", 9, 9, true);
+		ImageOptions options = new ImageOptions();
+		options.width = 9;
+		options.height = 9;
+		options.symmetrical = true;
+		
+		try 
+		{
+			guiComponent.getHoloGUIPlugin().loadImage("warp_icon_3.png", options);
+		} 
+		catch (InvalidImageException e) 
+		{
+			MessageManager.error(Bukkit.getConsoleSender(), String.format("An error occured while attempting to draw image: %s on canvas component: %s", imageName, guiComponent.getProperties().getId()));
+		}
 		
 		for(int i = y; i < pixels.length; i++)
 		{

@@ -1,8 +1,8 @@
 package com.antarescraft.kloudy.hologuiapi;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,16 +18,20 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.antarescraft.kloudy.hologuiapi.exceptions.InvalidImageException;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIComponent;
 import com.antarescraft.kloudy.hologuiapi.guicomponents.GUIPage;
-import com.antarescraft.kloudy.hologuiapi.imageprocessing.GifProcessor;
-import com.antarescraft.kloudy.hologuiapi.imageprocessing.PngJpgProcessor;
+import com.antarescraft.kloudy.hologuiapi.imageprocessing.GifImageLoader;
+import com.antarescraft.kloudy.hologuiapi.imageprocessing.ImageProcessor;
+import com.antarescraft.kloudy.hologuiapi.imageprocessing.ImageOptions;
+import com.antarescraft.kloudy.hologuiapi.imageprocessing.PngJpgImageLoader;
 import com.antarescraft.kloudy.hologuiapi.util.ConfigManager;
+import com.antarescraft.kloudy.plugincore.messaging.MessageManager;
 
 import net.md_5.bungee.api.ChatColor;
 
 /**
- * Represents an external plugin using the HoloGUIAPI to create GUI pages
+ * Represents an external plugin using HoloGUIAPI to create GUI pages
  */
 public abstract class HoloGUIPlugin extends JavaPlugin
 {	
@@ -40,6 +44,12 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 	private boolean guiPagesLoaded;
 	private String minSupportedApiVersion = "1.0";
 	
+	// HashMap of loaded images from the plugin's image folder.
+	private HashMap<String, BufferedImage[]> bufferedImageCache = new HashMap<String, BufferedImage[]>();
+	
+	// HashMap of preprocessed images
+	private HashMap<String, String[][]> imageLinesCache = new HashMap<String, String[][]>();
+	
 	public HoloGUIPlugin()
 	{
 		PATH_TO_YAMLS = "plugins/" + getName() + "/gui configuration files";
@@ -49,7 +59,6 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 				
  		initFileStructure();
  		
-		
 		// Pull out all resource files from the jar and save them to the correct plugin data folder.
 		CodeSource source = this.getClass().getProtectionDomain().getCodeSource();
 		if(source != null) 
@@ -80,6 +89,7 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 				    }
 				}
 				
+				// Copy resources contained in the plugin .jar to the plugin's data folder.
 				copyResourceConfigs();
 				copyResourceImages();
 				
@@ -90,12 +100,21 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 		 }
 	}
 	
+	/*
+	 * Clears the internal image cache for this HoloGUI plugin.
+	 */
+	private void clearImageCache()
+	{
+		bufferedImageCache.clear();
+		imageLinesCache.clear();
+	}
+	
 	/**
 	 * Set the minimum version of HoloGUIApi that the plugin can run on
 	 */
-	public void setMinSupportedApiVersion(String version)
+	public void setMinSupportedApiVersion(String minSupportedApiVersion)
 	{
-		this.minSupportedApiVersion = version;
+		this.minSupportedApiVersion = minSupportedApiVersion;
 	}
 	
 	/**
@@ -204,11 +223,6 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 		return guiPagesLoaded;
 	}
 	
-	public void setGUIPagesLoaded(boolean guiPagesLoaded)
-	{
-		this.guiPagesLoaded = guiPagesLoaded;
-	}
-	
 	public void addGUIPage(String guiContainerId, GUIPage guiContainer)
 	{
 		guiPages.put(guiContainerId, guiContainer);
@@ -245,6 +259,10 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 			@Override
 			public void run()
 			{
+				// Reload all existing image cache data.
+				self.clearImageCache();
+				self.loadImagesIntoCache();
+				
 				// Load all the yamls in the plugin data folder.
 				File yamlsFolder = new File(PATH_TO_YAMLS);
 				for(File file : yamlsFolder.listFiles())
@@ -301,6 +319,32 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 			catch(Exception e){e.printStackTrace();}
 		}
 	}
+	
+	/**
+	 * Reads all the images in the plugin data folder and adds them to the bufferedImageCache
+	 */
+	private void loadImagesIntoCache()
+	{
+		File imagesFolder = new File(PATH_TO_IMAGES);
+		for(File file : imagesFolder.listFiles())
+		{
+			try 
+			{
+				if(file.getName().endsWith(".gif"))
+				{
+					bufferedImageCache.put(file.getName(), GifImageLoader.getInstance().loadImage(new FileInputStream(file)));
+				}
+				else if(file.getName().endsWith(".jpg") || file.getName().endsWith(".png"))
+				{
+					bufferedImageCache.put(file.getName(), PngJpgImageLoader.getInstance().loadImage(new FileInputStream(file)));
+				}
+			} 
+			catch (IOException e) 
+			{
+				MessageManager.error(Bukkit.getConsoleSender(), String.format("An error occured attempting to load image '%s'.", file.getName()));
+			}			
+		}
+	}
 
 	/**
 	 * * Copies the resource gui pages from the plugin jar to plugins/<holoGUI_plugin_name>/gui configuration files folder
@@ -343,18 +387,18 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 	 * 
 	 * Loads and processes the specified imageName. Returns the image as a String[][]. Returns null if the file couldn't be found.
 	 */
-	public String[][] loadImageFromResource(String imageName, int width, int height, boolean symmetrical)
+	/*public String[][] loadImageFromResource(String imageName, int width, int height, boolean symmetrical)
 	{		
 		InputStream inputStream = getResource(HoloGUIApi.PATH_TO_RESOURCE_IMAGES + "/" + imageName);
 			
 		return processImage(imageName, inputStream, width, height, symmetrical);
-	}
+	}*/
 	
 	/**
 	 * Processes the image given an InputStream to the image.
 	 * @return String[][] representing the image.
 	 */
-	private String[][] processImage(String imageName, InputStream inputStream, int width, int height, boolean symmetrical)
+	/*private String[][] processImage(String imageName, InputStream inputStream, int width, int height, boolean symmetrical)
 	{
 		String[][] imageLines = null;
 		
@@ -381,36 +425,88 @@ public abstract class HoloGUIPlugin extends JavaPlugin
 		}
 		
 		return imageLines;
+	}*/
+	
+	/**
+	 * Processes the image so that it can be displayed on a gui.
+	 * 
+	 * @param imageName Filename of the image to process
+	 * @param width Width of the image
+	 * @param height Height of the image
+	 * @param symmetrical Whether or not the background on the image should be rendered (depending on if the image is symmetrical)
+	 * @return String[][] representing the image.
+	 * @throws InvalidImageException 
+	 */
+	public String[][] loadImage(String imageName, ImageOptions options) throws InvalidImageException
+	{
+		String[][] imageLines = null;
+
+		// Attempt to find the image in the image cache
+		imageLines = imageLinesCache.get(generateCacheKey(imageName, options));
+		if(imageLines != null)
+		{
+			return imageLines;
+		}
+		
+		// Image doesn't exist in the bufferedImageCache. Error.
+		if(!bufferedImageCache.containsKey(imageName))
+		{
+			throw new InvalidImageException();
+		}
+		
+		// Cache miss in the image cache. Process the image.
+		imageLines = ImageProcessor.getInstance().processImage(bufferedImageCache.get(imageName), options);
+		
+		imageLinesCache.put(generateCacheKey(imageName, options), imageLines);
+		
+		return imageLines;
 	}
 	
 	/**
 	 * Loads an image from the images folder in the plugin data folder.
 	 * @param imageName The image filename to load from file.
-	 * @return InputStream for the image.
+	 * @return FileInputStream of the image loaded from file
+	 * @throws InvalidImageException 
 	 */
-	public String[][] loadImageFromFile(String imageName, int width, int height, boolean symmetrical)
+	/*private InputStream loadImageFromFile(String imageName, int width, int height, boolean symmetrical) throws InvalidImageException 
 	{
-		String[][] imageLines = null;
-		
 		if(imageName.contains(".jpg") || imageName.contains(".png") || imageName.contains(".gif"))
 		{
 			try 
 			{
-				InputStream inputStream = new FileInputStream(PATH_TO_IMAGES + "/" + imageName);
-				
-				imageLines = processImage(imageName, inputStream, width, height, symmetrical);
+				return new FileInputStream(PATH_TO_IMAGES + "/" + imageName);
 			} 
 			catch (FileNotFoundException e)
 			{
 				e.printStackTrace();
 			}
 		}
+		else
+		{
+			throw new InvalidImageException();
+		}
 		
-		return imageLines;
+		return null;
+	}*/
+	
+	/**
+	 * Generates a cache key for the given image and options.
+	 * 
+	 * The cache key is generated by creating a composite key of the image name and its unqiuely identifying options in the following format:
+	 * <image_name>:(<width>,<height>,<symmetrical>)
+	 * 
+	 * Example: myImage.png:(18,18,true)
+	 * 
+	 * @param Image options
+	 * @return Unqiue cache key for the given image and its properties
+	 */
+	private String generateCacheKey(String imageName, ImageOptions options)
+	{
+		return String.format("%s:(%d,%d,%b)", imageName, options.width, options.height, options.symmetrical);
 	}
 	
 	/**
-	 * Creates the plugin's data folder and gui_page_configs folder
+	 * Creates the plugin's data folder and "gui configuration files" folder
 	 */
 	private void initFileStructure()
 	{
